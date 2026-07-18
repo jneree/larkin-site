@@ -388,6 +388,16 @@ summary:focus-visible {
   border-radius: var(--radius);
   border: 1px solid var(--panel-line);
 }
+/* App-screenshot visuals (daily highlights, patterns) — show whole, uncropped, no border */
+.feature-media.is-app img {
+  aspect-ratio: auto;
+  object-fit: contain;
+  border: 0;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 460px;
+  margin-inline: auto;
+}
 
 /* Commitments panel mock */
 .commit-panel {
@@ -475,37 +485,32 @@ summary:focus-visible {
    ========================================================================== */
 .hardware { padding-block: var(--section-y); }
 
-.bento {
+.hardware-hero {
+  max-width: 620px;
+  margin: clamp(2rem, 5vw, 3.5rem) auto var(--section-y);
+}
+.hardware-hero img {
+  width: 100%;
+  height: auto;
+  mix-blend-mode: multiply; /* drops the white product-shot background onto the cream page */
+}
+.spec-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--sp-2);
+  gap: var(--sp-5);
+  max-width: 900px;
+  margin-inline: auto;
 }
-.bento-hero {
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: var(--cream-2);
-}
-.bento-hero img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-}
-.spec {
-  background: #fff;
-  border: 1px solid var(--cream-2);
-  border-radius: var(--radius);
-  padding: var(--sp-3);
-}
+.spec { padding: 0; }
 .spec-icon {
   display: inline-grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
-  background: var(--cream);
+  width: 32px;
+  height: 32px;
   margin-bottom: var(--sp-2);
+  color: var(--ink);
 }
-.spec-icon img { width: 26px; height: 26px; }
+.spec-icon img { width: 28px; height: 28px; }
 .spec h3 { font-size: 1.2rem; margin-bottom: 0.4rem; }
 .spec p {
   font-family: var(--font-ui);
@@ -514,7 +519,7 @@ summary:focus-visible {
   max-width: 34ch;
 }
 
-.gallery-title { margin-top: var(--section-y); }
+.gallery-title { margin-top: var(--section-y); max-width: none; }
 .gallery {
   display: grid;
   grid-template-columns: 1fr;
@@ -535,8 +540,7 @@ summary:focus-visible {
    PRE-ORDER
    ========================================================================== */
 .preorder {
-  background: var(--ink);
-  color: var(--cream);
+  background: var(--cream);
   padding-block: var(--section-y);
 }
 .preorder-grid {
@@ -544,9 +548,13 @@ summary:focus-visible {
   grid-template-columns: 1fr;
   gap: var(--sp-5);
   align-items: center;
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.25rem, 3vw, 2.75rem);
 }
 .preorder-media {
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius);
   overflow: hidden;
 }
 .preorder-media img {
@@ -745,10 +753,7 @@ summary:focus-visible {
 @media (min-width: 700px) {
   .card-grid { grid-template-columns: repeat(3, 1fr); }
   .gallery { grid-template-columns: repeat(3, 1fr); }
-  .bento {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .bento-hero { grid-column: 1 / -1; }
+  .spec-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (min-width: 768px) {
@@ -760,8 +765,6 @@ summary:focus-visible {
   .feature--split { grid-template-columns: 1fr 1fr; }
   .feature--reverse .feature-copy { order: 2; }
   .preorder-grid { grid-template-columns: 0.9fr 1.1fr; }
-  .bento { grid-template-columns: repeat(4, 1fr); }
-  .bento-hero { grid-column: 1 / -1; }
 }
 
 @media (max-width: 480px) {
