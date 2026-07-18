@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  LARKIN — landing page
+  ----------------------------------------------------------------------------
+  HUMAN TODO — three placeholders must be filled before going live:
+    1. FACEBOOK PIXEL  — in <head>, replace  YOUR_PIXEL_ID  (2 places: script + noscript img).
+    2. SHOPIFY BUY BUTTON — in the #preorder section, paste the embed from
+       Shopify admin > Products > (Larkin) > Buy Button, replacing
+       <div id="product-component-XXXX"></div>.
+    3. STORE / VARIANT URL — in the #preorder section (and its fallback link),
+       replace  YOUR-STORE.myshopify.com  and  VARIANT_ID  in the
+       .btn-preorder href so checkout works before the embed is pasted.
+  ============================================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Larkin — Remember everything that mattered | AI wristband, pre-order</title>
+  <meta name="description" content="Larkin is an always-listening AI wristband that captures and transcribes the conversations around you, then surfaces what is worth remembering. Reserve yours from $10." />
+  <meta name="theme-color" content="#1b2430" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Larkin — Remember everything that mattered" />
+  <meta property="og:description" content="An always-listening AI wristband that captures what mattered, so you don't have to remember everything." />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts: Satoshi (display) + Inter (UI) — matches the design reference -->
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- ==================== FACEBOOK PIXEL — replace YOUR_PIXEL_ID ==================== -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" alt="" />
+  </noscript>
+  <!-- ==================== END FACEBOOK PIXEL ==================== -->
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===================== HEADER / NAV ===================== -->
+  <header class="site-header" id="top">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Larkin home">
+        <svg class="brand-mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none">
+          <path d="M6.333 1V23M1 9V15M12 6.333V17.667M17.667 3.667V20.333M23 9V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-name">Larkin</span>
+      </a>
+
+      <nav class="nav-links" id="primary-nav" aria-label="Primary">
+        <a href="#how">How it works</a>
+        <a href="#faq">Privacy</a>
+        <a href="#hardware">Design</a>
+        <a class="btn btn-primary nav-cta" href="#preorder">Reserve Larkin</a>
+      </nav>
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1 class="hero-title">Remember everything that mattered.</h1>
+          <p class="hero-lead">Larkin is a wristband that captures and transcribes the conversations around you, then surfaces what is worth remembering.</p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="#preorder">Reserve Larkin Wristband — $10</a>
+            <p class="hero-fineprint">Ships Q1 2027 · Your reservation locks in the $59 pre-order price. Full price at launch.</p>
+          </div>
+        </div>
+
+        <figure class="hero-media">
+          <img src="assets/8d399bc7-3611-4d6a-b048-d8a07a7d74bf.png"
+               alt="A person wearing the Larkin AI wristband during an everyday conversation"
+               width="900" height="1100" />
+          <figcaption class="summary-card">
+            <span class="summary-eyebrow">From your afternoon</span>
+            <p class="summary-quote">“Marie said she'd introduce you to Daniel before Thursday.”</p>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===================== STATEMENT / HOW IT WORKS ===================== -->
+    <section class="statement" id="how">
+      <div class="container">
+        <p class="statement-text">Larkin is an always-listening AI wristband that captures what you said or heard.</p>
+      </div>
+      <figure class="statement-media container">
+        <img src="assets/82eab587-0be9-4509-b6af-b2f737f908e2.png"
+             alt="The Larkin wristband resting on a desk beside a phone"
+             loading="lazy" width="1600" height="900" />
+      </figure>
+    </section>
+
+    <!-- ===================== CONVERSATION CARDS ===================== -->
+    <section class="conversations">
+      <div class="container">
+        <h2 class="section-title">An AI wearable for everyday conversations</h2>
+        <div class="card-grid">
+          <figure class="conv-card">
+            <div class="conv-img">
+              <img src="assets/31a4332a-17e4-46c9-8da7-b7a446c94ab3.png"
+                   alt="Two people talking while walking outdoors" loading="lazy" width="700" height="800" />
+            </div>
+            <figcaption>The idea that came up on the walk</figcaption>
+          </figure>
+          <figure class="conv-card">
+            <div class="conv-img">
+              <img src="assets/f9daa8ac-727d-45bd-934a-c4e9187731f8.png"
+                   alt="A conversation over coffee at a cafe table" loading="lazy" width="700" height="800" />
+            </div>
+            <figcaption>The advice shared over coffee</figcaption>
+          </figure>
+          <figure class="conv-card">
+            <div class="conv-img">
+              <img src="assets/e1c2ea19-afda-434b-96fc-60fe6415bab4.png"
+                   alt="Friends laughing together while sharing a story" loading="lazy" width="700" height="800" />
+            </div>
+            <figcaption>The story you’ll want to tell again</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== DARK FEATURE SECTION ===================== -->
+    <section class="dark" id="features">
+      <div class="container">
+        <h2 class="dark-banner">Larkin takes care of the rest.</h2>
+
+        <!-- Feature 1 — Summaries -->
+        <div class="feature feature--split">
+          <figure class="feature-media">
+            <img src="assets/2114f6ff-9664-49c7-9610-11946f541818.png"
+                 alt="Larkin app showing an organized summary of a conversation" loading="lazy" width="900" height="700" />
+          </figure>
+          <div class="feature-copy">
+            <h3 class="feature-title">Summaries of your conversations</h3>
+            <p class="feature-body">Larkin finds the moments, decisions, and ideas that mattered so you don't have to remember everything.</p>
+          </div>
+        </div>
+
+        <!-- Feature 2 — Daily highlights (Commitments UI mock) -->
+        <div class="feature feature--split feature--reverse">
+          <div class="feature-copy">
+            <h3 class="feature-title">Your daily highlights</h3>
+            <p class="feature-body">Larkin automatically captures promises and follow-ups from you and the people you talk to.</p>
+          </div>
+          <div class="feature-media">
+            <div class="commit-panel" role="group" aria-label="Commitments example">
+              <div class="commit-head">
+                <span class="commit-title">Commitments</span>
+                <div class="commit-tabs">
+                  <span class="tab is-active">All</span>
+                  <span class="tab">Made by you</span>
+                  <span class="tab">Others</span>
+                </div>
+              </div>
+              <ul class="commit-list">
+                <li class="commit-group-label">Today</li>
+                <li class="commit-item">
+                  <span class="commit-dot" aria-hidden="true"></span>
+                  <p>Alex will share the <strong>pricing model.</strong></p>
+                </li>
+                <li class="commit-group-label">This week</li>
+                <li class="commit-item">
+                  <span class="commit-dot" aria-hidden="true"></span>
+                  <p><strong>Let's meet next Tuesday</strong> to review the plan.</p>
+                </li>
+                <li class="commit-group-label">Next week</li>
+                <li class="commit-item">
+                  <span class="commit-dot" aria-hidden="true"></span>
+                  <p>Alex will share the <strong>pricing model.</strong></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 3 — Patterns (insight cards) -->
+        <div class="feature feature--split">
+          <div class="feature-media">
+            <div class="insight-stack">
+              <div class="insight-card">
+                <span class="insight-icon" aria-hidden="true">↻</span>
+                <div>
+                  <p class="insight-label">Recurring question</p>
+                  <p class="insight-text">You asked similar questions to 3 people this week.</p>
+                </div>
+              </div>
+              <div class="insight-card">
+                <span class="insight-icon" aria-hidden="true">✦</span>
+                <div>
+                  <p class="insight-label">Top topic</p>
+                  <p class="insight-text">Pricing came up in 7 conversations.</p>
+                </div>
+              </div>
+              <div class="insight-card insight-card--wide">
+                <div>
+                  <p class="insight-label">Across your week</p>
+                  <p class="insight-text">You asked thoughtful questions, explored pricing in depth, and communicated more clearly.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="feature-copy">
+            <h3 class="feature-title">Patterns you wouldn’t notice on your own</h3>
+            <p class="feature-body">Discover patterns across your week — the questions you keep asking, the topics that matter most, and how you show up.</p>
+          </div>
+        </div>
+
+        <!-- Feature 4 — Insights -->
+        <div class="feature feature--split feature--reverse">
+          <div class="feature-copy">
+            <h3 class="feature-title">Get insights to help improve your communication skills</h3>
+            <p class="feature-body">Get personalized feedback based on your conversations to become clearer, more confident, and a better listener.</p>
+          </div>
+          <figure class="feature-media">
+            <img src="assets/13d00678-195e-4064-8bda-c6599b9b7870.png"
+                 alt="Larkin app showing personalized communication insights" loading="lazy" width="900" height="700" />
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== HARDWARE / DESIGN ===================== -->
+    <section class="hardware" id="hardware">
+      <div class="container">
+        <h2 class="section-title center">The Larkin wristband</h2>
+
+        <div class="bento">
+          <figure class="bento-hero">
+            <img src="assets/03736ffe-0954-46c2-bf9e-5aa42784205a.jpg"
+                 alt="Close-up of the Larkin wristband and its hardware" loading="lazy" width="1200" height="900" />
+          </figure>
+
+          <div class="spec">
+            <span class="spec-icon" aria-hidden="true">
+              <img src="assets/ba91efee-b132-424c-81d7-ed2a6648dec8.svg" alt="" width="28" height="28" loading="lazy" />
+            </span>
+            <h3>Crystal-clear audio</h3>
+            <p>Dual microphones and advanced noise filtering ensure clear comprehension and transcriptions.</p>
+          </div>
+
+          <div class="spec">
+            <span class="spec-icon" aria-hidden="true">
+              <img src="assets/7aa56c95-9d9f-491e-8a17-b1ead4c2b891.svg" alt="" width="28" height="28" loading="lazy" />
+            </span>
+            <h3>7 days of battery life</h3>
+            <p>160 hours on a single charge.</p>
+          </div>
+
+          <div class="spec">
+            <span class="spec-icon" aria-hidden="true">
+              <img src="assets/7430669b-d800-49f1-b67f-1c189be6137d.svg" alt="" width="28" height="28" loading="lazy" />
+            </span>
+            <h3>Easily start and stop</h3>
+            <p>A single press of the button starts and stops capturing.</p>
+          </div>
+
+          <div class="spec">
+            <span class="spec-icon" aria-hidden="true">
+              <img src="assets/974bf392-be07-4ea6-a28b-013763f3d58c.svg" alt="" width="28" height="28" loading="lazy" />
+            </span>
+            <h3>Syncs to your phone</h3>
+            <p>Automatically syncs to your iPhone and Android phone via Bluetooth.</p>
+          </div>
+        </div>
+
+        <h2 class="section-title center gallery-title">Designed to disappear into your day</h2>
+        <div class="gallery">
+          <figure><img src="assets/2f8227d1-1a67-4a73-8b6b-13d9bb345a89.jpg" alt="The Larkin wristband worn on a wrist in daily life" loading="lazy" width="800" height="900" /></figure>
+          <figure><img src="assets/b0160f58-4473-47af-8bee-e9690516fa7a.png" alt="The Larkin wristband detail shot" loading="lazy" width="800" height="900" /></figure>
+          <figure><img src="assets/e825261c-80c2-4eb3-8bee-ba3276744e13.jpg" alt="Larkin worn casually throughout the day" loading="lazy" width="800" height="900" /></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PRE-ORDER ===================== -->
+    <section class="preorder" id="preorder">
+      <div class="container preorder-grid">
+        <figure class="preorder-media">
+          <img src="assets/2f1d5fed-53a1-4321-8591-08a4691561e3.png"
+               alt="The Larkin wristband ready to reserve" loading="lazy" width="900" height="1000" />
+        </figure>
+
+        <div class="preorder-card">
+          <span class="eyebrow">Reserve</span>
+          <h2 class="preorder-title">Reserve your Larkin</h2>
+          <p class="preorder-price"><span class="amount">$10</span> today locks the <strong>$59</strong> pre-order price</p>
+          <ul class="preorder-points">
+            <li>Fully refundable, any time, no questions.</li>
+            <li>Full price at launch — reserving now locks in the pre-order price.</li>
+            <li>Ships Q1 2027.</li>
+          </ul>
+
+          <!-- SHOPIFY BUY BUTTON — paste embed from Shopify admin > Products > (product) > Buy Button. Replace the div below. -->
+          <div id="product-component-XXXX"></div>
+
+          <!-- Fallback CTA so the page is functional before the Shopify embed is pasted.
+               Replace YOUR-STORE.myshopify.com and VARIANT_ID below. -->
+          <a class="btn-preorder" href="https://YOUR-STORE.myshopify.com/cart/VARIANT_ID:1">Pre-order now — $10</a>
+          <p class="preorder-note">You'll be charged $10 today; the remaining balance at ship time.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section class="faq" id="faq">
+      <div class="container">
+        <h2 class="section-title">Questions, answered</h2>
+        <div class="faq-list">
+          <details>
+            <summary>Is Larkin always listening?</summary>
+            <p>When the green light on the band is on, Larkin is listening. When it's off, it isn't. You can turn it off from the band or from the app.</p>
+          </details>
+          <details>
+            <summary>What about the people I'm talking to?</summary>
+            <p>The green light is designed so the people around you can see when Larkin is on. In most places, letting someone know you're recording is enough. Larkin is not designed to record people without their awareness.</p>
+          </details>
+          <details>
+            <summary>What happens when my phone isn't nearby?</summary>
+            <p>Larkin holds up to 24 hours of transcribed conversation on the band itself. When your phone is back in range, it syncs automatically.</p>
+          </details>
+          <details>
+            <summary>Will it fit a small wrist?</summary>
+            <p>Yes. The strap adjusts for wrists from 5.5 to 8 inches. It's designed to be worn by anyone, including on smaller wrists where most fitness bands look oversized.</p>
+          </details>
+          <details>
+            <summary>Is the $10 reservation really refundable?</summary>
+            <p>Yes. You can refund it any time before your unit ships. No form to fill out, no questions asked. Email us and we'll process it.</p>
+          </details>
+          <details>
+            <summary>When will it ship?</summary>
+            <p>We're finishing prototype validation now and moving into tooling this fall.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FINAL CTA ===================== -->
+    <section class="final-cta">
+      <div class="container">
+        <h2 class="final-title">Stop losing the conversations that matter.</h2>
+        <a class="btn btn-primary btn-lg" href="#preorder">Reserve Larkin</a>
+        <p class="final-note">Ships Q1 2027 · $10 today locks the $59 pre-order price.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <a class="brand" href="#top" aria-label="Larkin home">
+        <svg class="brand-mark" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none">
+          <path d="M6.333 1V23M1 9V15M12 6.333V17.667M17.667 3.667V20.333M23 9V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-name">Larkin</span>
+      </a>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="#how">How it works</a>
+        <a href="#faq">Privacy</a>
+      </nav>
+      <p class="copyright">© 2026 Larkin. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    (function () {
+      var toggle = document.querySelector('.nav-toggle');
+      var nav = document.getElementById('primary-nav');
+      var header = document.querySelector('.site-header');
+      if (toggle && nav) {
+        toggle.addEventListener('click', function () {
+          var open = header.classList.toggle('nav-open');
+          toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        });
+        nav.querySelectorAll('a').forEach(function (a) {
+          a.addEventListener('click', function () {
+            header.classList.remove('nav-open');
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.setAttribute('aria-label', 'Open menu');
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
