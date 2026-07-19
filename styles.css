@@ -539,7 +539,6 @@ summary:focus-visible {
    ASK LARKIN
    ========================================================================== */
 .ask-larkin { padding-block: var(--section-y); text-align: center; }
-.ask-eyebrow { display: block; }
 .ask-larkin .section-title.center { margin-bottom: var(--sp-3); }
 
 .ask-phone {
@@ -559,15 +558,15 @@ summary:focus-visible {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  align-items: stretch;
   gap: var(--sp-2);
   overflow: hidden;
-  padding: var(--sp-1) 2px;
+  padding: var(--sp-2) 2px 2px;
   transition: opacity 0.35s ease;
 }
 .ask-thread.is-clearing { opacity: 0; }
 
-.ask-bubble-user,
 .ask-thinking,
 .ask-answer {
   animation: askRise 0.32s ease both;
@@ -578,45 +577,28 @@ summary:focus-visible {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.ask-bubble-user {
-  align-self: flex-end;
-  max-width: 85%;
-  background: var(--ink);
-  color: var(--cream);
-  font-size: 0.95rem;
-  line-height: 1.4;
-  padding: 0.6rem 0.95rem;
-  border-radius: 16px 16px 4px 16px;
-}
 .ask-thinking {
   align-self: flex-start;
-  display: flex;
-  gap: 5px;
-  background: var(--cream);
-  padding: 0.85rem 0.95rem;
-  border-radius: 16px 16px 16px 4px;
+  color: var(--accent);
+  padding: 0.4rem 0.2rem;
 }
-.ask-thinking span {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--muted-2);
-  animation: askDot 1s ease-in-out infinite;
+.ask-thinking svg {
+  display: block;
+  animation: askSparkle 1.1s ease-in-out infinite;
 }
-.ask-thinking span:nth-child(2) { animation-delay: 0.15s; }
-.ask-thinking span:nth-child(3) { animation-delay: 0.3s; }
-@keyframes askDot {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-  30% { transform: translateY(-4px); opacity: 1; }
+@keyframes askSparkle {
+  0%   { transform: rotate(0deg) scale(0.8); opacity: 0.6; }
+  50%  { transform: rotate(90deg) scale(1.15); opacity: 1; }
+  100% { transform: rotate(180deg) scale(0.8); opacity: 0.6; }
 }
 
 .ask-answer {
-  align-self: flex-start;
-  max-width: 92%;
+  align-self: stretch;
+  text-align: left;
   background: var(--cream);
   border: 1px solid var(--cream-2);
   padding: 0.9rem 1rem;
-  border-radius: 16px 16px 16px 4px;
+  border-radius: var(--radius);
 }
 .ask-answer p {
   font-size: 0.95rem;
@@ -637,7 +619,7 @@ summary:focus-visible {
   border: 1px solid var(--cream-2);
   border-radius: 999px;
   padding: 0.5rem 0.5rem 0.5rem 1.1rem;
-  margin-top: var(--sp-2);
+  box-shadow: 0 10px 30px -18px rgba(27, 36, 48, 0.35);
 }
 .ask-input-text {
   font-family: var(--font-ui);

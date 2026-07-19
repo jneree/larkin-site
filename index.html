@@ -225,12 +225,10 @@
     <!-- ===================== ASK LARKIN ===================== -->
     <section class="ask-larkin" id="ask">
       <div class="container">
-        <span class="eyebrow ask-eyebrow">Ask Larkin</span>
         <h2 class="section-title center">Ask Larkin anything</h2>
         <p class="section-sub">Larkin turns your questions into answers from your own conversations — what was said, what you promised, and how you showed up. Grounded in your day, delivered instantly.</p>
 
         <div class="ask-phone" id="ask-demo">
-          <div class="ask-thread" id="ask-thread" aria-live="polite"></div>
           <div class="ask-inputbar">
             <span class="ask-input-text" id="ask-input-text"><span class="ask-placeholder">Ask Larkin</span></span>
             <span class="ask-caret" id="ask-caret" aria-hidden="true"></span>
@@ -240,6 +238,7 @@
               </svg>
             </button>
           </div>
+          <div class="ask-thread" id="ask-thread" aria-live="polite"></div>
         </div>
       </div>
     </section>
@@ -487,14 +486,17 @@
           src: '3 conversations today' }
       ];
 
+      var sparkle =
+        '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">' +
+        '<path d="M12 2c.6 5.4 4.6 9.4 10 10-5.4.6-9.4 4.6-10 10-.6-5.4-4.6-9.4-10-10 5.4-.6 9.4-4.6 10-10Z" fill="currentColor"/></svg>';
+
       var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduced) {
+        inputText.textContent = QA[0].q;
+        caret.style.display = 'none';
         thread.innerHTML =
-          '<div class="ask-bubble-user">' + QA[0].q + '</div>' +
           '<div class="ask-answer"><p>' + QA[0].a + '</p>' +
           '<p class="ask-src">' + QA[0].src + '</p></div>';
-        inputText.innerHTML = placeholder;
-        caret.style.display = 'none';
         return;
       }
 
@@ -534,17 +536,15 @@
           if (!running) return;
           send.classList.add('is-sent');
           later(function () { send.classList.remove('is-sent'); }, 350);
-          inputText.innerHTML = placeholder;
-          thread.appendChild(el('ask-bubble-user', item.q));
-          var think = el('ask-thinking', '<span></span><span></span><span></span>');
-          later(function () { thread.appendChild(think); }, 260);
+          var think = el('ask-thinking', sparkle);
+          later(function () { thread.appendChild(think); }, 220);
           later(function () {
             if (!running) return;
             think.remove();
             thread.appendChild(el('ask-answer',
               '<p>' + item.a + '</p><p class="ask-src">' + item.src + '</p>'));
-            later(clearAndNext, 3000);
-          }, 1250);
+            later(clearAndNext, 3200);
+          }, 1400);
         }
 
         function clearAndNext() {
@@ -553,6 +553,7 @@
           later(function () {
             thread.innerHTML = '';
             thread.classList.remove('is-clearing');
+            inputText.innerHTML = placeholder;
             cycle(i + 1);
           }, 380);
         }
