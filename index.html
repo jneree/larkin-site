@@ -219,15 +219,27 @@
         </div>
 
         <!-- Feature 4 — Insights -->
-        <div class="feature feature--split">
-          <div class="feature-copy">
-            <h3 class="feature-title">Get insights to help improve your communication skills</h3>
-            <p class="feature-body">Get personalized feedback based on your conversations to become clearer, more confident, and a better listener.</p>
+      </div>
+    </section>
+
+    <!-- ===================== ASK LARKIN ===================== -->
+    <section class="ask-larkin" id="ask">
+      <div class="container">
+        <span class="eyebrow ask-eyebrow">Ask Larkin</span>
+        <h2 class="section-title center">Ask Larkin anything</h2>
+        <p class="section-sub">Larkin turns your questions into answers from your own conversations — what was said, what you promised, and how you showed up. Grounded in your day, delivered instantly.</p>
+
+        <div class="ask-phone" id="ask-demo">
+          <div class="ask-thread" id="ask-thread" aria-live="polite"></div>
+          <div class="ask-inputbar">
+            <span class="ask-input-text" id="ask-input-text"><span class="ask-placeholder">Ask Larkin</span></span>
+            <span class="ask-caret" id="ask-caret" aria-hidden="true"></span>
+            <button class="ask-send" id="ask-send" type="button" tabindex="-1" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
+                <path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
           </div>
-          <figure class="feature-media">
-            <img src="assets/13d00678-195e-4064-8bda-c6599b9b7870.png"
-                 alt="Larkin app showing personalized communication insights" loading="lazy" width="900" height="700" />
-          </figure>
         </div>
       </div>
     </section>
@@ -451,6 +463,116 @@
       track.addEventListener('scroll', function () { requestAnimationFrame(update); }, { passive: true });
       window.addEventListener('resize', update);
       update();
+    })();
+
+    // Ask Larkin demo: types a question, shows a thinking indicator, then the answer. Loops.
+    (function () {
+      var demo = document.getElementById('ask-demo');
+      if (!demo) return;
+      var thread = document.getElementById('ask-thread');
+      var inputText = document.getElementById('ask-input-text');
+      var caret = document.getElementById('ask-caret');
+      var send = document.getElementById('ask-send');
+      var placeholder = '<span class="ask-placeholder">Ask Larkin</span>';
+
+      var QA = [
+        { q: 'How did I come across in today’s pitch?',
+          a: 'Confident and clear — though you rushed the pricing part when questioned.',
+          src: 'Investor call · 2:15 PM' },
+        { q: 'Am I a good listener?',
+          a: 'You interrupted less this week. You asked 40% more follow-up questions.',
+          src: 'Weekly insight' },
+        { q: 'What should I follow up on from today?',
+          a: 'Sam is waiting on the contract, and you promised Maya an intro to Daniel.',
+          src: '3 conversations today' }
+      ];
+
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) {
+        thread.innerHTML =
+          '<div class="ask-bubble-user">' + QA[0].q + '</div>' +
+          '<div class="ask-answer"><p>' + QA[0].a + '</p>' +
+          '<p class="ask-src">' + QA[0].src + '</p></div>';
+        inputText.innerHTML = placeholder;
+        caret.style.display = 'none';
+        return;
+      }
+
+      var timers = [];
+      var running = false;
+      function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+      function stop() {
+        running = false;
+        timers.forEach(clearTimeout);
+        timers = [];
+      }
+
+      function el(cls, html) {
+        var d = document.createElement('div');
+        d.className = cls;
+        d.innerHTML = html;
+        return d;
+      }
+
+      function cycle(i) {
+        if (!running) return;
+        var item = QA[i % QA.length];
+        var chars = 0;
+
+        function typeNext() {
+          if (!running) return;
+          chars++;
+          inputText.textContent = item.q.slice(0, chars);
+          if (chars < item.q.length) {
+            later(typeNext, 34 + Math.random() * 26);
+          } else {
+            later(sendIt, 420);
+          }
+        }
+
+        function sendIt() {
+          if (!running) return;
+          send.classList.add('is-sent');
+          later(function () { send.classList.remove('is-sent'); }, 350);
+          inputText.innerHTML = placeholder;
+          thread.appendChild(el('ask-bubble-user', item.q));
+          var think = el('ask-thinking', '<span></span><span></span><span></span>');
+          later(function () { thread.appendChild(think); }, 260);
+          later(function () {
+            if (!running) return;
+            think.remove();
+            thread.appendChild(el('ask-answer',
+              '<p>' + item.a + '</p><p class="ask-src">' + item.src + '</p>'));
+            later(clearAndNext, 3000);
+          }, 1250);
+        }
+
+        function clearAndNext() {
+          if (!running) return;
+          thread.classList.add('is-clearing');
+          later(function () {
+            thread.innerHTML = '';
+            thread.classList.remove('is-clearing');
+            cycle(i + 1);
+          }, 380);
+        }
+
+        later(typeNext, 500);
+      }
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !running) {
+            running = true;
+            cycle(0);
+          } else if (!e.isIntersecting && running) {
+            stop();
+            thread.innerHTML = '';
+            inputText.innerHTML = placeholder;
+          }
+        });
+      }, { threshold: 0.35 });
+      io.observe(demo);
     })();
   </script>
 </body>

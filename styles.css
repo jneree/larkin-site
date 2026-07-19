@@ -536,6 +536,143 @@ summary:focus-visible {
 .insight-text { font-size: 0.9rem; color: var(--dark-muted); margin-top: 0.15rem; }
 
 /* ==========================================================================
+   ASK LARKIN
+   ========================================================================== */
+.ask-larkin { padding-block: var(--section-y); text-align: center; }
+.ask-eyebrow { display: block; }
+.ask-larkin .section-title.center { margin-bottom: var(--sp-3); }
+
+.ask-phone {
+  max-width: 420px;
+  height: 560px;
+  margin: var(--sp-5) auto 0;
+  background: #fff;
+  border: 1px solid var(--cream-2);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 40px 80px -40px rgba(27, 36, 48, 0.35);
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+.ask-thread {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+  overflow: hidden;
+  padding: var(--sp-1) 2px;
+  transition: opacity 0.35s ease;
+}
+.ask-thread.is-clearing { opacity: 0; }
+
+.ask-bubble-user,
+.ask-thinking,
+.ask-answer {
+  animation: askRise 0.32s ease both;
+  font-family: var(--font-ui);
+}
+@keyframes askRise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ask-bubble-user {
+  align-self: flex-end;
+  max-width: 85%;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  padding: 0.6rem 0.95rem;
+  border-radius: 16px 16px 4px 16px;
+}
+.ask-thinking {
+  align-self: flex-start;
+  display: flex;
+  gap: 5px;
+  background: var(--cream);
+  padding: 0.85rem 0.95rem;
+  border-radius: 16px 16px 16px 4px;
+}
+.ask-thinking span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted-2);
+  animation: askDot 1s ease-in-out infinite;
+}
+.ask-thinking span:nth-child(2) { animation-delay: 0.15s; }
+.ask-thinking span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes askDot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+.ask-answer {
+  align-self: flex-start;
+  max-width: 92%;
+  background: var(--cream);
+  border: 1px solid var(--cream-2);
+  padding: 0.9rem 1rem;
+  border-radius: 16px 16px 16px 4px;
+}
+.ask-answer p {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.ask-answer .ask-src {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--muted-2);
+}
+
+.ask-inputbar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--cream-2);
+  border-radius: 999px;
+  padding: 0.5rem 0.5rem 0.5rem 1.1rem;
+  margin-top: var(--sp-2);
+}
+.ask-input-text {
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.ask-placeholder { color: var(--muted-2); }
+.ask-caret {
+  flex: none;
+  width: 2px;
+  height: 1.1em;
+  background: var(--ink);
+  animation: askCaret 1.1s steps(1) infinite;
+}
+@keyframes askCaret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.ask-send {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  margin-left: auto;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--cream);
+  display: grid;
+  place-items: center;
+  transition: transform 0.15s ease;
+}
+.ask-send.is-sent { transform: scale(0.86); }
+
+/* ==========================================================================
    HARDWARE / DESIGN
    ========================================================================== */
 .hardware { padding-block: var(--section-y); background: #fff; }
