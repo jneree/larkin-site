@@ -539,7 +539,8 @@ summary:focus-visible {
    ASK LARKIN
    ========================================================================== */
 .ask-larkin { padding-block: var(--section-y); text-align: center; }
-.ask-larkin .section-title.center { margin-bottom: var(--sp-3); }
+.ask-larkin .section-title.center { margin-bottom: var(--sp-4); }
+.ask-larkin .section-sub { margin: 0 auto var(--sp-6); }
 
 .ask-phone {
   max-width: 420px;
