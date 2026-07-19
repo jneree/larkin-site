@@ -321,6 +321,84 @@ summary:focus-visible {
 }
 
 /* ==========================================================================
+   HOW IT WORKS (scrollytelling)
+   ========================================================================== */
+.how-works { padding-block: var(--section-y); }
+.how-title { max-width: 18ch; }
+.how-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-5);
+}
+.how-steps {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3rem, 6vw, 4.5rem);
+}
+.how-num {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.how-step h3 {
+  font-size: var(--fs-h3);
+  margin-bottom: 0.55rem;
+}
+.how-body {
+  font-family: var(--font-ui);
+  color: var(--muted);
+  max-width: 42ch;
+}
+.how-step-media { margin-top: var(--sp-3); }
+.how-step-media img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+.how-media { display: none; }
+
+@media (min-width: 900px) {
+  .how-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-6);
+    align-items: start;
+  }
+  .how-steps {
+    gap: 38vh;
+    padding-block: 16vh 24vh;
+  }
+  .how-step { transition: opacity 0.3s ease; opacity: 0.35; }
+  .how-step.is-active { opacity: 1; }
+  .how-step-media { display: none; }
+  .how-media {
+    display: block;
+    position: sticky;
+    top: calc(var(--header-h) + 5vh);
+  }
+  .how-media-frame {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--cream-2);
+  }
+  .how-media-frame img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+  }
+  .how-media-frame img.is-visible { opacity: 1; }
+}
+
+/* ==========================================================================
    USE CASES (slider)
    ========================================================================== */
 .conversations { padding-block: var(--section-y); }

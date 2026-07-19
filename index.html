@@ -100,7 +100,7 @@
     </section>
 
     <!-- ===================== STATEMENT / HOW IT WORKS ===================== -->
-    <section class="statement" id="how">
+    <section class="statement">
       <div class="container">
         <p class="statement-text">Larkin is an always-listening AI wristband that captures what you said or heard.</p>
       </div>
@@ -108,6 +108,48 @@
         <video src="assets/video-larkin.mp4" muted playsinline preload="metadata"
                data-autoplay-once aria-label="Film of the Larkin wristband in everyday life"></video>
       </figure>
+    </section>
+
+    <!-- ===================== HOW IT WORKS ===================== -->
+    <section class="how-works" id="how">
+      <div class="container">
+        <h2 class="section-title how-title">Wear it. Forget it. Remember everything.</h2>
+        <div class="how-grid">
+          <div class="how-steps">
+            <div class="how-step is-active" data-step="0">
+              <p class="how-num">01</p>
+              <h3>Wear it</h3>
+              <p class="how-body">Slip it on in the morning. Light, comfortable, screen-free — it disappears on your wrist.</p>
+              <figure class="how-step-media">
+                <img src="assets/how-wear.jpg" alt="The Larkin wristband worn on a wrist" loading="lazy" width="1200" height="896" />
+              </figure>
+            </div>
+            <div class="how-step" data-step="1">
+              <p class="how-num">02</p>
+              <h3>Live your day</h3>
+              <p class="how-body">No buttons, nothing to manage. Larkin quietly captures your conversations while you stay in them.</p>
+              <figure class="how-step-media">
+                <img src="assets/how-day.jpg" alt="Two people in conversation on a walk" loading="lazy" width="1000" height="1571" />
+              </figure>
+            </div>
+            <div class="how-step" data-step="2">
+              <p class="how-num">03</p>
+              <h3>Check your phone</h3>
+              <p class="how-body">In the evening, open the app: your highlights, your promises, and the moments worth keeping.</p>
+              <figure class="how-step-media">
+                <img src="assets/how-app.jpg" alt="The Larkin app showing the day's highlights" loading="lazy" width="1000" height="1000" />
+              </figure>
+            </div>
+          </div>
+          <div class="how-media" aria-hidden="true">
+            <div class="how-media-frame">
+              <img src="assets/how-wear.jpg" alt="" class="is-visible" loading="lazy" width="1200" height="896" />
+              <img src="assets/how-day.jpg" alt="" loading="lazy" width="1000" height="1571" />
+              <img src="assets/how-app.jpg" alt="" loading="lazy" width="1000" height="1000" />
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- ===================== USE CASES (slider) ===================== -->
@@ -225,7 +267,8 @@
     <!-- ===================== ASK LARKIN ===================== -->
     <section class="ask-larkin" id="ask">
       <div class="container">
-        <h2 class="section-title center">Ask Larkin anything</h2>
+        <span class="eyebrow">Ask Larkin</span>
+        <h2 class="section-title center">Your most personal AI</h2>
         <p class="section-sub">Larkin turns your questions into answers from your own conversations — what was said, what you promised, and how you showed up. Grounded in your day, delivered instantly.</p>
 
         <div class="ask-phone" id="ask-demo">
@@ -594,6 +637,22 @@
         });
       }, { threshold: 0.35 });
       io.observe(demo);
+    })();
+
+    // How-it-works scrollytelling: the step in the middle of the viewport drives the sticky image
+    (function () {
+      var steps = document.querySelectorAll('.how-step');
+      var imgs = document.querySelectorAll('.how-media-frame img');
+      if (!steps.length || !imgs.length || !('IntersectionObserver' in window)) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          var i = Number(e.target.getAttribute('data-step'));
+          steps.forEach(function (s, j) { s.classList.toggle('is-active', j === i); });
+          imgs.forEach(function (im, j) { im.classList.toggle('is-visible', j === i); });
+        });
+      }, { rootMargin: '-40% 0px -40% 0px' });
+      steps.forEach(function (s) { io.observe(s); });
     })();
   </script>
 </body>
