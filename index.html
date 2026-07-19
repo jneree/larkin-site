@@ -476,15 +476,38 @@
 
       var QA = [
         { q: 'How did I come across in today’s pitch?',
-          a: 'Confident and clear — though you rushed the pricing part when questioned.',
-          src: 'Investor call · 2:15 PM' },
+          time: '2:36 PM',
+          paras: [
+            'Strong overall — the product story was clear, and the demo landed.',
+            'One miss: when Priya asked about traction, you didn’t bring up the retention numbers you shared with the team on Monday. That was your strongest proof point.'
+          ],
+          exLabel: 'Worth mentioning next time',
+          exQuote: '“Retention is the number I’m proudest of — 87% still active after 90 days.” — you, Monday’s stand-up' },
         { q: 'Am I a good listener?',
-          a: 'You interrupted less this week. You asked 40% more follow-up questions.',
-          src: 'Weekly insight' },
+          time: '6:04 PM',
+          paras: [
+            'Mostly, yes. You let people finish, and you come back to things they mentioned days earlier — that’s what makes people feel heard.',
+            'Where you slip: in fast conversations, you sometimes move on without responding to what was just said.'
+          ],
+          exLabel: 'A moment that landed',
+          exQuote: '“So how did the interview go?” — you, to Emma on Tuesday, three days after she first mentioned it.' },
         { q: 'What should I follow up on from today?',
-          a: 'Sam is waiting on the contract, and you promised Maya an intro to Daniel.',
-          src: '3 conversations today' }
+          time: '5:12 PM',
+          paras: [
+            'Three things are waiting on you.',
+            'Sam is waiting on the signed contract. You promised Maya an intro to Daniel before Thursday. And you told Alex you’d review the pricing model tonight.'
+          ],
+          exLabel: 'From your afternoon',
+          exQuote: '“I’ll send the intro tonight, promise.” — to Maya, 4:12 PM, on the walk back from lunch' }
       ];
+
+      function renderAnswer(it) {
+        var h = '<p class="ask-meta"><span class="ask-avatar"></span><strong>Larkin</strong>&nbsp;· ' + it.time + '</p>';
+        it.paras.forEach(function (p) { h += '<p>' + p + '</p>'; });
+        h += '<div class="ask-example"><p class="ask-example-label">' + it.exLabel + '</p>' +
+             '<p class="ask-example-quote">' + it.exQuote + '</p></div>';
+        return h;
+      }
 
       var sparkle =
         '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">' +
@@ -494,9 +517,7 @@
       if (reduced) {
         inputText.textContent = QA[0].q;
         caret.style.display = 'none';
-        thread.innerHTML =
-          '<div class="ask-answer"><p>' + QA[0].a + '</p>' +
-          '<p class="ask-src">' + QA[0].src + '</p></div>';
+        thread.innerHTML = '<div class="ask-answer">' + renderAnswer(QA[0]) + '</div>';
         return;
       }
 
@@ -541,9 +562,8 @@
           later(function () {
             if (!running) return;
             think.remove();
-            thread.appendChild(el('ask-answer',
-              '<p>' + item.a + '</p><p class="ask-src">' + item.src + '</p>'));
-            later(clearAndNext, 3200);
+            thread.appendChild(el('ask-answer', renderAnswer(item)));
+            later(clearAndNext, 6200);
           }, 1400);
         }
 

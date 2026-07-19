@@ -544,7 +544,7 @@ summary:focus-visible {
 
 .ask-phone {
   max-width: 420px;
-  height: 560px;
+  min-height: 540px;
   margin: var(--sp-5) auto 0;
   background: #fff;
   border: 1px solid var(--cream-2);
@@ -596,21 +596,58 @@ summary:focus-visible {
 .ask-answer {
   align-self: stretch;
   text-align: left;
-  background: var(--cream);
-  border: 1px solid var(--cream-2);
-  padding: 0.9rem 1rem;
-  border-radius: var(--radius);
+  padding: 0.2rem 0.15rem;
 }
 .ask-answer p {
   font-size: 0.95rem;
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--ink);
 }
-.ask-answer .ask-src {
-  margin-top: 0.5rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.02em;
+.ask-answer > p + p { margin-top: 0.6rem; }
+.ask-answer .ask-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
   color: var(--muted-2);
+  margin-bottom: 0.65rem;
+}
+.ask-meta strong { color: var(--ink-soft); font-weight: 600; }
+.ask-avatar {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 1px solid var(--cream-2);
+  display: inline-grid;
+  place-items: center;
+}
+.ask-avatar::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+.ask-example {
+  background: var(--cream);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+  margin-top: 0.8rem;
+}
+.ask-answer .ask-example-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  margin-bottom: 0.4rem;
+}
+.ask-answer .ask-example-quote {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
 }
 
 .ask-inputbar {
