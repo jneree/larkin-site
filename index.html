@@ -1,17 +1,7 @@
 <!DOCTYPE html>
 <!--
-  ============================================================================
   LARKIN — landing page
-  ----------------------------------------------------------------------------
-  HUMAN TODO — three placeholders must be filled before going live:
-    1. FACEBOOK PIXEL  — in <head>, replace  1033614279315561  (2 places: script + noscript img).
-    2. SHOPIFY BUY BUTTON — in the #preorder section, paste the embed from
-       Shopify admin > Products > (Larkin) > Buy Button, replacing
-       <div id="product-component-XXXX"></div>.
-    3. STORE / VARIANT URL — in the #preorder section (and its fallback link),
-       replace  YOUR-STORE.myshopify.com  and  VARIANT_ID  in the
-       .btn-preorder href so checkout works before the embed is pasted.
-  ============================================================================
+  Meta Pixel and the Shopify direct-checkout link are live and configured.
 -->
 <html lang="en">
 <head>
@@ -93,7 +83,7 @@
 
           <div class="hero-actions">
             <a class="btn btn-primary btn-lg" href="#preorder">Reserve Larkin Wristband — $10</a>
-            <p class="hero-fineprint">Ships Q1 2027 · Your reservation locks in the $59 pre-order price. Full price at launch.</p>
+            <p class="hero-fineprint">Ships Q1 2027 · Your reservation locks in the $59 pre-order price</p>
           </div>
         </div>
 
@@ -115,38 +105,74 @@
         <p class="statement-text">Larkin is an always-listening AI wristband that captures what you said or heard.</p>
       </div>
       <figure class="statement-media container">
-        <img src="assets/82eab587-0be9-4509-b6af-b2f737f908e2.png"
-             alt="The Larkin wristband resting on a desk beside a phone"
-             loading="lazy" width="1600" height="900" />
+        <video src="assets/video-larkin.mp4" muted playsinline preload="metadata"
+               data-autoplay-once aria-label="Film of the Larkin wristband in everyday life"></video>
       </figure>
     </section>
 
-    <!-- ===================== CONVERSATION CARDS ===================== -->
+    <!-- ===================== USE CASES (slider) ===================== -->
     <section class="conversations">
       <div class="container">
-        <h2 class="section-title">An AI wearable for everyday conversations</h2>
-        <div class="card-grid">
-          <figure class="conv-card">
-            <div class="conv-img">
+        <h2 class="section-title center">An AI wearable for everyday conversations</h2>
+        <p class="section-sub">Real moments from real days — Larkin quietly keeps what mattered.</p>
+
+        <div class="uc-track" id="uc-track" tabindex="0" aria-label="Larkin use cases">
+          <figure class="uc-card">
+            <div class="uc-img">
               <img src="assets/31a4332a-17e4-46c9-8da7-b7a446c94ab3.png"
                    alt="Two people talking while walking outdoors" loading="lazy" width="700" height="800" />
             </div>
-            <figcaption>The idea that came up on the walk</figcaption>
+            <figcaption>
+              <h3>On a walk</h3>
+              <p>The idea that came up mid-stride, saved before it slips away.</p>
+            </figcaption>
           </figure>
-          <figure class="conv-card">
-            <div class="conv-img">
+          <figure class="uc-card">
+            <div class="uc-img">
               <img src="assets/f9daa8ac-727d-45bd-934a-c4e9187731f8.png"
                    alt="A conversation over coffee at a cafe table" loading="lazy" width="700" height="800" />
             </div>
-            <figcaption>The advice shared over coffee</figcaption>
+            <figcaption>
+              <h3>Over coffee</h3>
+              <p>The advice a friend shared, exactly as they said it.</p>
+            </figcaption>
           </figure>
-          <figure class="conv-card">
-            <div class="conv-img">
+          <figure class="uc-card">
+            <div class="uc-img">
+              <img src="assets/uc-meetings.jpg"
+                   alt="Colleagues in discussion around a meeting table" loading="lazy" width="700" height="800" />
+            </div>
+            <figcaption>
+              <h3>In meetings</h3>
+              <p>Decisions and follow-ups, captured without taking notes.</p>
+            </figcaption>
+          </figure>
+          <figure class="uc-card">
+            <div class="uc-img">
               <img src="assets/e1c2ea19-afda-434b-96fc-60fe6415bab4.png"
                    alt="Friends laughing together while sharing a story" loading="lazy" width="700" height="800" />
             </div>
-            <figcaption>The story you’ll want to tell again</figcaption>
+            <figcaption>
+              <h3>At dinner</h3>
+              <p>The story you’ll want to tell again, word for word.</p>
+            </figcaption>
           </figure>
+          <figure class="uc-card">
+            <div class="uc-img">
+              <img src="assets/uc-home.jpg"
+                   alt="A parent and child laughing together at home" loading="lazy" width="700" height="800" />
+            </div>
+            <figcaption>
+              <h3>At home</h3>
+              <p>The little things they say that you never want to forget.</p>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="uc-controls">
+          <button class="uc-arrow" id="uc-prev" aria-label="Previous use case">&#8592;</button>
+          <button class="uc-arrow" id="uc-next" aria-label="Next use case">&#8594;</button>
+          <div class="uc-dots" id="uc-dots" aria-hidden="true"></div>
         </div>
       </div>
     </section>
@@ -212,14 +238,14 @@
         <h2 class="section-title center">The Larkin wristband</h2>
 
         <figure class="hardware-hero">
-          <img src="assets/fig-hardware-exploded.png"
-               alt="Exploded view of the Larkin wristband and its internal hardware" loading="lazy" width="562" height="439" />
+          <video src="assets/larkin-exploded.mp4" muted playsinline preload="metadata"
+                 data-autoplay-once aria-label="Exploded view of the Larkin wristband and its internal hardware"></video>
         </figure>
 
         <div class="spec-grid">
           <div class="spec">
             <span class="spec-icon" aria-hidden="true">
-              <img src="assets/ba91efee-b132-424c-81d7-ed2a6648dec8.svg" alt="" width="28" height="28" loading="lazy" />
+              <img src="assets/7430669b-d800-49f1-b67f-1c189be6137d.svg" alt="" width="28" height="28" loading="lazy" />
             </span>
             <h3>Crystal-clear audio</h3>
             <p>Dual microphones and advanced noise filtering ensure clear comprehension and transcriptions.</p>
@@ -235,7 +261,7 @@
 
           <div class="spec">
             <span class="spec-icon" aria-hidden="true">
-              <img src="assets/7430669b-d800-49f1-b67f-1c189be6137d.svg" alt="" width="28" height="28" loading="lazy" />
+              <img src="assets/ba91efee-b132-424c-81d7-ed2a6648dec8.svg" alt="" width="28" height="28" loading="lazy" />
             </span>
             <h3>Easily start and stop</h3>
             <p>A single press of the button starts and stops capturing.</p>
@@ -278,53 +304,8 @@
             <li>Ships Q1 2027.</li>
           </ul>
 
-          <div id='product-component-1784383898975'></div>
-          <script type="text/javascript">
-          /*<![CDATA[*/
-          (function () {
-            var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-            if (window.ShopifyBuy) {
-              if (window.ShopifyBuy.UI) { ShopifyBuyInit(); } else { loadScript(); }
-            } else { loadScript(); }
-            function loadScript() {
-              var script = document.createElement('script');
-              script.async = true;
-              script.src = scriptURL;
-              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-              script.onload = ShopifyBuyInit;
-            }
-            function ShopifyBuyInit() {
-              var client = ShopifyBuy.buildClient({
-                domain: 'un0wkg-ky.myshopify.com',
-                storefrontAccessToken: 'fcda134fdf6bbf9fc3d0bb583b55409e',
-              });
-              ShopifyBuy.UI.onReady(client).then(function (ui) {
-                ui.createComponent('product', {
-                  id: '8351567347851',
-                  node: document.getElementById('product-component-1784383898975'),
-                  moneyFormat: '%24%7B%7Bamount%7D%7D',
-                  options: {
-                    "product": {
-                      "styles": { "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "0" } } },
-                      "text": { "button": "Reserve for $10" }
-                    },
-                    "modalProduct": {
-                      "contents": { "img": false, "imgWithCarousel": true, "button": false, "buttonWithQuantity": true },
-                      "styles": { "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0px", "margin-bottom": "0px" } } },
-                      "text": { "button": "Reserve for $10" }
-                    },
-                    "cart": { "text": { "total": "Subtotal", "button": "Checkout" } }
-                  }
-                });
-              });
-            }
-          })();
-          /*]]>*/
-          </script>
-
-          <!-- Fallback link: direct-to-checkout in case the Buy Button script fails to load.
-               Uses the product ID for now; replace with real variant ID when available. -->
-          <a class="btn-preorder" href="https://getlarkin.myshopify.com/cart/8351567347851:1">Pre-order now — $10</a>
+          <!-- Cart permalink with the variant ID: lands directly on Shopify checkout, no cart step -->
+          <a class="btn-preorder" href="https://getlarkin.myshopify.com/cart/48311739383947:1">Pre-order now — $10</a>
           <p class="preorder-note">You'll be charged $10 today; the remaining balance at ship time.</p>
         </div>
        </div>
@@ -412,6 +393,64 @@
           });
         });
       }
+    })();
+
+    // Videos flagged data-autoplay-once start when scrolled into view and play a single time
+    (function () {
+      var vids = document.querySelectorAll('video[data-autoplay-once]');
+      if (!vids.length) return;
+      if (!('IntersectionObserver' in window)) {
+        vids.forEach(function (v) { v.play(); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.play();
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      vids.forEach(function (v) { io.observe(v); });
+    })();
+
+    // Use-case slider: arrow buttons + dots synced to scroll position
+    (function () {
+      var track = document.getElementById('uc-track');
+      if (!track) return;
+      var prev = document.getElementById('uc-prev');
+      var next = document.getElementById('uc-next');
+      var dotsWrap = document.getElementById('uc-dots');
+      var cards = Array.prototype.slice.call(track.children);
+
+      cards.forEach(function (card, i) {
+        var b = document.createElement('button');
+        b.className = 'uc-dot';
+        b.type = 'button';
+        b.setAttribute('aria-label', 'Go to use case ' + (i + 1));
+        b.addEventListener('click', function () {
+          track.scrollTo({ left: card.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+        });
+        dotsWrap.appendChild(b);
+      });
+      var dots = Array.prototype.slice.call(dotsWrap.children);
+
+      function step() {
+        return cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth;
+      }
+      prev.addEventListener('click', function () { track.scrollBy({ left: -step(), behavior: 'smooth' }); });
+      next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: 'smooth' }); });
+
+      function update() {
+        var i = Math.round(track.scrollLeft / step());
+        i = Math.max(0, Math.min(cards.length - 1, i));
+        dots.forEach(function (d, j) { d.classList.toggle('is-active', j === i); });
+        prev.disabled = track.scrollLeft <= 4;
+        next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
+      }
+      track.addEventListener('scroll', function () { requestAnimationFrame(update); }, { passive: true });
+      window.addEventListener('resize', update);
+      update();
     })();
   </script>
 </body>

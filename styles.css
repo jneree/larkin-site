@@ -175,7 +175,7 @@ summary:focus-visible {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: color-mix(in srgb, var(--cream) 88%, transparent);
+  background: color-mix(in srgb, #ffffff 90%, transparent);
   backdrop-filter: saturate(140%) blur(10px);
   border-bottom: 1px solid var(--cream-2);
 }
@@ -234,7 +234,7 @@ summary:focus-visible {
 /* ==========================================================================
    HERO
    ========================================================================== */
-.hero { padding-block: clamp(2.5rem, 6vw, 5rem) var(--section-y); }
+.hero { background: #fff; padding-block: clamp(2rem, 5vw, 3rem) 0; overflow: hidden; }
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -260,18 +260,22 @@ summary:focus-visible {
   margin-top: var(--sp-2);
 }
 
-.hero-media { position: relative; }
+.hero-media {
+  position: relative;
+  margin-inline: calc(50% - 50vw) calc(50% - 50vw); /* full-bleed on mobile */
+}
 .hero-media > img {
   width: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  border-radius: var(--radius-lg);
+  object-position: center top;
+  border-radius: 0;
 }
 .summary-card {
   position: absolute;
-  left: clamp(0.75rem, 3vw, 1.5rem);
+  right: clamp(0.75rem, 3vw, 1.5rem);
   bottom: clamp(0.75rem, 3vw, 1.5rem);
-  right: auto;
+  left: auto;
   max-width: min(78%, 320px);
   background: rgba(243, 237, 227, 0.92);
   backdrop-filter: blur(8px);
@@ -308,41 +312,98 @@ summary:focus-visible {
   max-width: 20ch;
 }
 .statement-media { margin-top: var(--sp-5); }
-.statement-media > img {
+.statement-media > img,
+.statement-media > video {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  height: auto;
+  display: block;
   border-radius: var(--radius-lg);
 }
 
 /* ==========================================================================
-   CONVERSATION CARDS
+   USE CASES (slider)
    ========================================================================== */
 .conversations { padding-block: var(--section-y); }
-.card-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--sp-4);
+.section-sub {
+  font-family: var(--font-ui);
+  font-size: 1.05rem;
+  color: var(--muted);
+  text-align: center;
+  max-width: 56ch;
+  margin: calc(-1 * var(--sp-4)) auto var(--sp-5);
 }
-.conv-card { display: flex; flex-direction: column; gap: var(--sp-2); }
-.conv-img {
+.uc-track {
+  display: flex;
+  gap: var(--sp-3);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: var(--sp-1);
+}
+.uc-track::-webkit-scrollbar { display: none; }
+.uc-card {
+  flex: 0 0 clamp(250px, 27vw, 350px);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin: 0;
+}
+.uc-img {
   overflow: hidden;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius);
 }
-.conv-img img {
+.uc-img img {
   width: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
   transition: transform 0.5s ease;
 }
-.conv-card:hover .conv-img img { transform: scale(1.04); }
-.conv-card figcaption {
-  font-size: var(--fs-h3);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  max-width: 18ch;
+.uc-card:hover .uc-img img { transform: scale(1.04); }
+.uc-card h3 {
+  font-family: var(--font-ui);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0;
 }
+.uc-card figcaption p {
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+  max-width: 34ch;
+}
+.uc-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+}
+.uc-arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--cream-2);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+  line-height: 1;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+.uc-arrow:hover:not(:disabled) { background: #fff; }
+.uc-arrow:disabled { opacity: 0.35; cursor: default; }
+.uc-dots { display: flex; gap: 8px; margin-left: auto; }
+.uc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cream-2);
+  padding: 0;
+  transition: background-color 0.15s ease;
+}
+.uc-dot.is-active { background: var(--ink); }
 
 /* ==========================================================================
    DARK FEATURE SECTION
@@ -381,20 +442,14 @@ summary:focus-visible {
   max-width: 46ch;
   margin-top: var(--sp-2);
 }
+/* Feature visuals render whole and uncropped, at their natural aspect ratio */
 .feature-media > img {
   width: 100%;
-  aspect-ratio: 5 / 4;
-  object-fit: cover;
+  height: auto;
+  display: block;
   border-radius: var(--radius);
-  border: 1px solid var(--panel-line);
 }
-/* App-screenshot visuals (daily highlights, patterns) — show whole, uncropped, no border */
 .feature-media.is-app img {
-  aspect-ratio: auto;
-  object-fit: contain;
-  border: 0;
-  border-radius: var(--radius);
-  width: 100%;
   max-width: 460px;
   margin-inline: auto;
 }
@@ -483,16 +538,16 @@ summary:focus-visible {
 /* ==========================================================================
    HARDWARE / DESIGN
    ========================================================================== */
-.hardware { padding-block: var(--section-y); }
+.hardware { padding-block: var(--section-y); background: #fff; }
 
 .hardware-hero {
-  max-width: 620px;
+  max-width: 680px;
   margin: clamp(2rem, 5vw, 3.5rem) auto var(--section-y);
 }
-.hardware-hero img {
+.hardware-hero video {
   width: 100%;
   height: auto;
-  mix-blend-mode: multiply; /* drops the white product-shot background onto the cream page */
+  display: block;
 }
 .spec-grid {
   display: grid;
@@ -751,7 +806,6 @@ summary:focus-visible {
 }
 
 @media (min-width: 700px) {
-  .card-grid { grid-template-columns: repeat(3, 1fr); }
   .gallery { grid-template-columns: repeat(3, 1fr); }
   .spec-grid { grid-template-columns: 1fr 1fr; }
 }
@@ -761,7 +815,15 @@ summary:focus-visible {
 }
 
 @media (min-width: 900px) {
-  .hero-grid { grid-template-columns: 1.05fr 0.95fr; }
+  .hero-grid { grid-template-columns: 1.05fr 0.95fr; align-items: stretch; }
+  .hero-copy { align-self: center; padding-block: var(--sp-7); }
+  .hero-media { margin-inline: 0 calc(50% - 50vw); } /* bleed to the right viewport edge only */
+  .hero-media > img {
+    height: 100%;
+    min-height: 620px;
+    aspect-ratio: auto;
+    object-position: center bottom;
+  }
   .feature--split { grid-template-columns: 1fr 1fr; }
   .feature--reverse .feature-copy { order: 2; }
   .preorder-grid { grid-template-columns: 0.9fr 1.1fr; }
