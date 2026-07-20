@@ -191,7 +191,10 @@ summary:focus-visible {
   justify-content: space-between;
   min-height: var(--header-h);
   gap: var(--sp-3);
+  /* header spans the full viewport with gutter padding — logo sits at the page edge */
+  max-width: none;
 }
+.nav-cta-mobile { display: none; }
 .brand {
   display: inline-flex;
   align-items: center;
@@ -1464,6 +1467,12 @@ summary:focus-visible {
     border-bottom: 1px solid var(--cream-2);
   }
   .nav-cta { margin-top: var(--sp-2); width: 100%; }
+  .nav-cta-mobile {
+    display: inline-flex;
+    margin-left: auto;
+    padding: 0.55rem 1.05rem;
+    font-size: 0.9rem;
+  }
   .nav-toggle { display: flex; }
   .site-header.nav-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .site-header.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
@@ -1504,7 +1513,7 @@ summary:focus-visible {
 }
 
 @media (max-width: 480px) {
-  .btn, .btn-lg { width: 100%; }
+  .btn:not(.nav-cta-mobile), .btn-lg { width: 100%; }
   .hero-actions .btn { width: 100%; }
 }
 
@@ -1514,9 +1523,14 @@ summary:focus-visible {
   .ask-inputbar { border-radius: 22px; align-items: flex-end; }
   .ask-input-text { white-space: normal; font-size: 0.9rem; line-height: 1.4; }
   .ask-caret { margin-bottom: 0.25em; }
-  /* Reserve card runs edge to edge on phones */
-  .preorder-inline { margin-inline: calc(-1 * var(--gutter)); }
+  /* Reserve card runs edge to edge on phones, with clear air above it */
+  .preorder-inline {
+    margin-inline: calc(-1 * var(--gutter));
+    margin-top: 5rem;
+  }
   .preorder-inline .preorder-grid { border-radius: 0; }
+  /* more breathing room at the top of the hero */
+  .hero { padding-top: 3.5rem; }
 }
 
 /* Very narrow screens: the CSS phone renders below its 280px design width,
