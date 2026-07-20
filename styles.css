@@ -648,6 +648,64 @@ summary:focus-visible {
   color: #fff;
 }
 .ps-check.is-done { background: var(--accent); border-color: var(--accent); }
+.ps-card .ps-item { margin-top: 0.5rem; }
+.ps-moment {
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+.ps-moment + .ps-moment { margin-top: 0.45rem; }
+.ps-mtime {
+  font-weight: 600;
+  font-size: 0.66rem;
+  color: var(--muted-2);
+  margin-right: 0.35rem;
+  font-variant-numeric: tabular-nums;
+}
+.ps-moment em { font-style: normal; font-size: 0.7rem; color: var(--muted-2); }
+.ps-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 54px;
+  margin-top: 0.7rem;
+}
+.ps-bars i { flex: 1; border-radius: 3px; background: rgba(27, 36, 48, 0.12); }
+.ps-bars i.is-hot { background: var(--accent); }
+.ps-days { display: flex; gap: 5px; margin-top: 0.35rem; }
+.ps-days span {
+  flex: 1;
+  text-align: center;
+  font-size: 0.56rem;
+  font-weight: 600;
+  color: var(--muted-2);
+}
+.ps-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.15rem; }
+.ps-topic {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid rgba(27, 36, 48, 0.12);
+  border-radius: 999px;
+  padding: 0.3rem 0.6rem;
+}
+.ps-topic b { color: var(--accent); font-weight: 700; }
+.ps-people { display: flex; align-items: center; gap: 0.6rem; }
+.ps-avs { display: inline-flex; }
+.ps-av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #fff;
+  background: #5a7cab;
+  border: 2px solid #f8f5f0;
+}
+.ps-av--2 { background: #c96a7d; margin-left: -9px; }
+.ps-av--3 { background: #b98a3e; margin-left: -9px; }
 
 
 /* Wide "Highlights" tile: copy beside a saved-audio player mock */
@@ -715,6 +773,20 @@ summary:focus-visible {
   color: var(--dark-muted-2);
   margin-top: 0.4rem;
 }
+/* Plain quote list under the player — no recording chrome */
+.hl-more {
+  margin-top: 1.25rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.hl-item { margin-top: 0.85rem; }
+.hl-item-quote {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: var(--dark-fg);
+}
+.hl-item .hl-src { margin-top: 0.15rem; }
 @media (min-width: 900px) {
   .ptile--wide {
     grid-column: 1 / -1;
@@ -810,9 +882,10 @@ summary:focus-visible {
 /* ==========================================================================
    ASK LARKIN
    ========================================================================== */
-.ask-larkin { padding-block: var(--section-y); text-align: center; }
-.ask-larkin .section-title.center { margin-bottom: var(--sp-4); }
-.ask-larkin .section-sub { margin: 0 auto var(--sp-6); }
+/* Ask Larkin inside the dark software section */
+.ask-dark { margin-top: var(--section-y); text-align: center; }
+.ask-dark .section-title { color: var(--dark-fg); margin-bottom: var(--sp-4); }
+.ask-dark .section-sub { color: var(--dark-muted); margin: 0 auto var(--sp-6); }
 
 .ask-phone {
   max-width: 420px;
@@ -963,30 +1036,32 @@ summary:focus-visible {
   transition: transform 0.15s ease;
 }
 .ask-send.is-sent { transform: scale(0.86); }
-.ask-powered { text-align: center; margin-top: var(--sp-5); }
+/* Closing lockup of the dark section: everything above runs on these models */
+.ask-powered { text-align: center; margin-top: var(--section-y); }
 .ask-powered-label {
   font-family: var(--font-ui);
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--muted-2);
+  color: var(--dark-muted-2);
 }
 .ask-powered-logos {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: clamp(1.5rem, 4vw, 2.5rem);
-  margin-top: 0.9rem;
+  flex-wrap: wrap;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  margin-top: 1.4rem;
 }
 .ask-logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.7rem;
   font-family: var(--font-ui);
-  font-size: 1.05rem;
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
   font-weight: 600;
-  color: var(--ink);
+  color: var(--dark-fg);
 }
 
 /* ==========================================================================
