@@ -276,46 +276,16 @@ summary:focus-visible {
   object-position: center top;
   border-radius: 0;
 }
-.summary-card {
-  position: absolute;
-  left: clamp(0.75rem, 3vw, 2rem);
-  bottom: clamp(1.25rem, 4vw, 2.5rem);
-  right: auto;
-  max-width: min(78%, 320px);
-  background: rgba(243, 237, 227, 0.92);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(27, 36, 48, 0.08);
-  border-radius: 16px;
-  padding: 0.9rem 1.1rem;
-  box-shadow: 0 18px 40px -20px rgba(27, 36, 48, 0.5);
-}
-.summary-eyebrow {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.35rem;
-}
-.summary-quote {
-  font-size: 0.98rem;
-  line-height: 1.35;
-  color: var(--ink);
-}
 
 /* ==========================================================================
    STATEMENT
    ========================================================================== */
 .statement { padding-block: var(--section-y); }
-/* Film clip: right-aligned, not full width */
 .statement-media { margin-top: var(--sp-5); }
 .statement-media video {
-  width: min(100%, 760px);
+  width: 100%;
   height: auto;
   display: block;
-  margin-left: auto;
   border-radius: var(--radius-lg);
 }
 .statement-text {
@@ -679,22 +649,6 @@ summary:focus-visible {
 }
 .ps-check.is-done { background: var(--accent); border-color: var(--accent); }
 
-.pwidget {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  border-radius: 999px;
-  box-shadow: 0 14px 34px -14px rgba(27, 36, 48, 0.4);
-  padding: 0.55rem 0.85rem;
-  font-family: var(--font-ui);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--ink);
-  white-space: nowrap;
-}
-.pwidget--tr { top: 8%; right: 2%; }
-.pwidget--mr { top: 42%; right: 0; }
 
 /* Wide "Highlights" tile: copy beside a saved-audio player mock */
 .ptile--wide { padding-bottom: clamp(1.75rem, 3.5vw, 2.75rem); }
@@ -1106,10 +1060,7 @@ summary:focus-visible {
 /* ==========================================================================
    PRE-ORDER
    ========================================================================== */
-.preorder {
-  background: var(--cream);
-  padding-block: var(--section-y);
-}
+.preorder-inline { margin-top: var(--section-y); }
 .preorder-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -1406,7 +1357,6 @@ summary:focus-visible {
 @media (max-width: 480px) {
   .btn, .btn-lg { width: 100%; }
   .hero-actions .btn { width: 100%; }
-  .summary-card { max-width: 88%; }
 }
 
 /* Ask Larkin on small screens: let the typed question wrap instead of
@@ -1425,7 +1375,6 @@ summary:focus-visible {
   .ps-big { font-size: 0.95rem; }
   .ps-text { font-size: 0.74rem; }
   .ps-greeting { font-size: 1.05rem; }
-  .pwidget { font-size: 0.72rem; padding: 0.45rem 0.7rem; }
 }
 
 /* ----- Motion preferences ----- */
