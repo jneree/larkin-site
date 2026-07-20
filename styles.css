@@ -1176,7 +1176,7 @@ summary:focus-visible {
   background: var(--ink);
   color: var(--cream);
   border-radius: var(--radius-lg);
-  padding: clamp(1.25rem, 3vw, 2.75rem);
+  padding: clamp(2.75rem, 6vw, 4rem) clamp(1.5rem, 4vw, 3rem);
 }
 .preorder-media { position: relative; }
 /* single-column: copy first, gallery below (smoother entry from the section above) */
