@@ -235,6 +235,9 @@ summary:focus-visible {
    HERO
    ========================================================================== */
 .hero { background: #fff; padding-block: clamp(2rem, 5vw, 3rem) 0; overflow: hidden; }
+/* The hero runs on a wider grid than the rest of the page so the composition
+   fills large viewports instead of floating in the center */
+.hero .container { --maxw: 1440px; }
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -243,7 +246,7 @@ summary:focus-visible {
 }
 .hero-title {
   font-size: var(--fs-hero);
-  max-width: 14ch;
+  max-width: 20ch;
 }
 .hero-lead {
   font-size: var(--fs-lead);
@@ -312,14 +315,6 @@ summary:focus-visible {
   letter-spacing: -0.02em;
   line-height: 1.2;
   max-width: 20ch;
-}
-.statement-media { margin-top: var(--sp-5); }
-.statement-media > img,
-.statement-media > video {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: var(--radius-lg);
 }
 
 /* ==========================================================================
@@ -412,6 +407,18 @@ summary:focus-visible {
   max-width: 56ch;
   margin: calc(-1 * var(--sp-4)) auto var(--sp-5);
 }
+/* Film clip inside the use-cases section: right-aligned, not full width */
+.uc-video {
+  width: min(100%, 760px);
+  margin: var(--sp-4) 0 var(--sp-5) auto;
+}
+.uc-video video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-lg);
+}
+
 .uc-track {
   display: flex;
   gap: var(--sp-3);
@@ -1001,6 +1008,13 @@ summary:focus-visible {
   transition: transform 0.15s ease;
 }
 .ask-send.is-sent { transform: scale(0.86); }
+.ask-powered {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--muted-2);
+  text-align: center;
+  margin-top: var(--sp-3);
+}
 
 /* ==========================================================================
    HARDWARE / DESIGN
@@ -1019,28 +1033,30 @@ summary:focus-visible {
 .spec-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--sp-5);
+  gap: clamp(2.25rem, 5vw, 3.5rem) clamp(3rem, 6vw, 5rem);
   max-width: 900px;
   margin-inline: auto;
 }
-.spec {
-  background: var(--cream);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+.spec-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1.5px solid rgba(27, 36, 48, 0.22);
+  border-radius: 14px;
+  color: var(--ink);
+  margin-bottom: 1.1rem;
 }
-.spec-img img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  display: block;
-}
-.spec-copy { padding: var(--sp-3); }
-.spec h3 { font-size: 1.2rem; margin-bottom: 0.4rem; }
-.spec p {
+.spec-item p {
   font-family: var(--font-ui);
   color: var(--muted);
-  font-size: 0.95rem;
-  max-width: 34ch;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  max-width: 36ch;
+}
+.spec-item strong {
+  color: var(--ink);
+  font-weight: 600;
 }
 
 .gallery-title { margin-top: var(--section-y); max-width: none; }
@@ -1106,7 +1122,9 @@ summary:focus-visible {
 .pcar-track img {
   width: 100%;
   aspect-ratio: 3 / 4;
-  object-fit: cover;
+  /* product shots are landscape on pure white — contain + white keeps them uncropped */
+  object-fit: contain;
+  background: #fff;
   display: block;
 }
 .pcar-dots {
@@ -1121,11 +1139,11 @@ summary:focus-visible {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(27, 36, 48, 0.25);
   padding: 0;
   transition: background-color 0.15s ease;
 }
-.pcar-dot.is-active { background: #fff; }
+.pcar-dot.is-active { background: var(--ink); }
 
 .offer-box {
   border: 1px solid rgba(240, 140, 92, 0.45);
@@ -1353,7 +1371,7 @@ summary:focus-visible {
 }
 
 @media (min-width: 900px) {
-  .hero-grid { grid-template-columns: 1.05fr 0.95fr; align-items: stretch; }
+  .hero-grid { grid-template-columns: 0.95fr 1.05fr; align-items: stretch; }
   .hero-copy { align-self: center; padding-block: var(--sp-7); }
   .hero-media { margin-left: 0; } /* bleed to the right viewport edge only */
   .hero-media > img {
@@ -1370,6 +1388,14 @@ summary:focus-visible {
   .btn, .btn-lg { width: 100%; }
   .hero-actions .btn { width: 100%; }
   .summary-card { max-width: 88%; }
+}
+
+/* Ask Larkin on small screens: let the typed question wrap instead of
+   disappearing behind the send button */
+@media (max-width: 640px) {
+  .ask-inputbar { border-radius: 22px; align-items: flex-end; }
+  .ask-input-text { white-space: normal; font-size: 0.9rem; line-height: 1.4; }
+  .ask-caret { margin-bottom: 0.25em; }
 }
 
 /* Very narrow screens: the CSS phone renders below its 280px design width,
