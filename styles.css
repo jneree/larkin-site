@@ -1217,61 +1217,56 @@ summary:focus-visible {
 }
 .pcar-dot.is-active { background: #fff; }
 
-.offer-box {
-  border: 1px solid rgba(153, 184, 102, 0.45);
-  background: rgba(153, 184, 102, 0.08);
-  border-radius: var(--radius);
-  padding: 0.9rem 1.1rem;
-  margin-bottom: var(--sp-4);
-}
-.offer-label {
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.35rem;
-}
-.offer-text {
-  font-family: var(--font-ui);
-  font-size: 0.92rem;
-  line-height: 1.5;
-  color: rgba(243, 237, 227, 0.85);
-}
 .preorder-card .eyebrow { color: var(--accent); }
 .preorder-title { font-size: var(--fs-h2); margin-bottom: var(--sp-3); }
 .preorder-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
   font-family: var(--font-ui);
-  font-size: 1.15rem;
   color: var(--cream);
-  margin-bottom: var(--sp-3);
+  margin-bottom: 0.5rem;
+}
+.preorder-price .price-was {
+  font-size: 1.4rem;
+  color: var(--dark-muted-2);
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
 }
 .preorder-price .amount {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 2rem;
-  letter-spacing: -0.02em;
+  font-weight: 500;
+  font-size: 2.8rem;
+  letter-spacing: -0.04em;
 }
-.preorder-price strong { color: var(--accent); }
+.preorder-price .price-label {
+  font-size: 0.95rem;
+  color: var(--dark-muted);
+}
+.preorder-deposit {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  color: var(--dark-muted);
+  margin-bottom: var(--sp-3);
+}
 .preorder-points {
   display: grid;
-  gap: 0.6rem;
+  gap: 0.7rem;
   font-family: var(--font-ui);
   font-size: 0.98rem;
-  color: rgba(243, 237, 227, 0.82);
+  line-height: 1.45;
+  color: var(--dark-muted);
   margin-bottom: var(--sp-4);
 }
-.preorder-points li { position: relative; padding-left: 1.6rem; }
+.preorder-points strong { color: var(--dark-fg); font-weight: 600; }
+.preorder-points li { position: relative; padding-left: 1.7rem; }
 .preorder-points li::before {
-  content: "";
+  content: "✓";
   position: absolute;
   left: 0;
-  top: 0.55em;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
+  top: 0;
+  color: var(--accent);
+  font-weight: 700;
 }
 
 .btn-preorder {
