@@ -240,7 +240,23 @@ summary:focus-visible {
 /* ==========================================================================
    HERO
    ========================================================================== */
-.hero { background: var(--cream); padding-block: clamp(2rem, 5vw, 3rem) 0; overflow: hidden; }
+.hero {
+  background: var(--noir);
+  color: var(--dark-fg);
+  padding-block: clamp(2rem, 5vw, 3rem) 0;
+  overflow: hidden;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--peri);
+}
+.hero .hero-lead { color: var(--dark-muted); }
+.hero .hero-fineprint { color: var(--dark-muted-2); }
+.hero .btn-primary {
+  background: var(--cream);
+  color: var(--ink);
+}
+.hero .btn-primary:hover { background: #fff; }
 /* The hero runs on a wider grid than the rest of the page so the composition
    fills large viewports instead of floating in the center */
 .hero .container { --maxw: 1440px; }
@@ -281,6 +297,17 @@ summary:focus-visible {
   object-fit: cover;
   object-position: center top;
   border-radius: 0;
+}
+/* melt the photo's edges into the section navy (right edge bleeds to the viewport) */
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--noir) 0%, transparent 14%),
+    linear-gradient(0deg, var(--noir) 0%, transparent 16%),
+    linear-gradient(180deg, var(--noir) 0%, transparent 10%);
 }
 
 /* ==========================================================================
