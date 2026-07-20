@@ -146,7 +146,7 @@
     <!-- ===================== USE CASES (slider) ===================== -->
     <section class="conversations">
       <div class="container">
-        <h2 class="section-title center">An AI wearable for everyday conversations</h2>
+        <h2 class="section-title center">For everyone who's ever thought <em>“I wish I'd remembered that.”</em></h2>
         <p class="section-sub">Real moments from real days — Larkin quietly keeps what mattered.</p>
 
         <div class="uc-track" id="uc-track" tabindex="0" aria-label="Larkin use cases">
@@ -504,14 +504,16 @@
         <!-- Reserve card lives inside the white hardware section, before the gallery -->
         <div class="preorder-inline" id="preorder">
          <div class="preorder-grid">
-          <div class="preorder-media pcar">
-            <div class="pcar-track" id="pcar-track">
-              <figure><img src="assets/pcar-couch.jpg" alt="A woman at home wearing the Larkin wristband" loading="lazy" width="1023" height="1537" /></figure>
-              <figure><img src="assets/gallery-portrait.jpg" alt="The Larkin wristband worn with a knit sweater" loading="lazy" width="1024" height="1365" /></figure>
-              <figure><img src="assets/2f8227d1-1a67-4a73-8b6b-13d9bb345a89.jpg" alt="The Larkin wristband worn on a wrist in daily life" loading="lazy" width="800" height="900" /></figure>
-              <figure><img src="assets/e825261c-80c2-4eb3-8bee-ba3276744e13.jpg" alt="Larkin worn casually throughout the day" loading="lazy" width="800" height="900" /></figure>
+          <div class="preorder-media pgal">
+            <figure class="pgal-main">
+              <img id="pgal-main-img" src="assets/pcar-couch.jpg" alt="A woman at home wearing the Larkin wristband" width="1023" height="1537" />
+            </figure>
+            <div class="pgal-thumbs" id="pgal-thumbs">
+              <button type="button" class="is-active" data-src="assets/pcar-couch.jpg" aria-label="Show photo 1"><img src="assets/pcar-couch.jpg" alt="" loading="lazy" width="1023" height="1537" /></button>
+              <button type="button" data-src="assets/gallery-portrait.jpg" aria-label="Show photo 2"><img src="assets/gallery-portrait.jpg" alt="" loading="lazy" width="1024" height="1365" /></button>
+              <button type="button" data-src="assets/2f8227d1-1a67-4a73-8b6b-13d9bb345a89.jpg" aria-label="Show photo 3"><img src="assets/2f8227d1-1a67-4a73-8b6b-13d9bb345a89.jpg" alt="" loading="lazy" width="800" height="900" /></button>
+              <button type="button" data-src="assets/e825261c-80c2-4eb3-8bee-ba3276744e13.jpg" aria-label="Show photo 4"><img src="assets/e825261c-80c2-4eb3-8bee-ba3276744e13.jpg" alt="" loading="lazy" width="800" height="900" /></button>
             </div>
-            <div class="pcar-dots" id="pcar-dots" aria-hidden="true"></div>
           </div>
 
           <div class="preorder-card">
@@ -536,6 +538,34 @@
          </div>
         </div>
 
+      </div>
+    </section>
+
+    <!-- ===================== WHY NOT A PHONE ===================== -->
+    <section class="versus">
+      <div class="container">
+        <h2 class="section-title center">Why not just your phone?</h2>
+        <p class="section-sub">The conversations that matter most are the ones you never planned to record.</p>
+        <div class="vs-grid">
+          <div class="vs-col vs-col--phone">
+            <p class="vs-head">Your phone</p>
+            <ul>
+              <li>Buried in your pocket by the time the moment arrives</li>
+              <li>A recorder on the table makes everyone careful about what they say</li>
+              <li>A screen between you and the person in front of you</li>
+              <li>A 90-minute voice memo you'll never listen to again</li>
+            </ul>
+          </div>
+          <div class="vs-col vs-col--larkin">
+            <p class="vs-head">Larkin</p>
+            <ul>
+              <li>Already on your wrist when the good conversation just happens</li>
+              <li>So seamless you forget it — and everyone stays themselves</li>
+              <li>Screen-free, so you stay fully in the moment</li>
+              <li>Summaries, reminders, and highlights waiting in the app afterwards</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -825,31 +855,31 @@
       steps.forEach(function (s) { io.observe(s); });
     })();
 
-    // Pre-order wristband carousel: snap-scroll with dots
+    // Pre-order gallery: main image + thumbnails, auto-advances until the user picks
     (function () {
-      var track = document.getElementById('pcar-track');
-      var dotsWrap = document.getElementById('pcar-dots');
-      if (!track || !dotsWrap) return;
-      var slides = Array.prototype.slice.call(track.children);
-      slides.forEach(function (s, i) {
-        var b = document.createElement('button');
-        b.className = 'pcar-dot';
-        b.type = 'button';
-        b.setAttribute('aria-label', 'Show wristband photo ' + (i + 1));
-        b.addEventListener('click', function () {
-          track.scrollTo({ left: s.offsetLeft - track.offsetLeft, behavior: 'smooth' });
-        });
-        dotsWrap.appendChild(b);
-      });
-      var dots = Array.prototype.slice.call(dotsWrap.children);
-      function update() {
-        var i = Math.round(track.scrollLeft / track.clientWidth);
-        i = Math.max(0, Math.min(slides.length - 1, i));
-        dots.forEach(function (d, j) { d.classList.toggle('is-active', j === i); });
+      var main = document.getElementById('pgal-main-img');
+      var thumbsWrap = document.getElementById('pgal-thumbs');
+      if (!main || !thumbsWrap) return;
+      var thumbs = Array.prototype.slice.call(thumbsWrap.querySelectorAll('button'));
+      var current = 0;
+      var timer = null;
+      function show(i) {
+        current = i;
+        var b = thumbs[i];
+        main.style.opacity = '0';
+        setTimeout(function () {
+          main.src = b.getAttribute('data-src');
+          main.style.opacity = '1';
+        }, 180);
+        thumbs.forEach(function (t, j) { t.classList.toggle('is-active', j === i); });
       }
-      track.addEventListener('scroll', function () { requestAnimationFrame(update); }, { passive: true });
-      window.addEventListener('resize', update);
-      update();
+      thumbs.forEach(function (b, i) {
+        b.addEventListener('click', function () {
+          if (timer) { clearInterval(timer); timer = null; }
+          show(i);
+        });
+      });
+      timer = setInterval(function () { show((current + 1) % thumbs.length); }, 4000);
     })();
   </script>
 </body>

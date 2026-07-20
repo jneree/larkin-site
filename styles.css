@@ -198,12 +198,12 @@ summary:focus-visible {
   gap: 0.55rem;
   color: var(--ink);
 }
-.brand-mark { color: var(--ink); }
 .brand-name {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.35rem;
-  letter-spacing: -0.03em;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
 }
 .nav-links {
   display: flex;
@@ -1175,47 +1175,51 @@ summary:focus-visible {
   border-radius: var(--radius-lg);
   padding: clamp(1.25rem, 3vw, 2.75rem);
 }
-.preorder-media {
-  position: relative;
+.preorder-media { position: relative; }
+/* single-column: copy first, gallery below (smoother entry from the section above) */
+@media (max-width: 899px) {
+  .preorder-media { order: 2; }
+}
+/* Gallery: main image with thumbnail strip */
+.pgal-main {
+  margin: 0;
   border-radius: var(--radius);
   overflow: hidden;
 }
-.pcar-track {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.pcar-track::-webkit-scrollbar { display: none; }
-.pcar-track figure {
-  flex: 0 0 100%;
-  scroll-snap-align: start;
-  margin: 0;
-}
-.pcar-track img {
+.pgal-main img {
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
   display: block;
+  transition: opacity 0.2s ease;
 }
-.pcar-dots {
-  position: absolute;
-  bottom: 0.9rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 6px;
+.pgal-thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
 }
-.pcar-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.45);
+.pgal-thumbs button {
   padding: 0;
-  transition: background-color 0.15s ease;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background: none;
+  opacity: 0.55;
+  transition: opacity 0.15s ease, border-color 0.15s ease;
 }
-.pcar-dot.is-active { background: #fff; }
+.pgal-thumbs button.is-active {
+  border-color: var(--accent);
+  opacity: 1;
+}
+.pgal-thumbs button:hover { opacity: 1; }
+.pgal-thumbs img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
 
 .preorder-card .eyebrow { color: var(--accent); }
 .preorder-title { font-size: clamp(2.1rem, 3vw, 3rem); margin-bottom: var(--sp-3); }
@@ -1291,6 +1295,51 @@ summary:focus-visible {
   color: rgba(243, 237, 227, 0.6);
   margin-top: var(--sp-2);
   text-align: center;
+}
+
+/* ==========================================================================
+   WHY NOT A PHONE
+   ========================================================================== */
+.versus { padding-block: var(--section-y); }
+.vs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 980px;
+  margin: var(--sp-6) auto 0;
+}
+.vs-col {
+  border-radius: var(--radius-lg);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+}
+.vs-col--phone { background: var(--cream-2); color: var(--muted); }
+.vs-col--larkin { background: var(--noir); color: var(--dark-muted); }
+.vs-head {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-bottom: 1.1rem;
+}
+.vs-col--larkin .vs-head { color: var(--dark-fg); }
+.vs-col ul {
+  display: grid;
+  gap: 0.85rem;
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.vs-col li { position: relative; padding-left: 1.7rem; }
+.vs-col li::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+}
+.vs-col--phone li::before { content: "✕"; color: var(--muted-2); }
+.vs-col--larkin li::before { content: "✓"; color: var(--accent); }
+@media (min-width: 700px) {
+  .vs-grid { grid-template-columns: 1fr 1fr; }
 }
 
 /* ==========================================================================
