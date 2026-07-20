@@ -1467,6 +1467,8 @@ summary:focus-visible {
     border-bottom: 1px solid var(--cream-2);
   }
   .nav-cta { margin-top: var(--sp-2); width: 100%; }
+  /* brand left; CTA and hamburger together on the right */
+  .nav { justify-content: flex-start; gap: 1rem; }
   .nav-cta-mobile {
     display: inline-flex;
     margin-left: auto;
