@@ -1218,7 +1218,7 @@ summary:focus-visible {
 .pcar-dot.is-active { background: #fff; }
 
 .preorder-card .eyebrow { color: var(--accent); }
-.preorder-title { font-size: var(--fs-h2); margin-bottom: var(--sp-3); }
+.preorder-title { font-size: clamp(2.1rem, 3vw, 3rem); margin-bottom: var(--sp-3); }
 .preorder-price {
   display: flex;
   align-items: baseline;
@@ -1251,14 +1251,13 @@ summary:focus-visible {
 }
 .preorder-points {
   display: grid;
-  gap: 0.7rem;
+  gap: 0.65rem;
   font-family: var(--font-ui);
   font-size: 0.98rem;
   line-height: 1.45;
   color: var(--dark-muted);
   margin-bottom: var(--sp-4);
 }
-.preorder-points strong { color: var(--dark-fg); font-weight: 600; }
 .preorder-points li { position: relative; padding-left: 1.7rem; }
 .preorder-points li::before {
   content: "✓";
