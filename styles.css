@@ -291,23 +291,13 @@ summary:focus-visible {
   --bleed: calc(max((100vw - var(--maxw)) / 2, 0px) + var(--gutter));
   margin-inline: calc(-1 * var(--bleed));
 }
+/* transparent PNG subject floating on the section navy */
 .hero-media > img {
   width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  object-position: center top;
+  height: auto;
+  object-fit: contain;
+  object-position: right bottom;
   border-radius: 0;
-}
-/* melt the photo's edges into the section navy (right edge bleeds to the viewport) */
-.hero-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, var(--noir) 0%, transparent 14%),
-    linear-gradient(0deg, var(--noir) 0%, transparent 16%),
-    linear-gradient(180deg, var(--noir) 0%, transparent 10%);
 }
 
 /* ==========================================================================
@@ -421,10 +411,11 @@ summary:focus-visible {
   margin: calc(-1 * var(--sp-4)) auto var(--sp-5);
 }
 .uc-track {
-  /* extend the card row to the right viewport edge */
+  /* extend the card row to both viewport edges; padding keeps snap alignment on the grid */
   --bleed: calc(max((100vw - var(--maxw)) / 2, 0px) + var(--gutter));
-  margin-right: calc(-1 * var(--bleed));
-  padding-right: var(--bleed);
+  margin-inline: calc(-1 * var(--bleed));
+  padding-inline: var(--bleed);
+  scroll-padding-left: var(--bleed);
   display: flex;
   gap: var(--sp-3);
   overflow-x: auto;
@@ -1205,9 +1196,7 @@ summary:focus-visible {
 .pcar-track img {
   width: 100%;
   aspect-ratio: 3 / 4;
-  /* product shots are landscape on pure white — contain + white keeps them uncropped */
-  object-fit: contain;
-  background: #fff;
+  object-fit: cover;
   display: block;
 }
 .pcar-dots {
@@ -1222,11 +1211,11 @@ summary:focus-visible {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(16, 26, 53, 0.25);
+  background: rgba(255, 255, 255, 0.45);
   padding: 0;
   transition: background-color 0.15s ease;
 }
-.pcar-dot.is-active { background: var(--ink); }
+.pcar-dot.is-active { background: #fff; }
 
 .offer-box {
   border: 1px solid rgba(153, 184, 102, 0.45);
@@ -1456,12 +1445,12 @@ summary:focus-visible {
 @media (min-width: 900px) {
   .hero-grid { grid-template-columns: 0.95fr 1.05fr; align-items: stretch; }
   .hero-copy { align-self: center; padding-block: var(--sp-7); }
-  .hero-media { margin-left: 0; } /* bleed to the right viewport edge only */
+  .hero-media { margin-left: 0; align-self: end; } /* bleed to the right viewport edge only */
   .hero-media > img {
     height: 100%;
-    min-height: 620px;
-    aspect-ratio: auto;
-    object-position: center bottom;
+    min-height: 560px;
+    max-height: 720px;
+    object-position: right bottom;
   }
   .ptile-grid { grid-template-columns: 1fr 1fr; }
   .preorder-grid { grid-template-columns: 0.9fr 1.1fr; }
@@ -1478,6 +1467,9 @@ summary:focus-visible {
   .ask-inputbar { border-radius: 22px; align-items: flex-end; }
   .ask-input-text { white-space: normal; font-size: 0.9rem; line-height: 1.4; }
   .ask-caret { margin-bottom: 0.25em; }
+  /* Reserve card runs edge to edge on phones */
+  .preorder-inline { margin-inline: calc(-1 * var(--gutter)); }
+  .preorder-inline .preorder-grid { border-radius: 0; }
 }
 
 /* Very narrow screens: the CSS phone renders below its 280px design width,
