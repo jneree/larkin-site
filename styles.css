@@ -1167,7 +1167,7 @@ summary:focus-visible {
 /* ==========================================================================
    PRE-ORDER
    ========================================================================== */
-.preorder-inline { margin-top: var(--section-y); }
+.preorder-inline { margin-block: calc(var(--section-y) + 2rem); }
 .preorder-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -1525,10 +1525,10 @@ summary:focus-visible {
   .ask-inputbar { border-radius: 22px; align-items: flex-end; }
   .ask-input-text { white-space: normal; font-size: 0.9rem; line-height: 1.4; }
   .ask-caret { margin-bottom: 0.25em; }
-  /* Reserve card runs edge to edge on phones, with clear air above it */
+  /* Reserve card runs edge to edge on phones, with clear air above and below */
   .preorder-inline {
     margin-inline: calc(-1 * var(--gutter));
-    margin-top: 5rem;
+    margin-block: 5rem;
   }
   .preorder-inline .preorder-grid { border-radius: 0; }
   /* more breathing room at the top of the hero */
