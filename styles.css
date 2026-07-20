@@ -278,9 +278,9 @@ summary:focus-visible {
 }
 .summary-card {
   position: absolute;
-  right: clamp(0.75rem, 3vw, 1.5rem);
-  bottom: clamp(0.75rem, 3vw, 1.5rem);
-  left: auto;
+  left: clamp(0.75rem, 3vw, 2rem);
+  bottom: clamp(1.25rem, 4vw, 2.5rem);
+  right: auto;
   max-width: min(78%, 320px);
   background: rgba(243, 237, 227, 0.92);
   backdrop-filter: blur(8px);
@@ -309,6 +309,15 @@ summary:focus-visible {
    STATEMENT
    ========================================================================== */
 .statement { padding-block: var(--section-y); }
+/* Film clip: right-aligned, not full width */
+.statement-media { margin-top: var(--sp-5); }
+.statement-media video {
+  width: min(100%, 760px);
+  height: auto;
+  display: block;
+  margin-left: auto;
+  border-radius: var(--radius-lg);
+}
 .statement-text {
   font-size: clamp(1.6rem, 3.4vw, 2.6rem);
   font-weight: 500;
@@ -407,19 +416,11 @@ summary:focus-visible {
   max-width: 56ch;
   margin: calc(-1 * var(--sp-4)) auto var(--sp-5);
 }
-/* Film clip inside the use-cases section: right-aligned, not full width */
-.uc-video {
-  width: min(100%, 760px);
-  margin: var(--sp-4) 0 var(--sp-5) auto;
-}
-.uc-video video {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: var(--radius-lg);
-}
-
 .uc-track {
+  /* extend the card row to the right viewport edge */
+  --bleed: calc(max((100vw - var(--maxw)) / 2, 0px) + var(--gutter));
+  margin-right: calc(-1 * var(--bleed));
+  padding-right: var(--bleed);
   display: flex;
   gap: var(--sp-3);
   overflow-x: auto;
@@ -1008,12 +1009,30 @@ summary:focus-visible {
   transition: transform 0.15s ease;
 }
 .ask-send.is-sent { transform: scale(0.86); }
-.ask-powered {
+.ask-powered { text-align: center; margin-top: var(--sp-5); }
+.ask-powered-label {
   font-family: var(--font-ui);
-  font-size: 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--muted-2);
-  text-align: center;
-  margin-top: var(--sp-3);
+}
+.ask-powered-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  margin-top: 0.9rem;
+}
+.ask-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-ui);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
 }
 
 /* ==========================================================================
