@@ -41,25 +41,28 @@ h1, h2, h3, h4 {
 
 /* ----- Design tokens ----- */
 :root {
-  /* Palette — Larkin navy + warm paper (from the redesign mockup) */
+  /* Palette — punchy Larkin yellow + near-black ink + warm paper */
   --cream:        #f7f4ef;   /* paper */
   --cream-2:      #eee9e1;
-  --ink:          #101a35;   /* Larkin navy */
-  --ink-soft:     #2c3552;
+  --ink:          #131313;   /* near-black ink */
+  --ink-soft:     #3a3a36;
   --muted:        #756f67;
   --muted-2:      #8f8a80;
 
-  --noir:         #101a35;   /* dark sections are navy, not black */
-  --noir-2:       #1a2848;
-  --noir-3:       #182442;
-  --panel:        #1a294e;
-  --panel-line:   #2a3a63;
-  --dark-fg:      #fffefa;
-  --dark-muted:   #c3cad8;
-  --dark-muted-2: #8795b2;
+  --yellow:       #ffd400;   /* Larkin yellow — the highlighter */
+  --yellow-soft:  #fbf3cf;   /* pale highlight wash */
+  --yellow-deep:  #dda700;   /* legible yellow for small accents on light */
 
-  --accent:       #99b866;   /* sage green */
-  --peri:         #aebbd8;   /* periwinkle — italic accents on navy */
+  --noir:         #131313;   /* dark sections are near-black */
+  --noir-2:       #1d1d1b;
+  --noir-3:       #191917;
+  --panel:        #1f1f1c;
+  --panel-line:   #34342e;
+  --dark-fg:      #fffef7;
+  --dark-muted:   #cfccc2;
+  --dark-muted-2: #98958a;
+
+  --accent:       var(--yellow);
 
   /* Fonts */
   --font-display: "Newsreader", Georgia, "Times New Roman", serif;
@@ -116,14 +119,33 @@ body {
 }
 .section-title.center { margin-inline: auto; text-align: center; max-width: 26ch; }
 
+/* The highlighter — a yellow marker swiped over the words that matter */
+.hero-title em,
+.section-title em,
+.statement-text em {
+  font-style: italic;
+  background: var(--yellow);
+  color: var(--ink);
+  padding: 0.04em 0.16em 0.08em;
+  margin-inline: 0.02em;
+  border-radius: 0.12em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+::selection { background: var(--ink); color: var(--yellow); }
+
 .eyebrow {
   display: inline-block;
   font-family: var(--font-ui);
   font-size: var(--fs-eyebrow);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--ink);
+  background: var(--yellow);
+  padding: 0.5em 0.75em 0.45em;
+  border-radius: 7px;
   margin-bottom: var(--sp-2);
 }
 
@@ -133,7 +155,7 @@ body {
   left: -999px;
   top: 0;
   background: var(--ink);
-  color: var(--cream);
+  color: var(--yellow);
   padding: 0.75rem 1rem;
   border-radius: 0 0 8px 0;
   z-index: 200;
@@ -147,6 +169,12 @@ summary:focus-visible {
   outline-offset: 3px;
   border-radius: 4px;
 }
+/* on yellow surfaces the yellow ring vanishes — use ink instead */
+.hero a:focus-visible,
+.hero button:focus-visible,
+.site-header a:focus-visible,
+.site-header button:focus-visible,
+.final-cta a:focus-visible { outline-color: var(--ink); }
 
 /* ----- Buttons ----- */
 .btn {
@@ -165,9 +193,9 @@ summary:focus-visible {
 }
 .btn-primary {
   background: var(--ink);
-  color: var(--cream);
+  color: var(--yellow);
 }
-.btn-primary:hover { transform: translateY(-1px); background: #232f3e; }
+.btn-primary:hover { transform: translateY(-1px); background: #000; }
 .btn-lg {
   min-height: 52px;
   padding: 1rem 1.75rem;
@@ -181,9 +209,9 @@ summary:focus-visible {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: color-mix(in srgb, #ffffff 90%, transparent);
+  background: color-mix(in srgb, var(--yellow) 94%, transparent);
   backdrop-filter: saturate(140%) blur(10px);
-  border-bottom: 1px solid var(--cream-2);
+  border-bottom: 1.5px solid var(--ink);
 }
 .nav {
   display: flex;
@@ -244,22 +272,23 @@ summary:focus-visible {
    HERO
    ========================================================================== */
 .hero {
-  background: var(--noir);
-  color: var(--dark-fg);
+  background: var(--yellow);
+  color: var(--ink);
   padding-block: clamp(2rem, 5vw, 3rem) 0;
   overflow: hidden;
 }
+/* on the yellow hero the marker inverts: black swipe, yellow words */
 .hero-title em {
-  font-style: italic;
-  color: var(--peri);
+  background: var(--ink);
+  color: var(--yellow);
 }
-.hero .hero-lead { color: var(--dark-muted); }
-.hero .hero-fineprint { color: var(--dark-muted-2); }
+.hero .hero-lead { color: var(--ink-soft); }
+.hero .hero-fineprint { color: rgba(19, 19, 19, 0.62); }
 .hero .btn-primary {
-  background: var(--cream);
-  color: var(--ink);
+  background: var(--ink);
+  color: var(--yellow);
 }
-.hero .btn-primary:hover { background: #fff; }
+.hero .btn-primary:hover { background: #000; }
 /* The hero runs on a wider grid than the rest of the page so the composition
    fills large viewports instead of floating in the center */
 .hero .container { --maxw: 1440px; }
@@ -339,11 +368,15 @@ summary:focus-visible {
   gap: clamp(3rem, 6vw, 4.5rem);
 }
 .how-num {
+  display: inline-block;
   font-family: var(--font-ui);
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.12em;
-  color: var(--accent);
+  color: var(--ink);
+  background: var(--yellow);
+  padding: 0.35em 0.55em 0.3em;
+  border-radius: 6px;
   margin-bottom: 0.5rem;
 }
 .how-step h3 {
@@ -510,7 +543,7 @@ summary:focus-visible {
 }
 .banner-line {
   display: block;
-  color: var(--peri);
+  color: var(--yellow);
 }
 
 /* Feature phone tiles */
@@ -533,7 +566,7 @@ summary:focus-visible {
   overflow: hidden;
 }
 .ptile--dark {
-  background: linear-gradient(180deg, #1a2848 0%, #141f3c 100%);
+  background: linear-gradient(180deg, #1e1e1b 0%, #161613 100%);
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 .ptile-top h3 {
@@ -624,7 +657,7 @@ summary:focus-visible {
 }
 .ps-card {
   background: #f8f5f0;
-  border: 1px solid rgba(16, 26, 53, 0.05);
+  border: 1px solid rgba(19, 19, 19, 0.05);
   border-radius: 12px;
   padding: 0.65rem 0.75rem;
   margin-top: 0.55rem;
@@ -642,7 +675,7 @@ summary:focus-visible {
 .ps-stat {
   margin-top: 0.6rem;
   padding-top: 0.55rem;
-  border-top: 1px solid rgba(16, 26, 53, 0.08);
+  border-top: 1px solid rgba(19, 19, 19, 0.08);
   font-size: 0.72rem;
   color: var(--muted);
 }
@@ -678,7 +711,7 @@ summary:focus-visible {
   font-size: 0.6rem;
   color: #fff;
 }
-.ps-check.is-done { background: var(--accent); border-color: var(--accent); }
+.ps-check.is-done { background: var(--accent); border-color: var(--accent); color: var(--ink); }
 .ps-card .ps-item { margin-top: 0.5rem; }
 .ps-moment {
   font-size: 0.76rem;
@@ -700,7 +733,7 @@ summary:focus-visible {
   height: 54px;
   margin-top: 0.7rem;
 }
-.ps-bars i { flex: 1; border-radius: 3px; background: rgba(16, 26, 53, 0.12); }
+.ps-bars i { flex: 1; border-radius: 3px; background: rgba(19, 19, 19, 0.12); }
 .ps-bars i.is-hot { background: var(--accent); }
 .ps-days { display: flex; gap: 5px; margin-top: 0.35rem; }
 .ps-days span {
@@ -716,11 +749,11 @@ summary:focus-visible {
   font-weight: 600;
   color: var(--ink);
   background: #fff;
-  border: 1px solid rgba(16, 26, 53, 0.12);
+  border: 1px solid rgba(19, 19, 19, 0.12);
   border-radius: 999px;
   padding: 0.3rem 0.6rem;
 }
-.ps-topic b { color: var(--accent); font-weight: 700; }
+.ps-topic b { color: var(--yellow-deep); font-weight: 700; }
 .ps-people { display: flex; align-items: center; gap: 0.6rem; }
 .ps-avs { display: inline-flex; }
 .ps-av {
@@ -925,7 +958,7 @@ summary:focus-visible {
   background: #fff;
   border: 1px solid var(--cream-2);
   border-radius: var(--radius-lg);
-  box-shadow: 0 40px 80px -40px rgba(16, 26, 53, 0.35);
+  box-shadow: 0 40px 80px -40px rgba(19, 19, 19, 0.35);
   padding: var(--sp-3);
   display: flex;
   flex-direction: column;
@@ -956,7 +989,7 @@ summary:focus-visible {
 
 .ask-thinking {
   align-self: flex-start;
-  color: var(--accent);
+  color: var(--yellow-deep);
   padding: 0.4rem 0.2rem;
 }
 .ask-thinking svg {
@@ -1007,7 +1040,7 @@ summary:focus-visible {
   background: var(--ink);
 }
 .ask-example {
-  background: var(--cream);
+  background: var(--yellow-soft);
   border-radius: var(--radius);
   padding: 0.85rem 1rem;
   margin-top: 0.8rem;
@@ -1033,7 +1066,7 @@ summary:focus-visible {
   border: 1px solid var(--cream-2);
   border-radius: 999px;
   padding: 0.5rem 0.5rem 0.5rem 1.1rem;
-  box-shadow: 0 10px 30px -18px rgba(16, 26, 53, 0.35);
+  box-shadow: 0 10px 30px -18px rgba(19, 19, 19, 0.35);
 }
 .ask-input-text {
   font-family: var(--font-ui);
@@ -1121,7 +1154,7 @@ summary:focus-visible {
   place-items: center;
   width: 52px;
   height: 52px;
-  border: 1.5px solid rgba(16, 26, 53, 0.22);
+  background: var(--yellow);
   border-radius: 14px;
   color: var(--ink);
   margin-bottom: 1.1rem;
@@ -1224,7 +1257,6 @@ summary:focus-visible {
   display: block;
 }
 
-.preorder-card .eyebrow { color: var(--accent); }
 .preorder-title { font-size: clamp(2.1rem, 3vw, 3rem); margin-bottom: var(--sp-3); }
 .preorder-price {
   display: flex;
@@ -1287,11 +1319,11 @@ summary:focus-visible {
   font-weight: 700;
   font-size: 1.05rem;
   color: var(--ink);
-  background: var(--cream);
+  background: var(--yellow);
   transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
   box-shadow: 0 20px 45px -22px rgba(0, 0, 0, 0.7);
 }
-.btn-preorder:hover { transform: translateY(-2px); background: #fff; }
+.btn-preorder:hover { transform: translateY(-2px); background: #ffdf33; }
 .preorder-note {
   font-family: var(--font-ui);
   font-size: var(--fs-small);
@@ -1393,7 +1425,7 @@ summary:focus-visible {
 .final-cta {
   text-align: center;
   padding-block: var(--section-y);
-  background: var(--cream);
+  background: var(--yellow);
 }
 .final-title {
   font-size: var(--fs-h2);
@@ -1403,7 +1435,7 @@ summary:focus-visible {
 .final-note {
   font-family: var(--font-ui);
   font-size: var(--fs-small);
-  color: var(--muted-2);
+  color: rgba(19, 19, 19, 0.65);
   margin-top: var(--sp-3);
 }
 
@@ -1417,6 +1449,7 @@ summary:focus-visible {
 }
 .site-footer .brand,
 .site-footer .brand-mark { color: var(--cream); }
+.site-footer .brand-name { color: var(--yellow); }
 .footer-row {
   display: flex;
   flex-wrap: wrap;
@@ -1449,10 +1482,10 @@ summary:focus-visible {
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    background: var(--cream);
-    border-bottom: 1px solid var(--cream-2);
+    background: var(--yellow);
+    border-bottom: 1.5px solid var(--ink);
     padding: var(--sp-2) var(--gutter) var(--sp-3);
-    box-shadow: 0 24px 40px -28px rgba(16, 26, 53, 0.5);
+    box-shadow: 0 24px 40px -28px rgba(19, 19, 19, 0.5);
     clip-path: inset(0 0 100% 0);
     opacity: 0;
     pointer-events: none;
@@ -1465,7 +1498,7 @@ summary:focus-visible {
   }
   .nav-links > a:not(.nav-cta) {
     padding: 0.85rem 0;
-    border-bottom: 1px solid var(--cream-2);
+    border-bottom: 1px solid rgba(19, 19, 19, 0.18);
   }
   .nav-cta { margin-top: var(--sp-2); width: 100%; }
   /* brand left; CTA and hamburger together on the right */
