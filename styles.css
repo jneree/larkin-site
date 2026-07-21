@@ -510,7 +510,6 @@ summary:focus-visible {
 }
 .banner-line {
   display: block;
-  font-style: italic;
   color: var(--peri);
 }
 
