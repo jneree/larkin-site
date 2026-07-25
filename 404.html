@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="general">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — Larkin</title>
+<meta name="description" content="That page doesn't exist. Find the Larkin AI memory wristband on the home page.">
+<meta name="theme-color" content="#1B44E5">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  .nf {
+    min-height: 100vh;
+    display: grid;
+    place-content: center;
+    justify-items: start;
+    gap: 22px;
+    background: var(--piles-bg);
+    padding-block: 4rem;
+  }
+  .nf__code {
+    font-family: var(--font-display);
+    font-size: clamp(5rem, 18vw, 12rem);
+    line-height: 0.85;
+    color: transparent;
+    -webkit-text-stroke: 3px var(--piles-label);
+  }
+  .nf__title { color: var(--piles-h); margin-bottom: 0; }
+  .nf__body { font-size: var(--fs-lead); color: var(--piles-body); max-width: 44ch; }
+</style>
+</head>
+<body>
+<main class="nf">
+  <div class="shell">
+    <p class="nf__code" aria-hidden="true">404</p>
+    <h1 class="section-title nf__title">This page slipped.</h1>
+    <p class="nf__body">The page you asked for doesn't exist — which is exactly the sort of thing Larkin is meant to prevent.</p>
+    <p style="margin-top: 28px;"><a class="btn btn--hero" href="/">Back to Larkin</a></p>
+  </div>
+</main>
+</body>
+</html>

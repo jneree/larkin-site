@@ -1,27 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="parents">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=1440">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Larkin for Parents — How Do You Sound to Your Kids?</title>
 <meta name="description" content="Larkin is an AI wristband that captures your family conversations — and shows you the tone, promises and moments that shape them.">
+<meta name="theme-color" content="#FBF6EA">
+
 <meta property="og:title" content="Larkin for Parents — How Do You Sound to Your Kids?">
 <meta property="og:description" content="Larkin is an AI wristband that captures your family conversations — and shows you the tone, promises and moments that shape them.">
-<meta property="og:image" content="https://getlarkin.com/assets/hero-parents.png">
+<meta property="og:image" content="https://getlarkin.com/assets/hero-parents-1200.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="896">
 <meta property="og:url" content="https://getlarkin.com/parents/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Larkin">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://getlarkin.com/parents/">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400..700&family=Newsreader:ital,opsz,wght@1,6..72,400..600&display=swap" rel="stylesheet">
-<style>
-  body { margin: 0; font-family: 'DM Sans', sans-serif; background: #16290F; }
-  a { color: inherit; text-decoration: none; }
-  a:hover { opacity: 0.88; }
-  main { width: 1440px; margin: 0 auto; }
-</style>
+<link rel="preload" as="image" href="../assets/hero-parents-800.avif"
+      imagesrcset="../assets/hero-parents-480.avif 480w, ../assets/hero-parents-800.avif 800w, ../assets/hero-parents-1200.avif 1200w"
+      imagesizes="100vw" type="image/avif" fetchpriority="high">
+<link rel="stylesheet" href="../styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Larkin",
+  "url": "https://getlarkin.com/",
+  "logo": "https://getlarkin.com/favicon.svg",
+  "description": "Larkin is an AI memory wristband that turns your conversations into a simple daily recap."
+}
+</script>
 
 <!-- ==================== FACEBOOK PIXEL ==================== -->
 <script>
@@ -42,129 +59,261 @@
 </noscript>
 <!-- ================== END FACEBOOK PIXEL ================== -->
 </head>
-<body>
-<main style="background: #FBF6EA;">
 
-        <header style="display: flex; align-items: center; justify-content: space-between; padding: 22px 48px; background: #FBF6EA;">
-          <span style="display: flex; align-items: baseline; gap: 14px;"><span style="font-family: Anton, sans-serif; font-size: 24px; letter-spacing: 0.1em; color: #24421F;">LARKIN</span><span style="font-family: Newsreader, serif; font-style: italic; font-size: 16px; color: rgba(36,66,31,0.7);">for the words that raise them</span></span>
-          <nav style="display: flex; align-items: center; gap: 34px; font-size: 15px; font-weight: 600; color: rgba(36,66,31,0.85);">
-            <a href="#how">How it works</a><a href="#hardware">Design</a><a href="../">For everyone</a><a href="../adhd/">For ADHD</a>
-          </nav>
-          <a href="#reserve" style="background: #24421F; color: #FBF6EA; font-weight: 700; font-size: 15px; border-radius: 999px; white-space: nowrap; padding: 13px 26px;">Reserve — $10</a>
-        </header>
-        <div style="position: relative; height: 1080px; background: #9CC17B; overflow: hidden;">
-          <img src="../assets/hero-parents.png" alt="A father and daughter laughing together at eye level, the slim navy Larkin band on his wrist" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center;">
-          <div style="position: absolute; left: 64px; top: 140px; width: 620px; display: flex; flex-direction: column; align-items: flex-start; gap: 30px;">
-            <span style="background: rgba(36,66,31,0.12); border: 1.5px solid rgba(36,66,31,0.55); color: #24421F; border-radius: 999px; white-space: nowrap; padding: 10px 20px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em;">FOR PARENTS</span>
-            <h2 style="margin: 0; font-family: Anton, sans-serif; font-weight: 400; font-size: 96px; line-height: 0.92; color: #24421F; letter-spacing: -0.005em;">HOW DO YOU<br>SOUND<br>TO YOUR KIDS?</h2>
-            <p style="margin: 0; font-family: Newsreader, serif; font-style: italic; font-size: 26px; line-height: 1.45; color: rgba(36,66,31,0.9); max-width: 29.3ch">Larkin is an AI wristband that captures your conversations and shows you the tone, promises and moments that shape them.</p>
-            <div style="display: flex; align-items: center; gap: 16px;">
-              <a href="#reserve" style="background: #24421F; color: #FBF6EA; font-family: Anton, sans-serif; font-size: 24px; letter-spacing: 0.02em; border-radius: 999px; white-space: nowrap; padding: 22px 40px;">RESERVE FOR $10</a>
-              
-            </div>
-            <p style="margin: -8px 0 0; font-size: 13px; font-weight: 600; color: rgba(36,66,31,0.75);">Fully refundable deposit.</p>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="site-header__inner shell">
+    <a class="brand" href="../">
+      <span class="brand__mark">Larkin</span>
+      <span class="brand__tag">for the words that raise them</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <a href="#how">How it works</a>
+      <a href="#hardware">Design</a>
+      <a href="../">For everyone</a>
+      <a href="../adhd/">For ADHD</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="btn btn--sm" href="#reserve">Reserve — $10</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav">
+        <span class="sr-only">Menu</span>
+        <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav__inner">
+      <div class="shell">
+        <a href="#how">How it works</a>
+        <a href="#hardware">Design</a>
+        <a href="../">For everyone</a>
+        <a href="../adhd/">For ADHD</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="hero__media">
+      <picture><source type="image/avif" srcset="../assets/hero-parents-480.avif 480w, ../assets/hero-parents-800.avif 800w, ../assets/hero-parents-1200.avif 1200w" sizes="100vw"><img src="../assets/hero-parents-800.jpg"
+           srcset="../assets/hero-parents-480.jpg 480w, ../assets/hero-parents-800.jpg 800w, ../assets/hero-parents-1200.jpg 1200w"
+           sizes="100vw" width="1200" height="896" fetchpriority="high" decoding="async"
+           alt="A father and daughter laughing together at eye level, the slim navy Larkin band on his wrist"></picture>
+    </div>
+    <div class="hero__content shell">
+      <div class="hero__copy">
+      <span class="badge">For parents</span>
+      <h1 class="hero__title">How do you <br class="br-lg">sound <br class="br-lg">to your kids?</h1>
+      <p class="hero__sub">Larkin is an AI wristband that captures your conversations and shows you the tone, promises and moments that shape them.</p>
+      <a class="btn btn--hero" href="#reserve">Reserve for $10</a>
+        <p class="hero__fine">Fully refundable deposit.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STRIP ===================== -->
+  <section class="strip" aria-label="Why it is effortless">
+    <div class="strip__inner shell">
+      <p class="strip__line">Nothing to press. Nothing to open.</p>
+    </div>
+  </section>
+
+  <!-- ===================== THREE PILES ===================== -->
+  <section class="piles">
+    <div class="shell">
+      <h2 class="section-title">The parent they actually hear.</h2>
+      <div class="piles__grid">
+        <div class="pile">
+          <h3 class="pile__label">Your tone</h3>
+          <p class="pile__body">How you really sound when patience runs thin — and when it doesn't.</p>
+        </div>
+        <div class="pile">
+          <h3 class="pile__label">Your promises</h3>
+          <p class="pile__body">“Ice cream on Saturday.” Larkin holds you to it.</p>
+        </div>
+        <div class="pile">
+          <h3 class="pile__label">Their moments</h3>
+          <p class="pile__body">First jokes, big questions, tiny milestones — kept word for word.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT WORKS ===================== -->
+  <section class="how" id="how" aria-label="How it works">
+    <article class="how__step">
+      <p class="how__num" aria-hidden="true">01</p>
+      <h2 class="how__title"><span class="sr-only">Step 1: </span>Wear it.</h2>
+      <p class="how__body">Comfortable and screen-free. No phone between you and them.</p>
+    </article>
+    <picture><source type="image/avif" srcset="../assets/how-wear-640.avif 640w, ../assets/how-wear-1000.avif 1000w" sizes="(min-width: 900px) 50vw, 100vw"><img class="how__img" src="../assets/how-wear-640.jpg"
+         srcset="../assets/how-wear-640.jpg 640w, ../assets/how-wear-1000.jpg 1000w"
+         sizes="(min-width: 900px) 50vw, 100vw" width="1000" height="1226" loading="lazy" decoding="async"
+         alt="The Larkin band worn on a wrist"></picture>
+
+    <picture><source type="image/avif" srcset="../assets/uc-home-640.avif 640w, ../assets/uc-home-800.avif 800w" sizes="(min-width: 900px) 50vw, 100vw"><img class="how__img" src="../assets/uc-home-640.jpg"
+         srcset="../assets/uc-home-640.jpg 640w, ../assets/uc-home-800.jpg 800w"
+         sizes="(min-width: 900px) 50vw, 100vw" width="800" height="1066" loading="lazy" decoding="async"
+         alt="A parent and laughing child at the kitchen table"></picture>
+    <article class="how__step how__step--alt">
+      <p class="how__num how__num--alt" aria-hidden="true">02</p>
+      <h2 class="how__title"><span class="sr-only">Step 2: </span>Be with them.</h2>
+      <p class="how__body">Breakfast chaos, bedtime questions. Just be there.</p>
+    </article>
+
+    <article class="how__step">
+      <p class="how__num" aria-hidden="true">03</p>
+      <h2 class="how__title"><span class="sr-only">Step 3: </span>See what mattered.</h2>
+      <p class="how__body">An evening recap of the words that counted.</p>
+    </article>
+    <picture><source type="image/avif" srcset="../assets/how-app-640.avif 640w, ../assets/how-app-1000.avif 1000w" sizes="(min-width: 900px) 50vw, 100vw"><img class="how__img" src="../assets/how-app-640.jpg"
+         srcset="../assets/how-app-640.jpg 640w, ../assets/how-app-1000.jpg 1000w"
+         sizes="(min-width: 900px) 50vw, 100vw" width="1000" height="1000" loading="lazy" decoding="async"
+         alt="The Larkin app showing daily highlights"></picture>
+  </section>
+
+  <!-- ===================== FEATURES ===================== -->
+  <section class="features">
+    <div class="shell">
+      <p class="eyebrow">The features</p>
+      <h2 class="section-title">Everything it keeps for you.</h2>
+      <div class="features__layout">
+        <div class="features__card">
+          <picture><source type="image/avif" srcset="../assets/fig-highlights-phone.avif"><img src="../assets/fig-highlights-phone.jpg" width="503" height="561" loading="lazy" decoding="async"
+               alt="The Larkin app showing summaries, reminders and highlights"></picture>
+        </div>
+        <div class="features__grid">
+          <div class="feature">
+            <p class="feature__num">01</p>
+            <h3 class="feature__title">Daily summaries</h3>
+            <p class="feature__body">The day's conversations, distilled to what mattered at home.</p>
+          </div>
+          <div class="feature">
+            <p class="feature__num">02</p>
+            <h3 class="feature__title">Promise reminders</h3>
+            <p class="feature__body">The promises you make them become reminders you keep.</p>
+          </div>
+          <div class="feature">
+            <p class="feature__num">03</p>
+            <h3 class="feature__title">Voice highlights</h3>
+            <p class="feature__body">One press and what they just said is kept forever.</p>
+          </div>
+          <div class="feature">
+            <p class="feature__num">04</p>
+            <h3 class="feature__title">Ask Larkin</h3>
+            <p class="feature__body">“What did she ask me at bedtime?” Just ask.</p>
+          </div>
+          <div class="feature">
+            <p class="feature__num">05</p>
+            <h3 class="feature__title">7-day battery</h3>
+            <p class="feature__body">Up to 160 hours of listening on a single charge.</p>
+          </div>
+          <div class="feature">
+            <p class="feature__num">06</p>
+            <h3 class="feature__title">The green light</h3>
+            <p class="feature__body">Everyone can see when Larkin records.</p>
           </div>
         </div>
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 40px; padding: 44px 64px; background: #FBF6EA;">
-          <p style="margin: 0; font-family: Anton, sans-serif; font-size: 40px; line-height: 1; color: #24421F; white-space: nowrap;">NOTHING TO PRESS. NOTHING TO OPEN.</p>
-          
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HARDWARE ===================== -->
+  <section class="hardware" id="hardware">
+    <div class="shell">
+      <p class="eyebrow">The hardware</p>
+      <h2 class="section-title has-intro">Simple, screen-free.</h2>
+      <p class="hardware__intro">No screen to check, no phone to reach for. Just a band, two microphones and one green light.</p>
+      <div class="hardware__card">
+        <picture><source type="image/avif" srcset="../assets/fig-hardware-exploded.avif"><img src="../assets/fig-hardware-exploded.jpg" width="562" height="439" loading="lazy" decoding="async"
+             alt="Exploded view of the Larkin wristband and its internal hardware"></picture>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <p class="stat__num">7 days</p>
+          <p class="stat__body">of battery life.</p>
         </div>
-        <div style="padding: 76px 64px 84px; background: #24421F;">
-          
-          <h3 style="margin: 0 0 52px; font-family: Anton, sans-serif; font-weight: 400; font-size: 54px; color: #FBF6EA;">THE PARENT THEY ACTUALLY HEAR.</h3>
-          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 44px;">
-            <div style="border-top: 3px solid #CDE8AC; padding-top: 22px;">
-              <p style="margin: 0 0 10px; font-family: Anton, sans-serif; font-size: 40px; color: #CDE8AC;">YOUR TONE</p>
-              <p style="margin: 0; font-size: 19px; line-height: 1.5; color: rgba(251,246,234,0.85);">How you really sound when patience runs thin — and when it doesn't.</p>
-            </div>
-            <div style="border-top: 3px solid #CDE8AC; padding-top: 22px;">
-              <p style="margin: 0 0 10px; font-family: Anton, sans-serif; font-size: 40px; color: #CDE8AC;">YOUR PROMISES</p>
-              <p style="margin: 0; font-size: 19px; line-height: 1.5; color: rgba(251,246,234,0.85);">“Ice cream on Saturday.” Larkin holds you to it.</p>
-            </div>
-            <div style="border-top: 3px solid #CDE8AC; padding-top: 22px;">
-              <p style="margin: 0 0 10px; font-family: Anton, sans-serif; font-size: 40px; color: #CDE8AC;">THEIR MOMENTS</p>
-              <p style="margin: 0; font-size: 19px; line-height: 1.5; color: rgba(251,246,234,0.85);">First jokes, big questions, tiny milestones — kept word for word.</p>
-            </div>
-          </div>
+        <div class="stat">
+          <p class="stat__num">×2</p>
+          <p class="stat__body">microphones with noise filtering — clear even in kitchen chaos.</p>
         </div>
-        <div id="how" style="display: grid; grid-template-columns: 1fr 1fr; background: #FBF6EA;">
-          <div style="padding: 64px 56px; display: flex; flex-direction: column; justify-content: center; gap: 14px;">
-            <span style="font-family: Anton, sans-serif; font-size: 150px; line-height: 0.8; color: transparent; -webkit-text-stroke: 3px #24421F;">01</span>
-            <p style="margin: 0; font-family: Anton, sans-serif; font-size: 56px; color: #24421F;">WEAR IT.</p>
-            <p style="margin: 0; font-size: 20px; line-height: 1.5; color: rgba(36,66,31,0.8); max-width: 30ch;">Comfortable and screen-free. No phone between you and them.</p>
-          </div>
-          <img src="../assets/how-wear2.jpg" alt="The Larkin band worn on a wrist" style="width: 100%; height: 100%; min-height: 420px; object-fit: cover; display: block;">
-          <img src="../assets/uc-home.jpg" alt="A parent and laughing child at the kitchen table" style="width: 100%; height: 100%; min-height: 420px; object-fit: cover; display: block;">
-          <div style="padding: 64px 56px; display: flex; flex-direction: column; justify-content: center; gap: 14px; background: #EFE6D2;">
-            <span style="font-family: Anton, sans-serif; font-size: 150px; line-height: 0.8; color: transparent; -webkit-text-stroke: 3px #24421F;">02</span>
-            <p style="margin: 0; font-family: Anton, sans-serif; font-size: 56px; color: #24421F;">BE WITH THEM.</p>
-            <p style="margin: 0; font-size: 20px; line-height: 1.5; color: rgba(36,66,31,0.8); max-width: 30ch;">Breakfast chaos, bedtime questions. Just be there.</p>
-          </div>
-          <div style="padding: 64px 56px; display: flex; flex-direction: column; justify-content: center; gap: 14px;">
-            <span style="font-family: Anton, sans-serif; font-size: 150px; line-height: 0.8; color: transparent; -webkit-text-stroke: 3px #24421F;">03</span>
-            <p style="margin: 0; font-family: Anton, sans-serif; font-size: 56px; color: #24421F;">SEE WHAT MATTERED.</p>
-            <p style="margin: 0; font-size: 20px; line-height: 1.5; color: rgba(36,66,31,0.8); max-width: 30ch;">An evening recap of the words that counted.</p>
-          </div>
-          <img src="../assets/how-app.jpg" alt="The Larkin app showing daily highlights" style="width: 100%; height: 100%; min-height: 420px; object-fit: cover; display: block;">
+        <div class="stat">
+          <p class="stat__num">40+</p>
+          <p class="stat__body">languages supported. For every language your family speaks.</p>
         </div>
-        <div style="padding: 84px 64px 92px; background: #1D3418;">
-          <p style="margin: 0 0 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: #CDE8AC;">THE FEATURES</p>
-          <h3 style="margin: 0 0 52px; font-family: Anton, sans-serif; font-weight: 400; font-size: 54px; color: #FBF6EA;">EVERYTHING IT KEEPS FOR YOU.</h3>
-          <div style="display: grid; grid-template-columns: 440px 1fr; gap: 60px; align-items: stretch;">
-            <div style="border-radius: 24px; background: #FBF6EA; display: grid; place-items: center; padding: 44px;">
-              <img src="../assets/fig-highlights-phone.png" alt="The Larkin app showing summaries, reminders and highlights" style="width: 100%; max-width: 360px; height: auto; border-radius: 20px; box-shadow: 0 30px 60px -25px rgba(20,35,15,0.5);">
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px 48px; align-content: center;">
-              <div><p style="margin: 0 0 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #9CC17B;">01</p><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 29px; color: #CDE8AC;">DAILY SUMMARIES</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(251,246,234,0.82);">The day's conversations, distilled to what mattered at home.</p></div>
-              <div><p style="margin: 0 0 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #9CC17B;">02</p><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 29px; color: #CDE8AC;">PROMISE REMINDERS</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(251,246,234,0.82);">The promises you make them become reminders you keep.</p></div>
-              <div><p style="margin: 0 0 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #9CC17B;">03</p><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 29px; color: #CDE8AC;">VOICE HIGHLIGHTS</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(251,246,234,0.82);">One press and what they just said is kept forever.</p></div>
-              <div><p style="margin: 0 0 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #9CC17B;">04</p><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 29px; color: #CDE8AC;">ASK LARKIN</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(251,246,234,0.82);">“What did she ask me at bedtime?” Just ask.</p></div>
-              <div><p style="margin: 0 0 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #9CC17B;">05</p><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 29px; color: #CDE8AC;">7-DAY BATTERY</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(251,246,234,0.82);">Up to 160 hours of listening on a single charge.</p></div>
-              <div><p style="margin: 0 0 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #9CC17B;">06</p><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 29px; color: #CDE8AC;">THE GREEN LIGHT</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(251,246,234,0.82);">Everyone can see when Larkin records.</p></div>
-            </div>
-          </div>
+        <div class="stat">
+          <p class="stat__num">0</p>
+          <p class="stat__body">screens. One green light everyone can see.</p>
         </div>
-        <div id="hardware" style="padding: 84px 64px 92px; background: #EFE6D2;">
-          <p style="margin: 0 0 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: #52703F;">THE HARDWARE</p>
-          <h3 style="margin: 0 0 18px; font-family: Anton, sans-serif; font-weight: 400; font-size: 54px; color: #24421F;">SIMPLE, SCREEN-FREE.</h3>
-          <p style="margin: 0 0 48px; font-family: Newsreader, serif; font-style: italic; font-size: 22px; line-height: 1.5; color: rgba(36,66,31,0.85); max-width: 50ch;">No screen to check, no phone to reach for. Just a band, two microphones and one green light.</p>
-          <div style="border-radius: 24px; background: #FFFFFF; padding: 48px 40px;">
-            <img src="../assets/fig-hardware-exploded.png" alt="Exploded view of the Larkin wristband and its internal hardware" style="width: 100%; max-width: 980px; height: auto; display: block; margin: 0 auto;">
-          </div>
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 44px; margin-top: 56px;">
-            <div><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 64px; line-height: 1; color: #24421F;">7 DAYS</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(36,66,31,0.82);">of battery life.</p></div>
-            <div><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 64px; line-height: 1; color: #24421F;">×2</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(36,66,31,0.82);">microphones with noise filtering — clear even in kitchen chaos.</p></div>
-            <div><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 64px; line-height: 1; color: #24421F;">40+</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(36,66,31,0.82);">languages supported. For every language your family speaks.</p></div>
-            <div><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 64px; line-height: 1; color: #24421F;">0</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(36,66,31,0.82);">screens. One green light everyone can see.</p></div>
-          </div>
-          <p style="margin: 44px 0 0; font-size: 15px; font-weight: 600; color: rgba(36,66,31,0.65);">Always in sync — your day is in the app by the time you open it. iPhone &amp; Android.</p>
-        </div>
-        <div style="background: #9CC17B; padding: 72px 64px 78px;">
-          <p style="margin: 0; font-family: Anton, sans-serif; font-size: 128px; line-height: 0.88; color: #24421F; letter-spacing: -0.01em;">BE THE VOICE THEY REMEMBER.</p>
-          <p style="margin: 22px 0 0; font-family: Newsreader, serif; font-style: italic; font-size: 34px; color: rgba(36,66,31,0.85);">and keep the ones you'd otherwise lose.</p>
-        </div>
-        <div id="reserve" style="position: relative; padding: 88px 64px 96px; background: #24421F; overflow: hidden;">
-          <span style="position: absolute; top: -60px; right: 30px; font-family: Anton, sans-serif; font-size: 420px; line-height: 1; color: rgba(205,232,172,0.18); pointer-events: none;">$59</span>
-          <div style="position: absolute; right: 64px; top: 50%; transform: translateY(-50%); width: 500px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
-            <img src="../assets/band-3.jpg" alt="The Larkin wristband on a studio pedestal" style="width: 100%; height: 244px; object-fit: cover; border-radius: 22px; display: block;">
-            <img src="../assets/how-wear2.jpg" alt="The band worn on a wrist" style="width: 100%; height: 244px; object-fit: cover; border-radius: 22px; display: block;">
-            <img src="../assets/uc-dinner.jpg" alt="A family dinner in full conversation" style="width: 100%; height: 244px; object-fit: cover; border-radius: 22px; display: block;">
-            <img src="../assets/pcar-couch.jpg" alt="At home wearing the Larkin band" style="width: 100%; height: 244px; object-fit: cover; border-radius: 22px; display: block;">
-          </div>
-          <div style="position: relative; max-width: 780px;">
-            
-            <h3 style="margin: 0 0 24px; font-family: Anton, sans-serif; font-weight: 400; font-size: 108px; line-height: 0.9; color: #FBF6EA;">RESERVE YOURS.</h3>
-            <p style="margin: 0 0 8px; display: flex; align-items: baseline; gap: 16px;"><span style="font-size: 28px; color: rgba(251,246,234,0.5); text-decoration: line-through;">$99</span><span style="font-family: Anton, sans-serif; font-size: 72px; color: #CDE8AC;">$59</span></p>
-            <p style="margin: 0 0 32px; font-size: 19px; color: rgba(251,246,234,0.85);">Reserve yours today with a fully refundable $10 deposit.<br>Limited to 1,000 units.</p>
-            <a href="https://getlarkin.myshopify.com/cart/48311739383947:1" style="display: inline-block; background: #CDE8AC; color: #24421F; font-family: Anton, sans-serif; font-size: 26px; border-radius: 999px; white-space: nowrap; padding: 24px 48px;">RESERVE FOR $10</a>
-            <p style="margin: 18px 0 0; font-size: 14px; font-weight: 600; color: rgba(251,246,234,0.7);">Ships Q1 2027</p>
-          </div>
-        </div>
-        <footer style="display: flex; align-items: center; justify-content: space-between; padding: 26px 48px; background: #16290F; color: #FBF6EA;">
-          <span style="font-family: Anton, sans-serif; font-size: 18px; letter-spacing: 0.1em;">LARKIN</span>
-          <span style="font-size: 14px; font-weight: 600; color: rgba(251,246,234,0.8);"><a href="#how">How it works</a> &nbsp;·&nbsp; <a href="#hardware">Design</a> &nbsp;·&nbsp; <a href="#reserve">Reserve</a></span>
-          <span style="font-size: 12px; color: rgba(251,246,234,0.5);">© 2026 Larkin. All rights reserved.</span>
-        </footer>
+      </div>
+      <p class="hardware__note">Always in sync — your day is in the app by the time you open it. iPhone &amp; Android.</p>
+    </div>
+  </section>
+
+  <!-- ===================== STATEMENT ===================== -->
+  <section class="statement">
+    <div class="shell">
+      <p class="statement__line">Be the voice they remember.</p>
+      <p class="statement__sub">and keep the ones you'd otherwise lose.</p>
+    </div>
+  </section>
+
+  <!-- ===================== RESERVE ===================== -->
+  <section class="reserve" id="reserve">
+    <span class="reserve__mark" aria-hidden="true">$59</span>
+    <div class="reserve__layout shell">
+      <div class="reserve__body">
+        <h2 class="reserve__title">Reserve yours.</h2>
+        <p class="price">
+          <span class="price__was">$99</span>
+          <span class="price__now">$59</span>
+        </p>
+        <p class="reserve__copy">Reserve yours today with a fully refundable $10 deposit.<br>Limited to 1,000 units.</p>
+        <a class="btn btn--reserve" href="https://getlarkin.myshopify.com/cart/48311739383947:1">Reserve for $10</a>
+        <p class="reserve__ships">Ships Q1 2027</p>
+      </div>
+      <div class="reserve__gallery">
+        <picture><source type="image/avif" srcset="../assets/band-3-400.avif 400w, ../assets/band-3-800.avif 800w" sizes="(min-width: 1000px) 241px, 45vw"><img src="../assets/band-3-400.jpg" srcset="../assets/band-3-400.jpg 400w, ../assets/band-3-800.jpg 800w"
+             sizes="(min-width: 1000px) 241px, 45vw" width="800" height="1066" loading="lazy" decoding="async"
+             alt="The Larkin wristband on a studio pedestal"></picture>
+        <picture><source type="image/avif" srcset="../assets/how-wear-640.avif 640w, ../assets/how-wear-1000.avif 1000w" sizes="(min-width: 1000px) 241px, 45vw"><img src="../assets/how-wear-640.jpg" srcset="../assets/how-wear-640.jpg 640w, ../assets/how-wear-1000.jpg 1000w"
+             sizes="(min-width: 1000px) 241px, 45vw" width="1000" height="1226" loading="lazy" decoding="async"
+             alt="The band worn on a wrist"></picture>
+        <picture><source type="image/avif" srcset="../assets/uc-dinner-400.avif 400w, ../assets/uc-dinner-800.avif 800w" sizes="(min-width: 1000px) 241px, 45vw"><img src="../assets/uc-dinner-400.jpg" srcset="../assets/uc-dinner-400.jpg 400w, ../assets/uc-dinner-800.jpg 800w"
+             sizes="(min-width: 1000px) 241px, 45vw" width="800" height="1066" loading="lazy" decoding="async"
+             alt="A family dinner in full conversation"></picture>
+        <picture><source type="image/avif" srcset="../assets/pcar-couch-400.avif 400w, ../assets/pcar-couch-800.avif 800w" sizes="(min-width: 1000px) 241px, 45vw"><img src="../assets/pcar-couch-400.jpg" srcset="../assets/pcar-couch-400.jpg 400w, ../assets/pcar-couch-800.jpg 800w"
+             sizes="(min-width: 1000px) 241px, 45vw" width="800" height="1202" loading="lazy" decoding="async"
+             alt="At home wearing the Larkin band"></picture>
+      </div>
+    </div>
+  </section>
+
 </main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner shell">
+    <span class="site-footer__mark">Larkin</span>
+    <nav class="site-footer__links" aria-label="Footer">
+      <a href="#how">How it works</a>
+      <a href="#hardware">Design</a>
+      <a href="#reserve">Reserve</a>
+      <a href="../">For everyone</a>
+      <a href="../adhd/">For ADHD</a>
+    </nav>
+    <span class="site-footer__copy">© 2026 Larkin. All rights reserved.</span>
+  </div>
+</footer>
+
+<script src="../site.js" defer></script>
 </body>
 </html>
