@@ -1,887 +1,170 @@
 <!DOCTYPE html>
-<!--
-  LARKIN — landing page
-  Meta Pixel and the Shopify direct-checkout link are live and configured.
--->
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Larkin — Remember everything that mattered | AI wristband, pre-order</title>
-  <meta name="description" content="Larkin is an always-listening AI wristband that captures and transcribes the conversations around you, then surfaces what is worth remembering. Reserve yours from $10." />
-  <meta name="theme-color" content="#1b2430" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>Larkin — The AI Wristband That Remembers Your Day</title>
+<meta name="description" content="Screen-free and effortless — Larkin turns your conversations into a simple daily recap. Reserve the Founder Edition for $10.">
+<meta property="og:title" content="Larkin — The AI Wristband That Remembers Your Day">
+<meta property="og:description" content="Screen-free and effortless — Larkin turns your conversations into a simple daily recap. Reserve the Founder Edition for $10.">
+<meta property="og:image" content="https://getlarkin.com/assets/hero-general.png">
+<meta property="og:url" content="https://getlarkin.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Larkin">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://getlarkin.com/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; font-family: 'DM Sans', sans-serif; background: #071A78; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { opacity: 0.88; }
+  main { width: 1440px; margin: 0 auto; }
+</style>
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Larkin — Remember everything that mattered" />
-  <meta property="og:description" content="An always-listening AI wristband that captures what mattered, so you don't have to remember everything." />
-  <meta property="og:type" content="website" />
-
-  <!-- Fonts: Newsreader (display serif) + DM Sans (UI) — brand art direction -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,450;0,6..72,500;1,6..72,400;1,6..72,450&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="styles.css" />
-
-  <!-- ==================== FACEBOOK PIXEL — replace 1033614279315561 ==================== -->
-  <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1033614279315561');
-    fbq('track', 'PageView');
-  </script>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1033614279315561&ev=PageView&noscript=1" alt="" />
-  </noscript>
-  <!-- ==================== END FACEBOOK PIXEL ==================== -->
+<!-- ==================== FACEBOOK PIXEL ==================== -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1033614279315561');
+  fbq('track', 'PageView');
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1033614279315561&ev=PageView&noscript=1" alt="" />
+</noscript>
+<!-- ================== END FACEBOOK PIXEL ================== -->
 </head>
-
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+<main style="background: #0B2296;">
 
-  <!-- ===================== HEADER / NAV ===================== -->
-  <header class="site-header" id="top">
-    <div class="container nav">
-      <a class="brand" href="#top" aria-label="Larkin home">
-        <span class="brand-name">Larkin</span>
-      </a>
-
-      <nav class="nav-links" id="primary-nav" aria-label="Primary">
-        <a href="#how">How it works</a>
-        <a href="#hardware">Design</a>
-        <a href="#faq">FAQ</a>
-        <a class="btn btn-primary nav-cta" href="#preorder">Reserve Larkin</a>
-      </nav>
-
-      <a class="btn btn-primary nav-cta-mobile" href="#preorder">Reserve</a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
-
-  <main id="main">
-
-    <!-- ===================== HERO ===================== -->
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <h1 class="hero-title">The AI wristband that remembers what you say and <em>hear.</em></h1>
-          <p class="hero-lead">Wear it and forget it. Larkin turns your day's conversations into summaries, reminders, and the moments worth keeping.</p>
-
-          <div class="hero-actions">
-            <a class="btn btn-primary btn-lg" href="#preorder">Reserve Larkin Wristband — $10</a>
-            <p class="hero-fineprint">Ships Q1 2027 · Your reservation locks in the $59 pre-order price</p>
+        <header style="display: flex; align-items: center; justify-content: space-between; padding: 22px 48px; background: #1B44E5;">
+          <span style="display: flex; align-items: baseline; gap: 14px;"><span style="font-family: Anton, sans-serif; font-size: 24px; letter-spacing: 0.1em; color: #FFFFFF;">LARKIN</span><span style="font-size: 13px; font-weight: 600; color: rgba(207,224,255,0.85);">The AI memory wristband</span></span>
+          <nav style="display: flex; align-items: center; gap: 34px; font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.92);">
+            <a href="#how">How it works</a><a href="#hardware">Design</a><a href="adhd/">For ADHD</a><a href="parents/">For parents</a>
+          </nav>
+          <a href="#reserve" style="background: #C8F04B; color: #0B2296; font-weight: 700; font-size: 15px; border-radius: 999px; white-space: nowrap; padding: 13px 26px;">Reserve — $10</a>
+        </header>
+        <div style="position: relative; height: 1080px; background: #0B3388; overflow: hidden;">
+          <img src="assets/hero-general.png" alt="A woman laughing mid-conversation, wearing the slim navy Larkin wristband" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center;">
+          <div style="position: absolute; left: 64px; top: 150px; width: 640px; display: flex; flex-direction: column; align-items: flex-start; gap: 30px;">
+            <span style="background: rgba(5,20,90,0.45); border: 1.5px solid rgba(200,240,75,0.8); color: #C8F04B; border-radius: 999px; white-space: nowrap; padding: 10px 20px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em;">A NEW KIND OF WEARABLE</span>
+            <h2 style="margin: 0; font-family: Anton, sans-serif; font-weight: 400; font-size: 84px; line-height: 0.92; color: #FFFFFF; letter-spacing: -0.005em;">THE AI WRISTBAND<br data-om-id="e4ca5cc2:42">THAT REMEMBERS<br data-om-id="e4ca5cc2:43">YOUR DAY.</h2>
+            <p style="margin: 0; font-size: 22px; line-height: 1.5; color: rgba(255,255,255,0.92); max-width: 29.4ch; width: 502px; height: 93px">Screen-free and effortless. It turns your conversations into a simple daily recap.</p>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <a href="#reserve" style="background: #C8F04B; color: #0B2296; font-family: Anton, sans-serif; font-size: 24px; letter-spacing: 0.02em; border-radius: 999px; white-space: nowrap; padding: 22px 40px;">RESERVE FOR $10</a>
+              
+            </div><p style="margin: -8px 0 0; font-size: 13px; font-weight: 600; color: rgba(207,224,255,0.8);">Deposit fully refundable</p>
+            
           </div>
         </div>
-
-        <figure class="hero-media">
-          <img src="assets/hero-woman.png"
-               alt="A woman in profile wearing the Larkin AI wristband"
-               width="1800" height="1466" />
-        </figure>
-      </div>
-    </section>
-
-    <!-- ===================== STATEMENT / HOW IT WORKS ===================== -->
-    <section class="statement">
-      <div class="container">
-        <p class="statement-text">Great conversations don't happen on cue.</p>
-        <p class="statement-sub">Larkin's always on — all day, <em>on its own.</em></p>
-      </div>
-      <figure class="statement-media container">
-        <video src="assets/video-larkin-correct.mp4" muted playsinline preload="metadata"
-               data-autoplay-once aria-label="Film of the Larkin wristband in everyday life"></video>
-      </figure>
-    </section>
-
-    <!-- ===================== HOW IT WORKS ===================== -->
-    <section class="how-works" id="how">
-      <div class="container">
-        <h2 class="section-title how-title">Wear it. Forget it. Remember everything.</h2>
-        <div class="how-grid">
-          <div class="how-steps">
-            <div class="how-step is-active" data-step="0">
-              <p class="how-num">01</p>
-              <h3>Wear it</h3>
-              <p class="how-body">Slip it on in the morning. Light, comfortable, screen-free — it disappears on your wrist.</p>
-              <figure class="how-step-media">
-                <img src="assets/how-wear2.jpg" alt="The Larkin wristband worn on a wrist" loading="lazy" width="1142" height="1400" />
-              </figure>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 40px; padding: 44px 64px; background: #CFE0FF;">
+          <p style="margin: 0; font-family: Anton, sans-serif; font-size: 40px; line-height: 1; color: #0B2296; white-space: nowrap;">NOTHING TO PRESS. NOTHING TO OPEN.</p>
+          <p style="margin: 0; font-size: 17px; font-weight: 600; line-height: 1.45; color: rgba(11,34,150,0.8); max-width: 38ch; text-align: right;">No buttons, no screen, no app to manage. Put it on in the morning — that's all Larkin asks of you.</p>
+        </div>
+        <div style="padding: 76px 64px 84px; background: #0B2296;">
+          
+          <h3 style="margin: 0 0 52px; font-family: Anton, sans-serif; font-weight: 400; font-size: 54px; color: #FFFFFF;">YOUR DAY, IN THREE PILES.</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 44px;">
+            <div style="border-top: 3px solid #C8F04B; padding-top: 22px;">
+              <p style="margin: 0 0 10px; font-family: Anton, sans-serif; font-size: 40px; color: #C8F04B;">SUMMARIES</p>
+              <p style="margin: 0; font-size: 19px; line-height: 1.5; color: rgba(255,255,255,0.85);">Every conversation, boiled down to what mattered.</p>
             </div>
-            <div class="how-step" data-step="1">
-              <p class="how-num">02</p>
-              <h3>Live your day</h3>
-              <p class="how-body">No buttons, nothing to manage. Larkin quietly captures your conversations while you stay in them.</p>
-              <figure class="how-step-media">
-                <img src="assets/how-day.jpg" alt="Two people in conversation on a walk" loading="lazy" width="1000" height="1571" />
-              </figure>
+            <div style="border-top: 3px solid #C8F04B; padding-top: 22px;">
+              <p style="margin: 0 0 10px; font-family: Anton, sans-serif; font-size: 40px; color: #C8F04B;">PROMISES</p>
+              <p style="margin: 0; font-size: 19px; line-height: 1.5; color: rgba(255,255,255,0.85);">The things you said you'd do. So you actually do them.</p>
             </div>
-            <div class="how-step" data-step="2">
-              <p class="how-num">03</p>
-              <h3>See what mattered</h3>
-              <p class="how-body">In the evening, open the app: your highlights, your promises, and the moments worth keeping.</p>
-              <figure class="how-step-media">
-                <img src="assets/how-app.jpg" alt="The Larkin app showing the day's highlights" loading="lazy" width="1000" height="1000" />
-              </figure>
-            </div>
-          </div>
-          <div class="how-media" aria-hidden="true">
-            <div class="how-media-frame">
-              <img src="assets/how-wear2.jpg" alt="" class="is-visible" loading="lazy" width="1142" height="1400" />
-              <img src="assets/how-day.jpg" alt="" loading="lazy" width="1000" height="1571" />
-              <img src="assets/how-app.jpg" alt="" loading="lazy" width="1000" height="1000" />
+            <div style="border-top: 3px solid #C8F04B; padding-top: 22px;">
+              <p style="margin: 0 0 10px; font-family: Anton, sans-serif; font-size: 40px; color: #C8F04B;">HIGHLIGHTS</p>
+              <p style="margin: 0; font-size: 19px; line-height: 1.5; color: rgba(255,255,255,0.85);">The moments worth keeping, saved word for word.</p>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- ===================== USE CASES (slider) ===================== -->
-    <section class="conversations">
-      <div class="container">
-        <h2 class="section-title center">“<em>I wish I'd remembered that</em>.”</h2>
-        <p class="section-sub">Real moments from real days — Larkin quietly keeps what mattered.</p>
-
-        <div class="uc-track" id="uc-track" tabindex="0" aria-label="Larkin use cases">
-          <figure class="uc-card">
-            <div class="uc-img">
-              <img src="assets/uc-walk.jpg"
-                   alt="Two friends laughing on a walk through a green park" loading="lazy" width="800" height="1067" />
-            </div>
-            <figcaption>
-              <h3>On a walk</h3>
-              <p>The idea that came up mid-stride, saved before it slips away.</p>
-            </figcaption>
-          </figure>
-          <figure class="uc-card">
-            <div class="uc-img">
-              <img src="assets/f9daa8ac-727d-45bd-934a-c4e9187731f8.png"
-                   alt="A conversation over coffee at a cafe table" loading="lazy" width="700" height="800" />
-            </div>
-            <figcaption>
-              <h3>Over coffee</h3>
-              <p>The advice a friend shared, exactly as they said it.</p>
-            </figcaption>
-          </figure>
-          <figure class="uc-card">
-            <div class="uc-img">
-              <img src="assets/uc-meetings.jpg"
-                   alt="Colleagues in discussion around a meeting table" loading="lazy" width="700" height="800" />
-            </div>
-            <figcaption>
-              <h3>In meetings</h3>
-              <p>Decisions and follow-ups, captured without taking notes.</p>
-            </figcaption>
-          </figure>
-          <figure class="uc-card">
-            <div class="uc-img">
-              <img src="assets/uc-dinner.jpg"
-                   alt="Friends laughing around a candlelit dinner table" loading="lazy" width="800" height="1067" />
-            </div>
-            <figcaption>
-              <h3>At dinner</h3>
-              <p>The story you’ll want to tell again, word for word.</p>
-            </figcaption>
-          </figure>
-          <figure class="uc-card">
-            <div class="uc-img">
-              <img src="assets/uc-home.jpg"
-                   alt="A parent and child laughing together at home" loading="lazy" width="700" height="800" />
-            </div>
-            <figcaption>
-              <h3>At home</h3>
-              <p>The little things they say that you never want to forget.</p>
-            </figcaption>
-          </figure>
+        <div id="how" style="display: grid; grid-template-columns: 1fr 1fr; background: #1B44E5;">
+          <div style="padding: 64px 56px; display: flex; flex-direction: column; justify-content: center; gap: 14px;">
+            <span style="font-family: Anton, sans-serif; font-size: 150px; line-height: 0.8; color: transparent; -webkit-text-stroke: 3px #C8F04B;">01</span>
+            <p style="margin: 0; font-family: Anton, sans-serif; font-size: 56px; color: #FFFFFF;">WEAR IT.</p>
+            <p style="margin: 0; font-size: 20px; line-height: 1.5; color: rgba(255,255,255,0.88); max-width: 30ch;">Slip it on in the morning. Light, screen-free, forgettable.</p>
+          </div>
+          <img src="assets/how-wear2.jpg" alt="The Larkin band worn on a wrist" style="width: 100%; height: 100%; min-height: 420px; object-fit: cover; display: block;">
+          <img src="assets/how-day.jpg" alt="Two people talking over coffee" style="width: 100%; height: 100%; min-height: 420px; object-fit: cover; display: block;">
+          <div style="padding: 64px 56px; display: flex; flex-direction: column; justify-content: center; gap: 14px; background: #0B2296;">
+            <span style="font-family: Anton, sans-serif; font-size: 150px; line-height: 0.8; color: transparent; -webkit-text-stroke: 3px #B8D0FF;">02</span>
+            <p style="margin: 0; font-family: Anton, sans-serif; font-size: 56px; color: #FFFFFF;">LIVE YOUR DAY.</p>
+            <p style="margin: 0; font-size: 20px; line-height: 1.5; color: rgba(255,255,255,0.88); max-width: 30ch;">Larkin listens quietly while you stay in the moment.</p>
+          </div>
+          <div style="padding: 64px 56px; display: flex; flex-direction: column; justify-content: center; gap: 14px;">
+            <span style="font-family: Anton, sans-serif; font-size: 150px; line-height: 0.8; color: transparent; -webkit-text-stroke: 3px #C8F04B;">03</span>
+            <p style="margin: 0; font-family: Anton, sans-serif; font-size: 56px; color: #FFFFFF;">SEE WHAT MATTERED.</p>
+            <p style="margin: 0; font-size: 20px; line-height: 1.5; color: rgba(255,255,255,0.88); max-width: 30ch;">Open the app in the evening: your recap is waiting.</p>
+          </div>
+          <img src="assets/how-app.jpg" alt="The Larkin app showing daily highlights" style="width: 100%; height: 100%; min-height: 420px; object-fit: cover; display: block;">
         </div>
-
-        <div class="uc-controls">
-          <button class="uc-arrow" id="uc-prev" aria-label="Previous use case">&#8592;</button>
-          <button class="uc-arrow" id="uc-next" aria-label="Next use case">&#8594;</button>
-          <div class="uc-dots" id="uc-dots" aria-hidden="true"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== FEATURES: PHONE TILES (A/B: light + dark) ===================== -->
-    <section class="phones phones--dark" id="features">
-      <div class="container">
-        <h2 class="dark-banner">Be fully present.<span class="banner-line">Larkin takes care of the rest.</span></h2>
-        <div class="ptile-grid">
-
-          <div class="ptile ptile--dark">
-            <div class="ptile-top">
-              <h3>Summaries</h3>
-              <p>Every conversation, distilled to the moments and decisions that mattered.</p>
+        <div style="padding: 84px 64px 92px; background: #071A78;">
+          <p style="margin: 0 0 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: #C8F04B;">THE FEATURES</p>
+          <h3 style="margin: 0 0 52px; font-family: Anton, sans-serif; font-weight: 400; font-size: 54px; color: #FFFFFF;">EVERYTHING LARKIN DOES.</h3>
+          <div style="display: grid; grid-template-columns: 440px 1fr; gap: 60px; align-items: stretch;">
+            <div style="border-radius: 24px; background: linear-gradient(160deg, #2B58F0, #1B44E5); display: grid; place-items: center; padding: 44px;">
+              <img src="assets/fig-highlights-phone.png" alt="The Larkin app showing summaries, reminders and highlights" style="width: 100%; max-width: 360px; height: auto; border-radius: 20px; box-shadow: 0 30px 60px -25px rgba(4,10,50,0.7);">
             </div>
-            <div class="ptile-phone-wrap">
-              <div class="phone">
-                <div class="phone-screen">
-                  <div class="ps-status">
-                    <span class="ps-time">9:41</span>
-                    <span class="ps-sicons">
-                      <svg viewBox="0 0 16 10" width="14" height="9" aria-hidden="true"><rect x="0" y="6" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="4.5" y="4" width="3" height="6" rx="0.8" fill="currentColor"/><rect x="9" y="2" width="3" height="8" rx="0.8" fill="currentColor"/><rect x="13.5" y="0" width="2.5" height="10" rx="0.8" fill="currentColor"/></svg>
-                      <svg viewBox="0 0 16 11" width="14" height="10" aria-hidden="true"><path d="M8 9.5a1.3 1.3 0 1 0 0 1.3 1.3 1.3 0 0 0 0-1.3ZM8 6.2c1.3 0 2.5.5 3.4 1.4l-1.2 1.2A3.2 3.2 0 0 0 8 7.9c-.9 0-1.7.3-2.2.9L4.6 7.6A4.8 4.8 0 0 1 8 6.2Zm0-3.1c2.2 0 4.2.9 5.7 2.3l-1.2 1.2A6.4 6.4 0 0 0 8 4.7c-1.7 0-3.3.7-4.5 1.9L2.3 5.4A8 8 0 0 1 8 3.1Z" fill="currentColor"/></svg>
-                      <svg viewBox="0 0 22 11" width="20" height="10" aria-hidden="true"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-opacity="0.4"/><rect x="2" y="2" width="13" height="7" rx="1.4" fill="currentColor"/><path d="M20.5 3.5v4a2 2 0 0 0 0-4Z" fill="currentColor" fill-opacity="0.4"/></svg>
-                    </span>
-                  </div>
-                  <p class="ps-title">Work lunch with Alex</p>
-                  <p class="ps-dim">4:05 PM · 42 min</p>
-                  <div class="ps-card">
-                    <p class="ps-label">Summary</p>
-                    <p class="ps-text">Alex thinks the launch date is starting to feel rushed. You agreed to revisit the plan together on Thursday.</p>
-                  </div>
-                  <div class="ps-card">
-                    <p class="ps-label">Key moments</p>
-                    <p class="ps-moment"><span class="ps-mtime">4:18</span>“Let’s not rush the launch just to hit a date.”<em> — Alex</em></p>
-                    <p class="ps-moment"><span class="ps-mtime">4:31</span>“I’d rather ship two weeks late and proud.”<em> — You</em></p>
-                  </div>
-                  <div class="ps-card">
-                    <p class="ps-label">Worth remembering</p>
-                    <p class="ps-text">• Bring the product plan by next week</p>
-                    <p class="ps-text">• Alex’s daughter starts school on Monday</p>
-                  </div>
-                  <div class="ps-card">
-                    <p class="ps-label">Next steps</p>
-                    <div class="ps-item"><span class="ps-check"></span><p class="ps-text">Send the updated plan — Friday</p></div>
-                    <div class="ps-item"><span class="ps-check"></span><p class="ps-text">Intro Maya to Daniel</p></div>
-                  </div>
-                </div>
-              </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px 48px; align-content: center;">
+              <div><p style="margin: 0 0 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #C8F04B;">01</p><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 29px; color: #FFFFFF;">DAILY SUMMARIES</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(255,255,255,0.82);">Every conversation, distilled to the decisions that mattered.</p></div>
+              <div><p style="margin: 0 0 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #C8F04B;">02</p><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 29px; color: #FFFFFF;">PROMISE REMINDERS</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(255,255,255,0.82);">Every promise becomes a reminder. Yours, and the ones made to you.</p></div>
+              <div><p style="margin: 0 0 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #C8F04B;">03</p><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 29px; color: #FFFFFF;">VOICE HIGHLIGHTS</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(255,255,255,0.82);">Press the button to keep a moment in their exact voice.</p></div>
+              <div><p style="margin: 0 0 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #C8F04B;">04</p><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 29px; color: #FFFFFF;">ASK LARKIN</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(255,255,255,0.82);">Ask what was said, what you promised, how you showed up.</p></div>
+              <div><p style="margin: 0 0 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #C8F04B;">05</p><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 29px; color: #FFFFFF;">7-DAY BATTERY</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(255,255,255,0.82);">Up to 160 hours of listening on a single charge.</p></div>
+              <div><p style="margin: 0 0 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #C8F04B;">06</p><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 29px; color: #FFFFFF;">THE GREEN LIGHT</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(255,255,255,0.82);">Glows when Larkin listens. Off means off.</p></div>
             </div>
-          </div>
-
-          <div class="ptile ptile--dark">
-            <div class="ptile-top">
-              <h3>Daily recap</h3>
-              <p>Each evening, the lines worth keeping from the people you talked to.</p>
-            </div>
-            <div class="ptile-phone-wrap">
-              <div class="phone">
-                <div class="phone-screen">
-                  <div class="ps-status">
-                    <span class="ps-time">9:41</span>
-                    <span class="ps-sicons">
-                      <svg viewBox="0 0 16 10" width="14" height="9" aria-hidden="true"><rect x="0" y="6" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="4.5" y="4" width="3" height="6" rx="0.8" fill="currentColor"/><rect x="9" y="2" width="3" height="8" rx="0.8" fill="currentColor"/><rect x="13.5" y="0" width="2.5" height="10" rx="0.8" fill="currentColor"/></svg>
-                      <svg viewBox="0 0 16 11" width="14" height="10" aria-hidden="true"><path d="M8 9.5a1.3 1.3 0 1 0 0 1.3 1.3 1.3 0 0 0 0-1.3ZM8 6.2c1.3 0 2.5.5 3.4 1.4l-1.2 1.2A3.2 3.2 0 0 0 8 7.9c-.9 0-1.7.3-2.2.9L4.6 7.6A4.8 4.8 0 0 1 8 6.2Zm0-3.1c2.2 0 4.2.9 5.7 2.3l-1.2 1.2A6.4 6.4 0 0 0 8 4.7c-1.7 0-3.3.7-4.5 1.9L2.3 5.4A8 8 0 0 1 8 3.1Z" fill="currentColor"/></svg>
-                      <svg viewBox="0 0 22 11" width="20" height="10" aria-hidden="true"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-opacity="0.4"/><rect x="2" y="2" width="13" height="7" rx="1.4" fill="currentColor"/><path d="M20.5 3.5v4a2 2 0 0 0 0-4Z" fill="currentColor" fill-opacity="0.4"/></svg>
-                    </span>
-                  </div>
-                  <p class="ps-greeting">Good evening, Julien.</p>
-                  <p class="ps-dim">Here’s what stayed with you today.</p>
-                  <div class="ps-card ps-item">
-                    <span class="ps-chip ps-chip--rose">♥</span>
-                    <div>
-                      <p class="ps-text">Emma said she might move to Lisbon next spring</p>
-                      <p class="ps-dim">11:20 AM · Coffee with Emma</p>
-                    </div>
-                  </div>
-                  <div class="ps-card ps-item">
-                    <span class="ps-chip ps-chip--gold">☀</span>
-                    <div>
-                      <p class="ps-text">You sounded most excited talking about Japan</p>
-                      <p class="ps-dim">7:10 PM · Insight</p>
-                    </div>
-                  </div>
-                  <div class="ps-card ps-item">
-                    <span class="ps-chip ps-chip--blue">✉</span>
-                    <div>
-                      <p class="ps-text">You told Maya you’d send her that book</p>
-                      <p class="ps-dim">4:40 PM · Hallway chat</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="ptile ptile--dark">
-            <div class="ptile-top">
-              <h3>Patterns</h3>
-              <p>The questions you keep asking and the topics that won’t let go.</p>
-            </div>
-            <div class="ptile-phone-wrap">
-              <div class="phone">
-                <div class="phone-screen">
-                  <div class="ps-status">
-                    <span class="ps-time">9:41</span>
-                    <span class="ps-sicons">
-                      <svg viewBox="0 0 16 10" width="14" height="9" aria-hidden="true"><rect x="0" y="6" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="4.5" y="4" width="3" height="6" rx="0.8" fill="currentColor"/><rect x="9" y="2" width="3" height="8" rx="0.8" fill="currentColor"/><rect x="13.5" y="0" width="2.5" height="10" rx="0.8" fill="currentColor"/></svg>
-                      <svg viewBox="0 0 16 11" width="14" height="10" aria-hidden="true"><path d="M8 9.5a1.3 1.3 0 1 0 0 1.3 1.3 1.3 0 0 0 0-1.3ZM8 6.2c1.3 0 2.5.5 3.4 1.4l-1.2 1.2A3.2 3.2 0 0 0 8 7.9c-.9 0-1.7.3-2.2.9L4.6 7.6A4.8 4.8 0 0 1 8 6.2Zm0-3.1c2.2 0 4.2.9 5.7 2.3l-1.2 1.2A6.4 6.4 0 0 0 8 4.7c-1.7 0-3.3.7-4.5 1.9L2.3 5.4A8 8 0 0 1 8 3.1Z" fill="currentColor"/></svg>
-                      <svg viewBox="0 0 22 11" width="20" height="10" aria-hidden="true"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-opacity="0.4"/><rect x="2" y="2" width="13" height="7" rx="1.4" fill="currentColor"/><path d="M20.5 3.5v4a2 2 0 0 0 0-4Z" fill="currentColor" fill-opacity="0.4"/></svg>
-                    </span>
-                  </div>
-                  <p class="ps-title">Patterns</p>
-                  <p class="ps-dim">This week</p>
-                  <div class="ps-card">
-                    <p class="ps-label">Pattern across your week</p>
-                    <p class="ps-big">The same launch question kept returning</p>
-                    <div class="ps-bars" aria-hidden="true">
-                      <i style="height:24%"></i><i style="height:38%"></i><i class="is-hot" style="height:78%"></i><i style="height:30%"></i><i class="is-hot" style="height:96%"></i><i style="height:52%"></i><i style="height:18%"></i>
-                    </div>
-                    <div class="ps-days" aria-hidden="true">
-                      <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
-                    </div>
-                  </div>
-                  <div class="ps-card">
-                    <p class="ps-label">Top topics</p>
-                    <div class="ps-chips">
-                      <span class="ps-topic">Pricing <b>×7</b></span>
-                      <span class="ps-topic">Launch date <b>×5</b></span>
-                      <span class="ps-topic">Hiring <b>×3</b></span>
-                    </div>
-                  </div>
-                  <div class="ps-card ps-people">
-                    <span class="ps-avs" aria-hidden="true"><span class="ps-av">A</span><span class="ps-av ps-av--2">M</span><span class="ps-av ps-av--3">S</span></span>
-                    <p class="ps-text">with Alex, Maya &amp; Sam</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="ptile ptile--dark">
-            <div class="ptile-top">
-              <h3>Reminders</h3>
-              <p>Every promise becomes a reminder — yours and the ones people make to you, organized by when they’re due.</p>
-            </div>
-            <div class="ptile-phone-wrap">
-              <div class="phone">
-                <div class="phone-screen">
-                  <div class="ps-status">
-                    <span class="ps-time">9:41</span>
-                    <span class="ps-sicons">
-                      <svg viewBox="0 0 16 10" width="14" height="9" aria-hidden="true"><rect x="0" y="6" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="4.5" y="4" width="3" height="6" rx="0.8" fill="currentColor"/><rect x="9" y="2" width="3" height="8" rx="0.8" fill="currentColor"/><rect x="13.5" y="0" width="2.5" height="10" rx="0.8" fill="currentColor"/></svg>
-                      <svg viewBox="0 0 16 11" width="14" height="10" aria-hidden="true"><path d="M8 9.5a1.3 1.3 0 1 0 0 1.3 1.3 1.3 0 0 0 0-1.3ZM8 6.2c1.3 0 2.5.5 3.4 1.4l-1.2 1.2A3.2 3.2 0 0 0 8 7.9c-.9 0-1.7.3-2.2.9L4.6 7.6A4.8 4.8 0 0 1 8 6.2Zm0-3.1c2.2 0 4.2.9 5.7 2.3l-1.2 1.2A6.4 6.4 0 0 0 8 4.7c-1.7 0-3.3.7-4.5 1.9L2.3 5.4A8 8 0 0 1 8 3.1Z" fill="currentColor"/></svg>
-                      <svg viewBox="0 0 22 11" width="20" height="10" aria-hidden="true"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-opacity="0.4"/><rect x="2" y="2" width="13" height="7" rx="1.4" fill="currentColor"/><path d="M20.5 3.5v4a2 2 0 0 0 0-4Z" fill="currentColor" fill-opacity="0.4"/></svg>
-                    </span>
-                  </div>
-                  <p class="ps-title">Reminders</p>
-                  <p class="ps-label">Today</p>
-                  <div class="ps-card ps-item">
-                    <span class="ps-check is-done">✓</span>
-                    <div>
-                      <p class="ps-text">I’ll send the deck to Lina by Friday.</p>
-                      <p class="ps-dim">You · 10:42 AM</p>
-                    </div>
-                  </div>
-                  <p class="ps-label">This week</p>
-                  <div class="ps-card ps-item">
-                    <span class="ps-check"></span>
-                    <div>
-                      <p class="ps-text">Alex will share the pricing model.</p>
-                      <p class="ps-dim">Alex · Yesterday</p>
-                    </div>
-                  </div>
-                  <div class="ps-card ps-item">
-                    <span class="ps-check"></span>
-                    <div>
-                      <p class="ps-text">Intro Maya to Daniel before Thursday.</p>
-                      <p class="ps-dim">You · 4:12 PM</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Wide tile — Highlights (press the button, keep the real audio) -->
-          <div class="ptile ptile--dark ptile--wide">
-            <div class="ptile-top">
-              <h3>Highlights</h3>
-              <p>Larkin already captures every conversation as text. Press the button when a moment deserves more — and keep the actual sound of it, in their exact voice.</p>
-            </div>
-            <div class="hl-player" aria-hidden="true">
-              <p class="hl-head">Saved highlight</p>
-              <div class="hl-row">
-                <span class="hl-play">
-                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/></svg>
-                </span>
-                <span class="hl-wave">
-                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-                </span>
-                <span class="hl-dur">0:12</span>
-              </div>
-              <p class="hl-quote">“You were always the brave one.”</p>
-              <p class="hl-src">Dinner with Mom · 8:42 PM · saved with one press</p>
-              <div class="hl-more">
-                <p class="hl-head">More from this week</p>
-                <div class="hl-item">
-                  <p class="hl-item-quote">“Okay, but promise me you’ll actually take the vacation.”</p>
-                  <p class="hl-src">Sarah · Tuesday</p>
-                </div>
-                <div class="hl-item">
-                  <p class="hl-item-quote">“We got it. We actually got the apartment!”</p>
-                  <p class="hl-src">Leo · 6:12 PM</p>
-                </div>
-                <div class="hl-item">
-                  <p class="hl-item-quote">“That’s exactly the kind of thinking we hired you for.”</p>
-                  <p class="hl-src">1:1 with Dana · Thursday</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Ask Larkin lives inside the dark software section -->
-        <div class="ask-dark" id="ask">
-        <span class="eyebrow">Ask Larkin</span>
-        <h2 class="section-title center">Your most personal AI</h2>
-        <p class="section-sub">Larkin turns your questions into answers from your own conversations — what was said, what you promised, and how you showed up. Grounded in your day, delivered instantly.</p>
-
-        <div class="ask-phone" id="ask-demo">
-          <div class="ask-inputbar">
-            <span class="ask-input-text" id="ask-input-text"><span class="ask-placeholder">Ask Larkin</span></span>
-            <span class="ask-caret" id="ask-caret" aria-hidden="true"></span>
-            <button class="ask-send" id="ask-send" type="button" tabindex="-1" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
-                <path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
-          <div class="ask-thread" id="ask-thread" aria-live="polite"></div>
-        </div>
-        </div>
-
-        <div class="ask-powered">
-          <p class="ask-powered-label">Powered by</p>
-          <div class="ask-powered-logos">
-            <span class="ask-logo"><svg viewBox="0 0 24 24" width="28" height="28" fill="#D97757" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>Claude</span>
-            <span class="ask-logo"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg>ChatGPT</span>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- ===================== HARDWARE / DESIGN ===================== -->
-    <section class="hardware" id="hardware">
-      <div class="container">
-        <h2 class="section-title center">The Larkin wristband</h2>
-
-        <figure class="hardware-hero">
-          <video src="assets/larkin-video-explode.mp4" muted playsinline preload="metadata"
-                 data-autoplay-once aria-label="Exploded view of the Larkin wristband and its internal hardware"></video>
-        </figure>
-
-        <div class="spec-grid">
-          <div class="spec-item">
-            <span class="spec-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
-            </span>
-            <p><strong>Crystal-clear audio.</strong> Dual microphones and advanced noise filtering ensure clear comprehension and transcriptions.</p>
+        <div id="hardware" style="padding: 84px 64px 92px; background: #EAF0FF;">
+          <p style="margin: 0 0 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: #1B44E5;">THE HARDWARE</p>
+          <h3 style="margin: 0 0 18px; font-family: Anton, sans-serif; font-weight: 400; font-size: 54px; color: #0B2296; width: 1314px; height: 111px">NO SCREEN. ON PURPOSE.</h3>
+          
+          <div style="border-radius: 24px; background: #FFFFFF; padding: 48px 40px;">
+            <img src="assets/fig-hardware-exploded.png" alt="Exploded view of the Larkin wristband and its internal hardware" style="width: 100%; max-width: 980px; height: auto; display: block; margin: 0 auto;">
           </div>
-
-          <div class="spec-item">
-            <span class="spec-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2.5" y="8" width="16" height="8.5" rx="2.5"/><path d="M21.5 10.8v3"/><path d="M6 10.8v3"/><path d="M9.3 10.8v3"/><path d="M12.6 10.8v3"/></svg>
-            </span>
-            <p><strong>Up to 7 days of battery life.</strong> Up to 160 hours of listening on a single charge.</p>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 44px; margin-top: 56px;">
+            <div><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 64px; line-height: 1; color: #1B44E5;">7 DAYS</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(11,34,150,0.8);">of battery life. Up to 160 hours of listening on one charge.</p></div>
+            <div><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 64px; line-height: 1; color: #1B44E5;">×2</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(11,34,150,0.8);">microphones with noise filtering, for crystal-clear transcripts.</p></div>
+            <div><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 64px; line-height: 1; color: #1B44E5;">40+</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(11,34,150,0.8);">languages supported. It keeps up even when you switch mid-sentence.</p></div>
+            <div><p style="margin: 0 0 8px; font-family: Anton, sans-serif; font-size: 64px; line-height: 1; color: #1B44E5;">0</p><p style="margin: 0; font-size: 17px; line-height: 1.5; color: rgba(11,34,150,0.8);">screens. One green light is the whole interface.</p></div>
           </div>
-
-          <div class="spec-item">
-            <span class="spec-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a13.5 13.5 0 0 1 0 18a13.5 13.5 0 0 1 0-18Z"/></svg>
-            </span>
-            <p><strong>40+ languages supported.</strong> Larkin understands and transcribes conversations in more than 40 languages — and keeps up when you switch mid-sentence.</p>
+          <p style="margin: 44px 0 0; font-size: 15px; font-weight: 600; color: rgba(11,34,150,0.65);">Always in sync on you iPhone &amp; Android phone.</p>
+        </div>
+        <div style="background: #C8F04B; padding: 72px 64px 78px;">
+          <p style="margin: 0; font-family: Anton, sans-serif; font-size: 128px; line-height: 0.88; color: #0B2296; letter-spacing: -0.01em;">BE FULLY PRESENT.</p>
+          <p style="margin: 20px 0 0; font-family: Anton, sans-serif; font-size: 38px; color: rgba(11,34,150,0.55);">LARKIN TAKES CARE OF THE REST.</p>
+        </div>
+        <div id="reserve" style="position: relative; padding: 88px 64px 96px; background: radial-gradient(110% 120% at 80% 0%, #2B58F0 0%, #1B44E5 55%, #0B2296 100%); overflow: hidden;">
+          <span style="position: absolute; top: -60px; right: 30px; font-family: Anton, sans-serif; font-size: 420px; line-height: 1; color: rgba(184,208,255,0.2); pointer-events: none;">$59</span>
+          <div style="position: absolute; right: 64px; top: 50%; transform: translateY(-50%); width: 500px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+            <img src="assets/band-3.jpg" alt="The Larkin wristband on a studio pedestal" style="width: 100%; height: 244px; object-fit: cover; border-radius: 18px; display: block;">
+            <img src="assets/how-wear2.jpg" alt="The band worn on a wrist" style="width: 100%; height: 244px; object-fit: cover; border-radius: 18px; display: block;">
+            <img src="assets/pcar-couch.jpg" alt="Wearing Larkin at home on the couch" style="width: 100%; height: 244px; object-fit: cover; border-radius: 18px; display: block;">
+            <img src="assets/gallery-portrait.jpg" alt="A man wearing the Larkin band" style="width: 100%; height: 244px; object-fit: cover; border-radius: 18px; display: block;">
           </div>
-
-          <div class="spec-item">
-            <span class="spec-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M10.8 17.5h2.4"/></svg>
-            </span>
-            <p><strong>Always in sync.</strong> By the time you open the app, your day is already there. Works with iPhone and Android.</p>
+          <div style="position: relative; max-width: 780px;">
+            
+            <h3 style="margin: 0 0 24px; font-family: Anton, sans-serif; font-weight: 400; font-size: 108px; line-height: 0.9; color: #FFFFFF;">RESERVE YOURS.</h3>
+            <p style="margin: 0 0 8px; display: flex; align-items: baseline; gap: 16px;"><span style="font-size: 28px; color: rgba(255,255,255,0.5); text-decoration: line-through;">$99</span><span style="font-family: Anton, sans-serif; font-size: 72px; color: #C8F04B;">$59</span></p>
+            <p style="margin: 0 0 32px; font-size: 19px; color: rgba(255,255,255,0.85);">Reserve yours today with a fully refundable $10 deposit.<br>Limited to 1,000 units.</p>
+            <a href="https://getlarkin.myshopify.com/cart/48311739383947:1" style="display: inline-block; background: #C8F04B; color: #0B2296; font-family: Anton, sans-serif; font-size: 26px; border-radius: 999px; white-space: nowrap; padding: 24px 48px;">RESERVE FOR $10</a>
+            <p style="margin: 18px 0 0; font-size: 14px; font-weight: 600; color: rgba(207,224,255,0.75);">Ships Q1 2027</p>
           </div>
         </div>
-
-        <!-- Reserve card lives inside the white hardware section, before the gallery -->
-        <div class="preorder-inline" id="preorder">
-         <div class="preorder-grid">
-          <div class="preorder-media pgal">
-            <figure class="pgal-main">
-              <img id="pgal-main-img" src="assets/pcar-couch.jpg" alt="A woman at home wearing the Larkin wristband" width="1023" height="1537" />
-            </figure>
-            <div class="pgal-thumbs" id="pgal-thumbs">
-              <button type="button" class="is-active" data-src="assets/pcar-couch.jpg" aria-label="Show photo 1"><img src="assets/pcar-couch.jpg" alt="" loading="lazy" width="1023" height="1537" /></button>
-              <button type="button" data-src="assets/gallery-portrait.jpg" aria-label="Show photo 2"><img src="assets/gallery-portrait.jpg" alt="" loading="lazy" width="1024" height="1365" /></button>
-              <button type="button" data-src="assets/2f8227d1-1a67-4a73-8b6b-13d9bb345a89.jpg" aria-label="Show photo 3"><img src="assets/2f8227d1-1a67-4a73-8b6b-13d9bb345a89.jpg" alt="" loading="lazy" width="800" height="900" /></button>
-              <button type="button" data-src="assets/e825261c-80c2-4eb3-8bee-ba3276744e13.jpg" aria-label="Show photo 4"><img src="assets/e825261c-80c2-4eb3-8bee-ba3276744e13.jpg" alt="" loading="lazy" width="800" height="900" /></button>
-            </div>
-          </div>
-
-          <div class="preorder-card">
-            <span class="eyebrow">Founder Edition — limited to 1,000</span>
-            <h2 class="preorder-title">Reserve your Larkin</h2>
-            <p class="preorder-price">
-              <span class="price-was">$99</span>
-              <span class="amount">$59</span>
-              <span class="price-label">founder price</span>
-            </p>
-            <p class="preorder-deposit">Reserve yours today with a fully refundable $10 deposit.</p>
-            <ul class="preorder-points">
-              <li>Larkin Membership included, forever</li>
-              <li>Numbered founder unit, shipped first</li>
-              <li>Refundable any time</li>
-            </ul>
-
-            <!-- Cart permalink with the variant ID: lands directly on Shopify checkout, no cart step -->
-            <a class="btn-preorder" href="https://getlarkin.myshopify.com/cart/48311739383947:1">Reserve Founder Edition — $10</a>
-            <p class="preorder-note">You pay $10 now and $49 when it ships in Q1 2027.</p>
-          </div>
-         </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ===================== WHY NOT A PHONE ===================== -->
-    <section class="versus">
-      <div class="container">
-        <h2 class="section-title center">Why not just your phone?</h2>
-        <p class="section-sub">The conversations that matter most are the ones you never planned to record.</p>
-        <div class="vs-grid">
-          <div class="vs-col vs-col--phone">
-            <p class="vs-head">Your phone</p>
-            <ul>
-              <li>Buried in your pocket by the time the moment arrives</li>
-              <li>A recorder on the table makes everyone careful about what they say</li>
-              <li>A screen between you and the person in front of you</li>
-              <li>A 90-minute voice memo you'll never listen to again</li>
-            </ul>
-          </div>
-          <div class="vs-col vs-col--larkin">
-            <p class="vs-head">Larkin</p>
-            <ul>
-              <li>Already on your wrist when the good conversation just happens</li>
-              <li>So seamless you forget it — and everyone stays themselves</li>
-              <li>Screen-free, so you stay fully in the moment</li>
-              <li>Summaries, reminders, and highlights waiting in the app afterwards</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== FAQ ===================== -->
-    <section class="faq" id="faq">
-      <div class="container">
-        <h2 class="section-title">Questions, answered</h2>
-        <div class="faq-list">
-          <details>
-            <summary>Is Larkin always listening?</summary>
-            <p>When the green light on the band is on, Larkin is listening. When it's off, it isn't. You can turn it off from the band or from the app.</p>
-          </details>
-          <details>
-            <summary>What about the people I'm talking to?</summary>
-            <p>The green light is designed so the people around you can see when Larkin is on. In most places, letting someone know you're recording is enough. Larkin is not designed to record people without their awareness.</p>
-          </details>
-          <details>
-            <summary>What happens when my phone isn't nearby?</summary>
-            <p>Larkin holds up to 24 hours of transcribed conversation on the band itself. When your phone is back in range, it syncs automatically.</p>
-          </details>
-          <details>
-            <summary>Will it fit a small wrist?</summary>
-            <p>Yes. The strap adjusts for wrists from 5.5 to 8 inches. It's designed to be worn by anyone, including on smaller wrists where most fitness bands look oversized.</p>
-          </details>
-          <details>
-            <summary>Is the $10 reservation really refundable?</summary>
-            <p>Yes. You can refund it any time before your unit ships. No form to fill out, no questions asked. Email us and we'll process it.</p>
-          </details>
-          <details>
-            <summary>When will it ship?</summary>
-            <p>Larkin ships Q1 2027. We're finishing prototype validation now and moving into tooling this fall.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== FINAL CTA ===================== -->
-    <section class="final-cta">
-      <div class="container">
-        <h2 class="final-title">Stop losing the conversations that matter.</h2>
-        <a class="btn btn-primary btn-lg" href="#preorder">Reserve Larkin</a>
-        <p class="final-note">Ships Q1 2027 · $10 today locks the $59 pre-order price.</p>
-      </div>
-    </section>
-  </main>
-
-  <!-- ===================== FOOTER ===================== -->
-  <footer class="site-footer">
-    <div class="container footer-row">
-      <a class="brand" href="#top" aria-label="Larkin home">
-        <span class="brand-name">Larkin</span>
-      </a>
-      <nav class="footer-links" aria-label="Footer">
-        <a href="#how">How it works</a>
-        <a href="#hardware">Design</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-      <p class="copyright">© 2026 Larkin. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script>
-    // Mobile nav toggle
-    (function () {
-      var toggle = document.querySelector('.nav-toggle');
-      var nav = document.getElementById('primary-nav');
-      var header = document.querySelector('.site-header');
-      if (toggle && nav) {
-        toggle.addEventListener('click', function () {
-          var open = header.classList.toggle('nav-open');
-          toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-          toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-        });
-        nav.querySelectorAll('a').forEach(function (a) {
-          a.addEventListener('click', function () {
-            header.classList.remove('nav-open');
-            toggle.setAttribute('aria-expanded', 'false');
-            toggle.setAttribute('aria-label', 'Open menu');
-          });
-        });
-      }
-    })();
-
-    // Videos flagged data-autoplay-once start when scrolled into view and play a single time
-    (function () {
-      var vids = document.querySelectorAll('video[data-autoplay-once]');
-      if (!vids.length) return;
-      if (!('IntersectionObserver' in window)) {
-        vids.forEach(function (v) { v.play(); });
-        return;
-      }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) {
-            e.target.play();
-            io.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.4 });
-      vids.forEach(function (v) { io.observe(v); });
-    })();
-
-    // Use-case slider: arrow buttons + dots synced to scroll position
-    (function () {
-      var track = document.getElementById('uc-track');
-      if (!track) return;
-      var prev = document.getElementById('uc-prev');
-      var next = document.getElementById('uc-next');
-      var dotsWrap = document.getElementById('uc-dots');
-      var cards = Array.prototype.slice.call(track.children);
-
-      cards.forEach(function (card, i) {
-        var b = document.createElement('button');
-        b.className = 'uc-dot';
-        b.type = 'button';
-        b.setAttribute('aria-label', 'Go to use case ' + (i + 1));
-        b.addEventListener('click', function () {
-          track.scrollTo({ left: card.offsetLeft - track.offsetLeft, behavior: 'smooth' });
-        });
-        dotsWrap.appendChild(b);
-      });
-      var dots = Array.prototype.slice.call(dotsWrap.children);
-
-      function step() {
-        return cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth;
-      }
-      prev.addEventListener('click', function () { track.scrollBy({ left: -step(), behavior: 'smooth' }); });
-      next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: 'smooth' }); });
-
-      function update() {
-        var i = Math.round(track.scrollLeft / step());
-        i = Math.max(0, Math.min(cards.length - 1, i));
-        dots.forEach(function (d, j) { d.classList.toggle('is-active', j === i); });
-        prev.disabled = track.scrollLeft <= 4;
-        next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
-      }
-      track.addEventListener('scroll', function () { requestAnimationFrame(update); }, { passive: true });
-      window.addEventListener('resize', update);
-      update();
-    })();
-
-    // Ask Larkin demo: types a question, shows a thinking indicator, then the answer. Loops.
-    (function () {
-      var demo = document.getElementById('ask-demo');
-      if (!demo) return;
-      var thread = document.getElementById('ask-thread');
-      var inputText = document.getElementById('ask-input-text');
-      var caret = document.getElementById('ask-caret');
-      var send = document.getElementById('ask-send');
-      var placeholder = '<span class="ask-placeholder">Ask Larkin</span>';
-
-      var QA = [
-        { q: 'How did I come across in today’s pitch?',
-          time: '2:36 PM',
-          paras: [
-            'Strong overall — the product story was clear, and the demo landed.',
-            'One miss: when Priya asked about traction, you didn’t bring up the retention numbers you shared with the team on Monday. That was your strongest proof point.'
-          ],
-          exLabel: 'Worth mentioning next time',
-          exQuote: '“Retention is the number I’m proudest of — 87% still active after 90 days.” — you, Monday’s stand-up' },
-        { q: 'Am I a good listener?',
-          time: '6:04 PM',
-          paras: [
-            'Mostly, yes. You let people finish, and you come back to things they mentioned days earlier — that’s what makes people feel heard.',
-            'Where you slip: in fast conversations, you sometimes move on without responding to what was just said.'
-          ],
-          exLabel: 'A moment that landed',
-          exQuote: '“So how did the interview go?” — you, to Emma on Tuesday, three days after she first mentioned it.' },
-        { q: 'What should I follow up on from today?',
-          time: '5:12 PM',
-          paras: [
-            'Three things are waiting on you.',
-            'Sam is waiting on the signed contract. You promised Maya an intro to Daniel before Thursday. And you told Alex you’d review the pricing model tonight.'
-          ],
-          exLabel: 'From your afternoon',
-          exQuote: '“I’ll send the intro tonight, promise.” — to Maya, 4:12 PM, on the walk back from lunch' }
-      ];
-
-      function renderAnswer(it) {
-        var h = '<p class="ask-meta"><span class="ask-avatar"></span><strong>Larkin</strong>&nbsp;· ' + it.time + '</p>';
-        it.paras.forEach(function (p) { h += '<p>' + p + '</p>'; });
-        h += '<div class="ask-example"><p class="ask-example-label">' + it.exLabel + '</p>' +
-             '<p class="ask-example-quote">' + it.exQuote + '</p></div>';
-        return h;
-      }
-
-      var sparkle =
-        '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">' +
-        '<path d="M12 2c.6 5.4 4.6 9.4 10 10-5.4.6-9.4 4.6-10 10-.6-5.4-4.6-9.4-10-10 5.4-.6 9.4-4.6 10-10Z" fill="currentColor"/></svg>';
-
-      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduced) {
-        inputText.textContent = QA[0].q;
-        caret.style.display = 'none';
-        thread.innerHTML = '<div class="ask-answer">' + renderAnswer(QA[0]) + '</div>';
-        return;
-      }
-
-      var timers = [];
-      var running = false;
-      function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
-      function stop() {
-        running = false;
-        timers.forEach(clearTimeout);
-        timers = [];
-      }
-
-      function el(cls, html) {
-        var d = document.createElement('div');
-        d.className = cls;
-        d.innerHTML = html;
-        return d;
-      }
-
-      function cycle(i) {
-        if (!running) return;
-        var item = QA[i % QA.length];
-        var chars = 0;
-
-        function typeNext() {
-          if (!running) return;
-          chars++;
-          inputText.textContent = item.q.slice(0, chars);
-          if (chars < item.q.length) {
-            later(typeNext, 34 + Math.random() * 26);
-          } else {
-            later(sendIt, 420);
-          }
-        }
-
-        function sendIt() {
-          if (!running) return;
-          send.classList.add('is-sent');
-          later(function () { send.classList.remove('is-sent'); }, 350);
-          var think = el('ask-thinking', sparkle);
-          later(function () { thread.appendChild(think); }, 220);
-          later(function () {
-            if (!running) return;
-            think.remove();
-            thread.appendChild(el('ask-answer', renderAnswer(item)));
-            later(clearAndNext, 6200);
-          }, 1400);
-        }
-
-        function clearAndNext() {
-          if (!running) return;
-          thread.classList.add('is-clearing');
-          later(function () {
-            thread.innerHTML = '';
-            thread.classList.remove('is-clearing');
-            inputText.innerHTML = placeholder;
-            cycle(i + 1);
-          }, 380);
-        }
-
-        later(typeNext, 500);
-      }
-
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting && !running) {
-            running = true;
-            cycle(0);
-          } else if (!e.isIntersecting && running) {
-            stop();
-            thread.innerHTML = '';
-            inputText.innerHTML = placeholder;
-          }
-        });
-      }, { threshold: 0.35 });
-      io.observe(demo);
-    })();
-
-    // How-it-works scrollytelling: the step in the middle of the viewport drives the sticky image
-    (function () {
-      var steps = document.querySelectorAll('.how-step');
-      var imgs = document.querySelectorAll('.how-media-frame img');
-      if (!steps.length || !imgs.length || !('IntersectionObserver' in window)) return;
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (!e.isIntersecting) return;
-          var i = Number(e.target.getAttribute('data-step'));
-          steps.forEach(function (s, j) { s.classList.toggle('is-active', j === i); });
-          imgs.forEach(function (im, j) { im.classList.toggle('is-visible', j === i); });
-        });
-      }, { rootMargin: '-40% 0px -40% 0px' });
-      steps.forEach(function (s) { io.observe(s); });
-    })();
-
-    // Pre-order gallery: main image + thumbnails, auto-advances until the user picks
-    (function () {
-      var main = document.getElementById('pgal-main-img');
-      var thumbsWrap = document.getElementById('pgal-thumbs');
-      if (!main || !thumbsWrap) return;
-      var thumbs = Array.prototype.slice.call(thumbsWrap.querySelectorAll('button'));
-      var current = 0;
-      var timer = null;
-      function show(i) {
-        current = i;
-        var b = thumbs[i];
-        main.style.opacity = '0';
-        setTimeout(function () {
-          main.src = b.getAttribute('data-src');
-          main.style.opacity = '1';
-        }, 180);
-        thumbs.forEach(function (t, j) { t.classList.toggle('is-active', j === i); });
-      }
-      thumbs.forEach(function (b, i) {
-        b.addEventListener('click', function () {
-          if (timer) { clearInterval(timer); timer = null; }
-          show(i);
-        });
-      });
-      timer = setInterval(function () { show((current + 1) % thumbs.length); }, 4000);
-    })();
-  </script>
+        <footer style="display: flex; align-items: center; justify-content: space-between; padding: 26px 48px; background: #071A78; color: #FFFFFF;">
+          <span style="font-family: Anton, sans-serif; font-size: 18px; letter-spacing: 0.1em;">LARKIN</span>
+          <span style="font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.8);"><a href="#how">How it works</a> &nbsp;·&nbsp; <a href="#hardware">Design</a> &nbsp;·&nbsp; <a href="#reserve">Reserve</a></span>
+          <span style="font-size: 12px; color: rgba(255,255,255,0.5);">© 2026 Larkin. All rights reserved.</span>
+        </footer>
+</main>
 </body>
 </html>
