@@ -48,9 +48,79 @@
     }).observe(sentinel);
   }
 
+  /* ---- Background video ------------------------------------------------ */
+  /* Both videos sit below the fold and together weigh ~7MB, so the source is
+     held in data-src and only attached once the element is near the viewport.
+     Until then the poster stands in, and a visitor who never scrolls that far
+     downloads nothing. Reduced-motion visitors get the poster plus controls. */
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var startVideo = function (video) {
+    if (video.dataset.started) return;
+    video.dataset.started = '1';
+    video.src = video.dataset.src;
+
+    var tries = 0;
+    var play = function () {
+      if (tries > 5 || !video.paused) return;
+      tries++;
+      video.muted = true;
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    };
+
+    // Some browsers refuse the first play() until the media is decodable.
+    video.addEventListener('loadeddata', play, { once: true });
+    video.addEventListener('canplay', play, { once: true });
+    play();
+  };
+
+  var videos = document.querySelectorAll('video[data-src]');
+
+  if (reduceMotion) {
+    videos.forEach(function (video) {
+      video.removeAttribute('autoplay');
+      video.setAttribute('controls', '');
+      // Attach the source so the controls have something to play, but leave
+      // preload="none" in place so nothing downloads until it is asked for.
+      video.src = video.dataset.src;
+    });
+  } else if ('IntersectionObserver' in window) {
+    var vo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        startVideo(entry.target);
+        vo.unobserve(entry.target);
+      });
+    }, { rootMargin: '200px 0px' });
+    videos.forEach(function (video) { vo.observe(video); });
+  } else {
+    videos.forEach(startVideo);
+  }
+
+  /* ---- Privacy carousel ------------------------------------------------ */
+  /* The track scrolls natively (touch, trackpad, keyboard); the buttons are an
+     extra affordance for mouse users and are hidden on small screens. */
+  var car = document.querySelector('[data-car]');
+  if (car) {
+    var step = function () {
+      var card = car.querySelector('.car__card');
+      // card width + the flex gap
+      return card ? card.getBoundingClientRect().width + 24 : 404;
+    };
+
+    document.querySelectorAll('[data-car-nav]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var dir = btn.getAttribute('data-car-nav') === 'prev' ? -1 : 1;
+        var max = car.scrollWidth - car.clientWidth;
+        car.scrollTo({ left: Math.max(0, Math.min(max, car.scrollLeft + dir * step())) });
+      });
+    });
+  }
+
   /* ---- Checkout attribution -------------------------------------------- */
   /* Every reserve CTA leaves for Shopify. Fire InitiateCheckout tagged with the
-     segment so the three pages are distinguishable in Meta reporting — the
+     segment so the five pages are distinguishable in Meta reporting — the
      checkout URL itself is shared. */
   var segment = document.documentElement.getAttribute('data-theme') || 'general';
   document.querySelectorAll('a[href*="myshopify.com/cart"]').forEach(function (link) {

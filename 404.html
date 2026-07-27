@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Page not found — Larkin</title>
 <meta name="description" content="That page doesn't exist. Find the Larkin AI memory wristband on the home page.">
-<meta name="theme-color" content="#1B44E5">
+<meta name="theme-color" content="#111111">
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,27 +19,45 @@
     place-content: center;
     justify-items: start;
     gap: 22px;
-    background: var(--piles-bg);
     padding-block: 4rem;
   }
   .nf__code {
     font-family: var(--font-display);
     font-size: clamp(5rem, 18vw, 12rem);
     line-height: 0.85;
-    color: transparent;
-    -webkit-text-stroke: 3px var(--piles-label);
+    color: var(--fg-faint);
   }
-  .nf__title { color: var(--piles-h); margin-bottom: 0; }
-  .nf__body { font-size: var(--fs-lead); color: var(--piles-body); max-width: 44ch; }
+  .nf__body {
+    font-size: clamp(1.0625rem, 1.46vw, 1.3125rem);
+    line-height: 1.6;
+    color: var(--fg-muted);
+    max-width: 44ch;
+  }
+  .nf__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-top: 8px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--fg-dim);
+  }
+  .nf__links a:hover { color: var(--fg); }
 </style>
 </head>
-<body>
+<body class="surface--dark">
 <main class="nf">
   <div class="shell">
     <p class="nf__code" aria-hidden="true">404</p>
-    <h1 class="section-title nf__title">This page slipped.</h1>
+    <h1 class="section-title">This page slipped.</h1>
     <p class="nf__body">The page you asked for doesn't exist — which is exactly the sort of thing Larkin is meant to prevent.</p>
-    <p style="margin-top: 28px;"><a class="btn btn--hero" href="/">Back to Larkin</a></p>
+    <p style="margin-top:28px"><a class="btn btn--primary" href="/">Back to Larkin</a></p>
+    <nav class="nf__links" aria-label="Other pages">
+      <a href="/leaders/">For leaders</a>
+      <a href="/adhd/">For ADHD</a>
+      <a href="/parents/">For parents</a>
+      <a href="/journal/">For journaling</a>
+    </nav>
   </div>
 </main>
 </body>
