@@ -733,8 +733,14 @@ body {
 .car-btn:hover { border-color: var(--fg); background: var(--wash); }
 
 /* The track bleeds full-width so cards can run off the right edge, but its
-   first card must still line up with the shell on screens wider than 1440. */
+   first card must still line up with the shell. */
 .car {
+  /* Padding and snapport have to agree. Left alone, scroll-padding is auto (0),
+     so `scroll-snap-align: start` snapped the first card to the track's border
+     edge and scrolled the start padding out of view — the card sat flush left
+     while the heading above it sat on the shell. */
+  --car-pad: max(var(--gutter), calc((100% - var(--shell-max)) / 2 + var(--gutter)));
+
   position: relative;
   display: flex;
   gap: 24px;
@@ -743,7 +749,8 @@ body {
   scroll-snap-type: x proximity;
   scroll-behavior: smooth;
   scrollbar-width: none;
-  padding-inline: max(var(--gutter), calc((100% - var(--shell-max)) / 2 + var(--gutter)));
+  padding-inline: var(--car-pad);
+  scroll-padding-inline: var(--car-pad);
   padding-bottom: 12px;
 }
 .car::-webkit-scrollbar { display: none; }
