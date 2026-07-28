@@ -775,8 +775,16 @@ body {
   justify-content: center;
   color: var(--fg);
 }
-.car__card h3 { font-weight: 600; font-size: 1.3125rem; line-height: 1.25; color: var(--fg); }
-.car__card p { font-size: 1rem; line-height: 1.6; color: var(--fg-soft); }
+/* Direct children only: an app card nests a whole phone mockup whose ps-*
+   paragraphs must keep the phone's own ink, not the card's copy colour. */
+.car__card > h3 { font-weight: 600; font-size: 1.3125rem; line-height: 1.25; color: var(--fg); }
+.car__card > p { font-size: 1rem; line-height: 1.6; color: var(--fg-soft); }
+
+/* App cards — the phone mockups the segment pages use, one feature per card.
+   The phone runs off the card's bottom edge exactly as it does in .ptile, so
+   the card clips it and needs no bottom padding of its own. */
+.car__card--app { padding-bottom: 0; overflow: hidden; }
+.fcard__phone { position: relative; height: 400px; margin-top: 24px; }
 
 @media (max-width: 699px) {
   .car-controls { display: none; }

@@ -153,25 +153,27 @@
   if (document.readyState === 'complete') whenIdle();
   else window.addEventListener('load', whenIdle, { once: true });
 
-  /* ---- Privacy carousel ------------------------------------------------ */
-  /* The track scrolls natively (touch, trackpad, keyboard); the buttons are an
-     extra affordance for mouse users and are hidden on small screens. */
-  var car = document.querySelector('[data-car]');
-  if (car) {
+  /* ---- Carousels (features, privacy) ----------------------------------- */
+  /* Each track scrolls natively (touch, trackpad, keyboard); the buttons are
+     an extra affordance for mouse users and are hidden on small screens. A
+     page can hold several carousels — each section's buttons drive only the
+     track they share the section with. */
+  document.querySelectorAll('[data-car]').forEach(function (car) {
+    var scope = car.closest('section') || document;
     var step = function () {
       var card = car.querySelector('.car__card');
       // card width + the flex gap
       return card ? card.getBoundingClientRect().width + 24 : 404;
     };
 
-    document.querySelectorAll('[data-car-nav]').forEach(function (btn) {
+    scope.querySelectorAll('[data-car-nav]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var dir = btn.getAttribute('data-car-nav') === 'prev' ? -1 : 1;
         var max = car.scrollWidth - car.clientWidth;
         car.scrollTo({ left: Math.max(0, Math.min(max, car.scrollLeft + dir * step())) });
       });
     });
-  }
+  });
 
   /* ---- Checkout attribution -------------------------------------------- */
   /* Every reserve CTA leaves for Shopify. Fire InitiateCheckout tagged with the
