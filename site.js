@@ -49,15 +49,31 @@
   }
 
   /* ---- Background video ------------------------------------------------ */
-  /* Both videos sit below the fold and together weigh ~7MB, so the source is
-     held in data-src and only attached once the element is near the viewport.
-     Until then the poster stands in, and a visitor who never scrolls that far
-     downloads nothing. Reduced-motion visitors get the poster plus controls. */
+  /* The two videos weigh ~7MB together, so the source is held in data-src and
+     attached only when it is actually wanted.
+
+     Three gates, because an earlier version got this wrong: the hero video is
+     NOT below the fold on a desktop viewport, so an IntersectionObserver alone
+     fired on the first frame and pulled 5.75MB into the initial load of the
+     page ads land on.
+       1. never before the load event, so video never competes with LCP;
+       2. never on a metered or slow connection;
+       3. then, and only then, when the element is actually near the viewport. */
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var conn = navigator.connection || {};
+  var slowLink = conn.saveData === true ||
+                 /(^|-)2g$/.test(conn.effectiveType || '') ||
+                 conn.effectiveType === '3g';
 
   var startVideo = function (video) {
     if (video.dataset.started) return;
     video.dataset.started = '1';
+    // Posters held in data-poster are deferred too — the parser fetches a
+    // poster attribute immediately, even with preload="none".
+    if (video.dataset.poster && !video.getAttribute('poster')) {
+      video.setAttribute('poster', video.dataset.poster);
+    }
     video.src = video.dataset.src;
 
     var tries = 0;
@@ -77,26 +93,42 @@
 
   var videos = document.querySelectorAll('video[data-src]');
 
-  if (reduceMotion) {
-    videos.forEach(function (video) {
-      video.removeAttribute('autoplay');
-      video.setAttribute('controls', '');
-      // Attach the source so the controls have something to play, but leave
-      // preload="none" in place so nothing downloads until it is asked for.
-      video.src = video.dataset.src;
-    });
-  } else if ('IntersectionObserver' in window) {
-    var vo = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        startVideo(entry.target);
-        vo.unobserve(entry.target);
+  var armVideos = function () {
+    if (reduceMotion || slowLink) {
+      // Poster plus controls: nothing downloads until the visitor asks for it.
+      videos.forEach(function (video) {
+        video.removeAttribute('autoplay');
+        video.setAttribute('controls', '');
+        if (video.dataset.poster && !video.getAttribute('poster')) {
+          video.setAttribute('poster', video.dataset.poster);
+        }
+        video.src = video.dataset.src;
       });
-    }, { rootMargin: '200px 0px' });
-    videos.forEach(function (video) { vo.observe(video); });
-  } else {
-    videos.forEach(startVideo);
-  }
+      return;
+    }
+
+    if ('IntersectionObserver' in window) {
+      var vo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          startVideo(entry.target);
+          vo.unobserve(entry.target);
+        });
+      }, { rootMargin: '200px 0px' });
+      videos.forEach(function (video) { vo.observe(video); });
+    } else {
+      videos.forEach(startVideo);
+    }
+  };
+
+  // Hold everything until the page has finished loading, then until the main
+  // thread is idle. This is what keeps the hero video out of the critical path.
+  var whenIdle = function () {
+    if (window.requestIdleCallback) window.requestIdleCallback(armVideos, { timeout: 2000 });
+    else setTimeout(armVideos, 200);
+  };
+  if (document.readyState === 'complete') whenIdle();
+  else window.addEventListener('load', whenIdle, { once: true });
 
   /* ---- Privacy carousel ------------------------------------------------ */
   /* The track scrolls natively (touch, trackpad, keyboard); the buttons are an
