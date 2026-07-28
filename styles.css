@@ -1075,7 +1075,19 @@ body {
   .checker > :nth-child(5) { order: 5; }
   .checker > :nth-child(6) { order: 6; }
 }
-@media (min-width: 900px) { .checker { grid-template-columns: 1fr 1fr; } }
+/* On desktop the board loosens up: page gutters around it, air between the
+   cells, and rounded corners once the tiles stop touching. The section keeps
+   its full-bleed background; only the grid inside is inset. */
+@media (min-width: 900px) {
+  .checker {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(24px, 3vw, 44px);
+    padding-inline: max(var(--gutter), calc((100% - var(--shell-max)) / 2 + var(--gutter)));
+    padding-block: clamp(2.5rem, 5vw, 4.5rem);
+  }
+  .checker img,
+  .checker__copy--alt { border-radius: var(--radius-lg); }
+}
 
 .hardware__frame {
   border-radius: 24px;
