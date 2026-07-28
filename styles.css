@@ -1063,6 +1063,11 @@ body {
    copy / photo / copy / photo / copy / photo. */
 @media (max-width: 899px) {
   .checker { display: flex; flex-direction: column; }
+  /* The order rules target the section's children — but <picture> is
+     display:contents globally, so it has no box and `order` on it is inert;
+     the imgs inside all kept order 0 and every photo jumped above every step.
+     Give the pictures a box here so the reorder below actually moves them. */
+  .checker picture { display: block; }
   .checker > :nth-child(1) { order: 1; }
   .checker > :nth-child(2) { order: 2; }
   .checker > :nth-child(3) { order: 4; }
