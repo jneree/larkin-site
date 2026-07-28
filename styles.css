@@ -1047,7 +1047,11 @@ body {
   background: #FFFFFF;
   padding: clamp(1.5rem, 3.33vw, 3rem) clamp(1.25rem, 2.78vw, 2.5rem);
 }
-.hardware__frame img { width: 100%; max-width: 980px; height: auto; margin-inline: auto; }
+/* The exploded view is a video on the segment pages and was a still before it —
+   both sit in the same white frame and size identically. width/height on the
+   element reserve the aspect ratio so the frame does not jump on load. */
+.hardware__frame :is(img, video) { width: 100%; max-width: 980px; height: auto; margin-inline: auto; }
+.hardware__video { background: #FFFFFF; }
 .stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

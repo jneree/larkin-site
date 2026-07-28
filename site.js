@@ -66,14 +66,21 @@
                  /(^|-)2g$/.test(conn.effectiveType || '') ||
                  conn.effectiveType === '3g';
 
-  var startVideo = function (video) {
-    if (video.dataset.started) return;
-    video.dataset.started = '1';
-    // Posters held in data-poster are deferred too — the parser fetches a
-    // poster attribute immediately, even with preload="none".
+  /* The poster is the section's visible content until the clip is attached, so
+     it must arrive before the reader does — but a `poster` attribute in the
+     markup is fetched eagerly no matter what, which is why it lives in
+     data-poster. Bring it in on approach: far enough ahead that the frame is
+     never empty on screen, late enough that it costs nothing on first paint. */
+  var showPoster = function (video) {
     if (video.dataset.poster && !video.getAttribute('poster')) {
       video.setAttribute('poster', video.dataset.poster);
     }
+  };
+
+  var startVideo = function (video) {
+    if (video.dataset.started) return;
+    video.dataset.started = '1';
+    showPoster(video);
     video.src = video.dataset.src;
 
     var tries = 0;
@@ -93,15 +100,31 @@
 
   var videos = document.querySelectorAll('video[data-src]');
 
+  if ('IntersectionObserver' in window) {
+    var po = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        showPoster(entry.target);
+        po.unobserve(entry.target);
+      });
+    }, { rootMargin: '600px 0px' });
+    videos.forEach(function (video) { po.observe(video); });
+  } else {
+    videos.forEach(showPoster);
+  }
+
   var armVideos = function () {
+    // Floor: whatever the observers do, every poster is in place once the page
+    // has loaded. On the segment pages the exploded view IS the section's
+    // content, so an empty frame is never an acceptable resting state.
+    videos.forEach(showPoster);
+
     if (reduceMotion || slowLink) {
       // Poster plus controls: nothing downloads until the visitor asks for it.
       videos.forEach(function (video) {
         video.removeAttribute('autoplay');
         video.setAttribute('controls', '');
-        if (video.dataset.poster && !video.getAttribute('poster')) {
-          video.setAttribute('poster', video.dataset.poster);
-        }
+        showPoster(video);
         video.src = video.dataset.src;
       });
       return;
