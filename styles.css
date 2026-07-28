@@ -14,6 +14,13 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  /* The page must never pan sideways under a swipe. `hidden` on the ROOT is the
+     one horizontal guard every engine propagates to the viewport — body's
+     `clip` (below) is honoured by Chrome but not dependably by others, which is
+     how a stray wide element once let the whole layout slide. It goes here and
+     not on body precisely because only a scroll container on BODY would break
+     position:sticky; the root propagates its overflow and stays visible. */
+  overflow-x: hidden;
 }
 
 body { margin: 0; }
@@ -195,8 +202,10 @@ body {
   font-size: 1rem;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  /* clip, not hidden: `hidden` would make body a scroll container and silently
-     break position:sticky on the header. */
+  /* Second layer under the root guard, and clip rather than hidden: `hidden`
+     here would make body a scroll container and silently break position:sticky
+     on the header, where clip only trims and leaves the viewport as the
+     scrollport. */
   overflow-x: clip;
 }
 
@@ -726,9 +735,11 @@ body {
 /* The track bleeds full-width so cards can run off the right edge, but its
    first card must still line up with the shell on screens wider than 1440. */
 .car {
+  position: relative;
   display: flex;
   gap: 24px;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
   scroll-behavior: smooth;
   scrollbar-width: none;
@@ -848,8 +859,20 @@ body {
    -------------------------------------------------------------------------- */
 
 /* Five columns cannot compress to phone width without becoming unreadable, so
-   the grid keeps its minimum and the wrapper scrolls sideways instead. */
-.compare-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+   the grid keeps its minimum and the wrapper scrolls sideways instead.
+
+   `position: relative` is load-bearing, not decoration: without a containing
+   block here the 760px table still counted towards the DOCUMENT's scrollable
+   width (705px against a 390px phone), so a sideways swipe anywhere on the page
+   dragged the whole layout — header and all — off to the left. `overscroll-
+   behavior-x` then keeps a swipe that reaches the end of the table from
+   chaining out to the page or the browser's back gesture. */
+.compare-scroll {
+  position: relative;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
 .compare-hint {
   display: none;
   margin-bottom: 14px;
