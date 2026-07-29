@@ -314,11 +314,10 @@ body::after {
 .btn:active { transform: translateY(0); }
 
 .btn--primary {
-  font-family: var(--font-serif);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: clamp(1.0625rem, 1.5vw, 1.3125rem);       /*  17 →  21 */
+  font-family: var(--font-ui);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);         /*  17 →  20 */
   padding: clamp(1rem, 1.6vw, 1.4375rem) clamp(1.75rem, 3.3vw, 2.875rem);
   background: var(--cta-bg);
   color: var(--cta-fg);
