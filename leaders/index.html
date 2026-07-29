@@ -45,7 +45,7 @@
 </noscript>
 <!-- ================== END FACEBOOK PIXEL ================== -->
 </head>
-<body class="surface--light">
+<body class="surface--dark">
 
 <a class="skip-link" href="#main">Skip to content</a>
 
@@ -118,7 +118,7 @@
   </section>
 
   <!-- Pillars -->
-  <section class="section surface--light-2">
+  <section class="section surface--light">
     <div class="shell">
       <div class="section-head rv">
         <h2 class="section-title">What leaders can't afford to drop.</h2>
@@ -149,7 +149,7 @@
       </div>
       <div class="steps">
         <div class="step rv">
-          <h3 class="step__title">01. Wear it in</h3>
+          <h3 class="step__title"><span class="step__n">01.</span> Wear it in</h3>
           <div class="step__lead" aria-hidden="true"></div>
         <picture>
           <source type="image/avif" srcset="../assets/how-wear-1000.avif">
@@ -158,7 +158,7 @@
           <p>Slip it on before standup. Screen-free, invisible in every meeting.</p>
         </div>
         <div class="step rv">
-          <h3 class="step__title">02. Run your day</h3>
+          <h3 class="step__title"><span class="step__n">02.</span> Run your day</h3>
           <div class="step__lead" aria-hidden="true"></div>
         <picture>
           <source type="image/avif" srcset="../assets/uc-meetings-800.avif">
@@ -167,7 +167,7 @@
           <p>Back-to-backs, hallway asks, the all-hands. Larkin holds every thread while you lead.</p>
         </div>
         <div class="step rv">
-          <h3 class="step__title">03. Debrief with yourself</h3>
+          <h3 class="step__title"><span class="step__n">03.</span> Debrief with yourself</h3>
           <div class="step__lead" aria-hidden="true"></div>
         <picture>
           <source type="image/avif" srcset="../assets/how-app-1000.avif">
@@ -180,7 +180,7 @@
   </section>
 
   <!-- Features -->
-  <section class="section surface--light" id="features">
+  <section class="section surface--dark" id="features">
     <div class="shell">
       <div class="section-head rv">
         <h2 class="section-title section-title--lg">See yourself the way the room sees you.</h2>
@@ -334,7 +334,7 @@
   </section>
 
   <!-- Hardware -->
-  <section class="section surface--light-2" id="hardware">
+  <section class="section surface--light" id="hardware">
     <div class="shell">
       <p class="eyebrow">The hardware</p>
       <div class="section-head rv">
@@ -393,93 +393,95 @@
   </section>
 
   <!-- How it compares -->
-  <section class="shell section surface--light" id="compare">
-    <div class="section-head rv">
-      <h2 class="section-title">How it compares.</h2>
+  <section class="section surface--light" id="compare">
+    <div class="shell">
+      <div class="section-head rv">
+        <h2 class="section-title">How it compares.</h2>
+      </div>
+      <p class="compare-hint">Scroll the table sideways to see every column.</p>
+      <div class="compare-scroll rv" tabindex="0" role="region" aria-label="Comparison table">
+        <table class="compare">
+          <thead>
+            <tr>
+              <th scope="col"><span class="sr-only">Capability</span></th>
+              <th scope="col" class="col-us">
+                <span class="col-name">Larkin</span>
+                <span class="col-note">Worn on your wrist, always on</span>
+              </th>
+              <th scope="col">
+                <span class="col-name">Phone app</span>
+                <span class="col-note">In your pocket, you open it and press record</span>
+              </th>
+              <th scope="col">
+                <span class="col-name">Apple Watch app</span>
+                <span class="col-note">On your wrist, but you tap a screen to start it</span>
+              </th>
+              <th scope="col">
+                <span class="col-name">Hardware recorder</span>
+                <span class="col-note">Clipped on, you press to record</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Nothing to open or press</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Worn on your body all day</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+            </tr>
+            <tr>
+              <th scope="row">No screen</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Records both people talking</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="qual">Only if out</span></td>
+              <td><span class="qual">Partly</span></td>
+              <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Picks out what matters instead of a transcript</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="qual">Partly</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Makes reminders from what you said</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="qual">If you type them</span></td>
+              <td><span class="qual">If you dictate</span></td>
+              <td><span class="qual">Partly</span></td>
+            </tr>
+            <tr>
+              <th scope="row">A light shows when it's on</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="qual">Partly</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="compare__foot">Based on published specifications and everyday use, July 2026. Apple Watch and Plaud are trademarks of their respective owners.</p>
     </div>
-    <p class="compare-hint">Scroll the table sideways to see every column.</p>
-    <div class="compare-scroll rv" tabindex="0" role="region" aria-label="Comparison table">
-      <table class="compare">
-        <thead>
-          <tr>
-            <th scope="col"><span class="sr-only">Capability</span></th>
-            <th scope="col" class="col-us">
-              <span class="col-name">Larkin</span>
-              <span class="col-note">Worn on your wrist, always on</span>
-            </th>
-            <th scope="col">
-              <span class="col-name">Phone app</span>
-              <span class="col-note">In your pocket, you open it and press record</span>
-            </th>
-            <th scope="col">
-              <span class="col-name">Apple Watch app</span>
-              <span class="col-note">On your wrist, but you tap a screen to start it</span>
-            </th>
-            <th scope="col">
-              <span class="col-name">Hardware recorder</span>
-              <span class="col-note">Clipped on, you press to record</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Nothing to open or press</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Worn on your body all day</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-          </tr>
-          <tr>
-            <th scope="row">No screen</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Records both people talking</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="qual">Only if out</span></td>
-            <td><span class="qual">Partly</span></td>
-            <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Picks out what matters instead of a transcript</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="qual">Partly</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Makes reminders from what you said</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="qual">If you type them</span></td>
-            <td><span class="qual">If you dictate</span></td>
-            <td><span class="qual">Partly</span></td>
-          </tr>
-          <tr>
-            <th scope="row">A light shows when it's on</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="qual">Partly</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="compare__foot">Based on published specifications and everyday use, July 2026. Apple Watch and Plaud are trademarks of their respective owners.</p>
   </section>
 
 </main>
 
-<footer class="site-footer surface--light">
+<footer class="site-footer surface--dark">
   <div class="shell site-footer__inner">
     <span class="site-footer__mark">Larkin</span>
     <nav class="site-footer__links" aria-label="Footer">

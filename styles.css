@@ -67,8 +67,12 @@ summary::-webkit-details-marker { display: none; }
 
   --header-h: 66px;
 
-  /* Phone mockups render on a white screen regardless of page theme. */
+  /* Phone mockups render on a white screen regardless of page theme. These
+     three, plus --illus-accent, are the illustrations' own palette: they are
+     deliberately outside the page theme so a colour change cannot reach in and
+     restyle the app screens. */
   --ink: #101a35;
+  --illus-accent: #4CE07A;
   --muted: rgba(16, 26, 53, 0.7);
   --muted-2: rgba(16, 26, 53, 0.5);
 }
@@ -84,74 +88,39 @@ summary::-webkit-details-marker { display: none; }
    knowing which page it is on. Pages differ in how they alternate the two.
    -------------------------------------------------------------------------- */
 
-[data-theme="general"] {
-  --d-bg: #111111; --d-bg-2: #0B0B0B; --d-panel: #1C1C1C; --d-card: #161616; --d-ink: #FFFFFF;
-  --l-bg: #F4F1EA; --l-bg-2: #EDE9E0; --l-panel: #FFFFFF;  --l-ink: #111111;
-  --accent: #4CE07A; --accent-2: #4CE07A;
-  --cta-bg: #FFFFFF; --cta-fg: #111111;
-  --header-bg: #111111; --header-fg: #FFFFFF;
-  --ghost-mark: rgba(17, 17, 17, 0.05);
-  --price-fg: #111111;
-  --reserve-cta-bg: #111111; --reserve-cta-fg: #F4F1EA;
-  --focus: #4CE07A;
-  /* second banner line: the reserve site's periwinkle, desaturated for near-black */
-  --banner-line: #A9B6CE;
-}
+/* ----- Palette — direction 7a -----
+   One palette for all five pages. Navy and warm white are the only two page
+   backgrounds; white and navy are the only two card fills; gold belongs to the
+   primary CTA alone. The [data-theme] attribute stays on <html> because
+   site.js reads it to tag the Meta InitiateCheckout event with the segment,
+   but nothing is styled from it any more. */
 
-[data-theme="leaders"] {
-  --d-bg: #0A1F3C; --d-bg-2: #0C1D3A; --d-panel: #12294B; --d-card: #12294B; --d-ink: #F2F6FC;
-  --l-bg: #FFFFFF;  --l-bg-2: #F2F5FA; --l-panel: #FFFFFF; --l-ink: #0A1F3C;
-  --accent: #1B44E5; --accent-2: #1B44E5;
-  --cta-bg: #1B44E5; --cta-fg: #FFFFFF;
-  --header-bg: #FFFFFF; --header-fg: #0A1F3C;
-  --ghost-mark: rgba(169, 199, 242, 0.2);
-  --hero-from: #0A1728; --hero-to: #0D2138;
-  --hero-ink: #F2F6FC; --hero-accent: #A9C7F2;
-  --price-fg: #A9C7F2;
-  --reserve-cta-bg: #FFFFFF; --reserve-cta-fg: #0A1F3C;
-  --reserve-bg: radial-gradient(110% 120% at 80% 0%, #142E54 0%, #0C1D3A 55%, #081426 100%);
-  --focus: #1B44E5;
-}
+:root {
+  --ink-navy:    #0B1020;
+  --cream:       #F2EDE0;
+  --warm-white:  #FAF6EE;
+  --white:       #FFFFFF;
+  /* The spec calls this --ink. Renamed: --ink is already the phone mockup's
+     screen colour above, and that illustration must not move. */
+  --ink-warm:    #23201A;
+  --gold-top:    #E7B653;
+  --gold-bottom: #D19A2F;
+  --gold: linear-gradient(180deg, var(--gold-top) 0%, var(--gold-bottom) 100%);
+  --gold-ink:    #241B0B;
+  --gold-quiet:  #A8842F;
+  /* Hero atmosphere only — never as a fill anywhere else. */
+  --gold-glow:   rgba(224, 169, 62, 0.14);
+  --periwinkle:  rgba(96, 118, 178, 0.20);
 
-[data-theme="adhd"] {
-  --d-bg: #120705; --d-bg-2: #1A0B09; --d-panel: #1F0D0A; --d-card: #1F0D0A; --d-ink: #FFF3E4;
-  --l-bg: #FFF3E4; --l-bg-2: #F7E8D2; --l-panel: #FFFFFF; --l-ink: #1A0B09;
-  --accent: #F0402F; --accent-2: #FFD22E;
-  --cta-bg: #F0402F; --cta-fg: #FFF3E4;
-  --header-bg: #FFF3E4; --header-fg: #1A0B09;
-  --ghost-mark: rgba(240, 64, 47, 0.1);
-  --hero-from: #27150F; --hero-to: #37211A;
-  --hero-ink: #FFF3E4; --hero-accent: #FFD22E;
-  --focus: #F0402F;
-}
+  /* Surface inputs. The -2 / -panel slots stay navy and white respectively:
+     cards read by their hairline border, not by a third background tone. */
+  --d-bg: var(--ink-navy);  --d-bg-2: var(--ink-navy);
+  --d-panel: var(--ink-navy); --d-card: var(--ink-navy); --d-ink: var(--cream);
+  --l-bg: var(--warm-white); --l-bg-2: var(--white);
+  --l-panel: var(--white);  --l-ink: var(--ink-warm);
 
-[data-theme="parents"] {
-  --d-bg: #16290F; --d-bg-2: #24421F; --d-panel: #1D3418; --d-card: #1D3418; --d-ink: #FBF6EA;
-  --l-bg: #FBF6EA; --l-bg-2: #EFE6D2; --l-panel: #FFFFFF; --l-ink: #16290F;
-  --accent: #9CC17B; --accent-2: #CDE8AC;
-  --cta-bg: #24421F; --cta-fg: #FBF6EA;
-  --header-bg: #FBF6EA; --header-fg: #16290F;
-  --ghost-mark: rgba(205, 232, 172, 0.18);
-  --hero-from: #16281A; --hero-to: #24362A;
-  --hero-ink: #FBF6EA; --hero-accent: #CDE8AC;
-  --price-fg: #CDE8AC;
-  --reserve-cta-bg: #CDE8AC; --reserve-cta-fg: #24421F;
-  --focus: #9CC17B;
-}
-
-[data-theme="journal"] {
-  --d-bg: #2B2416; --d-bg-2: #362E1D; --d-panel: #3A311F; --d-card: #3A311F; --d-ink: #F4EFE4;
-  --l-bg: #F4EFE4; --l-bg-2: #EAE3D2; --l-panel: #FFFFFF; --l-ink: #2B2416;
-  --accent: #A67B2D; --accent-2: #E8C97E;
-  --cta-bg: #2B2416; --cta-fg: #F4EFE4;
-  --header-bg: #F4EFE4; --header-fg: #2B2416;
-  --ghost-mark: rgba(166, 123, 45, 0.14);
-  /* the journal hero runs on warm paper, so its type inverts to the ink colour */
-  --hero-from: #F2E4D0; --hero-to: #E9DBC4;
-  --hero-ink: #2B2416; --hero-accent: #A67B2D;
-  --price-fg: #E8C97E;
-  --reserve-cta-bg: #E8C97E; --reserve-cta-fg: #2B2416;
-  --focus: #A67B2D;
+  --cta-bg: var(--gold); --cta-fg: var(--gold-ink);
+  --header-bg: var(--ink-navy); --header-fg: var(--cream);
 }
 
 /* ----- Surfaces -----
@@ -162,17 +131,20 @@ summary::-webkit-details-marker { display: none; }
   background: var(--d-bg);
   color: var(--d-ink);
   --fg: var(--d-ink);
-  --fg-muted:  color-mix(in srgb, var(--d-ink) 78%, transparent);
-  --fg-soft:   color-mix(in srgb, var(--d-ink) 64%, transparent);
-  --fg-dim:    color-mix(in srgb, var(--d-ink) 48%, transparent);
-  --fg-faint:  color-mix(in srgb, var(--d-ink) 30%, transparent);
-  --fg-ghost:  color-mix(in srgb, var(--d-ink) 22%, transparent);
-  --rule:      color-mix(in srgb, var(--d-ink) 15%, transparent);
-  --rule-soft: color-mix(in srgb, var(--d-ink) 9%, transparent);
-  --wash:      color-mix(in srgb, var(--d-ink) 7%, transparent);
+  --fg-muted:  rgba(242, 237, 224, 0.70);   /* body */
+  --fg-soft:   rgba(242, 237, 224, 0.62);
+  --fg-dim:    rgba(242, 237, 224, 0.50);   /* meta / legal */
+  --fg-faint:  rgba(242, 237, 224, 0.30);   /* hairline, top of range */
+  --fg-ghost:  rgba(242, 237, 224, 0.22);
+  --rule:      rgba(242, 237, 224, 0.20);
+  --rule-soft: rgba(242, 237, 224, 0.12);   /* hairline, bottom of range */
+  --wash:      rgba(242, 237, 224, 0.07);
   --surface: var(--d-card);
   --surface-2: var(--d-panel);
   --surface-3: var(--d-bg-2);
+  --ghost-mark: rgba(242, 237, 224, 0.07);
+  --banner-line: rgba(242, 237, 224, 0.55);
+  --focus: var(--cream);
 }
 .surface--dark-2 { background: var(--d-bg-2); }
 .surface--dark-3 { background: var(--d-panel); }
@@ -181,17 +153,20 @@ summary::-webkit-details-marker { display: none; }
   background: var(--l-bg);
   color: var(--l-ink);
   --fg: var(--l-ink);
-  --fg-muted:  color-mix(in srgb, var(--l-ink) 74%, transparent);
-  --fg-soft:   color-mix(in srgb, var(--l-ink) 66%, transparent);
-  --fg-dim:    color-mix(in srgb, var(--l-ink) 52%, transparent);
-  --fg-faint:  color-mix(in srgb, var(--l-ink) 26%, transparent);
-  --fg-ghost:  color-mix(in srgb, var(--l-ink) 20%, transparent);
-  --rule:      color-mix(in srgb, var(--l-ink) 15%, transparent);
-  --rule-soft: color-mix(in srgb, var(--l-ink) 10%, transparent);
-  --wash:      color-mix(in srgb, var(--l-ink) 6%, transparent);
+  --fg-muted:  rgba(35, 32, 26, 0.72);
+  --fg-soft:   rgba(35, 32, 26, 0.62);      /* body */
+  --fg-dim:    rgba(35, 32, 26, 0.55);      /* eyebrow */
+  --fg-faint:  rgba(35, 32, 26, 0.26);
+  --fg-ghost:  rgba(35, 32, 26, 0.20);
+  --rule:      rgba(35, 32, 26, 0.12);      /* card border */
+  --rule-soft: rgba(35, 32, 26, 0.10);
+  --wash:      rgba(35, 32, 26, 0.06);
   --surface: var(--l-panel);
   --surface-2: var(--l-bg-2);
   --surface-3: var(--l-bg-2);
+  --ghost-mark: rgba(35, 32, 26, 0.06);
+  --banner-line: rgba(35, 32, 26, 0.50);
+  --focus: var(--ink-warm);
 }
 .surface--light-2 { background: var(--l-bg-2); }
 
@@ -204,11 +179,35 @@ body {
   font-size: 1rem;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  /* The homepage hero is a .shell section, so a background on it would stop at
+     1440px and leave a visible edge on wide screens. The glows therefore live
+     on body, anchored in pixels from the top so they sit over the hero and
+     nowhere else — every section below paints its own opaque background over
+     them. Segment heroes are full-bleed and carry the spec gradient directly. */
+  background:
+    radial-gradient(1100px 640px at 12% 0px, var(--gold-glow) 0%, rgba(224, 169, 62, 0) 60%),
+    radial-gradient(900px 560px at 88% 280px, var(--periwinkle) 0%, rgba(96, 118, 178, 0) 65%),
+    var(--ink-navy);
+  background-repeat: no-repeat;
   /* Second layer under the root guard, and clip rather than hidden: `hidden`
      here would make body a scroll container and silently break position:sticky
      on the header, where clip only trims and leaves the viewport as the
      scrollport. */
   overflow-x: clip;
+}
+
+/* One grain field for the whole page. Fixed rather than absolute so it covers
+   the viewport at any scroll position without painting a document-tall layer,
+   and below the header's z-index 100 so the header stays clean. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
 }
 
 /* Layout shell: full-bleed section backgrounds, content capped and centred. */
@@ -320,14 +319,13 @@ body {
   color: var(--cta-fg);
   box-shadow: 0 18px 44px -22px rgba(0, 0, 0, 0.9);
 }
-.btn--primary:hover { filter: brightness(1.08); }
-[data-theme="general"] .btn--primary:hover { filter: brightness(0.94); }
+.btn--primary:hover { filter: brightness(1.06); }
 
 .btn--ghost {
   font-size: 1rem;
   font-weight: 700;
   padding: clamp(0.9rem, 1.6vw, 1.25rem) clamp(1.25rem, 2.6vw, 2rem);
-  border: 1px solid var(--fg-faint);
+  border: 1px solid rgba(242, 237, 224, 0.30);
   color: var(--fg-muted);
 }
 .btn--ghost:hover { border-color: var(--fg); color: var(--fg); }
@@ -352,9 +350,11 @@ body {
   z-index: 100;
   background: var(--header-bg);
   color: var(--header-fg);
-  border-bottom: 1px solid color-mix(in srgb, var(--header-fg) 13%, transparent);
+  border-bottom: 1px solid rgba(242, 237, 224, 0.12);
   transition: box-shadow var(--t-med) var(--ease);
 }
+/* Cream pill on navy: gold stays reserved for the primary CTA. */
+.site-header .btn--sm { background: var(--cream); color: var(--ink-navy); }
 .site-header.is-stuck { box-shadow: 0 6px 24px -12px rgba(0, 0, 0, 0.45); }
 
 .site-header__inner {
@@ -494,15 +494,18 @@ body {
    -------------------------------------------------------------------------- */
 
 .hero-seg {
-  --fg: var(--hero-ink);
-  --fg-muted:  color-mix(in srgb, var(--hero-ink) 76%, transparent);
-  --fg-dim:    color-mix(in srgb, var(--hero-ink) 52%, transparent);
+  --fg: var(--cream);
+  --fg-muted: rgba(242, 237, 224, 0.70);
+  --fg-dim:   rgba(242, 237, 224, 0.50);
   position: relative;
   display: grid;
   align-items: center;
   min-height: clamp(520px, 75vw, 1080px);
   overflow: hidden;
-  background: linear-gradient(to bottom, var(--hero-from) 0%, var(--hero-to) 100%);
+  background:
+    radial-gradient(1100px 640px at 12% -12%, var(--gold-glow) 0%, rgba(224, 169, 62, 0) 60%),
+    radial-gradient(900px 560px at 88% 30%, var(--periwinkle) 0%, rgba(96, 118, 178, 0) 65%),
+    var(--ink-navy);
 }
 .hero-seg__img {
   position: absolute;
@@ -511,8 +514,8 @@ body {
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 7%, rgba(0,0,0,0.7) 16%, rgba(0,0,0,1) 26%);
-  mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 7%, rgba(0,0,0,0.7) 16%, rgba(0,0,0,1) 26%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 12%, rgba(0,0,0,0.45) 26%, rgba(0,0,0,0.85) 40%, rgba(0,0,0,1) 52%);
+  mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 12%, rgba(0,0,0,0.45) 26%, rgba(0,0,0,0.85) 40%, rgba(0,0,0,1) 52%);
 }
 .hero-seg__copy {
   position: relative;
@@ -530,8 +533,8 @@ body {
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--hero-accent, var(--accent-2));
-  border: 1px solid currentColor;
+  color: var(--fg-muted);
+  border: 1px solid rgba(242, 237, 224, 0.30);
   border-radius: var(--radius-pill);
   padding: 8px 16px;
 }
@@ -544,7 +547,7 @@ body {
   letter-spacing: -0.005em;
   color: var(--fg);
 }
-.hero-seg__title em { font-style: normal; color: var(--hero-accent, var(--accent-2)); }
+.hero-seg__title em { font-style: normal; color: rgba(242, 237, 224, 0.55); }
 .hero-seg__lead {
   font-size: clamp(1.0625rem, 1.53vw, 1.375rem);       /*  17 →  22 */
   line-height: 1.55;
@@ -586,7 +589,6 @@ body {
 .statement em { font-style: normal; color: var(--fg-dim); }
 .statement--seg { padding-block: clamp(3.5rem, 10.4vw, 9.375rem); }
 .statement--seg p { font-size: clamp(1.375rem, 2.78vw, 2.5rem); max-width: 26ch; }
-.statement--seg em { color: var(--accent-2); }
 /* Needs to outrank `.statement p`, which sets the serif display treatment. */
 .statement p.statement__sub {
   margin-top: clamp(1.25rem, 2.2vw, 2rem);
@@ -619,6 +621,7 @@ body {
   gap: clamp(2.25rem, 3vw, 2.75rem);
 }
 .step { display: flex; flex-direction: column; }
+.step__n { color: var(--gold-quiet); }
 .step__title {
   font-family: var(--font-serif);
   font-weight: 450;
@@ -682,7 +685,8 @@ body {
   height: clamp(400px, 38.9vw, 560px);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: linear-gradient(to bottom, var(--card-from) 0%, var(--card-to) 100%);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
   transition: transform var(--t-med) var(--ease);
 }
 .segment:hover { transform: translateY(-4px); }
@@ -693,8 +697,8 @@ body {
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 8%, rgba(0,0,0,0.7) 17%, rgba(0,0,0,1) 27%);
-  mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 8%, rgba(0,0,0,0.7) 17%, rgba(0,0,0,1) 27%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 12%, rgba(0,0,0,0.45) 26%, rgba(0,0,0,0.85) 40%, rgba(0,0,0,1) 52%);
+  mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 12%, rgba(0,0,0,0.45) 26%, rgba(0,0,0,0.85) 40%, rgba(0,0,0,1) 52%);
 }
 .segment__copy {
   position: absolute;
@@ -730,16 +734,32 @@ body {
   gap: 10px;
   font-size: 0.9375rem;
   font-weight: 700;
-  color: var(--card-cta-fg, var(--card-from));
-  background: var(--card-fg);
+  color: var(--card-pill-fg);
+  background: var(--card-pill-bg);
   border-radius: var(--radius-pill);
   padding: 14px 26px;
 }
-/* Each card carries the palette of the page it leads to. */
-.segment--leaders { --card-from: #0A1728; --card-to: #0D2138; --card-eyebrow: #A9C7F2; --card-fg: #F2F6FC; }
-.segment--adhd    { --card-from: #27150F; --card-to: #37211A; --card-eyebrow: #FFD22E; --card-fg: #FFF3E4; }
-.segment--parents { --card-from: #16281A; --card-to: #24362A; --card-eyebrow: #CDE8AC; --card-fg: #FBF6EA; }
-.segment--journal { --card-from: #F2E4D0; --card-to: #E9DBC4; --card-eyebrow: #8A6423; --card-fg: #2B2416; --card-cta-fg: #F2E4D0; }
+/* Checkerboard across the 2x2 grid: cards 1 and 4 navy, cards 2 and 3 white.
+   Keyed to position, not to the segment, so the palette no longer varies by
+   destination page. */
+.segment:nth-child(4n + 1),
+.segment:nth-child(4n + 4) {
+  --card-bg: var(--ink-navy);
+  --card-border: transparent;
+  --card-eyebrow: rgba(242, 237, 224, 0.55);
+  --card-fg: var(--cream);
+  --card-pill-bg: var(--cream);
+  --card-pill-fg: var(--ink-navy);
+}
+.segment:nth-child(4n + 2),
+.segment:nth-child(4n + 3) {
+  --card-bg: var(--white);
+  --card-border: rgba(35, 32, 26, 0.12);
+  --card-eyebrow: rgba(35, 32, 26, 0.55);
+  --card-fg: var(--ink-warm);
+  --card-pill-bg: var(--ink-navy);
+  --card-pill-fg: var(--cream);
+}
 
 @media (min-width: 900px) {
   .segments { grid-template-columns: 1fr 1fr; }
@@ -898,7 +918,7 @@ body {
   font-family: var(--font-display);
   font-size: clamp(2.75rem, 5vw, 4.5rem);
   line-height: 1;
-  color: var(--price-fg, var(--accent));
+  color: var(--fg);
 }
 .price__at { font-size: 0.9375rem; font-weight: 700; color: var(--fg-dim); }
 .reserve__copy {
@@ -992,8 +1012,8 @@ body {
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
-.compare .col-us .col-note { color: var(--accent-2); }
-.yes { font-size: 1.375rem; line-height: 1; color: var(--accent-2); }
+.compare .col-us .col-note { color: var(--fg-dim); }
+.yes { font-size: 1.375rem; line-height: 1; color: var(--fg); }
 .half { font-size: 1.25rem; line-height: 1; color: var(--fg-dim); }
 .no { font-size: 1.25rem; line-height: 1; color: var(--fg-ghost); }
 .qual {
@@ -1262,10 +1282,10 @@ body {
   font-size: 0.6rem;
   color: #fff;
 }
-.ps-check.is-done { background: var(--accent); border-color: var(--accent); }
+.ps-check.is-done { background: var(--illus-accent); border-color: var(--illus-accent); }
 .ps-bars { display: flex; align-items: flex-end; gap: 5px; height: 54px; margin-top: 0.7rem; }
 .ps-bars i { flex: 1; border-radius: 3px; background: rgba(16, 26, 53, 0.12); }
-.ps-bars i.is-hot { background: var(--accent); }
+.ps-bars i.is-hot { background: var(--illus-accent); }
 .ps-days { display: flex; gap: 5px; margin-top: 0.35rem; }
 .ps-days span { flex: 1; text-align: center; font-size: 0.56rem; font-weight: 600; color: var(--muted-2); }
 .ps-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.15rem; }
@@ -1278,7 +1298,7 @@ body {
   border-radius: var(--radius-pill);
   padding: 0.3rem 0.6rem;
 }
-.ps-topic b { color: var(--accent); font-weight: 700; }
+.ps-topic b { color: var(--illus-accent); font-weight: 700; }
 .ps-people { display: flex; align-items: center; gap: 0.6rem; }
 .ps-avs { display: inline-flex; }
 .ps-av {
@@ -1305,7 +1325,7 @@ body {
   background: rgba(16, 26, 53, 0.15);
   margin-top: 10px;
 }
-.ps-track span { background: var(--accent); }
+.ps-track span { background: var(--illus-accent); }
 .ps-legend {
   display: flex;
   justify-content: space-between;
@@ -1316,7 +1336,7 @@ body {
   text-transform: uppercase;
   color: var(--muted-2);
 }
-.ps-legend b { color: var(--accent); font-weight: 700; }
+.ps-legend b { color: var(--illus-accent); font-weight: 700; }
 .ps-mini { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
 .ps-mini-row { display: flex; align-items: center; gap: 8px; }
 .ps-mini-row > span:first-child {
@@ -1327,7 +1347,7 @@ body {
   color: var(--muted-2);
 }
 .ps-mini-bar { height: 10px; border-radius: 5px; background: rgba(16, 26, 53, 0.15); }
-.ps-mini-bar--hot { background: var(--accent); }
+.ps-mini-bar--hot { background: var(--illus-accent); }
 .ps-mini-val { font-size: 0.68rem; font-weight: 600; color: var(--muted); }
 
 /* Saved-highlight player */
@@ -1345,14 +1365,14 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--illus-accent);
   color: var(--cta-fg);
   display: grid;
   place-items: center;
 }
 .hl-wave { flex: 1; display: flex; align-items: center; gap: 3px; height: 36px; }
 .hl-wave i { flex: 1; border-radius: 2px; background: var(--fg-faint); }
-.hl-wave i:nth-child(-n+6) { background: var(--accent); }
+.hl-wave i:nth-child(-n+6) { background: var(--illus-accent); }
 .hl-wave i:nth-child(6n+1) { height: 35%; }
 .hl-wave i:nth-child(6n+2) { height: 65%; }
 .hl-wave i:nth-child(6n+3) { height: 90%; }
