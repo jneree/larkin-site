@@ -374,7 +374,9 @@ body::after {
 .brand__mark {
   font-family: var(--font-serif);
   font-weight: 500;
-  font-size: clamp(1.375rem, 1.8vw, 1.625rem);
+  /* 15% smaller than clamp(1.375rem, 1.8vw, 1.625rem) — the em-based tracking
+     below scales with it, so the whole wordmark shrinks proportionally. */
+  font-size: clamp(1.169rem, 1.53vw, 1.381rem);
   letter-spacing: 0.3em;
   /* the tracking leaves a trailing gap after the last letter — pull it back so
      the wordmark still sits tight against the tag and the left edge reads clean */
