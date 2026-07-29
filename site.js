@@ -52,19 +52,18 @@
   /* The two videos weigh ~7MB together, so the source is held in data-src and
      attached only when it is actually wanted.
 
-     Three gates, because an earlier version got this wrong: the hero video is
+     Two gates, because an earlier version got this wrong: the hero video is
      NOT below the fold on a desktop viewport, so an IntersectionObserver alone
      fired on the first frame and pulled 5.75MB into the initial load of the
      page ads land on.
        1. never before the load event, so video never competes with LCP;
-       2. never on a metered or slow connection;
-       3. then, and only then, when the element is actually near the viewport. */
+       2. then, and only then, when the element is actually near the viewport. */
+  /* Autoplay is unconditional apart from the OS-level reduced-motion setting:
+     an earlier connection heuristic (saveData / 2g / 3g) turned autoplay off
+     for anyone on a link the browser merely guessed was slow, which read as
+     the video being broken. The weight gates stay: nothing is fetched before
+     the load event, and only when the element comes near the viewport. */
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  var conn = navigator.connection || {};
-  var slowLink = conn.saveData === true ||
-                 /(^|-)2g$/.test(conn.effectiveType || '') ||
-                 conn.effectiveType === '3g';
 
   /* The poster is the section's visible content until the clip is attached, so
      it must arrive before the reader does — but a `poster` attribute in the
@@ -119,8 +118,8 @@
     // content, so an empty frame is never an acceptable resting state.
     videos.forEach(showPoster);
 
-    if (reduceMotion || slowLink) {
-      // Poster plus controls: nothing downloads until the visitor asks for it.
+    if (reduceMotion) {
+      // Poster plus controls: nothing moves until the visitor asks for it.
       videos.forEach(function (video) {
         video.removeAttribute('autoplay');
         video.setAttribute('controls', '');
