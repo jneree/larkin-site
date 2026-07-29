@@ -94,6 +94,8 @@ summary::-webkit-details-marker { display: none; }
   --price-fg: #111111;
   --reserve-cta-bg: #111111; --reserve-cta-fg: #F4F1EA;
   --focus: #4CE07A;
+  /* second banner line: the reserve site's periwinkle, desaturated for near-black */
+  --banner-line: #A9B6CE;
 }
 
 [data-theme="leaders"] {
@@ -727,6 +729,25 @@ body {
   gap: clamp(1.5rem, 3.33vw, 3rem);
   padding-bottom: clamp(2rem, 3.6vw, 3.25rem);
 }
+/* Controls-only row under a centred banner (the banner spaces itself). */
+.car-head--end { justify-content: flex-end; padding-bottom: 20px; }
+@media (max-width: 899px) { .car-head--end { display: none; } }
+
+/* ----- Serif banner — the reserve-site title treatment ----- */
+/* Two sentences, two voices: the claim in the ink colour, the reassurance a
+   step quieter on its own line. Newsreader at text weight, tight and centred. */
+.banner {
+  font-family: var(--font-serif);
+  font-weight: 450;
+  font-size: clamp(2.25rem, 4.6vw, 4.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  text-align: center;
+  color: var(--fg);
+  margin-inline: auto;
+  margin-bottom: clamp(2rem, 4.2vw, 3rem);
+}
+.banner__line { display: block; color: var(--banner-line, var(--fg-dim)); }
 .car-controls { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
 .car-btn {
   width: 52px;
@@ -794,17 +815,10 @@ body {
    The phone runs off the card's bottom edge exactly as it does in .ptile, so
    the card clips it and needs no bottom padding of its own. */
 .car__card--app { padding-bottom: 0; overflow: hidden; }
-.fcard__phone { position: relative; height: 330px; margin-top: 22px; }
+.fcard__phone { position: relative; height: 280px; margin-top: 20px; }
 
-/* Feature titles carry the display face so the cards lead with a word, not a
-   sentence — the description below does the explaining. */
-.car__card--feat > h3 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1.5rem, 1.9vw, 1.75rem);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
+/* Feature titles stay in the UI face, plain sentence case — the phones are
+   the spectacle, the title just names it. */
 .car__card--feat > p { font-size: 0.95rem; }
 
 @media (max-width: 699px) {
