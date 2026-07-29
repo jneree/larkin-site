@@ -314,11 +314,11 @@ body::after {
 .btn:active { transform: translateY(0); }
 
 .btn--primary {
-  font-family: var(--font-display);
-  font-weight: 400;
+  font-family: var(--font-serif);
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  font-size: clamp(1.125rem, 1.7vw, 1.5rem);           /*  18 →  24 */
+  letter-spacing: 0.14em;
+  font-size: clamp(1.0625rem, 1.5vw, 1.3125rem);       /*  17 →  21 */
   padding: clamp(1rem, 1.6vw, 1.4375rem) clamp(1.75rem, 3.3vw, 2.875rem);
   background: var(--cta-bg);
   color: var(--cta-fg);
@@ -373,9 +373,13 @@ body::after {
 
 .brand { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
 .brand__mark {
-  font-family: var(--font-display);
-  font-size: clamp(1.25rem, 1.67vw, 1.5rem);
-  letter-spacing: 0.1em;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.375rem, 1.8vw, 1.625rem);
+  letter-spacing: 0.3em;
+  /* the tracking leaves a trailing gap after the last letter — pull it back so
+     the wordmark still sits tight against the tag and the left edge reads clean */
+  margin-right: -0.3em;
   text-transform: uppercase;
   color: var(--header-fg);
   white-space: nowrap;
@@ -630,6 +634,18 @@ body::after {
   margin: 0;
   font-size: clamp(1.875rem, 4.8vw, 3.9rem);
   line-height: 1.18;
+}
+/* Pinned read-along: site.js adds .stmt-scrub only when it can actually drive
+   the scrub (JS running + motion allowed). The tall outer supplies the scroll
+   distance; the inner sticks — centred in the viewport — while the words light,
+   then releases into the zig-zag below. Without the class it's just the normal
+   centred statement above, so no-JS / reduced-motion never gets pinned. */
+.stmt-scrub .statement-pin { height: 200vh; }
+.stmt-scrub .statement-pin .statement--reveal {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  min-height: 100svh;
 }
 .statement--seg { padding-block: clamp(3.5rem, 10.4vw, 9.375rem); }
 .statement--seg p { font-size: clamp(1.375rem, 2.78vw, 2.5rem); max-width: 26ch; }

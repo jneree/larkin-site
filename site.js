@@ -204,12 +204,17 @@
      per-word brightness, there is no pinning. Without JS, or with reduced
      motion, the words are never wrapped, so the sentence stays plainly bright
      and readable. */
+  var pin = document.querySelector('.statement-pin');
   var revEl = document.querySelector('.statement--reveal');
   var reads = revEl ? [].slice.call(revEl.querySelectorAll('.statement__read')) : [];
-  if (reads.length && !reduceMotion) {
+  if (pin && reads.length && !reduceMotion) {
+    // Engage the sticky pin (CSS keys off this class) — only ever on when JS is
+    // here to scrub it, so no-JS never gets a frozen, unlit block.
+    document.documentElement.classList.add('stmt-scrub');
+
     var DIM = 0.24;   // resting brightness of an unread word
     var LEAD = 4;     // words in the soft edge between dim and lit
-    var words = [];   // every word, in document order, across all paragraphs
+    var words = [];   // every word, document order, across both paragraphs
     reads.forEach(function (read) {
       var parts = read.textContent.trim().split(/\s+/);
       read.textContent = '';
@@ -225,17 +230,18 @@
     });
     var N = words.length;
 
+    // While the statement is pinned, scroll runs progress 0..1 through the tall
+    // outer. Light the words across the middle of that range — a short dim beat
+    // as it settles in, a lit beat to read the whole thing before it releases.
+    var START = 0.08, END = 0.90;
     var paint = function () {
       var vh = window.innerHeight || document.documentElement.clientHeight;
-      var first = reads[0].getBoundingClientRect();
-      var last = reads[reads.length - 1].getBoundingClientRect();
-      // Drive the reveal off the centre of the whole statement, so it finishes
-      // lighting just as the block settles into the middle of the screen. Words
-      // light straight through the paragraph break, so the pause reads too.
-      var center = (first.top + last.bottom) / 2;
-      var p = (vh * 0.85 - center) / (vh * 0.42);
-      if (p < 0) p = 0; else if (p > 1) p = 1;
-      var reach = p * (N + LEAD);
+      var span = pin.offsetHeight - vh;
+      var progress = span > 0 ? (-pin.getBoundingClientRect().top / span) : 0;
+      if (progress < 0) progress = 0; else if (progress > 1) progress = 1;
+      var pr = (progress - START) / (END - START);
+      if (pr < 0) pr = 0; else if (pr > 1) pr = 1;
+      var reach = pr * (N + LEAD);
       for (var i = 0; i < N; i++) {
         var wp = (reach - i) / LEAD;
         if (wp < 0) wp = 0; else if (wp > 1) wp = 1;
@@ -253,7 +259,7 @@
       new IntersectionObserver(function (entries) {
         onView = entries[0].isIntersecting;
         if (onView) requestAnimationFrame(tick);
-      }, { rootMargin: '120px 0px' }).observe(revEl);
+      }, { rootMargin: '200px 0px' }).observe(pin);
     } else {
       onView = true;
     }

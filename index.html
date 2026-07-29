@@ -116,13 +116,16 @@
          preload="none" muted playsinline autoplay
          aria-label="The Larkin wristband turning slowly against a soft grey backdrop"></video>
 
-  <!-- Statement — starts dim and lights word by word as it scrolls past the
-       reading line (see site.js). With no JS or reduced motion the words are
-       never wrapped, so the sentence is simply full-bright and readable. -->
-  <section class="shell statement statement--reveal">
-    <p class="statement__read">You can't see yourself the way other people do. Larkin can.</p>
-    <p class="statement__read">It listens all day and shows you your patterns, your promises, and the things you keep coming back to — so you can finally change them.</p>
-  </section>
+  <!-- Statement — pinned read-along. The tall .statement-pin holds the sentence
+       centred in the viewport while the scroll drives the word highlight, then
+       releases into the zig-zag (see site.js). With no JS or reduced motion
+       nothing pins: it stays a normal centred, full-bright block. -->
+  <div class="statement-pin">
+    <section class="shell statement statement--reveal">
+      <p class="statement__read">You can't see yourself the way other people do. Larkin can.</p>
+      <p class="statement__read">It listens all day and shows you your patterns, your promises, and the things you keep coming back to — so you can finally change them.</p>
+    </section>
+  </div>
 
   <!-- How it works — a zig-zag with no title, on the same navy as the
        statement so the two read as one continuous stretch. -->
