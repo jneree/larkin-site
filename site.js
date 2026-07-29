@@ -197,6 +197,64 @@
     });
   }
 
+  /* ---- Read-along statement -------------------------------------------- */
+  /* The big statement starts dim and lights word by word as it scrolls past a
+     reading line, so the visitor is paced through the sentence instead of
+     skimming it. The page scrolls normally — this only maps scroll position to
+     per-word brightness, there is no pinning. Without JS, or with reduced
+     motion, the words are never wrapped, so the sentence stays plainly bright
+     and readable. */
+  var read = document.querySelector('.statement--reveal .statement__read');
+  if (read && !reduceMotion) {
+    var DIM = 0.24;   // resting brightness of an unread word
+    var LEAD = 4;     // words in the soft edge between dim and lit
+    var parts = read.textContent.trim().split(/\s+/);
+    read.textContent = '';
+    var words = parts.map(function (part, i) {
+      var w = document.createElement('span');
+      w.className = 'w';
+      w.textContent = part;
+      w.style.opacity = DIM;
+      read.appendChild(w);
+      if (i < parts.length - 1) read.appendChild(document.createTextNode(' '));
+      return w;
+    });
+    var N = words.length;
+
+    var paint = function () {
+      var rect = read.getBoundingClientRect();
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      // 0 while the paragraph sits low in the viewport, 1 by the time its top
+      // reaches the upper third — so it finishes lit while still on screen.
+      var p = (vh * 0.9 - rect.top) / (vh * 0.6);
+      if (p < 0) p = 0; else if (p > 1) p = 1;
+      var reach = p * (N + LEAD);
+      for (var i = 0; i < N; i++) {
+        var wp = (reach - i) / LEAD;
+        if (wp < 0) wp = 0; else if (wp > 1) wp = 1;
+        words[i].style.opacity = DIM + (1 - DIM) * wp;
+      }
+    };
+
+    var scheduled = false, onView = false;
+    var tick = function () { scheduled = false; paint(); };
+    var onScroll = function () {
+      if (!scheduled && onView) { scheduled = true; requestAnimationFrame(tick); }
+    };
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        onView = entries[0].isIntersecting;
+        if (onView) requestAnimationFrame(tick);
+      }, { rootMargin: '120px 0px' }).observe(read);
+    } else {
+      onView = true;
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    paint();
+  }
+
   /* ---- Checkout attribution -------------------------------------------- */
   /* Every reserve CTA leaves for Shopify. Fire InitiateCheckout tagged with the
      segment so the five pages are distinguishable in Meta reporting — the

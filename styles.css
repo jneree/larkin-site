@@ -608,6 +608,11 @@ body::after {
   text-wrap: balance;
 }
 .statement em { font-style: normal; color: var(--fg-dim); }
+/* Read-along statement: centred, and lit per word from site.js. The words are
+   only dimmed once the script has wrapped them, so with no JS (or reduced
+   motion) the sentence is simply full-bright. */
+.statement--reveal { text-align: center; }
+.statement--reveal p { max-width: 32ch; margin-inline: auto; }
 .statement--seg { padding-block: clamp(3.5rem, 10.4vw, 9.375rem); }
 .statement--seg p { font-size: clamp(1.375rem, 2.78vw, 2.5rem); max-width: 26ch; }
 /* Needs to outrank `.statement p`, which sets the serif display treatment. */
@@ -692,6 +697,28 @@ body::after {
      flex container drops the whitespace between items — gap restores the
      space that was there before. */
   .step__title { display: flex; align-items: flex-end; gap: 0.3em; min-height: 2.4em; }
+}
+
+/* Homepage variant: the steps become a zig-zag on the dark statement
+   background — no head, media and copy swapping sides each row. Scoped to
+   .how--zig, so the segment pages keep their three-up grid untouched. */
+.how--zig .steps { display: flex; flex-direction: column; gap: clamp(3rem, 7vw, 5.5rem); }
+.how--zig .step { gap: clamp(1.25rem, 3vw, 1.75rem); }
+.how--zig .step img {
+  height: auto;
+  aspect-ratio: 3 / 2;
+  margin-bottom: 0;
+}
+.how--zig .step__n { color: var(--gold-top); }   /* the quiet gold is too dark on navy */
+@media (min-width: 900px) {
+  .how--zig .step { flex-direction: row; align-items: center; gap: clamp(3rem, 6vw, 5.5rem); }
+  .how--zig .step:nth-child(even) { flex-direction: row-reverse; }
+  .how--zig .step__media,
+  .how--zig .step__body { flex: 1 1 0; min-width: 0; }
+  /* Each row stands on its own: drop the grid-mode title padding and the
+     left-to-right entrance stagger meant for side-by-side cards. */
+  .how--zig .step__title { align-items: baseline; min-height: 0; }
+  .how--zig .steps > .step.rv { --rv-d: 0ms; }
 }
 
 /* --------------------------------------------------------------------------
