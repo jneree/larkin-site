@@ -611,8 +611,26 @@ body::after {
 /* Read-along statement: centred, and lit per word from site.js. The words are
    only dimmed once the script has wrapped them, so with no JS (or reduced
    motion) the sentence is simply full-bright. */
-.statement--reveal { text-align: center; }
-.statement--reveal p { max-width: 32ch; margin-inline: auto; }
+.statement--reveal {
+  text-align: center;
+  min-height: 84vh;
+  min-height: 84svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.5rem, 3.5vw, 2.75rem);
+  padding-block: clamp(3rem, 7vh, 5.5rem);
+}
+/* Big and screen-centred, so the read-along reads as a moment you can't scroll
+   past rather than one more paragraph. Split into two paragraphs so the copy
+   breathes after "Larkin can." — the gap gives the pivot line room. */
+.statement--reveal p {
+  max-width: 28ch;
+  margin: 0;
+  font-size: clamp(1.875rem, 4.8vw, 3.9rem);
+  line-height: 1.18;
+}
 .statement--seg { padding-block: clamp(3.5rem, 10.4vw, 9.375rem); }
 .statement--seg p { font-size: clamp(1.375rem, 2.78vw, 2.5rem); max-width: 26ch; }
 /* Needs to outrank `.statement p`, which sets the serif display treatment. */

@@ -204,29 +204,36 @@
      per-word brightness, there is no pinning. Without JS, or with reduced
      motion, the words are never wrapped, so the sentence stays plainly bright
      and readable. */
-  var read = document.querySelector('.statement--reveal .statement__read');
-  if (read && !reduceMotion) {
+  var revEl = document.querySelector('.statement--reveal');
+  var reads = revEl ? [].slice.call(revEl.querySelectorAll('.statement__read')) : [];
+  if (reads.length && !reduceMotion) {
     var DIM = 0.24;   // resting brightness of an unread word
     var LEAD = 4;     // words in the soft edge between dim and lit
-    var parts = read.textContent.trim().split(/\s+/);
-    read.textContent = '';
-    var words = parts.map(function (part, i) {
-      var w = document.createElement('span');
-      w.className = 'w';
-      w.textContent = part;
-      w.style.opacity = DIM;
-      read.appendChild(w);
-      if (i < parts.length - 1) read.appendChild(document.createTextNode(' '));
-      return w;
+    var words = [];   // every word, in document order, across all paragraphs
+    reads.forEach(function (read) {
+      var parts = read.textContent.trim().split(/\s+/);
+      read.textContent = '';
+      parts.forEach(function (part, i) {
+        var w = document.createElement('span');
+        w.className = 'w';
+        w.textContent = part;
+        w.style.opacity = DIM;
+        read.appendChild(w);
+        if (i < parts.length - 1) read.appendChild(document.createTextNode(' '));
+        words.push(w);
+      });
     });
     var N = words.length;
 
     var paint = function () {
-      var rect = read.getBoundingClientRect();
       var vh = window.innerHeight || document.documentElement.clientHeight;
-      // 0 while the paragraph sits low in the viewport, 1 by the time its top
-      // reaches the upper third — so it finishes lit while still on screen.
-      var p = (vh * 0.9 - rect.top) / (vh * 0.6);
+      var first = reads[0].getBoundingClientRect();
+      var last = reads[reads.length - 1].getBoundingClientRect();
+      // Drive the reveal off the centre of the whole statement, so it finishes
+      // lighting just as the block settles into the middle of the screen. Words
+      // light straight through the paragraph break, so the pause reads too.
+      var center = (first.top + last.bottom) / 2;
+      var p = (vh * 0.85 - center) / (vh * 0.42);
       if (p < 0) p = 0; else if (p > 1) p = 1;
       var reach = p * (N + LEAD);
       for (var i = 0; i < N; i++) {
@@ -246,7 +253,7 @@
       new IntersectionObserver(function (entries) {
         onView = entries[0].isIntersecting;
         if (onView) requestAnimationFrame(tick);
-      }, { rootMargin: '120px 0px' }).observe(read);
+      }, { rootMargin: '120px 0px' }).observe(revEl);
     } else {
       onView = true;
     }
