@@ -601,35 +601,58 @@ body {
    11. How it works — three numbered cards (homepage)
    -------------------------------------------------------------------------- */
 
+/* Centred head above the step row: a small mono-flavoured kicker, then the
+   serif banner. */
+.steps-head { text-align: center; }
+.kicker {
+  margin-bottom: 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+
 .steps {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(2rem, 2.8vw, 2.5rem);
+  gap: clamp(2.25rem, 3vw, 2.75rem);
 }
-.step { display: flex; flex-direction: column; gap: 12px; }
-.step img {
-  width: 100%;
-  height: clamp(220px, 22.2vw, 320px);
-  object-fit: cover;
-  border-radius: var(--radius);
-  margin-bottom: 14px;
-}
-/* Number and title share a line: "01 Wear it" reads as one unit instead of
-   spending a line on a lone numeral. */
-.step h3 {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  font-weight: 600;
-  font-size: clamp(1.25rem, 1.67vw, 1.5rem);
+.step { display: flex; flex-direction: column; }
+.step__title {
+  font-family: var(--font-serif);
+  font-weight: 450;
+  font-size: clamp(1.5rem, 2.08vw, 1.875rem);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
   color: var(--fg);
 }
-.step__num {
-  font-family: var(--font-display);
-  font-size: 1.05em;
-  line-height: 1;
-  letter-spacing: 0.04em;
-  color: var(--accent);
+/* A dot, then a dotted rule running to the card's edge. */
+.step__lead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 16px;
+}
+.step__lead::before {
+  content: "";
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--fg);
+}
+.step__lead::after {
+  content: "";
+  flex: 1;
+  border-top: 1.5px dotted color-mix(in srgb, var(--fg) 35%, transparent);
+}
+.step img {
+  width: 100%;
+  height: clamp(240px, 24vw, 344px);
+  object-fit: cover;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
 }
 .step p {
   font-size: clamp(1rem, 1.18vw, 1.0625rem);
@@ -637,7 +660,12 @@ body {
   color: var(--fg-soft);
   max-width: 32ch;
 }
-@media (min-width: 900px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 900px) {
+  .steps { grid-template-columns: repeat(3, 1fr); }
+  /* Reserve two title lines and bottom-align, so a wrapping title never pushes
+     its dotted rule and photo out of line with the neighbours'. */
+  .step__title { display: flex; align-items: flex-end; min-height: 2.4em; }
+}
 
 /* --------------------------------------------------------------------------
    12. Who it's for — four segment cards
@@ -1391,6 +1419,61 @@ body {
 
 @media (min-width: 800px) {
   .site-footer__inner { flex-direction: row; justify-content: space-between; text-align: left; }
+}
+
+/* --------------------------------------------------------------------------
+   20b. Motion — hero load-in and scroll reveals
+   Rules of the system: hidden states exist ONLY under .js-anim (set by
+   site.js — no JS, nothing ever hides) and only when the OS allows motion.
+   Reveals use the `translate` property, never `transform`, so they compose
+   with hover transforms instead of overriding them.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(16px); }
+  }
+  /* Homepage hero: everything but the h1 — the headline is the likely LCP
+     element and must paint immediately. Segment heroes animate all copy; their
+     LCP is the untouched hero photo. */
+  .hero-home > .hero-home__lead { animation: rise 0.7s var(--ease) backwards; }
+  .hero-home > .hero-actions { animation: rise 0.7s var(--ease) 100ms backwards; }
+  .hero-home > .hero-fine { animation: rise 0.7s var(--ease) 200ms backwards; }
+  .hero-seg__copy > * { animation: rise 0.7s var(--ease) backwards; }
+  .hero-seg__copy > :nth-child(2) { animation-delay: 90ms; }
+  .hero-seg__copy > :nth-child(3) { animation-delay: 180ms; }
+  .hero-seg__copy > :nth-child(4) { animation-delay: 270ms; }
+  .hero-seg__copy > :nth-child(5) { animation-delay: 360ms; }
+
+  .js-anim .rv {
+    opacity: 0;
+    translate: 0 14px;
+    transition: opacity 0.65s var(--ease) var(--rv-d, 0ms),
+                translate 0.65s var(--ease) var(--rv-d, 0ms);
+  }
+  .js-anim .rv.in { opacity: 1; translate: none; }
+
+  /* The step rule draws itself: dot pops, dotted line sweeps to the edge. */
+  .js-anim .step__lead::before {
+    transform: scale(0);
+    transition: transform 0.4s var(--ease) calc(var(--rv-d, 0ms) + 250ms);
+  }
+  .js-anim .step__lead::after {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s var(--ease) calc(var(--rv-d, 0ms) + 320ms);
+  }
+  .js-anim .step.rv.in .step__lead::before { transform: scale(1); }
+  .js-anim .step.rv.in .step__lead::after { transform: scaleX(1); }
+}
+
+/* Row-mates trail each other left to right; on one phone column each element
+   enters on its own, so no artificial lag there. */
+@media (prefers-reduced-motion: no-preference) and (min-width: 900px) {
+  :is(.steps, .segments, .car, .pillars, .ptile-grid, .stats) > .rv:nth-child(2) { --rv-d: 90ms; }
+  :is(.steps, .segments, .car, .pillars, .ptile-grid, .stats) > .rv:nth-child(3) { --rv-d: 180ms; }
+  :is(.segments, .car, .stats) > .rv:nth-child(4) { --rv-d: 270ms; }
+  .car > .rv:nth-child(5) { --rv-d: 360ms; }
 }
 
 /* --------------------------------------------------------------------------

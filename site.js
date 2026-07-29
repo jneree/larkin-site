@@ -174,6 +174,29 @@
     });
   });
 
+  /* ---- Scroll reveals --------------------------------------------------- */
+  /* Hidden states only exist under .js-anim, added right here — if this file
+     never runs, nothing on the page is ever hidden. Elements already scrolled
+     past reveal instantly, so a mid-page reload or anchor jump never strands a
+     blank section above the viewport. */
+  document.documentElement.classList.add('js-anim');
+  var reveals = document.querySelectorAll('.rv');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var rvo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in');
+        rvo.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(function (el) {
+      if (el.getBoundingClientRect().bottom < 0) el.classList.add('in');
+      else rvo.observe(el);
+    });
+  }
+
   /* ---- Checkout attribution -------------------------------------------- */
   /* Every reserve CTA leaves for Shopify. Fire InitiateCheckout tagged with the
      segment so the five pages are distinguishable in Meta reporting — the
