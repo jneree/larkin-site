@@ -612,13 +612,23 @@ body {
   border-radius: var(--radius);
   margin-bottom: 14px;
 }
+/* Number and title share a line: "01 Wear it" reads as one unit instead of
+   spending a line on a lone numeral. */
+.step h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-weight: 600;
+  font-size: clamp(1.25rem, 1.67vw, 1.5rem);
+  color: var(--fg);
+}
 .step__num {
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 2.36vw, 2.125rem);
+  font-size: 1.05em;
   line-height: 1;
-  color: var(--fg-faint);
+  letter-spacing: 0.04em;
+  color: var(--accent);
 }
-.step h3 { font-weight: 600; font-size: clamp(1.25rem, 1.67vw, 1.5rem); color: var(--fg); }
 .step p {
   font-size: clamp(1rem, 1.18vw, 1.0625rem);
   line-height: 1.6;
