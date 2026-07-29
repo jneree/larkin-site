@@ -197,6 +197,60 @@
     });
   }
 
+  /* ---- Statement word reveal -------------------------------------------- */
+  /* The centred statement lights up word by word as it rises through the
+     viewport, so the reading pace belongs to the scroll. Words are wrapped
+     here at runtime: no JS (or reduced motion) means no spans and the
+     sentence is simply visible. */
+  var stmt = document.querySelector('.statement--reveal p');
+  if (stmt && !reduceMotion) {
+    var wrapWords = function (node) {
+      var out = [];
+      Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+        if (child.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach(function (tok) {
+            if (!tok) return;
+            if (/^\s+$/.test(tok)) { frag.appendChild(document.createTextNode(tok)); return; }
+            var w = document.createElement('span');
+            w.className = 'w';
+            w.textContent = tok;
+            frag.appendChild(w);
+            out.push(w);
+          });
+          node.replaceChild(frag, child);
+        } else if (child.nodeType === 1) {
+          out = out.concat(wrapWords(child));
+        }
+      });
+      return out;
+    };
+    var words = wrapWords(stmt);
+
+    var lit = -1;
+    var paint = function () {
+      var r = stmt.getBoundingClientRect();
+      var vh = window.innerHeight;
+      // starts lighting as the sentence passes 88% of the viewport, fully lit
+      // by the time it reaches 38% — reading speed is the scroll speed.
+      var progress = (vh * 0.88 - r.top) / (vh * 0.5);
+      progress = Math.max(0, Math.min(1, progress));
+      var n = Math.round(progress * words.length);
+      if (n === lit) return;
+      lit = n;
+      words.forEach(function (w, i) { w.classList.toggle('on', i < n); });
+    };
+    var ticking = false;
+    var onScroll = function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; paint(); });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    paint();
+  }
+
   /* ---- Checkout attribution -------------------------------------------- */
   /* Every reserve CTA leaves for Shopify. Fire InitiateCheckout tagged with the
      segment so the five pages are distinguishable in Meta reporting — the

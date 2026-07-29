@@ -578,6 +578,15 @@ body::after {
    -------------------------------------------------------------------------- */
 
 .statement { padding-block: clamp(4rem, 12.5vw, 11.25rem); }
+/* Centred homepage statement whose words light up with scroll. The dim state
+   exists only when site.js is running and motion is allowed — otherwise the
+   sentence is simply visible. */
+.statement--reveal { text-align: center; }
+.statement--reveal p { margin-inline: auto; }
+@media (prefers-reduced-motion: no-preference) {
+  .js-anim .statement--reveal .w { opacity: 0.22; transition: opacity 0.35s var(--ease); }
+  .js-anim .statement--reveal .w.on { opacity: 1; }
+}
 .statement p {
   font-family: var(--font-serif);
   font-size: clamp(1.5rem, 3.33vw, 3rem);              /*  24 →  48 */
@@ -745,7 +754,7 @@ body::after {
 .segment:nth-child(4n + 1),
 .segment:nth-child(4n + 4) {
   --card-bg: var(--ink-navy);
-  --card-border: transparent;
+  --card-border: rgba(242, 237, 224, 0.14);
   --card-eyebrow: rgba(242, 237, 224, 0.55);
   --card-fg: var(--cream);
   --card-pill-bg: var(--cream);
@@ -796,6 +805,7 @@ body::after {
   margin-bottom: clamp(2rem, 4.2vw, 3rem);
 }
 .banner__line { display: block; color: var(--banner-line, var(--fg-dim)); }
+.car-head .banner { margin-bottom: 0; text-align: left; }
 .car-controls { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
 .car-btn {
   width: 52px;
@@ -868,6 +878,20 @@ body::after {
 /* Feature titles stay in the UI face, plain sentence case — the phones are
    the spectacle, the title just names it. */
 .car__card--feat > p { font-size: 0.95rem; }
+
+/* The feature tile is navy wherever it sits, so on the warm-white band it
+   pops instead of dissolving. Ink family re-declared locally, like .ptile. */
+.car__card--feat {
+  background: var(--ink-navy);
+  border-color: rgba(242, 237, 224, 0.10);
+  --fg: var(--cream);
+  --fg-muted:  rgba(242, 237, 224, 0.70);
+  --fg-soft:   rgba(242, 237, 224, 0.62);
+  --fg-dim:    rgba(242, 237, 224, 0.50);
+  --fg-faint:  rgba(242, 237, 224, 0.30);
+  --rule-soft: rgba(242, 237, 224, 0.12);
+  --wash:      rgba(242, 237, 224, 0.07);
+}
 
 @media (max-width: 699px) {
   .car-controls { display: none; }
