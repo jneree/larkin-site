@@ -174,6 +174,51 @@
     });
   });
 
+  /* ---- Pre-order gallery ------------------------------------------------ */
+  /* Main photo with a thumbnail strip. Auto-advances while it is on screen so
+     the panel feels alive, and hands over to the visitor for good on the
+     first tap. Reduced motion never auto-advances. */
+  document.querySelectorAll('[data-pgal]').forEach(function (gal) {
+    var frames = [].slice.call(gal.querySelectorAll('.pgal__frame'));
+    var thumbs = [].slice.call(gal.querySelectorAll('.pgal__thumbs button'));
+    if (!frames.length || frames.length !== thumbs.length) return;
+
+    var current = 0;
+    var timer = null;
+    var auto = !reduceMotion;
+
+    var show = function (i) {
+      current = i;
+      frames.forEach(function (f, j) { f.classList.toggle('is-active', j === i); });
+      thumbs.forEach(function (t, j) { t.classList.toggle('is-active', j === i); });
+    };
+    var stop = function () {
+      if (timer) { clearInterval(timer); timer = null; }
+    };
+    var start = function () {
+      if (!timer) timer = setInterval(function () { show((current + 1) % frames.length); }, 4000);
+    };
+
+    thumbs.forEach(function (btn, i) {
+      btn.addEventListener('click', function () {
+        auto = false;
+        stop();
+        show(i);
+      });
+    });
+
+    if (!auto) return;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        if (!auto) return;
+        if (entries[0].isIntersecting) start();
+        else stop();
+      }, { threshold: 0.3 }).observe(gal);
+    } else {
+      start();
+    }
+  });
+
   /* ---- Scroll reveals --------------------------------------------------- */
   /* Hidden states only exist under .js-anim, added right here — if this file
      never runs, nothing on the page is ever hidden. Elements already scrolled
