@@ -928,13 +928,23 @@ body::after {
   display: flex;
   gap: 24px;
   overflow-x: auto;
+  /* A track meant to scroll only sideways still becomes a VERTICAL scroll
+     container: with overflow-x: auto, the spec computes the visible Y axis to
+     auto as well. That bites because the reveal state parks a card 14px lower
+     (`translate: 0 14px`) and cards waiting off the right edge never reveal —
+     so the track keeps a couple of pixels of vertical room permanently, and a
+     trackpad swipe over the carousel latches onto it for the whole gesture
+     instead of scrolling the page. Pin Y shut; the bottom padding below is
+     then deep enough for the reveal to land inside the padding box, so there
+     is no real overflow to clip either. */
+  overflow-y: hidden;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
   scroll-behavior: smooth;
   scrollbar-width: none;
   padding-inline: var(--car-pad);
   scroll-padding-inline: var(--car-pad);
-  padding-bottom: 12px;
+  padding-bottom: 16px;
 }
 .car::-webkit-scrollbar { display: none; }
 .car__card {
@@ -1236,6 +1246,11 @@ body::after {
 .compare-scroll {
   position: relative;
   overflow-x: auto;
+  /* Same guard as the carousels: overflow-x: auto would otherwise make this a
+     vertical scroll container too, and any stray pixel of vertical overflow
+     lets a downward swipe latch here instead of moving the page. The table
+     sets this box's height, so there is nothing to clip. */
+  overflow-y: hidden;
   overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
 }
