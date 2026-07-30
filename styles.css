@@ -975,12 +975,22 @@ body::after {
 
 /* The features band is the hero's navy again, glows included, so the page
    opens dark, breathes white through the statement and zig-zag, then drops
-   back into the dark for the software. Plain section, so the background can
-   sit on the element itself — no full-bleed pseudo needed. */
-#features.surface--dark {
+   back into the dark for the software. Plain sections, so the background can
+   sit on the element itself — #specs (the device) shares the exact treatment. */
+#features.surface--dark,
+#specs.surface--dark {
   background:
     radial-gradient(1100px 640px at 12% -6%, var(--gold-glow) 0%, rgba(224, 169, 62, 0) 60%),
     radial-gradient(900px 560px at 88% 42%, var(--periwinkle) 0%, rgba(96, 118, 178, 0) 65%),
+    var(--d-bg);
+}
+/* Use-cases runs straight on from features on the same navy — it is a .shell,
+   so its full-bleed paint lives on the ::before, glows folded in. Anchors
+   mirrored from the features band so the long dark stretch keeps moving. */
+#use-cases.surface--dark::before {
+  background:
+    radial-gradient(1000px 620px at 90% -4%, var(--gold-glow) 0%, rgba(224, 169, 62, 0) 60%),
+    radial-gradient(940px 600px at 6% 58%, var(--periwinkle) 0%, rgba(96, 118, 178, 0) 65%),
     var(--d-bg);
 }
 /* Second banner line takes the reserve site's periwinkle rather than the dim
@@ -1018,7 +1028,10 @@ body::after {
 }
 
 .car__card--app { overflow: hidden; }
-.fcard__phone { position: relative; height: 400px; margin-top: 2rem; }
+/* Shorter than the reserve site's 400px window: the CSS phone is a 1:2 slab,
+   so a 400px slice of empty screen read as an abnormally long device. 340px
+   crops at the content's natural end and keeps the run-off-the-edge crop. */
+.fcard__phone { position: relative; height: 340px; margin-top: 2rem; }
 
 @media (max-width: 699px) {
   .car-controls { display: none; }
@@ -1314,6 +1327,10 @@ body::after {
   color: var(--fg-faint);
   max-width: 60ch;
 }
+/* Headed like the reserve site's versus section: the pre-order band above
+   already supplies the air, so the section itself keeps only a small top
+   padding and lets the banner's own margin space the table. */
+#compare { padding-top: clamp(1rem, 2vw, 2rem); }
 
 /* --------------------------------------------------------------------------
    16. Specs
@@ -1355,40 +1372,39 @@ body::after {
    17. FAQ
    -------------------------------------------------------------------------- */
 
-.faq { display: flex; flex-direction: column; gap: 14px; max-width: 900px; }
-.faq__item {
-  border: 1px solid var(--rule);
-  border-radius: var(--radius);
-  padding-inline: clamp(1.25rem, 1.94vw, 1.75rem);
-  background: var(--surface-3);
-}
-.faq__item[open] { border-color: var(--fg-faint); }
+/* The reserve site's list: one centred 760px column, flat rows split by
+   hairlines — no boxes — question left, a +/– glyph right drawn by CSS. */
+.faq { max-width: 760px; margin-inline: auto; }
+.faq__item { border-bottom: 1px solid var(--rule); }
 .faq__item summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  padding-block: 20px;
+  gap: 1.5rem;
+  padding-block: 1.5rem;
   cursor: pointer;
   list-style: none;
-  font-size: clamp(1.0625rem, 1.39vw, 1.25rem);
-  font-weight: 600;
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
   color: var(--fg);
 }
-.faq__plus {
+.faq__item summary::after {
+  content: "+";
   flex: 0 0 auto;
-  font-size: 1.5rem;
+  font-family: var(--font-ui);
   font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1;
   color: var(--fg-dim);
-  transition: transform var(--t-med) var(--ease);
 }
-.faq__item[open] .faq__plus { transform: rotate(45deg); }
+.faq__item[open] summary::after { content: "–"; }
 .faq__item p {
-  padding-bottom: 22px;
-  font-size: clamp(1rem, 1.18vw, 1.0625rem);
+  padding-bottom: 2rem;
+  font-size: 1.02rem;
   line-height: 1.65;
   color: var(--fg-soft);
-  max-width: 64ch;
+  max-width: 62ch;
 }
 
 /* --------------------------------------------------------------------------
