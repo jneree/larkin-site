@@ -110,6 +110,13 @@ summary::-webkit-details-marker { display: none; }
   --gold-quiet:  #A8842F;
   --gold-glow:   rgba(224, 169, 62, 0.14);
   --periwinkle:  rgba(96, 118, 178, 0.20);
+  /* The hero's colour shapes re-pitched for warm white — soft circles in the
+     register ouraring.com washes its light sections with: amber, sky, slate
+     blue and sand, each fading out well before a section edge. */
+  --glow-amber:  rgba(255, 182, 72, 0.30);
+  --glow-sky:    rgba(181, 228, 254, 0.55);
+  --glow-slate:  rgba(182, 207, 221, 0.50);
+  --glow-sand:   rgba(213, 195, 171, 0.42);
 
   --d-bg: var(--ink-navy);  --d-bg-2: var(--ink-navy);
   --d-panel: var(--ink-navy); --d-card: var(--ink-navy); --d-ink: var(--cream);
@@ -370,13 +377,17 @@ body::after {
   padding-block: 10px;
 }
 
-.brand { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .brand__mark {
   font-family: var(--font-serif);
   font-weight: 500;
-  /* 15% smaller than clamp(1.375rem, 1.8vw, 1.625rem) — the em-based tracking
-     below scales with it, so the whole wordmark shrinks proportionally. */
-  font-size: clamp(1.169rem, 1.53vw, 1.381rem);
+  /* Another step down from clamp(1.169rem, 1.53vw, 1.381rem) — the em-based
+     tracking below scales with it, so the whole wordmark shrinks together. */
+  font-size: clamp(1.05rem, 1.38vw, 1.245rem);
+  line-height: 1;
+  /* Uppercase serif glyphs leave the line box's descender space empty, so the
+     word sat optically high in the bar; drop it by half that empty space. */
+  translate: 0 0.07em;
   letter-spacing: 0.3em;
   /* the tracking leaves a trailing gap after the last letter — pull it back so
      the wordmark still sits tight against the tag and the left edge reads clean */
@@ -648,6 +659,20 @@ body::after {
   min-height: 100vh;
   min-height: 100svh;
 }
+/* The statement sits on warm white while the page body stays navy. The pin is
+   painted too, so no navy sliver can peek past the 100svh sticky on phones
+   whose visual viewport outgrows svh when the URL bar collapses. */
+.statement-pin { background: var(--l-bg); }
+/* Colour shapes over the warm white: the hero's amber-and-blue pair, Oura
+   register — big, soft, and gone well before the section's edges, so the
+   statement and the zig-zag below still read as one continuous stretch. */
+.statement--reveal.surface--light::before {
+  background:
+    radial-gradient(1000px 700px at 14% 10%, var(--glow-amber) 0%, rgba(255, 182, 72, 0) 62%),
+    radial-gradient(920px 660px at 90% 42%, var(--glow-sky) 0%, rgba(181, 228, 254, 0) 64%),
+    radial-gradient(820px 600px at 46% 98%, var(--glow-sand) 0%, rgba(213, 195, 171, 0) 60%),
+    var(--l-bg);
+}
 .statement--seg { padding-block: clamp(3.5rem, 10.4vw, 9.375rem); }
 .statement--seg p { font-size: clamp(1.375rem, 2.78vw, 2.5rem); max-width: 26ch; }
 /* Needs to outrank `.statement p`, which sets the serif display treatment. */
@@ -734,8 +759,8 @@ body::after {
   .step__title { display: flex; align-items: flex-end; gap: 0.3em; min-height: 2.4em; }
 }
 
-/* Homepage variant: the steps become a zig-zag on the dark statement
-   background — no head, media and copy swapping sides each row. Scoped to
+/* Homepage variant: the steps become a zig-zag on the same warm white as the
+   statement — no head, media and copy swapping sides each row. Scoped to
    .how--zig, so the segment pages keep their three-up grid untouched. */
 .how--zig .steps { display: flex; flex-direction: column; gap: clamp(3rem, 7vw, 5.5rem); }
 .how--zig .step { gap: clamp(1.25rem, 3vw, 1.75rem); }
@@ -744,7 +769,17 @@ body::after {
   aspect-ratio: 3 / 2;
   margin-bottom: 0;
 }
-.how--zig .step__n { color: var(--gold-top); }   /* the quiet gold is too dark on navy */
+.how--zig .step__n { color: var(--gold-quiet); }
+/* The statement's colour shapes carry on down the zig-zag, alternating sides
+   so each step row gets its own wash. Same specificity as the generic
+   .shell.surface--light::before painter, later in the file, so it wins. */
+.how--zig.surface--light::before {
+  background:
+    radial-gradient(1000px 720px at 4% 14%, var(--glow-slate) 0%, rgba(182, 207, 221, 0) 62%),
+    radial-gradient(940px 680px at 96% 52%, var(--glow-amber) 0%, rgba(255, 182, 72, 0) 62%),
+    radial-gradient(900px 640px at 8% 94%, var(--glow-sky) 0%, rgba(181, 228, 254, 0) 62%),
+    var(--l-bg);
+}
 @media (min-width: 900px) {
   .how--zig .step { flex-direction: row; align-items: center; gap: clamp(3rem, 6vw, 5.5rem); }
   .how--zig .step:nth-child(even) { flex-direction: row-reverse; }
@@ -928,30 +963,52 @@ body::after {
 .car__card > h3 { font-weight: 600; font-size: 1.3125rem; line-height: 1.25; color: var(--fg); }
 .car__card > p { font-size: 1rem; line-height: 1.6; color: var(--fg-soft); }
 
-/* App cards — the phone mockups the segment pages use, one feature per card.
-   The phone runs off the card's bottom edge exactly as it does in .ptile, so
-   the card clips it and needs no bottom padding of its own. */
-/* Feature tiles stay navy on the light band so the phone mockups keep their
-   contrast. Ink family re-declared locally, exactly as .ptile does. Scoped to
-   #features so the privacy carousel and the use-case cards are unaffected. */
+/* The features band is the hero's navy again, glows included, so the page
+   opens dark, breathes white through the statement and zig-zag, then drops
+   back into the dark for the software. Plain section, so the background can
+   sit on the element itself — no full-bleed pseudo needed. */
+#features.surface--dark {
+  background:
+    radial-gradient(1100px 640px at 12% -6%, var(--gold-glow) 0%, rgba(224, 169, 62, 0) 60%),
+    radial-gradient(900px 560px at 88% 42%, var(--periwinkle) 0%, rgba(96, 118, 178, 0) 65%),
+    var(--d-bg);
+}
+/* Second banner line takes the reserve site's periwinkle rather than the dim
+   cream — the treatment this section had over there. Surface-scoped: the
+   segment pages' #features banner stays on warm white and keeps its own line
+   colour. */
+#features.surface--dark .banner__line { color: #AEBBD8; }
+
+/* App cards — the reserve site's dark feature tile, riding the carousel track:
+   same panel gradient, hairline, radius, serif title and 400px phone window,
+   just scroll-snapped instead of gridded. The phone still runs off the card's
+   bottom edge, so app cards drop their bottom padding (re-stated at #features
+   strength, which would otherwise out-rank the .car__card--app rule). */
 #features .car__card {
-  background: var(--ink-navy);
-  border-color: rgba(242, 237, 224, 0.12);
-  --fg: var(--cream);
-  --fg-muted:  rgba(242, 237, 224, 0.70);
-  --fg-soft:   rgba(242, 237, 224, 0.62);
-  --fg-dim:    rgba(242, 237, 224, 0.50);
-  --fg-faint:  rgba(242, 237, 224, 0.30);
-  --rule-soft: rgba(242, 237, 224, 0.12);
-  --wash:      rgba(242, 237, 224, 0.07);
+  flex-basis: min(560px, 86vw);
+  gap: 0;
+  background: linear-gradient(180deg, #1A2848 0%, #141F3C 100%);
+  border-color: rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.5rem, 3vw, 2.5rem);
+}
+#features .car__card--app { padding-bottom: 0; }
+#features .car__card > h3 {
+  font-family: var(--font-serif);
+  font-weight: 450;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  font-size: clamp(1.45rem, 2.2vw, 1.9rem);
+}
+#features .car__card > p {
+  margin-top: 0.5rem;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  max-width: 40ch;
 }
 
-.car__card--app { padding-bottom: 0; overflow: hidden; }
-.fcard__phone { position: relative; height: 280px; margin-top: 20px; }
-
-/* Feature titles stay in the UI face, plain sentence case — the phones are
-   the spectacle, the title just names it. */
-.car__card--feat > p { font-size: 0.95rem; }
+.car__card--app { overflow: hidden; }
+.fcard__phone { position: relative; height: 400px; margin-top: 2rem; }
 
 @media (max-width: 699px) {
   .car-controls { display: none; }
@@ -1034,6 +1091,133 @@ body::after {
 }
 @media (min-width: 1000px) {
   .reserve__layout { grid-template-columns: minmax(0, 1fr) minmax(420px, 520px); }
+}
+
+/* ----- Pre-order panel (homepage) — the reserve site's card ----- */
+/* One navy panel on the warm page: gallery with a thumbnail strip on the
+   left, the founder offer on the right. .surface--dark on the panel supplies
+   the background and the whole dark ink family; everything in here only
+   reads --fg/--rule tokens. The old .reserve__* rules above stay — the four
+   segment pages still use that layout. */
+
+.preorder {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 4vw, 3rem);
+  align-items: center;
+  border-radius: var(--radius-lg);
+  padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 4vw, 3rem);
+  overflow: hidden;
+}
+@media (min-width: 900px) {
+  .preorder { grid-template-columns: 0.9fr 1.1fr; }
+}
+/* Single column reads copy first, photos after — same order the reserve site
+   chose for phones. */
+@media (max-width: 899px) {
+  .preorder__media { order: 2; }
+}
+
+.pgal__main {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+/* The global picture { display: contents } would dissolve the frames — these
+   are real boxes, stacked and cross-faded. */
+.pgal__frame {
+  display: block;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--t-med) var(--ease);
+}
+.pgal__frame.is-active { opacity: 1; }
+.pgal__frame img { width: 100%; height: 100%; object-fit: cover; }
+.pgal__thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+.pgal__thumbs button {
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  opacity: 0.55;
+  transition: opacity var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+}
+.pgal__thumbs button:hover { opacity: 1; }
+.pgal__thumbs button.is-active { border-color: var(--gold-top); opacity: 1; }
+.pgal__thumbs img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+
+.preorder__eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-top);
+  margin-bottom: 1rem;
+}
+.preorder__title {
+  font-family: var(--font-serif);
+  font-weight: 450;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  font-size: clamp(2.1rem, 3vw, 3rem);
+  color: var(--fg);
+  margin-bottom: 1.5rem;
+}
+.preorder__price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.preorder__was {
+  font-size: 1.4rem;
+  color: var(--fg-dim);
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+}
+.preorder__amount {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  font-size: 2.8rem;
+  line-height: 1;
+  color: var(--fg);
+}
+.preorder__label { font-size: 0.95rem; color: var(--fg-soft); }
+.preorder__deposit { font-size: 1rem; color: var(--fg-soft); margin-bottom: 1.5rem; }
+.preorder__points {
+  display: grid;
+  gap: 0.65rem;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  color: var(--fg-soft);
+  margin-bottom: 2rem;
+}
+.preorder__points li { position: relative; padding-left: 1.7rem; }
+.preorder__points li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--gold-top);
+  font-weight: 700;
+}
+/* Full-width pill: the label centres itself, so the primary button's wide
+   side padding only forces a wrap on phones — trim it. */
+.preorder__cta { width: 100%; padding-inline: 1rem; }
+.preorder__note {
+  font-size: 0.875rem;
+  color: var(--fg-dim);
+  margin-top: 1rem;
+  text-align: center;
 }
 
 /* --------------------------------------------------------------------------

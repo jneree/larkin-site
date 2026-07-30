@@ -68,10 +68,8 @@
 
     <nav class="nav" aria-label="Primary">
       <a href="#how">How it works</a>
-      <a href="#use-cases">Who it's for</a>
+      <a href="#use-cases">Use cases</a>
       <a href="#privacy">Privacy</a>
-      <a href="#specs">The device</a>
-      <a href="#faq">FAQ</a>
     </nav>
 
     <div class="header-actions">
@@ -87,10 +85,8 @@
     <div class="mobile-nav__inner">
       <div class="shell">
         <a href="#how">How it works</a>
-        <a href="#use-cases">Who it's for</a>
+        <a href="#use-cases">Use cases</a>
         <a href="#privacy">Privacy</a>
-        <a href="#specs">The device</a>
-        <a href="#faq">FAQ</a>
       </div>
     </div>
   </div>
@@ -118,17 +114,19 @@
   <!-- Statement — pinned read-along. The tall .statement-pin holds the sentence
        centred in the viewport while the scroll drives the word highlight, then
        releases into the zig-zag (see site.js). With no JS or reduced motion
-       nothing pins: it stays a normal centred, full-bright block. -->
+       nothing pins: it stays a normal centred, full-bright block. The video is
+       where the navy ends: statement and zig-zag sit on one warm-white stretch,
+       washed by the same soft colour shapes the hero glows with. -->
   <div class="statement-pin">
-    <section class="shell statement statement--reveal">
-      <p class="statement__read">You can't see yourself the way other people do. Larkin can.</p>
-      <p class="statement__read">It listens all day and shows you your patterns, your promises, and the things you keep coming back to — so you can finally change them.</p>
+    <section class="shell statement statement--reveal surface--light">
+      <p class="statement__read">You can't see yourself the way other people do.</p>
+      <p class="statement__read">Larkin can. It listens all day and shows you your patterns, your best moments, and the things you keep coming back to — so you can build on them.</p>
     </section>
   </div>
 
-  <!-- How it works — a zig-zag with no title, on the same navy as the
+  <!-- How it works — a zig-zag with no title, on the same warm white as the
        statement so the two read as one continuous stretch. -->
-  <section class="shell section how--zig" id="how">
+  <section class="shell section how--zig surface--light" id="how">
     <div class="steps">
       <div class="step rv">
         <div class="step__media">
@@ -172,8 +170,9 @@
     </div>
   </section>
 
-  <!-- What it keeps for you -->
-  <section class="section surface--light section--ruled-both" id="features">
+  <!-- What it keeps for you — back on the hero's navy, tiles styled like the
+       reserve site's feature grid but riding the carousel track. -->
+  <section class="section surface--dark" id="features">
     <div class="shell">
       <h2 class="banner rv">Be fully present. <span class="banner__line">Larkin takes care of the rest.</span></h2>
     </div>
@@ -308,15 +307,26 @@
           </div>
           <p class="hl-quote">&ldquo;Wait — say that again. That was perfect.&rdquo;</p>
           <p class="hl-src">Dinner · Saturday</p>
+          <div class="hl-more">
+            <p class="hl-head">More from this week</p>
+            <div class="hl-item">
+              <p class="hl-item-quote">&ldquo;Okay, but promise me you'll actually take the vacation.&rdquo;</p>
+              <p class="hl-src">Sarah · Tuesday</p>
+            </div>
+            <div class="hl-item">
+              <p class="hl-item-quote">&ldquo;We got it. We actually got the apartment!&rdquo;</p>
+              <p class="hl-src">Leo · 6:12 PM</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Who it's for -->
-  <section class="shell section" id="use-cases">
+  <!-- Use cases -->
+  <section class="shell section surface--light" id="use-cases">
     <div class="section-head rv">
-      <h2 class="section-title">Who it's for</h2>
+      <h2 class="section-title">How will you use yours?</h2>
       <p class="section-lead">Four kinds of people, four very different reasons. Open the one that sounds like you.</p>
     </div>
     <div class="segments">
@@ -429,37 +439,58 @@
     </div>
   </section>
 
-  <!-- Reserve -->
+  <!-- Reserve — the reserve site's pre-order card: one navy panel on the warm
+       page, gallery with a thumbnail strip on the left, founder offer on the
+       right. The gallery auto-advances until the visitor picks (site.js). -->
   <section class="section reserve surface--light" id="reserve">
-    <div class="shell reserve__layout">
-      <div class="rv">
-        <h2 class="reserve__title">Reserve yours</h2>
-        <p class="price">
-          <span class="price__was">$99</span>
-          <span class="price__now">$59</span>
-          <span class="price__at">at launch</span>
-        </p>
-        <p class="reserve__copy">A $10 deposit holds one from the first run of 1,000. Refundable at any point.</p>
-        <a class="btn btn--primary" href="https://getlarkin.myshopify.com/cart/48311739383947:1">Reserve for $10</a>
-        <p class="reserve__ships">Ships Q1 2027</p>
-      </div>
-      <div class="reserve__gallery rv">
-        <picture>
-          <source type="image/avif" srcset="assets/gal-band-cream-600.avif">
-          <img src="assets/gal-band-cream-600.jpg" alt="The Larkin band on a warm studio surface" loading="lazy" decoding="async" width="600" height="448">
-        </picture>
-        <picture>
-          <source type="image/avif" srcset="assets/gal-band-angle-600.avif">
-          <img src="assets/gal-band-angle-600.jpg" alt="The Larkin band standing at an angle" loading="lazy" decoding="async" width="600" height="538">
-        </picture>
-        <picture>
-          <source type="image/avif" srcset="assets/gal-portrait-grey-600.avif">
-          <img src="assets/gal-portrait-grey-600.jpg" alt="Wearing the Larkin band, arms crossed" loading="lazy" decoding="async" width="600" height="600">
-        </picture>
-        <picture>
-          <source type="image/avif" srcset="assets/gal-band-side-600.avif">
-          <img src="assets/gal-band-side-600.jpg" alt="The module and its button, in profile" loading="lazy" decoding="async" width="600" height="440">
-        </picture>
+    <div class="shell">
+      <div class="preorder surface--dark rv">
+        <div class="preorder__media">
+          <div class="pgal" data-pgal>
+            <div class="pgal__main">
+              <picture class="pgal__frame is-active">
+                <source type="image/avif" srcset="assets/gal-band-cream-600.avif">
+                <img src="assets/gal-band-cream-600.jpg" alt="The Larkin band on a warm studio surface" loading="lazy" decoding="async" width="600" height="448">
+              </picture>
+              <picture class="pgal__frame">
+                <source type="image/avif" srcset="assets/gal-band-angle-600.avif">
+                <img src="assets/gal-band-angle-600.jpg" alt="The Larkin band standing at an angle" loading="lazy" decoding="async" width="600" height="538">
+              </picture>
+              <picture class="pgal__frame">
+                <source type="image/avif" srcset="assets/gal-portrait-grey-600.avif">
+                <img src="assets/gal-portrait-grey-600.jpg" alt="Wearing the Larkin band, arms crossed" loading="lazy" decoding="async" width="600" height="600">
+              </picture>
+              <picture class="pgal__frame">
+                <source type="image/avif" srcset="assets/gal-band-side-600.avif">
+                <img src="assets/gal-band-side-600.jpg" alt="The module and its button, in profile" loading="lazy" decoding="async" width="600" height="440">
+              </picture>
+            </div>
+            <div class="pgal__thumbs" role="tablist" aria-label="Product photos">
+              <button type="button" class="is-active" aria-label="Show photo 1"><img src="assets/gal-band-cream-600.jpg" alt="" loading="lazy" decoding="async" width="600" height="448"></button>
+              <button type="button" aria-label="Show photo 2"><img src="assets/gal-band-angle-600.jpg" alt="" loading="lazy" decoding="async" width="600" height="538"></button>
+              <button type="button" aria-label="Show photo 3"><img src="assets/gal-portrait-grey-600.jpg" alt="" loading="lazy" decoding="async" width="600" height="600"></button>
+              <button type="button" aria-label="Show photo 4"><img src="assets/gal-band-side-600.jpg" alt="" loading="lazy" decoding="async" width="600" height="440"></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="preorder__copy">
+          <p class="preorder__eyebrow">Founder Edition — limited to 1,000</p>
+          <h2 class="preorder__title">Reserve your Larkin</h2>
+          <p class="preorder__price">
+            <span class="preorder__was">$99</span>
+            <span class="preorder__amount">$59</span>
+            <span class="preorder__label">founder price</span>
+          </p>
+          <p class="preorder__deposit">Reserve yours today with a fully refundable $10 deposit.</p>
+          <ul class="preorder__points">
+            <li>Larkin Membership included, forever</li>
+            <li>Numbered founder unit, shipped first</li>
+            <li>Refundable any time</li>
+          </ul>
+          <a class="btn btn--primary preorder__cta" href="https://getlarkin.myshopify.com/cart/48311739383947:1">Reserve Founder Edition — $10</a>
+          <p class="preorder__note">You pay $10 now and $49 when it ships in Q1 2027.</p>
+        </div>
       </div>
     </div>
   </section>
