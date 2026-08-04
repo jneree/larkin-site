@@ -314,18 +314,17 @@
   }
 
   /* ---- Checkout attribution -------------------------------------------- */
-  /* Every reserve CTA leaves for Shopify. Fire InitiateCheckout tagged with the
-     segment so the five pages are distinguishable in Meta reporting — the
-     checkout URL itself is shared. */
+  /* Every reserve CTA leaves for /reserve, which mints a Stripe Checkout
+     session and redirects. Fire InitiateCheckout tagged with the segment so the
+     five pages are distinguishable in Meta reporting — the endpoint itself is
+     shared, and carries the segment as a query parameter for the order record. */
   var segment = document.documentElement.getAttribute('data-theme') || 'general';
-  document.querySelectorAll('a[href*="myshopify.com/cart"]').forEach(function (link) {
+  document.querySelectorAll('a[data-reserve]').forEach(function (link) {
     link.addEventListener('click', function () {
-      /* Deliberately no value/currency: the pages quote "$10" but the Shopify
-         store still charges SGD. Reporting a currency that does not match the
-         charge would corrupt ROAS. Add both back once the store currency is
-         settled. */
       if (typeof window.fbq === 'function') {
         window.fbq('track', 'InitiateCheckout', {
+          value: 10,
+          currency: 'USD',
           content_name: 'Larkin Wristband (Reservation)',
           content_category: segment
         });

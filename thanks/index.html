@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="general">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Larkin is reserved</title>
+<meta name="description" content="Your Larkin reservation is confirmed.">
+<meta name="theme-color" content="#0B1020">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400..700&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+
+<style>
+  /* One-off page, so its handful of rules live here rather than in the shared
+     stylesheet. Everything structural is borrowed from the site: navy surface,
+     the hero's gold glow, serif .banner headline, gold primary CTA. */
+  .ty {
+    min-height: 100svh;
+    display: grid;
+    align-content: center;
+    padding-block: clamp(4rem, 12vw, 8rem);
+  }
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 900px;
+    background:
+      radial-gradient(1100px 640px at 12% -12%, var(--gold-glow) 0%, rgba(224, 169, 62, 0) 60%),
+      radial-gradient(900px 560px at 88% 30%, var(--periwinkle) 0%, rgba(96, 118, 178, 0) 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .ty > .shell { position: relative; z-index: 1; }
+
+  .ty__mark {
+    display: block;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.125rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--fg-dim);
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+  .ty__banner { margin-bottom: clamp(1.25rem, 2.6vw, 1.75rem); }
+  .ty__lead {
+    max-width: 46ch;
+    margin: 0 auto clamp(2.5rem, 5vw, 3.25rem);
+    text-align: center;
+    font-size: clamp(1.0625rem, 1.46vw, 1.3125rem);
+    line-height: 1.6;
+    color: var(--fg-muted);
+  }
+
+  /* The three beats of what happens next. Numerals in quiet gold, matching the
+     how-it-works steps. */
+  .ty__next {
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 2.25rem);
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    counter-reset: ty;
+  }
+  /* Below 900px the three beats stack, so they centre with the rest of the
+     column rather than sitting left against centred copy. */
+  .ty__step { counter-increment: ty; text-align: center; }
+  @media (min-width: 900px) {
+    .ty__next { grid-template-columns: repeat(3, 1fr); }
+    .ty__step { text-align: left; }
+  }
+  .ty__step::before {
+    content: counter(ty, decimal-leading-zero);
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--gold-top);
+    margin-bottom: 0.5rem;
+  }
+  .ty__step h2 {
+    font-family: var(--font-serif);
+    font-weight: 450;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin-bottom: 0.35rem;
+  }
+  .ty__step p {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--fg-muted);
+  }
+
+  .ty__foot {
+    max-width: 52ch;
+    margin: clamp(2.75rem, 5.5vw, 3.5rem) auto 0;
+    text-align: center;
+  }
+  .ty__refund {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--fg-dim);
+    margin-bottom: 1.75rem;
+  }
+  .ty__foot a.btn { padding-inline: 1.75rem; }
+</style>
+</head>
+<body class="surface--dark">
+
+<main class="ty" id="main">
+  <div class="shell">
+    <a class="ty__mark" href="/">Larkin</a>
+
+    <h1 class="banner ty__banner">
+      You're in.
+      <span class="banner__line">Your Larkin is reserved.</span>
+    </h1>
+
+    <p class="ty__lead">
+      A receipt is on its way to your inbox. Your founder unit is held from the
+      first run of 1,000 — numbered, and shipping before anyone else's.
+    </p>
+
+    <ol class="ty__next">
+      <li class="ty__step">
+        <h2>Today</h2>
+        <p>Your $10 is held, not spent. It comes off the price of the device, and it's yours back whenever you ask.</p>
+      </li>
+      <li class="ty__step">
+        <h2>Until launch</h2>
+        <p>Occasional notes from us as Larkin comes together — what we're building, and what we're learning. Nothing else.</p>
+      </li>
+      <li class="ty__step">
+        <h2>Q1 2027</h2>
+        <p>Your Larkin ships with the membership included, forever. The remaining $49 is charged then, not before.</p>
+      </li>
+    </ol>
+
+    <div class="ty__foot">
+      <p class="ty__refund">
+        Changed your mind, or just want to ask something? Reply to your receipt
+        and a real person will get back to you.
+      </p>
+      <a class="btn btn--primary" href="/">Back to Larkin</a>
+    </div>
+  </div>
+</main>
+
+<!-- ==================== FACEBOOK PIXEL ==================== -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1033614279315561');
+  fbq('track', 'PageView');
+
+  /* Purchase fires here AND server-side from the Medusa order.placed
+     subscriber. Both carry eventID = the Stripe Checkout session id, so Meta
+     keeps one event, not two. No session_id in the URL means this page was
+     opened directly rather than reached from checkout — no purchase to report. */
+  (function () {
+    var id = new URLSearchParams(window.location.search).get('session_id');
+    if (!id || !/^cs_[A-Za-z0-9_]+$/.test(id)) return;
+    fbq('track', 'Purchase', {
+      value: 10,
+      currency: 'USD',
+      content_name: 'Larkin Wristband (Reservation)'
+    }, { eventID: id });
+  })();
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1033614279315561&ev=PageView&noscript=1" alt="" />
+</noscript>
+<!-- ================== END FACEBOOK PIXEL ================== -->
+</body>
+</html>
