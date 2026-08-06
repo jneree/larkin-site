@@ -127,6 +127,53 @@ summary::-webkit-details-marker { display: none; }
   --header-bg: var(--ink-navy); --header-fg: var(--cream);
 }
 
+/* ----- Use-case domains -----
+   Each segment page leads with the colour its hero was actually shot on —
+   sampled from the photo backdrops — and carries it through every dark
+   surface (header, statement, hardware band, pre-order panel, phone tiles,
+   footer), so the page reads as one colour world instead of navy with a
+   coloured photo pasted on the right. Light sections stay warm white and
+   gold keeps its one job. The homepage and thanks page are
+   data-theme="general" and keep the navy above.
+
+   --hero-bg matches the backdrop where the mask fade meets it, so the
+   photo and the band read as one field. Journal was shot on light paper,
+   so its hero flips to the dark ink family through the --hero-fg-* hooks. */
+
+html[data-theme="leaders"] {
+  --d-bg: #0D1B2E; --d-bg-2: #0D1B2E; --d-panel: #0D1B2E; --d-card: #0D1B2E;
+  --header-bg: #0D1B2E;
+  --hero-bg: #0D2138;
+  --hero-glow-1: rgba(224, 169, 62, 0.12);
+  --hero-glow-2: rgba(70, 120, 200, 0.22);
+}
+html[data-theme="adhd"] {
+  --d-bg: #221410; --d-bg-2: #221410; --d-panel: #221410; --d-card: #221410;
+  --header-bg: #221410;
+  --hero-bg: #2E1B14;
+  --hero-glow-1: rgba(224, 169, 62, 0.14);
+  --hero-glow-2: rgba(226, 122, 92, 0.16);
+}
+html[data-theme="parents"] {
+  --d-bg: #152A17; --d-bg-2: #152A17; --d-panel: #152A17; --d-card: #152A17;
+  --header-bg: #152A17;
+  --hero-bg: #1F3321;
+  --hero-glow-1: rgba(224, 169, 62, 0.10);
+  --hero-glow-2: rgba(150, 200, 130, 0.18);
+}
+html[data-theme="journal"] {
+  --d-bg: #2B2113; --d-bg-2: #2B2113; --d-panel: #2B2113; --d-card: #2B2113;
+  --header-bg: #2B2113;
+  --hero-bg: #F0E2CB;
+  --hero-glow-1: rgba(231, 182, 83, 0.30);
+  --hero-glow-2: rgba(213, 195, 171, 0.55);
+  --hero-fg: var(--ink-warm);
+  --hero-fg-muted: rgba(35, 32, 26, 0.74);
+  --hero-fg-dim:   rgba(35, 32, 26, 0.55);
+  --hero-rule:     rgba(35, 32, 26, 0.30);
+  --hero-em:       rgba(35, 32, 26, 0.45);
+}
+
 /* ----- Surfaces -----
    One of these goes on <body> to set the page default, and on any section that
    breaks from it. Everything downstream reads --fg / --rule / --surface. */
@@ -364,8 +411,8 @@ body::after {
   border-bottom: 1px solid rgba(242, 237, 224, 0.12);
   transition: box-shadow var(--t-med) var(--ease);
 }
-/* Cream pill on navy — gold stays reserved for the primary CTA. */
-.site-header .btn--sm { background: var(--cream); color: var(--ink-navy); }
+/* Cream pill on the page's dark — gold stays reserved for the primary CTA. */
+.site-header .btn--sm { background: var(--cream); color: var(--header-bg, var(--ink-navy)); }
 .site-header.is-stuck { box-shadow: 0 6px 24px -12px rgba(0, 0, 0, 0.45); }
 
 .site-header__inner {
@@ -531,18 +578,18 @@ body::after {
    -------------------------------------------------------------------------- */
 
 .hero-seg {
-  --fg: var(--cream);
-  --fg-muted: rgba(242, 237, 224, 0.70);
-  --fg-dim:   rgba(242, 237, 224, 0.50);
+  --fg: var(--hero-fg, var(--cream));
+  --fg-muted: var(--hero-fg-muted, rgba(242, 237, 224, 0.70));
+  --fg-dim:   var(--hero-fg-dim, rgba(242, 237, 224, 0.50));
   position: relative;
   display: grid;
   align-items: center;
   min-height: clamp(520px, 75vw, 1080px);
   overflow: hidden;
   background:
-    radial-gradient(1100px 640px at 12% -12%, var(--gold-glow) 0%, rgba(224, 169, 62, 0) 60%),
-    radial-gradient(900px 560px at 88% 30%, var(--periwinkle) 0%, rgba(96, 118, 178, 0) 65%),
-    var(--ink-navy);
+    radial-gradient(1100px 640px at 12% -12%, var(--hero-glow-1, var(--gold-glow)) 0%, transparent 60%),
+    radial-gradient(900px 560px at 88% 30%, var(--hero-glow-2, var(--periwinkle)) 0%, transparent 65%),
+    var(--hero-bg, var(--ink-navy));
 }
 .hero-seg__img {
   position: absolute;
@@ -571,7 +618,7 @@ body::after {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--fg-muted);
-  border: 1px solid rgba(242, 237, 224, 0.30);
+  border: 1px solid var(--hero-rule, rgba(242, 237, 224, 0.30));
   border-radius: var(--radius-pill);
   padding: 8px 16px;
 }
@@ -584,7 +631,7 @@ body::after {
   letter-spacing: -0.005em;
   color: var(--fg);
 }
-.hero-seg__title em { font-style: normal; color: rgba(242, 237, 224, 0.55); }
+.hero-seg__title em { font-style: normal; color: var(--hero-em, rgba(242, 237, 224, 0.55)); }
 .hero-seg__lead {
   font-size: clamp(1.0625rem, 1.53vw, 1.375rem);       /*  17 →  22 */
   line-height: 1.55;
