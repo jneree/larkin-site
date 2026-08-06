@@ -169,9 +169,12 @@ html[data-theme="journal"] {
   --hero-glow-2: rgba(213, 195, 171, 0.55);
   --hero-fg: var(--ink-warm);
   --hero-fg-muted: rgba(35, 32, 26, 0.74);
-  --hero-fg-dim:   rgba(35, 32, 26, 0.55);
+  /* Paper is darker than the warm-white sections, so the dim/em alphas that
+     read fine there fall short of AA here — 0.70 and 0.55 keep 4.5:1 / 3:1. */
+  --hero-fg-dim:   rgba(35, 32, 26, 0.70);
   --hero-rule:     rgba(35, 32, 26, 0.30);
-  --hero-em:       rgba(35, 32, 26, 0.45);
+  --hero-em:       rgba(35, 32, 26, 0.55);
+  --hero-focus:    var(--ink-warm);
 }
 
 /* ----- Surfaces -----
@@ -184,7 +187,10 @@ html[data-theme="journal"] {
   --fg: var(--d-ink);
   --fg-muted:  rgba(242, 237, 224, 0.70);   /* body on navy */
   --fg-soft:   rgba(242, 237, 224, 0.62);
-  --fg-dim:    rgba(242, 237, 224, 0.50);   /* legal / meta */
+  /* 0.55, not 0.50: the use-case darks are lighter than navy, and 0.50 put
+     small dim text (hero fine print, eyebrows, footer legal) under 4.5:1 on
+     the parents green. 0.55 clears every theme surface with margin. */
+  --fg-dim:    rgba(242, 237, 224, 0.55);   /* legal / meta */
   --fg-faint:  rgba(242, 237, 224, 0.30);   /* hairline, top of range */
   --fg-ghost:  rgba(242, 237, 224, 0.22);
   --rule:      rgba(242, 237, 224, 0.20);
@@ -580,7 +586,9 @@ body::after {
 .hero-seg {
   --fg: var(--hero-fg, var(--cream));
   --fg-muted: var(--hero-fg-muted, rgba(242, 237, 224, 0.70));
-  --fg-dim:   var(--hero-fg-dim, rgba(242, 237, 224, 0.50));
+  --fg-dim:   var(--hero-fg-dim, rgba(242, 237, 224, 0.55));
+  /* Journal's hero is light, where the surface's cream focus ring vanishes. */
+  --focus: var(--hero-focus, var(--cream));
   position: relative;
   display: grid;
   align-items: center;
@@ -958,9 +966,9 @@ body::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+  transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease), opacity var(--t-fast) var(--ease);
 }
-.car-btn:hover { border-color: var(--fg); background: var(--wash); }
+.car-btn:hover:not(:disabled) { border-color: var(--fg); background: var(--wash); }
 
 /* The track bleeds full-width so cards can run off the right edge, but its
    first card must still line up with the shell. */
@@ -1080,11 +1088,13 @@ body::after {
    crops at the content's natural end and keeps the run-off-the-edge crop. */
 .fcard__phone { position: relative; height: 340px; margin-top: 2rem; }
 
-/* Phones hide the head's mouse buttons, and nothing was left saying "this
-   scrolls" — visitors read the first card as the whole section. A controls
-   row under the track brings the affordance back where thumbs expect it. */
+/* Below 900px the head rows hide their buttons, and nothing was left saying
+   "this scrolls" — visitors read the first card as the whole section. A
+   controls row under the track brings the affordance back where thumbs
+   expect it. One breakpoint for both carousels: the features head is gone
+   at 899px already, so the swap must happen there, not at a phone width. */
 .car-foot { display: none; }
-@media (max-width: 699px) {
+@media (max-width: 899px) {
   .car-controls { display: none; }
   .car-foot {
     display: flex;
@@ -1094,8 +1104,10 @@ body::after {
   }
   .car-foot .car-btn { width: 48px; height: 48px; background: var(--wash); }
 }
-/* The track can't go further that way — the button stays put but says so. */
-.car-btn.is-edge { opacity: 0.35; }
+/* The track can't go further that way. Real disabled, not a class: it drops
+   the button from the tab order and reads as unavailable to a screen reader,
+   which is what makes the dimmed look legitimate. */
+.car-btn:disabled { opacity: 0.35; cursor: default; }
 
 /* --------------------------------------------------------------------------
    14. Reserve

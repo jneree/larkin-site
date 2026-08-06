@@ -174,15 +174,15 @@
       });
     });
 
-    /* Dim a button when the track has nothing more that way — the same cue
-       every phone carousel gives, and the hint that the other one works. */
+    /* Disable a button when the track has nothing more that way — the same
+       cue every phone carousel gives, and the hint that the other one works.
+       Real disabled (not a class) so assistive tech hears it too. */
     var mark = function () {
       var max = car.scrollWidth - car.clientWidth - 1;
       btns.forEach(function (btn) {
-        var atEnd = btn.getAttribute('data-car-nav') === 'prev'
+        btn.disabled = btn.getAttribute('data-car-nav') === 'prev'
           ? car.scrollLeft <= 0
           : car.scrollLeft >= max;
-        btn.classList.toggle('is-edge', atEnd);
       });
     };
     car.addEventListener('scroll', mark, { passive: true });
