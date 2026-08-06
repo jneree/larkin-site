@@ -1080,9 +1080,22 @@ body::after {
    crops at the content's natural end and keeps the run-off-the-edge crop. */
 .fcard__phone { position: relative; height: 340px; margin-top: 2rem; }
 
+/* Phones hide the head's mouse buttons, and nothing was left saying "this
+   scrolls" — visitors read the first card as the whole section. A controls
+   row under the track brings the affordance back where thumbs expect it. */
+.car-foot { display: none; }
 @media (max-width: 699px) {
   .car-controls { display: none; }
+  .car-foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 4px;
+  }
+  .car-foot .car-btn { width: 48px; height: 48px; background: var(--wash); }
 }
+/* The track can't go further that way — the button stays put but says so. */
+.car-btn.is-edge { opacity: 0.35; }
 
 /* --------------------------------------------------------------------------
    14. Reserve

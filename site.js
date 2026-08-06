@@ -165,13 +165,29 @@
       return card ? card.getBoundingClientRect().width + 24 : 404;
     };
 
-    scope.querySelectorAll('[data-car-nav]').forEach(function (btn) {
+    var btns = scope.querySelectorAll('[data-car-nav]');
+    btns.forEach(function (btn) {
       btn.addEventListener('click', function () {
         var dir = btn.getAttribute('data-car-nav') === 'prev' ? -1 : 1;
         var max = car.scrollWidth - car.clientWidth;
         car.scrollTo({ left: Math.max(0, Math.min(max, car.scrollLeft + dir * step())) });
       });
     });
+
+    /* Dim a button when the track has nothing more that way — the same cue
+       every phone carousel gives, and the hint that the other one works. */
+    var mark = function () {
+      var max = car.scrollWidth - car.clientWidth - 1;
+      btns.forEach(function (btn) {
+        var atEnd = btn.getAttribute('data-car-nav') === 'prev'
+          ? car.scrollLeft <= 0
+          : car.scrollLeft >= max;
+        btn.classList.toggle('is-edge', atEnd);
+      });
+    };
+    car.addEventListener('scroll', mark, { passive: true });
+    window.addEventListener('resize', mark);
+    mark();
   });
 
   /* ---- Pre-order gallery ------------------------------------------------ */
