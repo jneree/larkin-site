@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
 
+# Design trials — shared by link only, never indexed.
+Disallow: /v1/
+Disallow: /v2/
+Disallow: /v3/
+
 Sitemap: https://getlarkin.com/sitemap.xml
