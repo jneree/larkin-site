@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="general">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Larkin — The AI Wristband That Keeps What Mattered</title>
+<title>Larkin — Everything That Mattered, Kept</title>
 <meta name="description" content="No screen, nothing to press. Larkin listens to what you say and hear, and gives back what's worth keeping. Reserve for $10, refundable.">
-<meta name="theme-color" content="#111111">
+<meta name="theme-color" content="#F5EFE2">
 
-<meta property="og:title" content="Larkin — The AI Wristband That Keeps What Mattered">
+<meta property="og:title" content="Larkin — Everything That Mattered, Kept">
 <meta property="og:description" content="No screen, nothing to press. Larkin listens to what you say and hear, and gives back what's worth keeping. Reserve for $10, refundable.">
 <meta property="og:image" content="https://getlarkin.com/assets/poster-hero-1400.jpg">
 <meta property="og:image:width" content="1400">
@@ -24,19 +24,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400..700&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400..700&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Larkin",
-  "url": "https://getlarkin.com/",
-  "logo": "https://getlarkin.com/favicon.svg",
-  "description": "Larkin is an AI memory wristband that listens to what you say and hear, and gives back what's worth keeping."
-}
-</script>
 
 <!-- ==================== FACEBOOK PIXEL ==================== -->
 <script>
@@ -52,619 +41,179 @@
   fbq('track', 'PageView');
 </script>
 <noscript>
-  <img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1033614279315561&ev=PageView&noscript=1" alt="" />
+  <img height="1" width="1" style="display:none" alt=""
+       src="https://www.facebook.com/tr?id=1033614279315561&ev=PageView&noscript=1">
 </noscript>
 <!-- ================== END FACEBOOK PIXEL ================== -->
 </head>
-<body class="surface--dark">
+<body>
 
-<a class="skip-link" href="#main">Skip to content</a>
-
-<header class="site-header">
-  <div class="shell site-header__inner">
-    <a class="brand" href="/v1/">
-      <span class="brand__mark">Larkin</span>
-    </a>
-
-    <nav class="nav" aria-label="Primary">
-      <a href="#how">How it works</a>
-      <a href="#use-cases">Use cases</a>
-      <a href="#privacy">Privacy</a>
-    </nav>
-
-    <div class="header-actions">
-      <a class="btn btn--sm" href="#reserve">Reserve — $10</a>
-      <button class="nav-toggle" type="button" aria-expanded="false"
-              aria-controls="mobile-nav" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-
-  <div class="mobile-nav" id="mobile-nav">
-    <div class="mobile-nav__inner">
-      <div class="shell">
-        <a href="#how">How it works</a>
-        <a href="#use-cases">Use cases</a>
-        <a href="#privacy">Privacy</a>
-      </div>
-    </div>
-  </div>
+<header class="top shell">
+  <a class="brand" href="/v1/">Larkin</a>
+  <nav class="top__nav">
+    <a href="#how">How it works</a>
+    <a href="#moments">Moments</a>
+    <a href="#privacy">Privacy</a>
+  </nav>
+  <a class="pill" href="#reserve">Reserve — $10</a>
 </header>
 
-<main id="main">
+<main>
 
-  <!-- Hero -->
-  <section class="shell hero-home">
-    <h1 class="hero-home__title">The AI wristband <br class="br-lg"> that keeps what mattered</h1>
-    <p class="hero-home__lead">No screen, nothing to press. It listens to what you say and hear, and gives back what's worth keeping.</p>
-    <div class="hero-actions">
-      <a class="btn btn--primary" data-reserve href="https://api.getlarkin.com/reserve?segment=general">Reserve the device — $10</a>
+<!-- ============ HERO ============ -->
+<section class="shell hero">
+  <div class="hero__copy">
+    <p class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>The memory wristband</p>
+    <h1>Everything that&nbsp;mattered, <mark class="hl">kept.</mark></h1>
+    <p class="hero__lead">No screen, nothing to press. Larkin listens to your day and gives back the parts worth keeping — your best moments, your patterns, the things you keep coming back to.</p>
+    <div class="hero__cta">
+      <a class="btn" href="#reserve">Reserve for $10</a>
+      <a class="link-quiet" href="#how">How it works</a>
     </div>
-    <p class="hero-fine">Fully refundable · Ships Q1 2027</p>
-  </section>
-
-  <!-- No loop: the clip plays once and rests on its final frame — the band on
-       the wrist, light on. -->
-  <video class="hero-video" data-src="/uploads/video-larkin.mp4"
-         poster="/assets/poster-hero-1400.jpg"
-         preload="none" muted playsinline autoplay
-         aria-label="The Larkin wristband turning slowly against a soft grey backdrop"></video>
-
-  <!-- Statement — pinned read-along. The tall .statement-pin holds the sentence
-       centred in the viewport while the scroll drives the word highlight, then
-       releases into the zig-zag (see site.js). With no JS or reduced motion
-       nothing pins: it stays a normal centred, full-bright block. The video is
-       where the navy ends: statement and zig-zag sit on one warm-white stretch,
-       washed by the same soft colour shapes the hero glows with. -->
-  <div class="statement-pin">
-    <section class="shell statement statement--reveal surface--light">
-      <p class="statement__read">You can't see yourself the way other people do.</p>
-      <p class="statement__read">Larkin can. It listens all day and shows you your patterns, your best moments, and the things you keep coming back to — so you can build on them.</p>
-    </section>
+    <p class="hero__note mono">$10 TODAY, REFUNDABLE — $59 FOUNDER PRICE — SHIPS Q1 2027</p>
   </div>
 
-  <!-- How it works — a zig-zag with no title, on the same warm white as the
-       statement so the two read as one continuous stretch. -->
-  <section class="shell section how--zig surface--light" id="how">
-    <div class="steps">
-      <div class="step rv">
-        <div class="step__media">
-          <picture>
-            <source type="image/avif" srcset="/assets/how-wear-1000.avif">
-            <img src="/assets/how-wear-1000.jpg" alt="The Larkin band being slipped onto a wrist" loading="lazy" decoding="async" width="1000" height="667">
-          </picture>
-        </div>
-        <div class="step__body">
-          <h3 class="step__title"><span class="step__n">01.</span> Wear it</h3>
-          <div class="step__lead" aria-hidden="true"></div>
-          <p>Put the band on in the morning. No screen, no buttons, one week of battery.</p>
-        </div>
+  <div class="hero__media">
+    <figure class="file file--oat tab hero__product rv">
+      <picture>
+        <source srcset="/assets/gal-band-cream-600.avif" type="image/avif">
+        <img src="/assets/gal-band-cream-600.jpg" alt="The Larkin wristband in navy, resting on a cream surface" width="600" height="450" fetchpriority="high">
+      </picture>
+      <figcaption class="mono">FOUNDER EDITION — NAVY · 1&nbsp;OF&nbsp;1,000</figcaption>
+    </figure>
+    <aside class="kept kept--float rv" aria-label="Example of a kept moment">
+      <p class="kept__quote">“Emma said she might move to Lisbon next spring”</p>
+      <p class="kept__meta mono">KEPT — 11:20 AM · COFFEE WITH EMMA</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ STATEMENT ============ -->
+<section class="shell">
+  <div class="file file--oat tab statement rv">
+    <p class="statement__text">You can’t see yourself the way other people do. <mark class="hl">Larkin&nbsp;can.</mark></p>
+  </div>
+</section>
+
+<!-- ============ HOW ============ -->
+<section class="shell section" id="how">
+  <p class="eyebrow rv">Larkin explained</p>
+  <h2 class="title rv">Three quiet steps.</h2>
+  <div class="steps">
+    <article class="file file--stone tab step rv">
+      <picture>
+        <source srcset="/assets/how-wear-640.avif" type="image/avif">
+        <img src="/assets/how-wear-640.jpg" alt="A wrist wearing the slim navy Larkin band" loading="lazy" width="640" height="787">
+      </picture>
+      <div class="step__body">
+        <p class="mono step__num">01 — WEAR IT</p>
+        <h3>Slip it on in the morning</h3>
+        <p>It sits light on your wrist and stays out of the way. No screen to check, nothing to press.</p>
       </div>
-      <div class="step rv">
-        <div class="step__media">
-          <picture>
-            <source type="image/avif" srcset="/assets/how-day-700.avif">
-            <img src="/assets/how-day-1000.jpg" alt="Going through an ordinary day wearing the band" loading="lazy" decoding="async" width="1000" height="667">
-          </picture>
-        </div>
-        <div class="step__body">
-          <h3 class="step__title"><span class="step__n">02.</span> Go through your day</h3>
-          <div class="step__lead" aria-hidden="true"></div>
-          <p>Meetings, the school run, the walk home. Larkin listens in the background and stays out of the way.</p>
-        </div>
+    </article>
+    <article class="file file--sage tab step rv">
+      <picture>
+        <source srcset="/assets/how-day-640.avif" type="image/avif">
+        <img src="/assets/how-day-640.jpg" alt="Two people talking on a walk through the city" loading="lazy" width="640" height="1000">
+      </picture>
+      <div class="step__body">
+        <p class="mono step__num">02 — LIVE YOUR DAY</p>
+        <h3>Larkin listens, quietly</h3>
+        <p>It notices the moments that carry weight — the plan you made, the story that made everyone laugh, the idea you almost lost.</p>
       </div>
-      <div class="step rv">
-        <div class="step__media">
-          <picture>
-            <source type="image/avif" srcset="/assets/how-app-1000.avif">
-            <img src="/assets/how-app-1000.jpg" alt="The Larkin app showing the day's highlights" loading="lazy" decoding="async" width="1000" height="667">
-          </picture>
-        </div>
-        <div class="step__body">
-          <h3 class="step__title"><span class="step__n">03.</span> Learn about yourself</h3>
-          <div class="step__lead" aria-hidden="true"></div>
-          <p>The app shows what you promised, what you keep coming back to, and how you're changing.</p>
-        </div>
+    </article>
+    <article class="file file--taupe tab step rv">
+      <picture>
+        <source srcset="/assets/how-app-640.avif" type="image/avif">
+        <img src="/assets/how-app-640.jpg" alt="The Larkin app showing the evening's kept highlights" loading="lazy" width="640" height="640">
+      </picture>
+      <div class="step__body">
+        <p class="mono step__num">03 — READ IT BACK</p>
+        <h3>An evening worth rereading</h3>
+        <p>A short digest of your day: highlights, patterns, and the moments you’ll want again — ready when you are.</p>
       </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ MOMENTS ============ -->
+<section class="shell section" id="moments">
+  <p class="eyebrow rv">From one ordinary Tuesday</p>
+  <h2 class="title rv">What Larkin gives back.</h2>
+  <div class="kept-grid">
+    <aside class="kept rv">
+      <p class="kept__quote">“You told Maya you’d send her the name of that book”</p>
+      <p class="kept__meta mono">KEPT — 4:40 PM · HALLWAY CHAT</p>
+    </aside>
+    <aside class="kept rv">
+      <p class="kept__quote">“Alex thinks the launch date is starting to feel rushed”</p>
+      <p class="kept__meta mono">KEPT — 4:05 PM · WALK BACK FROM LUNCH</p>
+    </aside>
+    <aside class="kept rv">
+      <p class="kept__quote">“You sounded most excited talking about working from Japan”</p>
+      <p class="kept__meta mono">KEPT — 7:10 PM · INSIGHT</p>
+    </aside>
+    <aside class="kept rv">
+      <p class="kept__quote">“Dinner was the best hour of your day — you laughed for six minutes straight”</p>
+      <p class="kept__meta mono">KEPT — 9:02 PM · EVENING DIGEST</p>
+    </aside>
+  </div>
+  <p class="moments__foot rv">Small things, easy to lose. Larkin hands them back the same evening.</p>
+</section>
+
+<!-- ============ PRIVACY ============ -->
+<section class="shell section" id="privacy">
+  <p class="eyebrow rv">Private and secure by design</p>
+  <h2 class="title rv">Your voice, protected from wrist&nbsp;to&nbsp;app.</h2>
+  <ul class="priv">
+    <li class="rv">
+      <h3>Encrypted, transcribed, then erased</h3>
+      <p>Speech becomes text within seconds and the recording is erased. The only audio kept is a highlight you chose to save.</p>
+    </li>
+    <li class="rv">
+      <h3>Stopped at the source in two seconds</h3>
+      <p>Hold the module and it stops listening. Nothing is captured until you start it again.</p>
+    </li>
+    <li class="rv">
+      <h3>Delete means destroyed, not archived</h3>
+      <p>Remove one conversation, one day, or every day you have worn it.</p>
+    </li>
+    <li class="rv">
+      <h3>No third party ever touches it</h3>
+      <p>Never sold to advertisers or data brokers, and never used to train a model.</p>
+    </li>
+  </ul>
+</section>
+
+<!-- ============ RESERVE ============ -->
+<section class="shell section" id="reserve">
+  <div class="file file--navy tab reserve rv">
+    <div class="reserve__media">
+      <picture>
+        <source srcset="/assets/gal-band-side-600.avif" type="image/avif">
+        <img src="/assets/gal-band-side-600.jpg" alt="Side profile of the Larkin wristband" loading="lazy" width="600" height="450">
+      </picture>
     </div>
-  </section>
-
-  <!-- What it keeps for you — back on the hero's navy, tiles styled like the
-       reserve site's feature grid but riding the carousel track. -->
-  <section class="section surface--dark" id="features">
-    <div class="shell">
-      <h2 class="banner rv">Be fully present. <span class="banner__line">Larkin takes care of the rest.</span></h2>
+    <div class="reserve__body">
+      <p class="mono reserve__eyebrow">FOUNDER EDITION — LIMITED TO 1,000</p>
+      <h2>Reserve your Larkin</h2>
+      <p class="reserve__price"><s>$99</s> <em>$59</em> <span class="mono">FOUNDER PRICE</span></p>
+      <ul class="reserve__checks">
+        <li>Larkin Membership included, forever</li>
+        <li>Numbered founder unit, shipped first</li>
+        <li>Refundable any time</li>
+      </ul>
+      <a class="btn btn--wide" href="https://api.getlarkin.com/reserve?segment=general&ref=v1">Reserve Founder Edition — $10</a>
+      <p class="reserve__fine">You pay $10 now and $49 when it ships in Q1 2027.</p>
     </div>
-    <div class="shell car-head car-head--end">
-      <div class="car-controls">
-        <button class="car-btn" type="button" data-car-nav="prev" aria-label="Previous feature cards">←</button>
-        <button class="car-btn" type="button" data-car-nav="next" aria-label="Next feature cards">→</button>
-      </div>
-    </div>
-
-    <div class="car" data-car tabindex="0" role="region" aria-label="Larkin app features">
-      <div class="car__card car__card--feat car__card--app rv">
-        <h3>Summaries</h3>
-        <p>Every conversation, distilled to the moments and decisions that mattered.</p>
-        <div class="fcard__phone">
-          <div class="phone">
-            <div class="phone-screen">
-              <div class="ps-status">
-                <span class="ps-time">9:41</span>
-                <span class="ps-sicons" aria-hidden="true">
-                  <svg viewBox="0 0 16 10" width="14" height="9"><rect x="0" y="6" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="4.5" y="4" width="3" height="6" rx="0.8" fill="currentColor"/><rect x="9" y="2" width="3" height="8" rx="0.8" fill="currentColor"/><rect x="13.5" y="0" width="2.5" height="10" rx="0.8" fill="currentColor"/></svg>
-                  <svg viewBox="0 0 22 11" width="20" height="10"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-opacity="0.4"/><rect x="2" y="2" width="13" height="7" rx="1.4" fill="currentColor"/><path d="M20.5 3.5v4a2 2 0 0 0 0-4Z" fill="currentColor" fill-opacity="0.4"/></svg>
-                </span>
-              </div>
-              <p class="ps-title">Work lunch with Alex</p>
-              <p class="ps-dim">4:05 PM · 42 min</p>
-              <div class="ps-card">
-                <p class="ps-label">Summary</p>
-                <p class="ps-text">Alex thinks the launch date is starting to feel rushed. You agreed to revisit the plan together on Thursday.</p>
-              </div>
-              <div class="ps-card">
-                <p class="ps-label">Key moments</p>
-                <p class="ps-moment"><span class="ps-mtime">4:18</span>&ldquo;Let's not rush the launch just to hit a date.&rdquo;<em> — Alex</em></p>
-                <p class="ps-moment"><span class="ps-mtime">4:31</span>&ldquo;I'd rather ship two weeks late and proud.&rdquo;<em> — You</em></p>
-              </div>
-              <div class="ps-card">
-                <p class="ps-label">Worth remembering</p>
-                <p class="ps-text">• Bring the product plan by next week</p>
-                <p class="ps-text">• Alex's daughter starts school on Monday</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="car__card car__card--feat car__card--app rv">
-        <h3>Daily recap</h3>
-        <p>Each evening, the lines worth keeping from the people you talked to.</p>
-        <div class="fcard__phone">
-          <div class="phone">
-            <div class="phone-screen">
-              <div class="ps-status">
-                <span class="ps-time">9:41</span>
-                <span class="ps-sicons" aria-hidden="true">
-                  <svg viewBox="0 0 16 10" width="14" height="9"><rect x="0" y="6" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="4.5" y="4" width="3" height="6" rx="0.8" fill="currentColor"/><rect x="9" y="2" width="3" height="8" rx="0.8" fill="currentColor"/><rect x="13.5" y="0" width="2.5" height="10" rx="0.8" fill="currentColor"/></svg>
-                  <svg viewBox="0 0 22 11" width="20" height="10"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-opacity="0.4"/><rect x="2" y="2" width="13" height="7" rx="1.4" fill="currentColor"/><path d="M20.5 3.5v4a2 2 0 0 0 0-4Z" fill="currentColor" fill-opacity="0.4"/></svg>
-                </span>
-              </div>
-              <p class="ps-greeting">Good evening, Julien.</p>
-              <p class="ps-dim">Here's what stayed with you today.</p>
-              <div class="ps-card ps-item"><span class="ps-chip ps-chip--rose" aria-hidden="true">♥</span><div><p class="ps-text">Zoe said she finally feels at home here</p><p class="ps-dim">9:40 AM · Coffee</p></div></div><div class="ps-card ps-item"><span class="ps-chip ps-chip--gold" aria-hidden="true">☀</span><div><p class="ps-text">You sounded happiest planning the trip</p><p class="ps-dim">1:15 PM · Lunch with Dad</p></div></div><div class="ps-card ps-item"><span class="ps-chip ps-chip--blue" aria-hidden="true">✉</span><div><p class="ps-text">You told Sam you'd send the reading list</p><p class="ps-dim">4:40 PM · Walk home</p></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="car__card car__card--feat car__card--app rv">
-        <h3>Patterns</h3>
-        <p>The questions you keep asking and the topics that won't let go.</p>
-        <div class="fcard__phone">
-          <div class="phone">
-            <div class="phone-screen">
-              <div class="ps-status">
-                <span class="ps-time">9:41</span>
-                <span class="ps-sicons" aria-hidden="true">
-                  <svg viewBox="0 0 16 10" width="14" height="9"><rect x="0" y="6" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="4.5" y="4" width="3" height="6" rx="0.8" fill="currentColor"/><rect x="9" y="2" width="3" height="8" rx="0.8" fill="currentColor"/><rect x="13.5" y="0" width="2.5" height="10" rx="0.8" fill="currentColor"/></svg>
-                  <svg viewBox="0 0 22 11" width="20" height="10"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-opacity="0.4"/><rect x="2" y="2" width="13" height="7" rx="1.4" fill="currentColor"/><path d="M20.5 3.5v4a2 2 0 0 0 0-4Z" fill="currentColor" fill-opacity="0.4"/></svg>
-                </span>
-              </div>
-              <p class="ps-title">Patterns</p>
-              <div class="ps-card">
-                <p class="ps-label">You kept coming back to it</p>
-                <p class="ps-big">The interview, 7 times.</p>
-                <div class="ps-bars" aria-hidden="true"><i style="height:24%"></i><i style="height:38%"></i><i class="is-hot" style="height:78%"></i><i style="height:30%"></i><i class="is-hot" style="height:96%"></i><i style="height:52%"></i><i style="height:18%"></i></div>
-                <div class="ps-days" aria-hidden="true"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
-              </div>
-              <div class="ps-card">
-                <p class="ps-label">Worth knowing</p>
-                <p class="ps-text">You bring it up most after 9 PM.</p>
-              </div>
-              <div class="ps-card">
-                <p class="ps-label">Top topics</p>
-                <div class="ps-chips"><span class="ps-topic">Interview <b>×7</b></span><span class="ps-topic">Budget <b>×4</b></span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="car__card car__card--feat car__card--app rv">
-        <h3>Reminders</h3>
-        <p>Every promise becomes a reminder — yours and the ones people make to you, organized by when they're due.</p>
-        <div class="fcard__phone">
-          <div class="phone">
-            <div class="phone-screen">
-              <div class="ps-status">
-                <span class="ps-time">9:41</span>
-                <span class="ps-sicons" aria-hidden="true">
-                  <svg viewBox="0 0 16 10" width="14" height="9"><rect x="0" y="6" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="4.5" y="4" width="3" height="6" rx="0.8" fill="currentColor"/><rect x="9" y="2" width="3" height="8" rx="0.8" fill="currentColor"/><rect x="13.5" y="0" width="2.5" height="10" rx="0.8" fill="currentColor"/></svg>
-                  <svg viewBox="0 0 22 11" width="20" height="10"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-opacity="0.4"/><rect x="2" y="2" width="13" height="7" rx="1.4" fill="currentColor"/><path d="M20.5 3.5v4a2 2 0 0 0 0-4Z" fill="currentColor" fill-opacity="0.4"/></svg>
-                </span>
-              </div>
-              <p class="ps-title">Reminders</p>
-              <p class="ps-label">Today</p>
-              <div class="ps-card ps-item"><span class="ps-check is-done" aria-hidden="true">✓</span><div><p class="ps-text">Book the dentist for Thursday.</p><p class="ps-dim">You · 10:42 AM</p></div></div>
-              <p class="ps-label">This week</p>
-              <div class="ps-card ps-item"><span class="ps-check" aria-hidden="true"></span><div><p class="ps-text">Nora will send the itinerary.</p><p class="ps-dim">Nora · Yesterday</p></div></div><div class="ps-card ps-item"><span class="ps-check" aria-hidden="true"></span><div><p class="ps-text">Call the landlord about the lease.</p><p class="ps-dim">You · 4:12 PM</p></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="car__card car__card--feat rv">
-        <h3>Highlights</h3>
-        <p>Larkin already captures every conversation as text. Press the button when a moment deserves more — and keep the actual sound of it, in their exact voice.</p>
-        <div class="hl-player" aria-hidden="true">
-          <p class="hl-head">Saved highlight</p>
-          <div class="hl-row">
-            <span class="hl-play"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/></svg></span>
-            <span class="hl-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-            <span class="hl-dur">0:12</span>
-          </div>
-          <p class="hl-quote">&ldquo;Wait — say that again. That was perfect.&rdquo;</p>
-          <p class="hl-src">Dinner · Saturday</p>
-          <!-- One item only: the phone cards must stay the tallest in the row,
-               or the run-off-the-bottom-edge illusion breaks on them. -->
-          <div class="hl-more">
-            <p class="hl-head">More from this week</p>
-            <div class="hl-item">
-              <p class="hl-item-quote">&ldquo;We got it. We actually got the apartment!&rdquo;</p>
-              <p class="hl-src">Leo · 6:12 PM</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Small-screen controls: the head's buttons are gone below 900px, and
-         without an arrow in sight nobody knew the track scrolled. -->
-    <div class="shell car-foot">
-      <button class="car-btn" type="button" data-car-nav="prev" aria-label="Previous feature cards">←</button>
-      <button class="car-btn" type="button" data-car-nav="next" aria-label="Next feature cards">→</button>
-    </div>
-  </section>
-
-  <!-- Use cases — carries straight on from the features band: same navy, same
-       soft glows, serif banner title. -->
-  <section class="shell section surface--dark" id="use-cases">
-    <h2 class="banner rv">How will you use yours?</h2>
-    <div class="segments">
-      <a class="segment segment--leaders rv" href="/leaders/">
-        <picture>
-          <source type="image/avif" srcset="/assets/hero-leaders-780.avif">
-          <img src="/assets/hero-leaders-900.jpg" srcset="/assets/hero-leaders-900.jpg 900w, /assets/hero-leaders-1200.jpg 1200w" sizes="(min-width: 900px) 42vw, 92vw" alt="A leader laughing mid-conversation, wearing the Larkin band" loading="lazy" decoding="async" width="900" height="1205">
-        </picture>
-        <div class="segment__copy">
-          <p class="segment__eyebrow">For leaders</p>
-          <p class="segment__title">Every promise your team trusts you with, kept</p>
-        </div>
-        <span class="segment__cta">Read more →</span>
-      </a>
-
-      <a class="segment segment--adhd rv" href="/adhd/">
-        <picture>
-          <source type="image/avif" srcset="/assets/hero-adhd-780.avif">
-          <img src="/assets/hero-adhd-900.jpg" srcset="/assets/hero-adhd-900.jpg 900w, /assets/hero-adhd-1200.jpg 1200w" sizes="(min-width: 900px) 42vw, 92vw" alt="An energetic young man mid-idea, wearing the Larkin band" loading="lazy" decoding="async" width="900" height="1205">
-        </picture>
-        <div class="segment__copy">
-          <p class="segment__eyebrow">For the ADHD brain</p>
-          <p class="segment__title">It catches what working memory drops</p>
-        </div>
-        <span class="segment__cta">Read more →</span>
-      </a>
-
-      <a class="segment segment--parents rv" href="/parents/">
-        <picture>
-          <source type="image/avif" srcset="/assets/hero-parents-780.avif">
-          <img src="/assets/hero-parents-900.jpg" srcset="/assets/hero-parents-900.jpg 900w, /assets/hero-parents-1200.jpg 1200w" sizes="(min-width: 900px) 42vw, 92vw" alt="A father and daughter laughing together, the Larkin band on his wrist" loading="lazy" decoding="async" width="900" height="1205">
-        </picture>
-        <div class="segment__copy">
-          <p class="segment__eyebrow">For parents</p>
-          <p class="segment__title">Their little voices, kept word for word</p>
-        </div>
-        <span class="segment__cta">Read more →</span>
-      </a>
-
-      <a class="segment segment--journal rv" href="/journal/">
-        <picture>
-          <source type="image/avif" srcset="/assets/hero-journal-780.avif">
-          <img src="/assets/hero-journal-900.jpg" srcset="/assets/hero-journal-900.jpg 900w, /assets/hero-journal-1200.jpg 1200w" sizes="(min-width: 900px) 42vw, 92vw" alt="A woman with a warm mug lost in thought, the Larkin band on her wrist" loading="lazy" decoding="async" width="900" height="1205">
-        </picture>
-        <div class="segment__copy">
-          <p class="segment__eyebrow">For journaling</p>
-          <p class="segment__title">The journal that writes itself</p>
-        </div>
-        <span class="segment__cta">Read more →</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- Privacy -->
-  <section class="section surface--light section--ruled-both" id="privacy">
-    <div class="shell car-head">
-      <div class="rv">
-        <h2 class="section-title">Private and secure by design</h2>
-        <p class="section-lead">How your voice is protected, from wrist to app.</p>
-      </div>
-      <div class="car-controls">
-        <button class="car-btn" type="button" data-car-nav="prev" aria-label="Previous privacy cards">←</button>
-        <button class="car-btn" type="button" data-car-nav="next" aria-label="Next privacy cards">→</button>
-      </div>
-    </div>
-
-    <div class="car" data-car tabindex="0" role="region" aria-label="How Larkin secures your data">
-      <div class="car__card rv">
-        <span class="car__icon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><line x1="6" y1="18" x2="18" y2="6" stroke="currentColor" stroke-width="1.6"/></svg>
-        </span>
-        <h3>Encrypted, transcribed, then erased</h3>
-        <p>Speech becomes text within seconds and the recording is erased. The only audio kept is a highlight you chose to save.</p>
-      </div>
-      <div class="car__card rv">
-        <span class="car__icon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="8" y="5" width="3" height="14" rx="1.5" fill="currentColor"/><rect x="14" y="5" width="3" height="14" rx="1.5" fill="currentColor"/></svg>
-        </span>
-        <h3>Stopped at the source in two seconds</h3>
-        <p>Hold the module and it stops listening. Nothing is captured until you start it again.</p>
-      </div>
-      <div class="car__card rv">
-        <span class="car__icon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5" stroke="currentColor" stroke-width="1.6"/></svg>
-        </span>
-        <h3>Nothing travels in the clear</h3>
-        <p>Encrypted the moment it leaves the band, and everywhere it is stored after.</p>
-      </div>
-      <div class="car__card rv">
-        <span class="car__icon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="6" width="16" height="2.2" rx="1.1" fill="currentColor"/><rect x="4" y="11" width="11" height="2.2" rx="1.1" fill="currentColor" opacity="0.55"/><rect x="4" y="16" width="6" height="2.2" rx="1.1" fill="currentColor" opacity="0.25"/></svg>
-        </span>
-        <h3>Delete means destroyed, not archived</h3>
-        <p>Remove one conversation, one day, or every day you have worn it.</p>
-      </div>
-      <div class="car__card rv">
-        <span class="car__icon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.6"/><rect x="9" y="9" width="6" height="6" rx="1.4" fill="currentColor"/></svg>
-        </span>
-        <h3>No third party ever touches it</h3>
-        <p>Never sold to advertisers or data brokers, and never used to train a model.</p>
-      </div>
-      <div class="car__card rv">
-        <span class="car__icon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="6.5" y="3.5" width="11" height="17" rx="4" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/></svg>
-        </span>
-        <h3>Bound to a single account</h3>
-        <p>One band, one account. Nothing is shared, and no one else can open it.</p>
-      </div>
-    </div>
-
-    <div class="shell car-foot">
-      <button class="car-btn" type="button" data-car-nav="prev" aria-label="Previous privacy cards">←</button>
-      <button class="car-btn" type="button" data-car-nav="next" aria-label="Next privacy cards">→</button>
-    </div>
-  </section>
-
-  <!-- Reserve — the reserve site's pre-order card: one navy panel on the warm
-       page, gallery with a thumbnail strip on the left, founder offer on the
-       right. The gallery auto-advances until the visitor picks (site.js). -->
-  <section class="section reserve surface--light" id="reserve">
-    <div class="shell">
-      <div class="preorder surface--dark rv">
-        <div class="preorder__media">
-          <div class="pgal" data-pgal>
-            <div class="pgal__main">
-              <picture class="pgal__frame is-active">
-                <source type="image/avif" srcset="/assets/gal-band-cream-600.avif">
-                <img src="/assets/gal-band-cream-600.jpg" alt="The Larkin band on a warm studio surface" loading="lazy" decoding="async" width="600" height="448">
-              </picture>
-              <picture class="pgal__frame">
-                <source type="image/avif" srcset="/assets/gal-band-angle-600.avif">
-                <img src="/assets/gal-band-angle-600.jpg" alt="The Larkin band standing at an angle" loading="lazy" decoding="async" width="600" height="538">
-              </picture>
-              <picture class="pgal__frame">
-                <source type="image/avif" srcset="/assets/gal-portrait-grey-600.avif">
-                <img src="/assets/gal-portrait-grey-600.jpg" alt="Wearing the Larkin band, arms crossed" loading="lazy" decoding="async" width="600" height="600">
-              </picture>
-              <picture class="pgal__frame">
-                <source type="image/avif" srcset="/assets/gal-band-side-600.avif">
-                <img src="/assets/gal-band-side-600.jpg" alt="The module and its button, in profile" loading="lazy" decoding="async" width="600" height="440">
-              </picture>
-            </div>
-            <div class="pgal__thumbs" role="tablist" aria-label="Product photos">
-              <button type="button" class="is-active" aria-label="Show photo 1"><img src="/assets/gal-band-cream-600.jpg" alt="" loading="lazy" decoding="async" width="600" height="448"></button>
-              <button type="button" aria-label="Show photo 2"><img src="/assets/gal-band-angle-600.jpg" alt="" loading="lazy" decoding="async" width="600" height="538"></button>
-              <button type="button" aria-label="Show photo 3"><img src="/assets/gal-portrait-grey-600.jpg" alt="" loading="lazy" decoding="async" width="600" height="600"></button>
-              <button type="button" aria-label="Show photo 4"><img src="/assets/gal-band-side-600.jpg" alt="" loading="lazy" decoding="async" width="600" height="440"></button>
-            </div>
-          </div>
-        </div>
-
-        <div class="preorder__copy">
-          <p class="preorder__eyebrow">Founder Edition — limited to 1,000</p>
-          <h2 class="preorder__title">Reserve your Larkin</h2>
-          <p class="preorder__price">
-            <span class="preorder__was">$99</span>
-            <span class="preorder__amount">$59</span>
-            <span class="preorder__label">founder price</span>
-          </p>
-          <p class="preorder__deposit">Reserve yours today with a fully refundable $10 deposit.</p>
-          <ul class="preorder__points">
-            <li>Larkin Membership included, forever</li>
-            <li>Numbered founder unit, shipped first</li>
-            <li>Refundable any time</li>
-          </ul>
-          <a class="btn btn--primary preorder__cta" data-reserve href="https://api.getlarkin.com/reserve?segment=general">Reserve Founder Edition — $10</a>
-          <p class="preorder__note">You pay $10 now and $49 when it ships in Q1 2027.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- How it compares — headed like the reserve site's "Why not just your
-       phone?": centred serif title, small top padding because the pre-order
-       section's bottom padding already supplies the air above. -->
-  <section class="shell section surface--light" id="compare">
-    <h2 class="banner rv">How it compares</h2>
-    <p class="compare-hint">Scroll the table sideways to see every column.</p>
-    <div class="compare-scroll rv" tabindex="0" role="region" aria-label="Comparison table">
-      <table class="compare">
-        <thead>
-          <tr>
-            <th scope="col"><span class="sr-only">Capability</span></th>
-            <th scope="col" class="col-us">
-              <span class="col-name">Larkin</span>
-              <span class="col-note">Worn on your wrist, always on</span>
-            </th>
-            <th scope="col">
-              <span class="col-name">Phone app</span>
-              <span class="col-note">In your pocket, you open it and press record</span>
-            </th>
-            <th scope="col">
-              <span class="col-name">Apple Watch app</span>
-              <span class="col-note">On your wrist, but you tap a screen to start it</span>
-            </th>
-            <th scope="col">
-              <span class="col-name">Hardware recorder</span>
-              <span class="col-note">Clipped on, you press to record</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Nothing to open or press</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Worn on your body all day</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-          </tr>
-          <tr>
-            <th scope="row">No screen</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Records both people talking</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="qual">Only if out</span></td>
-            <td><span class="qual">Partly</span></td>
-            <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Picks out what matters instead of a transcript</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="qual">Partly</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Makes reminders from what you said</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="qual">If you type them</span></td>
-            <td><span class="qual">If you dictate</span></td>
-            <td><span class="qual">Partly</span></td>
-          </tr>
-          <tr>
-            <th scope="row">A light shows when it's on</th>
-            <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            <td><span class="qual">Partly</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="compare__foot">Based on published specifications and everyday use, July 2026. Apple Watch and Plaud are trademarks of their respective owners.</p>
-  </section>
-
-  <!-- The device — the hardware gets the same treatment as the software: the
-       features band's navy and glows, serif banner title, white media card. -->
-  <section class="section surface--dark" id="specs">
-    <div class="shell">
-      <h2 class="banner rv">Simple, screen-free</h2>
-      <div class="specs">
-        <dl>
-          <div class="spec-row"><dt>Battery</dt><dd>7 days · 160 h listening</dd></div>
-          <div class="spec-row"><dt>Microphones</dt><dd>2, with noise filtering</dd></div>
-          <div class="spec-row"><dt>Weight</dt><dd>11 g, module and band</dd></div>
-          <div class="spec-row"><dt>Controls</dt><dd>One press. No screen</dd></div>
-          <div class="spec-row"><dt>Band</dt><dd>Silicone, 140–200 mm</dd></div>
-          <div class="spec-row"><dt>Water resistance</dt><dd>IPX5</dd></div>
-          <div class="spec-row"><dt>Charging</dt><dd>Magnetic USB-C, 90 min</dd></div>
-          <div class="spec-row"><dt>Languages</dt><dd>40+</dd></div>
-          <div class="spec-row"><dt>Works with</dt><dd>iPhone &amp; Android, Bluetooth LE</dd></div>
-          <div class="spec-row"><dt>Storage on band</dt><dd>3 days without your phone</dd></div>
-        </dl>
-        <div class="specs__media">
-          <video data-src="/uploads/larkin-exploded.mp4"
-                 data-poster="/assets/poster-exploded-1200.jpg"
-                 preload="none" muted loop playsinline autoplay
-                 aria-label="An exploded view of the Larkin band rotating to show its internal parts"></video>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ — the reserve site's list: centred serif title, one 760px column,
-       flat rows split by hairlines, +/– glyph drawn by CSS. -->
-  <section class="shell section surface--light" id="faq">
-    <h2 class="banner rv">Questions</h2>
-    <div class="faq rv">
-      <details class="faq__item">
-        <summary>Does it record everything I say?</summary>
-        <p>It listens while you're wearing it, but it doesn't keep the audio. Speech is turned into text and the recording is deleted — the only sound kept is a highlight you pressed to save.</p>
-      </details>
-      <details class="faq__item">
-        <summary>How do I stop it listening?</summary>
-        <p>Hold the module for two seconds. It stops until you hold it again. You can also pause it from the app.</p>
-      </details>
-      <details class="faq__item">
-        <summary>What about recording laws where I live?</summary>
-        <p>They differ by country and by state. The app tells you what applies where you are.</p>
-      </details>
-      <details class="faq__item">
-        <summary>Do I need my phone with me?</summary>
-        <p>No. The band holds about three days on its own and syncs when your phone is nearby.</p>
-      </details>
-      <details class="faq__item">
-        <summary>How long does the battery last?</summary>
-        <p>Seven days of normal wear, around 160 hours of listening. Ninety minutes on the magnetic charger takes it back to full.</p>
-      </details>
-      <details class="faq__item">
-        <summary>What does it cost, and when does it ship?</summary>
-        <p>$59 at launch instead of $99. A $10 deposit holds one from the first run of 1,000 and is refundable at any point. Ships Q1 2027.</p>
-      </details>
-    </div>
-  </section>
+  </div>
+</section>
 
 </main>
 
-<footer class="site-footer surface--dark">
-  <div class="shell site-footer__inner">
-    <span class="site-footer__mark">Larkin</span>
-    <nav class="site-footer__links" aria-label="Footer">
-      <a href="/leaders/">For leaders</a>
-      <a href="/adhd/">For ADHD</a>
-      <a href="/parents/">For parents</a>
-      <a href="/journal/">For journaling</a>
-      <a href="#privacy">Privacy</a>
-      <a href="#faq">FAQ</a>
-      <a href="#reserve">Reserve</a>
-    </nav>
-    <span class="site-footer__copy">© 2026 Larkin. All rights reserved.</span>
-  </div>
+<footer class="shell foot">
+  <a class="brand brand--foot" href="/v1/">Larkin</a>
+  <p class="mono">EVERYTHING THAT MATTERED, KEPT — © 2026 LARKIN</p>
 </footer>
 
 <script src="site.js" defer></script>
