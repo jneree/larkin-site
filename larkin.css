@@ -120,7 +120,7 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 .section-head--center .lead { margin-inline: auto; }
 
 /* --------------------------------------------------------------------------
-   4. Buttons, pills, glyphs
+   4. Buttons and pills
    -------------------------------------------------------------------------- */
 .btn {
   display: inline-flex;
@@ -184,32 +184,6 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   background: var(--card);
   cursor: pointer;
   transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
-}
-
-/* The band, drawn small: a module with the ring near one end. The ring lights
-   when the hero film's does. */
-.glyph {
-  position: relative;
-  display: inline-block;
-  width: 30px;
-  height: 12px;
-  border-radius: 4px;
-  box-shadow: inset 0 0 0 1.6px currentColor;
-  vertical-align: -1px;
-}
-.glyph i {
-  position: absolute;
-  top: 1.5px;
-  bottom: 1.5px;
-  right: 7px;
-  width: 2.5px;
-  border-radius: 2px;
-  background: color-mix(in srgb, currentColor 35%, transparent);
-  transition: background-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
-}
-.ring-on .glyph i {
-  background: var(--ring);
-  box-shadow: 0 0 6px 1px color-mix(in srgb, var(--ring) 80%, transparent), 0 0 16px 3px color-mix(in srgb, var(--ring) 40%, transparent);
 }
 
 /* --------------------------------------------------------------------------
@@ -328,7 +302,8 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   object-fit: cover;
   object-position: 66% 50%;
 }
-.hero__video { opacity: 0; transition: opacity 0.8s var(--ease); }
+/* Short fade: the film must be fully up before its first dark frame at 0.7 s. */
+.hero__video { opacity: 0; transition: opacity 0.45s var(--ease); }
 .hero.is-playing .hero__video { opacity: 1; }
 
 /* Phones and narrow frames: copy sits low over a soft ink scrim. */
@@ -348,15 +323,6 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   padding-bottom: clamp(36px, 7vh, 72px);
 }
 .hero__copy { display: grid; gap: 18px; max-width: 36rem; }
-.hero__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
 .hero__title {
   font-size: clamp(3rem, 13vw, 4.25rem);
   font-weight: 700;
@@ -436,6 +402,30 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 .statement p + p { margin-top: 0.6em; }
 .statement p:first-child { color: var(--ink-2); }
 .statement .w { transition: opacity 0.12s linear; }
+
+/* The key phrase gets a lime highlighter. Inline backgrounds are painted as
+   one strip across line breaks, so growing the strip's width sweeps the
+   marker along the phrase in reading order, line after line. It rests fully
+   drawn; the read-along (larkin.js) starts it at zero and sweeps it in when
+   the reading reaches the phrase. */
+.marker {
+  --mark: 100%;
+  color: inherit;
+  background-color: transparent;
+  background-image: linear-gradient(100deg, rgba(222, 250, 85, 0.35) 0, var(--lime) 0.3em, var(--lime) calc(100% - 0.3em), rgba(222, 250, 85, 0.55) 100%);
+  background-repeat: no-repeat;
+  background-position: 0 72%;
+  background-size: var(--mark) 0.82em;
+  padding-inline: 0.08em;
+  margin-inline: -0.08em;
+  border-radius: 0.14em;
+  transition: background-size 1.5s cubic-bezier(0.55, 0.05, 0.3, 1);
+}
+.stmt-scrub .marker { --mark: 0%; }
+.stmt-scrub .marker.is-on { --mark: 100%; }
+/* Each marked word comes up to full ink as the marker passes over it
+   (--d is its place along the sweep, set by larkin.js). */
+.stmt-scrub .marker.is-on .w { opacity: 1 !important; transition: opacity 0.25s linear var(--d, 0s); }
 
 .stmt-scrub .statement-pin { height: 220vh; }
 .stmt-scrub .statement-pin .statement {
@@ -666,7 +656,7 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   color: #fff;
 }
 .uc picture, .uc img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.uc img { object-fit: cover; object-position: 50% 30%; transition: transform 0.8s var(--ease); z-index: -2; }
+.uc img { object-fit: cover; object-position: 50% 30%; z-index: -2; }
 .uc::after {
   content: "";
   position: absolute;
@@ -674,70 +664,50 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   z-index: -1;
   background: linear-gradient(to top, rgba(10, 10, 10, 0.72), rgba(10, 10, 10, 0));
 }
-.uc:hover img { transform: scale(1.035); }
 .uc__chip { position: absolute; top: 20px; left: 20px; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.35); }
-.uc__copy { position: absolute; left: 24px; right: 88px; bottom: 24px; display: grid; gap: 6px; }
+.uc__copy { position: absolute; left: 24px; right: 24px; bottom: 24px; display: grid; gap: 6px; }
 .uc__eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.8; }
 .uc__title { font-size: clamp(1.375rem, 2.2vw, 1.875rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; text-wrap: balance; }
-.uc__go {
-  position: absolute;
-  right: 20px;
-  bottom: 22px;
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: #fff;
-  color: var(--ink);
-  font-size: 1.25rem;
-  font-weight: 700;
-  transition: background-color 0.3s var(--ease), transform 0.3s var(--ease);
-}
-.uc:hover .uc__go { background: var(--lime); transform: rotate(45deg); }
 @media (min-width: 800px) {
   .uc-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
   .uc { aspect-ratio: 16 / 11; }
-  .uc__copy { left: 32px; bottom: 32px; }
+  .uc__copy { left: 32px; right: 32px; bottom: 32px; }
   .uc__chip { top: 24px; left: 24px; }
-  .uc__go { right: 28px; bottom: 30px; }
 }
 
 /* --------------------------------------------------------------------------
    12. Privacy
    -------------------------------------------------------------------------- */
 .privacy { padding-top: 0; }
+.section-head--split { align-items: end; }
+.section-head--split .lead { max-width: 30ch; text-wrap: balance; }
+@media (min-width: 900px) {
+  .section-head--split { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); column-gap: 48px; }
+  .section-head--split .lead { justify-self: end; text-align: right; }
+}
 .privacy__grid { display: grid; gap: 16px; }
 .pcard {
   display: grid;
   align-content: start;
-  gap: 12px;
+  gap: 10px;
   padding: clamp(24px, 2.6vw, 34px);
   border-radius: var(--r-lg);
   background: var(--card);
 }
-.pcard h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.015em; }
+.pcard h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.015em; text-wrap: balance; }
 .pcard p { color: var(--ink-2); }
 .pcard__icon {
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
-  margin-bottom: 8px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 14px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--ink);
+  color: var(--lime);
 }
-.pcard--lead { background: var(--feature); color: #fff; gap: 16px; padding-block: clamp(32px, 4vw, 48px); }
-.pcard--lead .h2 { font-size: clamp(2rem, 3.4vw, 3rem); }
-.pcard--lead p:last-child { color: var(--on-feature-2); font-size: 1.125rem; }
-@media (min-width: 700px) {
-  .privacy__grid { grid-template-columns: 1fr 1fr; }
-  .pcard--lead { grid-column: 1 / -1; }
-}
-@media (min-width: 1100px) {
-  .privacy__grid { grid-template-columns: 1.15fr 1fr 1fr; }
-  .pcard--lead { grid-column: 1; grid-row: 1 / span 3; align-content: end; }
-}
+@media (min-width: 700px) { .privacy__grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) { .privacy__grid { grid-template-columns: repeat(3, 1fr); } }
 
 /* --------------------------------------------------------------------------
    13. Reserve
@@ -987,10 +957,10 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 @media (prefers-reduced-motion: no-preference) and (min-width: 700px) {
   :is(.how__grid, .uc-grid, .privacy__grid) > .rv:nth-child(2) { --rv-d: 90ms; }
   :is(.how__grid, .uc-grid, .privacy__grid) > .rv:nth-child(3) { --rv-d: 180ms; }
-  :is(.uc-grid, .privacy__grid) > .rv:nth-child(4) { --rv-d: 120ms; }
-  .privacy__grid > .rv:nth-child(5) { --rv-d: 210ms; }
-  .privacy__grid > .rv:nth-child(6) { --rv-d: 150ms; }
-  .privacy__grid > .rv:nth-child(7) { --rv-d: 240ms; }
+  .uc-grid > .rv:nth-child(4) { --rv-d: 120ms; }
+  .privacy__grid > .rv:nth-child(4) { --rv-d: 0ms; }
+  .privacy__grid > .rv:nth-child(5) { --rv-d: 90ms; }
+  .privacy__grid > .rv:nth-child(6) { --rv-d: 180ms; }
 }
 @keyframes rise {
   from { opacity: 0; transform: translateY(18px); }

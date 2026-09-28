@@ -53,22 +53,20 @@
 
      The copy follows the film. Measured from the footage: the text side of
      the frame is bright for the first 0.7 s, dark until 5.1 s (a sleeve, then
-     close-ups of the module), then bright again on the wrist. The band's ring
-     switches on at 2.75 s, and the glyph in the eyebrow switches on with it. */
-  var DARK_FROM = 0.7, DARK_TO = 5.1, RING_AT = 2.75;
+     close-ups of the module), then bright again on the wrist. */
+  var DARK_FROM = 0.7, DARK_TO = 5.1;
 
   var video = hero && hero.querySelector('.hero__video');
   var filmBtn = hero && hero.querySelector('.hero__toggle');
   if (hero && video) {
     var raf = 0;
-    var setState = function (dark, ring) {
+    var setDark = function (dark) {
       hero.classList.toggle('is-dark', dark);
-      hero.classList.toggle('ring-on', ring);
       if (header) header.classList.toggle('on-dark', dark);
     };
     var sync = function () {
       var t = video.currentTime;
-      setState(t >= DARK_FROM && t < DARK_TO, t >= RING_AT);
+      setDark(t >= DARK_FROM && t < DARK_TO);
       if (!video.paused && !video.ended) raf = requestAnimationFrame(sync);
     };
     var setBtn = function (state) {
@@ -106,7 +104,7 @@
     });
     video.addEventListener('ended', function () {
       cancelAnimationFrame(raf);
-      setState(false, true);
+      setDark(false);
       setBtn('ended');
     });
 
@@ -165,28 +163,48 @@
   }
 
   /* ---- Read-along statement -------------------------------------------- */
-  /* The statement pins while scroll lights it word by word. Without JS, or
-     with reduced motion, the words are never wrapped and never dimmed. */
+  /* The statement pins while scroll lights it word by word, and the marked
+     key phrase gets its highlighter swept in once the reading reaches it
+     (scrolling back up takes it off again). Without JS, or with reduced
+     motion, the words are never wrapped or dimmed and the phrase simply
+     stays highlighted. */
   var pin = document.querySelector('.statement-pin');
   var reads = pin ? [].slice.call(pin.querySelectorAll('.statement__read')) : [];
   if (pin && reads.length && !reduceMotion) {
     root.classList.add('stmt-scrub');
     var DIM = 0.18, LEAD = 4;
     var words = [];
+    var marker = null, markFrom = -1;
+    // Rebuild each paragraph word by word, keeping the <mark> around its words.
     reads.forEach(function (read) {
-      var parts = read.textContent.trim().split(/\s+/);
+      var nodes = [].slice.call(read.childNodes);
       read.textContent = '';
-      parts.forEach(function (part, i) {
-        var w = document.createElement('span');
-        w.className = 'w';
-        w.textContent = part;
-        w.style.opacity = DIM;
-        read.appendChild(w);
-        if (i < parts.length - 1) read.appendChild(document.createTextNode(' '));
-        words.push(w);
+      nodes.forEach(function (node) {
+        var target = read;
+        if (node.nodeType === 1) {
+          target = node.cloneNode(false);
+          read.appendChild(target);
+          if (target.classList.contains('marker')) { marker = target; markFrom = words.length; }
+        }
+        node.textContent.split(/(\s+)/).forEach(function (part) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { target.appendChild(document.createTextNode(' ')); return; }
+          var w = document.createElement('span');
+          w.className = 'w';
+          w.textContent = part;
+          w.style.opacity = DIM;
+          target.appendChild(w);
+          words.push(w);
+        });
       });
     });
     var N = words.length;
+    if (marker) {
+      var marked = marker.querySelectorAll('.w');
+      for (var k = 0; k < marked.length; k++) {
+        marked[k].style.setProperty('--d', (k / marked.length * 1.3).toFixed(2) + 's');
+      }
+    }
     var START = 0.06, END = 0.86;
     var paint = function () {
       var vh = window.innerHeight || root.clientHeight;
@@ -199,6 +217,7 @@
         var wp = Math.max(0, Math.min(1, (reach - i) / LEAD));
         words[i].style.opacity = DIM + (1 - DIM) * wp;
       }
+      if (marker) marker.classList.toggle('is-on', reach >= markFrom + 2);
     };
     var scheduled = false, onView = false;
     var tick = function () { scheduled = false; paint(); };

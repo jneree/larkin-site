@@ -7,7 +7,7 @@ Static landing site for **Larkin**, the AI memory wristband. Served by GitHub Pa
 The homepage is rebuilt for the new band and the new app, in the app's own design language: DM Sans, white canvas, `#151515` ink and feature cards, `#F0F0F0` cards, lime `#DEFA55` for the one thing to press.
 
 - `index.html` — the new homepage, same storyline as before: hero film → read-along statement → how it works → the app (Chronicles, Day, Insights, Topics, Mirror) → use cases → privacy → reserve → compare → the device and specs → FAQ.
-- `larkin.css`, `larkin.js` — its styles and progressive enhancement. The hero film plays once over its own last frame; the copy flips between ink and white with the footage (dark from 0.7 s to 5.1 s) and the band glyph in the eyebrow lights at 2.75 s, when the band's ring does. Those timings are measured from `media/hero-*.mp4`: re-measure them if the film changes.
+- `larkin.css`, `larkin.js` — its styles and progressive enhancement. The hero film plays once over its own last frame, and the copy flips between ink and white with the footage (dark from 0.7 s to 5.1 s, measured from `media/hero-*.mp4`: re-measure if the film changes). In the read-along statement, a lime highlighter sweeps across the phrase in `<mark class="marker">` once the reading reaches it.
 - `media/` — the new photos, app screenshots and hero film (1080p and 720p H.264, no audio), each image as `.webp` with a `.jpg` fallback.
 
 The audience pages (`leaders/`, `adhd/`, `parents/`, `journal/`), `thanks/` and `404.html` still use the older `styles.css` and `site.js` below until they move over.
