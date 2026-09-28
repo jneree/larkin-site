@@ -47,9 +47,11 @@
 
   /* ---- Hero film ---------------------------------------------------------- */
   /* The film plays once and rests on its last frame, which is also the poster
-     underneath it, so the end is seamless. It is fetched only after the page
-     has loaded and the main thread is idle, so it never competes with the
-     poster for first paint.
+     underneath it, so the end is seamless. It is the first thing on the page,
+     so it is requested as soon as this script runs (right after the HTML is
+     parsed) rather than after the load event: waiting for load held it back
+     about 8 s on a 4G connection. The poster is preloaded at high priority in
+     the head, so it still arrives first.
 
      The copy follows the film. Measured from the footage: the text side of
      the frame is bright for the first 0.7 s, dark until 5.1 s (a sleeve, then
@@ -78,16 +80,18 @@
     };
 
     var pickSource = function () {
-      // 1080p for wide screens and dense phones, 720p when the browser says
-      // data is precious. Autoplay itself is never withheld.
+      // Portrait screens: the 720×1080 crop around the wrist (1.5 MB). Wide
+      // screens: 1080p, or 720p when the browser says data is precious.
+      // Autoplay itself is never withheld.
+      if (window.matchMedia('(max-aspect-ratio: 4/5)').matches) return video.dataset.srcPhone;
       var c = navigator.connection || {};
       var slow = c.saveData || /(^|-)2g$|^3g$/.test(c.effectiveType || '');
-      var big = hero.offsetWidth >= 900 || (window.devicePixelRatio || 1) >= 2;
-      return (big && !slow) ? video.dataset.srcLg : video.dataset.srcSm;
+      return (hero.offsetWidth >= 1100 && !slow) ? video.dataset.srcLg : video.dataset.srcSm;
     };
 
     var attach = function () {
       if (video.getAttribute('src')) return;
+      video.preload = 'auto';
       video.src = pickSource();
       video.load();
     };
@@ -127,16 +131,8 @@
       // Resting frame only; the film waits for a press.
       setBtn('paused');
     } else {
-      var start = function () {
-        attach();
-        video.addEventListener('canplay', play, { once: true });
-      };
-      var whenIdle = function () {
-        if (window.requestIdleCallback) window.requestIdleCallback(start, { timeout: 1500 });
-        else setTimeout(start, 200);
-      };
-      if (document.readyState === 'complete') whenIdle();
-      else window.addEventListener('load', whenIdle, { once: true });
+      video.addEventListener('canplay', play, { once: true });
+      attach();
     }
   }
 

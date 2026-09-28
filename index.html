@@ -21,13 +21,15 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/favicon.svg">
 
-<!-- The hero's resting frame is the page's largest paint: fetch it first. -->
-<link rel="preload" as="image" type="image/webp" fetchpriority="high"
+<!-- The hero's resting frame is the page's largest paint: fetch it first.
+     Portrait screens get their own crop of the film and of this frame. -->
+<link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(max-aspect-ratio: 4/5)" href="media/hero-poster-phone.webp">
+<link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="media/hero-poster-1000.webp 1000w, media/hero-poster-1920.webp 1920w" imagesizes="100vw">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..800&display=swap" rel="stylesheet">
+<!-- DM Sans is served from this site: a Google Fonts stylesheet blocked the
+     first paint (and the film) for 3–4 s on a 4G connection. -->
+<link rel="preload" as="font" type="font/woff2" href="fonts/dm-sans-latin.woff2" crossorigin>
 <link rel="stylesheet" href="larkin.css">
 <script>document.documentElement.classList.add('js')</script>
 
@@ -108,10 +110,11 @@
   <section class="hero" data-hero aria-label="Introduction">
     <div class="hero__media">
       <picture>
+        <source type="image/webp" media="(max-aspect-ratio: 4/5)" srcset="media/hero-poster-phone.webp">
         <source type="image/webp" srcset="media/hero-poster-1000.webp 1000w, media/hero-poster-1920.webp 1920w" sizes="100vw">
         <img class="hero__poster" src="media/hero-poster-1920.jpg" alt="The Larkin band on a woman's wrist, its green light on, as she rests her chin on her hand" width="1920" height="1080" fetchpriority="high" decoding="async">
       </picture>
-      <video class="hero__video" data-src-sm="media/hero-720.mp4" data-src-lg="media/hero-1080.mp4"
+      <video class="hero__video" data-src-phone="media/hero-phone.mp4" data-src-sm="media/hero-720.mp4" data-src-lg="media/hero-1080.mp4"
              muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
     </div>
 
@@ -509,8 +512,8 @@
           <p class="preorder__eyebrow">Founder Edition — limited to 1,000</p>
           <h2 class="preorder__title">Reserve your Larkin</h2>
           <p class="preorder__price">
-            <span class="preorder__was">$99</span>
-            <span class="preorder__amount">$59</span>
+            <span class="preorder__was">$149</span>
+            <span class="preorder__amount">$99</span>
             <span class="preorder__label">founder price</span>
           </p>
           <p class="preorder__deposit">Reserve yours today with a fully refundable $10 deposit.</p>
@@ -523,7 +526,7 @@
             <svg class="spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.7 5.6 3.6 8.8 10.5 10.5-6.9 1.7-9.8 4.9-10.5 10.5-.7-5.6-3.6-8.8-10.5-10.5C8.4 10.3 11.3 7.1 12 1.5Z"/></svg>
             Reserve Founder Edition — $10
           </a>
-          <p class="preorder__note">You pay $10 now and $49 when it ships in Q1 2027.</p>
+          <p class="preorder__note">You pay $10 now and $89 when it ships in Q1 2027.</p>
         </div>
       </div>
     </div>
@@ -689,7 +692,7 @@
         </details>
         <details class="faq__item">
           <summary>What does it cost, and when does it ship?</summary>
-          <p>$59 at launch instead of $99. A $10 deposit holds one from the first run of 1,000 and is refundable at any point. Ships Q1 2027.</p>
+          <p>$99 at launch instead of $149. A $10 deposit holds one from the first run of 1,000 and is refundable at any point. Ships Q1 2027.</p>
         </details>
       </div>
     </div>
@@ -700,7 +703,7 @@
     <div class="shell">
       <div class="closing__card rv">
         <p class="h2">Keep what mattered.</p>
-        <p>Founder Edition, $59 instead of $99. Hold one with a refundable $10.</p>
+        <p>Founder Edition, $99 instead of $149. Hold one with a refundable $10.</p>
         <a class="btn btn--ink" data-reserve href="https://api.getlarkin.com/reserve?segment=general">
           <svg class="spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.7 5.6 3.6 8.8 10.5 10.5-6.9 1.7-9.8 4.9-10.5 10.5-.7-5.6-3.6-8.8-10.5-10.5C8.4 10.3 11.3 7.1 12 1.5Z"/></svg>
           Reserve yours — $10
