@@ -167,10 +167,10 @@
   fbq('init', '1033614279315561');
   fbq('track', 'PageView');
 
-  /* Purchase fires here AND server-side from the Medusa order.placed
-     subscriber. Both carry eventID = the Stripe Checkout session id, so Meta
-     keeps one event, not two. No session_id in the URL means this page was
-     opened directly rather than reached from checkout — no purchase to report. */
+  /* The Stripe Payment Link redirects here with ?session_id={CHECKOUT_SESSION_ID}.
+     Purchase carries that session id as its eventID. No session_id in the URL
+     means this page was opened directly rather than reached from checkout,
+     so there is no purchase to report. */
   (function () {
     var id = new URLSearchParams(window.location.search).get('session_id');
     if (!id || !/^cs_[A-Za-z0-9_]+$/.test(id)) return;

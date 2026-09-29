@@ -344,8 +344,9 @@
   });
 
   /* ---- Checkout attribution -------------------------------------------- */
-  /* Every reserve CTA leaves for /reserve, which mints a Stripe Checkout
-     session. Fire InitiateCheckout tagged with the page's segment. */
+  /* Every reserve CTA goes to the Stripe Payment Link for the $10 deposit,
+     tagged with the page as client_reference_id. Fire InitiateCheckout with
+     the same segment so the pages stay distinguishable in Meta reporting. */
   var segment = root.getAttribute('data-theme') || 'general';
   document.querySelectorAll('a[data-reserve]').forEach(function (link) {
     link.addEventListener('click', function () {
