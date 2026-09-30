@@ -409,7 +409,8 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   .hero__media img, .hero__video { object-position: 50% 50%; }
   .hero__inner { align-items: center; padding-top: var(--header-h); padding-bottom: 0; }
   .hero__copy { gap: 22px; max-width: 40rem; transform: translateY(6vh); }
-  .hero__title { font-size: clamp(4rem, 7.4vw, 7.25rem); }
+  /* Capped so "Know yourself." holds one line in the 40rem column. */
+  .hero__title { font-size: clamp(4rem, 7.4vw, 6.5rem); }
   .hero.is-dark .hero__copy { text-shadow: 0 1px 30px rgba(0, 0, 0, 0.35); }
   .hero__toggle {
     top: auto;
