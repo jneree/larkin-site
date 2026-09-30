@@ -208,8 +208,10 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
    5. Header
    -------------------------------------------------------------------------- */
 /* Solid by default, so a page without JS always has a readable bar. larkin.js
-   adds .over-hero while the hero sits under it; on wide screens that makes it
-   clear, and .on-dark frosts it while the film is dark. */
+   adds .over-hero while the hero sits under it, which makes it clear so the
+   film shows through. What .on-dark (the film's dark stretch) does depends on
+   the frame: see below. On phones the bar also slides away while scrolling
+   down (.is-hidden) and comes back on the way up. */
 .site-header {
   position: fixed;
   inset: 0 0 auto;
@@ -219,8 +221,9 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   -webkit-backdrop-filter: saturate(1.4) blur(18px);
   backdrop-filter: saturate(1.4) blur(18px);
   box-shadow: 0 1px 0 var(--hair);
-  transition: background-color 0.35s var(--ease), color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+  transition: background-color 0.35s var(--ease), color 0.35s var(--ease), box-shadow 0.35s var(--ease), transform 0.35s var(--ease);
 }
+.site-header.is-hidden { transform: translateY(-100%); }
 .site-header__inner {
   display: flex;
   align-items: center;
@@ -284,16 +287,34 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   .nav-toggle, .mobile-nav { display: none; }
 }
 
+/* Clear over the film. On phones only the wordmark could get lost (the
+   Reserve and menu buttons are solid shapes), so it turns white while the
+   film is dark behind it: measured on the phone crop, the logo's patch of
+   frame is dark over the same 0.7–5.1 s stretch as the desktop copy. With the
+   menu open the bar is solid again. */
+.site-header.over-hero:not(.menu-open) {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+.site-header.over-hero.on-dark:not(.menu-open) { color: #fff; }
+.site-header.over-hero.on-dark:not(.menu-open) .logo i { background: var(--lime); }
+.site-header.over-hero .nav-toggle {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.site-header.menu-open .nav-toggle { background: var(--ink); color: #fff; }
+
 /* The hero is a full-bleed film only where the frame is wide enough to keep a
    clean wall beside the wrist; everywhere else it's the phone composition. */
 @media (min-width: 900px) and (min-aspect-ratio: 5/4) {
-  .site-header.over-hero {
-    background: transparent;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    box-shadow: none;
-  }
   .site-header.over-hero .nav a { opacity: 0.9; }
+  /* Wide frames keep ink and frost instead (below). */
+  .site-header.over-hero.on-dark:not(.menu-open) { color: var(--ink); }
+  .site-header.over-hero.on-dark:not(.menu-open) .logo i { background: var(--lime-deep); }
   /* The bar keeps its ink. While the film is dark it gains frosted glass
      instead: measured on the footage, the wordmark side and the nav side of
      the top strip go dark at different moments, so no single text colour
@@ -601,6 +622,22 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   scroll-snap-align: start;
 }
 .phone--inline { --w: min(62vw, 250px); justify-self: center; }
+
+/* Phones: an explanation and its screen must fit on one screen together, so
+   the copy comes first, the chips go, and the phone shows the top of each
+   screen (where its content is) and fades out below. */
+@media (max-width: 959px) {
+  .show__item { gap: 22px; }
+  .show__text { order: -1; gap: 10px; }
+  .show__extra { display: none; }
+  .phone--inline {
+    --w: min(60vw, 240px);
+    max-height: min(50svh, 430px);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, #000 76%, transparent);
+    mask-image: linear-gradient(to bottom, #000 76%, transparent);
+  }
+}
 .show__dots { display: flex; justify-content: center; gap: 8px; margin-top: 32px; }
 .show__dots i { width: 7px; height: 7px; border-radius: 999px; background: #3A3A3A; transition: width 0.3s var(--ease), background-color 0.3s var(--ease); }
 .show__dots i.is-active { width: 22px; background: var(--lime); }
