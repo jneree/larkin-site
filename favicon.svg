@@ -1,7 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Larkin">
-  <rect width="64" height="64" rx="14" fill="#1B44E5"/>
-  <!-- the band: a rounded loop, screen-free -->
-  <rect x="16" y="10" width="32" height="44" rx="16" fill="none" stroke="#FFFFFF" stroke-width="6"/>
-  <!-- the one green light that is the whole interface -->
-  <circle cx="32" cy="32" r="6" fill="#C8F04B"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" role="img" aria-label="Larkin">
+  <rect width="480" height="480" rx="108" fill="#DEFA55"/>
+  <rect x="184" y="129" width="46" height="235" fill="#151515"/>
+  <circle cx="284.5" cy="337.5" r="26" fill="#151515"/>
 </svg>

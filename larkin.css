@@ -227,13 +227,28 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   gap: 24px;
   height: var(--header-h);
 }
-.brand {
-  font-size: 0.9375rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  margin-right: auto;
+.brand { margin-right: auto; font-size: 1.5rem; }
+
+/* The wordmark: "larkin" in DM Sans 800, tightly set, and a lime full stop.
+   On light grounds the dot takes the deeper lime from the logo's light
+   version; on dark grounds the brighter one. The dot's margin cancels the
+   trailing letter-spacing after the "n". */
+.logo {
+  display: inline-flex;
+  align-items: baseline;
+  font-weight: 800;
+  letter-spacing: -0.053em;
+  line-height: 1;
 }
+.logo i {
+  display: inline-block;
+  width: 0.2em;
+  height: 0.2em;
+  margin-left: 0.1em;
+  border-radius: 50%;
+  background: var(--lime-deep);
+}
+@media (min-width: 900px) { .brand { font-size: 1.625rem; } }
 .nav { display: none; gap: 32px; }
 .nav a {
   font-size: 0.9375rem;
@@ -688,7 +703,6 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   z-index: -1;
   background: linear-gradient(to top, rgba(10, 10, 10, 0.72), rgba(10, 10, 10, 0));
 }
-.uc__chip { position: absolute; top: 20px; left: 20px; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.35); }
 .uc__copy { position: absolute; left: 24px; right: 24px; bottom: 24px; display: grid; gap: 6px; }
 .uc__eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.8; }
 .uc__title { font-size: clamp(1.375rem, 2.2vw, 1.875rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; text-wrap: balance; }
@@ -696,7 +710,6 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   .uc-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
   .uc { aspect-ratio: 16 / 11; }
   .uc__copy { left: 32px; right: 32px; bottom: 32px; }
-  .uc__chip { top: 24px; left: 24px; }
 }
 
 /* --------------------------------------------------------------------------
@@ -779,13 +792,6 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 .preorder__price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px; }
 .preorder__was { font-size: 1.5rem; color: var(--on-feature-2); text-decoration: line-through; }
 .preorder__amount { font-size: clamp(3rem, 5vw, 4.25rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
-.preorder__label {
-  padding: 5px 12px;
-  border-radius: 999px;
-  background: var(--chip-dark);
-  font-size: 0.8125rem;
-  font-weight: 700;
-}
 .preorder__deposit { color: var(--on-feature-2); font-size: 1.0625rem; }
 .preorder__points { display: grid; gap: 10px; margin-block: 4px 8px; }
 .preorder__points li { display: flex; align-items: center; gap: 12px; font-weight: 600; }
@@ -949,7 +955,8 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
    -------------------------------------------------------------------------- */
 .site-footer { background: var(--feature); color: #fff; padding-block: 56px; }
 .site-footer__inner { display: grid; gap: 28px; }
-.site-footer__mark { font-size: 0.9375rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; }
+.site-footer__mark { font-size: 1.75rem; }
+.site-footer .logo i { background: var(--lime); }
 .site-footer__links { display: flex; flex-wrap: wrap; gap: 14px 28px; }
 .site-footer__links a { color: var(--on-feature-2); font-weight: 500; transition: color 0.2s var(--ease); }
 .site-footer__links a:hover { color: #fff; }

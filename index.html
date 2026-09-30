@@ -19,7 +19,7 @@
 <link rel="canonical" href="https://getlarkin.com/">
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 <!-- The hero's resting frame is the page's largest paint: fetch it first.
      Portrait screens get their own crop of the film and of this frame. -->
@@ -71,7 +71,7 @@
      (larkin.js), then a frosted white bar once the hero has scrolled away. -->
 <header class="site-header">
   <div class="shell site-header__inner">
-    <a class="brand" href="/" aria-label="Larkin, home">Larkin</a>
+    <a class="brand" href="/" aria-label="Larkin, home"><span class="logo" aria-hidden="true">larkin<i></i></span></a>
 
     <nav class="nav" aria-label="Primary">
       <a href="#how">How it works</a>
@@ -120,7 +120,7 @@
 
     <div class="shell hero__inner">
       <div class="hero__copy">
-        <h1 class="hero__title">Keep what <br>mattered.</h1>
+        <h1 class="hero__title">Understand <br>Yourself.</h1>
         <p class="hero__lead">A wristband with no screen and nothing to press. Larkin listens through your day and gives it back as something you can read, learn from and build on.</p>
         <div class="hero__actions">
           <a class="btn btn--lime" data-reserve href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=general">
@@ -136,7 +136,7 @@
     <button class="hero__toggle" type="button" aria-label="Pause the film" hidden>
       <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="5.5" width="3.4" height="13" rx="1.2"/><rect x="13.6" y="5.5" width="3.4" height="13" rx="1.2"/></svg>
       <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.8v12.4c0 .8.9 1.3 1.6.8l9.3-6.2a1 1 0 0 0 0-1.6L10.1 5c-.7-.5-1.6 0-1.6.8Z"/></svg>
-      <svg class="i-replay" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5a7 7 0 1 1-6.6 4.7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M4 4.5v5.2h5.2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="i-replay" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6L3.5 8.5"/><path d="M3.5 3.5v5h5"/></svg>
     </button>
   </section>
 
@@ -365,7 +365,6 @@
             <source type="image/webp" srcset="media/uc-leaders-800.webp 800w, media/uc-leaders-1400.webp 1400w" sizes="(min-width: 900px) 46vw, 92vw">
             <img src="media/uc-leaders-800.jpg" alt="A leader in a navy blazer laughing, the Larkin band on her wrist" loading="lazy" decoding="async" width="800" height="446">
           </picture>
-          <span class="uc__chip pill pill--skill" style="--c: var(--clarity)">Clarity &amp; concision</span>
           <figcaption class="uc__copy">
             <p class="uc__eyebrow">For leaders</p>
             <p class="uc__title">Every promise your team trusts you with, kept</p>
@@ -377,7 +376,6 @@
             <source type="image/webp" srcset="media/uc-adhd-800.webp 800w, media/uc-adhd-1400.webp 1400w" sizes="(min-width: 900px) 46vw, 92vw">
             <img src="media/uc-adhd-800.jpg" alt="A man mid-idea, pointing up and laughing, the Larkin band on his wrist" loading="lazy" decoding="async" width="800" height="446">
           </picture>
-          <span class="uc__chip pill pill--lime"><svg class="spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.7 5.6 3.6 8.8 10.5 10.5-6.9 1.7-9.8 4.9-10.5 10.5-.7-5.6-3.6-8.8-10.5-10.5C8.4 10.3 11.3 7.1 12 1.5Z"/></svg>3 insights</span>
           <figcaption class="uc__copy">
             <p class="uc__eyebrow">For the ADHD brain</p>
             <p class="uc__title">It catches what working memory drops</p>
@@ -389,7 +387,6 @@
             <source type="image/webp" srcset="media/uc-parents-800.webp 800w, media/uc-parents-1400.webp 1400w" sizes="(min-width: 900px) 46vw, 92vw">
             <img src="media/uc-parents-800.jpg" alt="A father laughing with his daughter on his back, the Larkin band on his wrist" loading="lazy" decoding="async" width="800" height="446">
           </picture>
-          <span class="uc__chip pill pill--dark">Leo's science project</span>
           <figcaption class="uc__copy">
             <p class="uc__eyebrow">For parents</p>
             <p class="uc__title">Their little voices, kept word for word</p>
@@ -401,7 +398,6 @@
             <source type="image/webp" srcset="media/uc-journal-800.webp 800w, media/uc-journal-1400.webp 1400w" sizes="(min-width: 900px) 46vw, 92vw">
             <img src="media/uc-journal-800.jpg" alt="A woman holding a warm mug, lost in thought, the Larkin band on her wrist" loading="lazy" decoding="async" width="800" height="446">
           </picture>
-          <span class="uc__chip pill pill--white">Saying no, kindly</span>
           <figcaption class="uc__copy">
             <p class="uc__eyebrow">For journaling</p>
             <p class="uc__title">The journal that writes itself</p>
@@ -514,7 +510,6 @@
           <p class="preorder__price">
             <span class="preorder__was">$149</span>
             <span class="preorder__amount">$99</span>
-            <span class="preorder__label">founder price</span>
           </p>
           <p class="preorder__deposit">Reserve yours today with a fully refundable $10 deposit.</p>
           <ul class="preorder__points">
@@ -716,7 +711,7 @@
 
 <footer class="site-footer">
   <div class="shell site-footer__inner">
-    <span class="site-footer__mark">Larkin</span>
+    <span class="site-footer__mark logo" role="img" aria-label="Larkin">larkin<i></i></span>
     <nav class="site-footer__links" aria-label="Footer">
       <a href="leaders/">For leaders</a>
       <a href="adhd/">For ADHD</a>
