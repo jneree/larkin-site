@@ -623,19 +623,38 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 }
 .phone--inline { --w: min(62vw, 250px); justify-self: center; }
 
-/* Phones: an explanation and its screen must fit on one screen together, so
-   the copy comes first, the chips go, and the phone shows the top of each
-   screen (where its content is) and fades out below. */
+/* Phones and tablets: each feature is its own tile in a swipeable row. The
+   tile is sized so the next one shows only as a clean card edge (its padding
+   is wider than the visible sliver, so no stray text peeks in). Copy comes
+   first, the chips go, and the phone rises from the tile's bottom edge,
+   cut flush, so an explanation and its screen fit on one screen together. */
 @media (max-width: 959px) {
-  .show__item { gap: 22px; }
+  .show__list { gap: 12px; }
+  .show__item {
+    /* visible sliver of the next tile = gutter + 16px - 12px gap = 20px on a
+       phone, under the tile's 24px side padding */
+    flex-basis: min(calc(100vw - 2 * var(--gutter) - 16px), 400px);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 26px 24px 0;
+    overflow: hidden;
+    border-radius: var(--r-xl);
+    background: #1F1F1F;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
   .show__text { order: -1; gap: 10px; }
+  .show__text h3 { font-size: 1.625rem; }
+  .show__text > p:not(.show__label) { font-size: 1rem; }
   .show__extra { display: none; }
   .phone--inline {
-    --w: min(60vw, 240px);
-    max-height: min(50svh, 430px);
+    --w: min(56vw, 230px);
+    align-self: center;
+    margin-top: auto;
+    max-height: min(44svh, 380px);
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(to bottom, #000 76%, transparent);
-    mask-image: linear-gradient(to bottom, #000 76%, transparent);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
 .show__dots { display: flex; justify-content: center; gap: 8px; margin-top: 32px; }
