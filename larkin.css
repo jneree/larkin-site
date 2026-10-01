@@ -1,7 +1,7 @@
 /* ==========================================================================
    Larkin — 2026 site. One light design system taken straight from the app:
    DM Sans, white canvas, #151515 ink and feature cards, #F0F0F0 cards, lime
-   #DEFA55 for the one thing to press. The old styles.css still serves the
+   #D2ED28 for the one thing to press. The old styles.css still serves the
    audience pages until they move over.
    ========================================================================== */
 
@@ -37,8 +37,8 @@
   --on-feature: #FFFFFF;
   --on-feature-2: #A3A39D;
   --chip-dark: rgba(255, 255, 255, 0.12);
-  --lime: #DEFA55;
-  --lime-deep: #CBE83E;
+  --lime: #D2ED28;
+  --lime-deep: #BFD81C;
   --on-lime: #151515;
   --hair: rgba(21, 21, 21, 0.10);
   --hair-dark: rgba(255, 255, 255, 0.12);
@@ -159,7 +159,7 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 .btn:hover { transform: translateY(-1px); }
 .btn:active { transform: translateY(0) scale(0.98); }
 .btn--lime { background: var(--lime); color: var(--on-lime); }
-.btn--lime:hover { background: var(--lime-deep); box-shadow: 0 10px 30px -12px rgba(160, 190, 20, 0.7); }
+.btn--lime:hover { background: var(--lime-deep); box-shadow: 0 10px 30px -12px rgba(150, 175, 10, 0.7); }
 .btn--ink { background: var(--ink); color: #fff; }
 .btn--ink:hover { background: #000; }
 .btn--ghost {
@@ -473,7 +473,7 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   --mark: 100%;
   color: inherit;
   background-color: transparent;
-  background-image: linear-gradient(100deg, rgba(222, 250, 85, 0.35) 0, var(--lime) 0.3em, var(--lime) calc(100% - 0.3em), rgba(222, 250, 85, 0.55) 100%);
+  background-image: linear-gradient(100deg, rgba(210, 237, 40, 0.35) 0, var(--lime) 0.3em, var(--lime) calc(100% - 0.3em), rgba(210, 237, 40, 0.55) 100%);
   background-repeat: no-repeat;
   background-position: 0 72%;
   background-size: var(--mark) 0.82em;
@@ -734,7 +734,7 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   }
   .show__tabs a:hover { color: #C9C9C3; }
   .show__tabs a.is-active { color: #fff; }
-  .show__tabs a.is-active::before { background: var(--lime); box-shadow: 0 0 0 4px rgba(222, 250, 85, 0.18); }
+  .show__tabs a.is-active::before { background: var(--lime); box-shadow: 0 0 0 4px rgba(210, 237, 40, 0.18); }
 }
 
 /* --------------------------------------------------------------------------
