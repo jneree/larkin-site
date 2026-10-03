@@ -194,8 +194,9 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
    5. Header
    -------------------------------------------------------------------------- */
 /* A floating bar. At the very top of the page it's clear over the hero film
-   (larkin.js adds .over-hero there, and .on-dark while the film is dark, see
-   below). Once the page has scrolled it's a frosted white pill inset from the
+   (larkin.js adds .over-hero there, and marks each word .on-dark while the
+   film behind it is dark, see below). Once the page has scrolled it's a
+   frosted white pill inset from the
    edges (.is-floating). Scrolling down hides it (.is-hidden: it fades, lifts
    and blurs away) and any scroll up brings it back. Without JS it simply
    stays a frosted pill at the top. */
@@ -310,45 +311,31 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   .nav-toggle, .mobile-nav { display: none; }
 }
 
-/* Clear over the film, at the very top. On phones only the wordmark could get
-   lost (the Reserve and menu buttons are solid shapes), so it turns white
-   while the film is dark behind it: measured on the phone crop, the logo's
-   patch of frame is dark over the same 0.7–5.1 s stretch as the desktop copy.
-   With the menu open the pill is frosted again. */
-.site-header.over-hero:not(.menu-open) .site-header__inner {
+/* Clear over the film, at the very top. Each word of the bar takes the colour
+   that reads best against the frame right behind it: larkin.js samples the
+   film behind the wordmark and behind each nav link and marks the ones over a
+   dark patch .on-dark. The Reserve and menu buttons are solid shapes, so they
+   read either way. With the menu open the pill is frosted again. Keyed off
+   html.js (set in the head) rather than .over-hero, so the clear bar is there
+   from the first paint, before larkin.js has run. */
+html.js .site-header:not(.is-floating):not(.menu-open) .site-header__inner {
   border-color: transparent;
   background-color: transparent;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   box-shadow: none;
 }
-.site-header.over-hero.on-dark:not(.menu-open) { color: #fff; }
-.site-header.over-hero.on-dark:not(.menu-open) .logo i { background: var(--lime); }
-.site-header.over-hero .nav-toggle {
+.site-header.over-hero .nav a { opacity: 0.92; }
+.site-header.over-hero:not(.menu-open) :is(.brand, .nav a) { transition: opacity 0.2s var(--ease); } /* colour switches with the cut, unfaded */
+.site-header.over-hero:not(.menu-open) :is(.brand, .nav a).on-dark { color: #fff; }
+.site-header.over-hero:not(.menu-open) .brand.on-dark .logo i { background: var(--lime); }
+html.js .site-header:not(.is-floating) .nav-toggle {
   color: var(--ink);
   background: rgba(255, 255, 255, 0.72);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
 .site-header.menu-open .nav-toggle { background: var(--ink); color: #fff; }
-
-/* The hero is a full-bleed film only where the frame is wide enough to keep a
-   clean wall beside the wrist; everywhere else it's the phone composition. */
-@media (min-width: 900px) and (min-aspect-ratio: 5/4) {
-  .site-header.over-hero .nav a { opacity: 0.9; }
-  /* Wide frames keep their ink and frost the pill instead while the film is
-     dark: measured on the footage, the wordmark side and the nav side of the
-     top strip go dark at different moments, so no single text colour would
-     hold across the whole film. */
-  .site-header.over-hero.on-dark:not(.menu-open) { color: var(--ink); }
-  .site-header.over-hero.on-dark:not(.menu-open) .logo i { background: var(--lime-deep); }
-  .site-header.over-hero.on-dark:not(.menu-open) .site-header__inner {
-    border-color: rgba(255, 255, 255, 0.6);
-    background-color: rgba(255, 255, 255, 0.7);
-    -webkit-backdrop-filter: blur(30px) saturate(1.8);
-    backdrop-filter: blur(30px) saturate(1.8);
-  }
-}
 
 /* --------------------------------------------------------------------------
    6. Hero
@@ -510,7 +497,10 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   top: 0;
   min-height: 100vh;
   min-height: 100svh;
-  padding-block: calc(var(--header-h) + 24px) 24px;
+  /* Even top and bottom, so the reading sits in the middle of the screen
+     (the header slides away while scrolling down), with room for the
+     floating bar if it comes back. */
+  padding-block: calc(var(--header-h) + 16px);
 }
 
 /* --------------------------------------------------------------------------
