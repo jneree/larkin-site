@@ -402,7 +402,7 @@
      front, the other two barely there on either side. Picking a part from
      the list (the arrow keys move along it), or clicking a phone at the
      side, turns its phone to the front. While the tile is in view the parts
-     also advance on their own every few seconds, a lime line filling under
+     also advance on their own every few seconds, a lime line filling beside
      the chosen part; the first tap, key or touch on the list or the phones
      hands control to the visitor for good. Never under reduced motion. */
   document.querySelectorAll('[data-mtabs]').forEach(function (list) {
