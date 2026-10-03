@@ -260,83 +260,144 @@
     paint();
   }
 
-  /* ---- App showcase ----------------------------------------------------- */
-  /* Wide screens: one phone holds still while the five screens' copy scrolls
-     past; whichever item crosses the middle of the viewport owns the phone.
-     Phones: the items are a swipeable row, and the dots follow the swipe. */
-  var show = document.querySelector('[data-show]');
-  if (show) {
-    var items = [].slice.call(show.querySelectorAll('.show__item'));
-    var shots = [].slice.call(show.querySelectorAll('.phone--stage img'));
-    var tabs = [].slice.call(show.querySelectorAll('.show__tabs a'));
-    var dots = [].slice.call(show.querySelectorAll('.show__dots i'));
-    var list = show.querySelector('[data-show-list]');
-    var current = 0;
-
-    var activate = function (i) {
-      if (i === current || i < 0 || i >= items.length) return;
-      current = i;
-      shots.forEach(function (img, j) { img.classList.toggle('is-active', j === i); });
-      tabs.forEach(function (a, j) {
-        a.classList.toggle('is-active', j === i);
-        if (j === i) a.setAttribute('aria-current', 'step'); else a.removeAttribute('aria-current');
-      });
-      dots.forEach(function (d, j) { d.classList.toggle('is-active', j === i); });
-    };
-    if (tabs[0]) tabs[0].setAttribute('aria-current', 'step');
-
-    // The stage's pictures are fetched only as the section approaches.
-    var loadShots = function () {
-      shots.forEach(function (img) {
-        if (img.dataset.src && !img.getAttribute('src')) img.src = img.dataset.src;
+  /* ---- App tour: the nav that rides along ------------------------------- */
+  /* The nav sticks while the three chapters pass; the chapter whose top has
+     crossed the middle of the screen lights its link. The links are plain
+     anchors, so they work without this. */
+  var tourNav = document.querySelector('[data-tour-nav]');
+  if (tourNav) {
+    var navLinks = [].slice.call(tourNav.querySelectorAll('a'));
+    var chapters = navLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+    var lit = -2, navRaf = 0, navOn = !('IntersectionObserver' in window);
+    var pickChapter = function () {
+      navRaf = 0;
+      var mid = window.innerHeight * 0.5, at = -1;
+      chapters.forEach(function (c, i) { if (c && c.getBoundingClientRect().top <= mid) at = i; });
+      if (at === lit) return;
+      lit = at;
+      navLinks.forEach(function (a, i) {
+        a.classList.toggle('is-active', i === at);
+        if (i === at) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
       });
     };
-
-    var stacked = window.matchMedia('(min-width: 960px)');
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries, obs) {
-        if (entries[0].isIntersecting && stacked.matches) { loadShots(); obs.disconnect(); }
-      }, { rootMargin: '1200px 0px' }).observe(show);
-
-      var io = new IntersectionObserver(function (entries) {
-        if (!stacked.matches) return;
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) activate(items.indexOf(entry.target));
-        });
-      }, { rootMargin: '-45% 0px -45% 0px' });
-      items.forEach(function (item) { io.observe(item); });
-    } else {
-      loadShots();
+    var queuePick = function () { if (navOn && !navRaf) navRaf = requestAnimationFrame(pickChapter); };
+    if (!navOn) {
+      new IntersectionObserver(function (entries) {
+        navOn = entries[0].isIntersecting;
+        if (navOn) queuePick();
+      }, { rootMargin: '100px 0px' }).observe(document.getElementById('app') || tourNav);
     }
-    var onStacked = function (e) { if (e.matches) loadShots(); };
-    if (stacked.addEventListener) stacked.addEventListener('change', onStacked);
-    else if (stacked.addListener) stacked.addListener(onStacked);
-
-    // Tabs scroll to their item; on phones they aren't shown.
-    tabs.forEach(function (a, i) {
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        var r = items[i].getBoundingClientRect();
-        var y = window.scrollY + r.top + r.height / 2 - window.innerHeight / 2;
-        window.scrollTo({ top: y, behavior: reduceMotion ? 'auto' : 'smooth' });
-      });
-    });
-
-    if (list) {
-      var swipeRaf = 0;
-      list.addEventListener('scroll', function () {
-        if (stacked.matches || swipeRaf) return;
-        swipeRaf = requestAnimationFrame(function () {
-          swipeRaf = 0;
-          var first = items[0].getBoundingClientRect().left;
-          var step = items[1] ? items[1].getBoundingClientRect().left - first : 1;
-          var i = Math.round((list.getBoundingClientRect().left - first + 1) / step);
-          if (list.scrollLeft + list.clientWidth >= list.scrollWidth - 4) i = items.length - 1;
-          activate(Math.max(0, Math.min(items.length - 1, i)));
-        });
-      }, { passive: true });
-    }
+    window.addEventListener('scroll', queuePick, { passive: true });
+    window.addEventListener('resize', queuePick, { passive: true });
+    queuePick();
   }
+
+  /* ---- "Is this you?" ------------------------------------------------------ */
+  /* The card can be answered. "That's me" files the fact at the top of What
+     Larkin knows, tagged New, and the count goes up; "Not me" lets it go.
+     Either way the next fact from the template takes its place, and after the
+     last one the card says so and offers to start over. Before any answer,
+     the lime button nudges once when the card comes into view. */
+  document.querySelectorAll('[data-learn]').forEach(function (demo) {
+    var card = demo.querySelector('[data-learn-card]');
+    var q = card && card.querySelector('.ui-ask__q');
+    var kicker = demo.querySelector('[data-learn-kicker]');
+    var fact = demo.querySelector('[data-learn-fact]');
+    var quote = demo.querySelector('[data-learn-quote]');
+    var actions = card && card.querySelector('.ui-ask__actions');
+    var list = demo.querySelector('[data-learn-list]');
+    var total = demo.querySelector('[data-learn-total]');
+    var status = demo.querySelector('[data-learn-status]');
+    var tpl = demo.querySelector('template[data-learn-next]');
+    var yes = demo.querySelector('[data-answer="yes"]');
+    if (!card || !q || !fact || !list || !actions || !yes) return;
+
+    var facts = [{ kicker: kicker.textContent, fact: fact.textContent, quote: quote.textContent }];
+    if (tpl && tpl.content) {
+      [].slice.call(tpl.content.querySelectorAll('[data-fact]')).forEach(function (p) {
+        facts.push({ kicker: p.getAttribute('data-kicker'), fact: p.getAttribute('data-fact'), quote: p.getAttribute('data-quote') });
+      });
+    }
+    var start = {
+      list: list.innerHTML,
+      all: parseInt(total ? total.textContent.replace(/\D+/g, '') : '0', 10) || 0
+    };
+    var chev = list.querySelector('svg');
+    var at = 0, all = start.all, busy = false, answered = false, ended = null;
+
+    var counts = function () {
+      if (total) total.textContent = 'See all ' + all;
+    };
+    var show = function (i) {
+      kicker.textContent = facts[i].kicker;
+      fact.textContent = facts[i].fact;
+      quote.textContent = facts[i].quote;
+    };
+    var finish = function () {
+      actions.hidden = true;
+      q.hidden = true;
+      ended = document.createElement('div');
+      ended.className = 'ui-ask__q';
+      ended.innerHTML = '<p class="ui-ask__fact">You’re all caught up.</p>' +
+        '<p class="ui-ask__note">Larkin asks again when it hears something new.</p>' +
+        '<button type="button" class="ui-ask__again">Start over</button>';
+      card.appendChild(ended);
+      ended.querySelector('button').addEventListener('click', reset);
+      ended.querySelector('button').focus({ preventScroll: true });
+    };
+    var reset = function () {
+      if (ended) { ended.remove(); ended = null; }
+      list.innerHTML = start.list;
+      all = start.all; at = 0;
+      counts(); show(0);
+      q.hidden = false; actions.hidden = false;
+      yes.focus({ preventScroll: true });
+      if (status) status.textContent = 'Started over.';
+    };
+    var answer = function (keep) {
+      if (busy) return;
+      busy = true; answered = true;
+      yes.classList.remove('is-hint');
+      var said = facts[at].fact;
+      if (keep) {
+        var li = document.createElement('li');
+        li.className = 'is-new';
+        var text = document.createElement('span');
+        text.textContent = said;
+        li.appendChild(text);
+        var tag = document.createElement('span');
+        tag.className = 'ui-chip';
+        tag.textContent = 'New';
+        li.appendChild(tag);
+        if (chev) li.appendChild(chev.cloneNode(true));
+        list.insertBefore(li, list.firstChild);
+        var items = list.querySelectorAll('li');
+        if (items.length > 4) items[items.length - 1].remove();
+        all += 1;
+        counts();
+      }
+      if (status) status.textContent = keep ? 'Added to what Larkin knows: ' + said : 'Dropped. Larkin won’t use it.';
+      at += 1;
+      card.classList.add('is-swapping');
+      setTimeout(function () {
+        if (at < facts.length) show(at); else finish();
+        card.classList.remove('is-swapping');
+        busy = false;
+      }, reduceMotion ? 0 : 320);
+    };
+
+    demo.classList.add('is-live');
+    [].slice.call(demo.querySelectorAll('[data-answer]')).forEach(function (btn) {
+      btn.addEventListener('click', function () { answer(btn.getAttribute('data-answer') === 'yes'); });
+    });
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries, obs) {
+        if (!entries[0].isIntersecting) return;
+        obs.disconnect();
+        setTimeout(function () { if (!answered) yes.classList.add('is-hint'); }, 1400);
+      }, { threshold: 0.6 }).observe(card);
+    }
+  });
 
   /* ---- Pre-order gallery ------------------------------------------------ */
   /* Auto-advances while on screen, hands over to the visitor for good on the

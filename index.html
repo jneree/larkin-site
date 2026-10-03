@@ -211,134 +211,298 @@
     </div>
   </section>
 
-  <!-- The app — the feature card's black, full bleed. On wide screens the
-       phone holds still while the five screens scroll past it (larkin.js swaps
-       the picture); on phones the five become a swipeable row. -->
+  <!-- The app — three chapters on the feature card's black, full bleed:
+       Chronicles (your day), Conversations, Mirror (you; with two more rows,
+       Your goal and Learn about you). Each row pairs its copy
+       with the app's own UI, rebuilt in HTML from the Figma screens so it stays
+       sharp and readable at any width, and phones scroll it like the rest of
+       the page. A slim nav sticks while the chapters pass and follows along
+       (larkin.js). The "Is this you?" card in the last row can be answered
+       (larkin.js too); without JS everything still reads, it just doesn't
+       respond. Sample data is one persona, Alex, across every screen. -->
   <section class="section app" id="app">
+    <svg class="sprite" aria-hidden="true" focusable="false">
+      <symbol id="i-chev" viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-back" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-cal" viewBox="0 0 16 16"><path d="M11 3.5H5A2.5 2.5 0 0 0 2.5 6v5A2.5 2.5 0 0 0 5 13.5h6a2.5 2.5 0 0 0 2.5-2.5V6A2.5 2.5 0 0 0 11 3.5Z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 6.75h11M5.5 2.25V4.5m5-2.25V4.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+      <symbol id="i-focus" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="10" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+      <symbol id="i-check" viewBox="0 0 14 14"><path d="m2.75 7.25 3 3 5.5-6.25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-x" viewBox="0 0 14 14"><path d="m3.5 3.5 7 7m0-7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-band" viewBox="0 0 16 16"><rect x="4.25" y="3.5" width="7.5" height="9" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.2 3.5V1.75m3.6 1.75V1.75M6.2 12.5v1.75m3.6-1.75v1.75" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+      <symbol id="i-more" viewBox="0 0 16 16"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></symbol>
+      <symbol id="i-share" viewBox="0 0 16 16"><path d="M8 9.5V2.5M5.25 5 8 2.25 10.75 5M5.5 7H5a1.75 1.75 0 0 0-1.75 1.75v3.5C3.25 13.2 4.03 14 5 14h6c.97 0 1.75-.8 1.75-1.75v-3.5C12.75 7.78 11.97 7 11 7h-.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 16 16"><path d="M3 4.5h10M6.5 4.5V3.2c0-.66.54-1.2 1.2-1.2h.6c.66 0 1.2.54 1.2 1.2v1.3m-5 0 .55 8.15c.06.78.7 1.35 1.5 1.35h2.9c.8 0 1.44-.57 1.5-1.35l.55-8.15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-status" viewBox="0 0 66 12"><rect x="0" y="7.5" width="3" height="4.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="6.5" rx="1"/><rect x="9" y="3" width="3" height="9" rx="1"/><rect x="13.5" y="0.5" width="3" height="11.5" rx="1"/><path d="M27.6 4.7a9.4 9.4 0 0 1 13.8 0M30.2 7.3a5.6 5.6 0 0 1 8.6 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="34.5" cy="10.2" r="1.5"/><rect x="44.5" y="0.5" width="19" height="11" rx="3.2" fill="none" stroke="currentColor" stroke-opacity=".45"/><rect x="46.5" y="2.5" width="15" height="7" rx="1.6"/><path d="M65.2 4.3v3.4" stroke="currentColor" stroke-opacity=".45" stroke-width="1.3" stroke-linecap="round"/></symbol>
+    </svg>
+
     <div class="shell">
       <header class="section-head section-head--center rv">
         <p class="eyebrow eyebrow--lime">The app</p>
-        <h2 class="h2">Your days, read back to you.</h2>
+        <h2 class="h2">Your day. Your conversations. You.</h2>
+        <p class="lead">Larkin turns your days into three things you can use: a chapter for every day, honest notes on every conversation, and a mirror that gets sharper the longer you wear it.</p>
       </header>
 
-      <div class="show" data-show>
-        <div class="show__stage">
-          <nav class="show__tabs" aria-label="App screens">
-            <a href="#app-chronicles" class="is-active">Chronicles</a>
-            <a href="#app-day">Day</a>
-            <a href="#app-insights">Insights</a>
-            <a href="#app-topics">Topics</a>
-            <a href="#app-mirror">Mirror</a>
-          </nav>
-          <div class="phone phone--stage">
-            <div class="phone__screen">
-              <img class="is-active" data-src="media/app-v2-chronicles-720.webp" alt="" width="720" height="1561">
-              <img class="tall" style="--dur: 8s" data-src="media/app-v2-day-720.webp" alt="" width="720" height="2076">
-              <img class="tall" style="--dur: 12s" data-src="media/app-v2-conversation-720.webp" alt="" width="720" height="2925">
-              <img data-src="media/app-v2-topics-720.webp" alt="" width="720" height="1561">
-              <img class="tall" style="--dur: 11s" data-src="media/app-v2-mirror-720.webp" alt="" width="720" height="3057">
+      <nav class="tour-nav" aria-label="Parts of the app" data-tour-nav>
+        <a href="#app-chronicles"><i aria-hidden="true"></i>Chronicles</a>
+        <a href="#app-conversations"><i aria-hidden="true"></i>Conversations</a>
+        <a href="#app-mirror"><i aria-hidden="true"></i>Mirror</a>
+      </nav>
+
+      <div class="tour">
+
+        <!-- 01 · Chronicles — the week, a chapter per day. -->
+        <article class="chap" id="app-chronicles" aria-labelledby="chap-chronicles">
+          <div class="feat">
+            <div class="feat__copy rv">
+              <p class="feat__label"><span>01</span> Chronicles</p>
+              <h3 class="feat__title" id="chap-chronicles">Every day becomes a chapter.</h3>
+              <p class="feat__text">Each evening, your day arrives with a title, a few lines on what happened, and every conversation behind it. Look back over a week and it reads like a story, not a transcript.</p>
+            </div>
+            <div class="stage stage--chron rv" role="img" aria-label="The Chronicles screen: this week’s days, each with a title such as “Finding the simpler story” or “Saying no, kindly”, one line on what happened, and how many conversations and insights it holds.">
+              <div class="ui-phone">
+                <div class="ui-screen">
+                  <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+                  <div class="ui-bar"><span class="ui-capsule"><svg><use href="#i-band"/></svg><i></i><span class="ui-capsule__sep"></span><svg><use href="#i-more"/></svg></span></div>
+                  <div class="ui-body">
+                    <p class="ui-h1">Chronicles</p>
+                    <div class="ui-row"><span class="ui-eyebrow">This week</span><span class="ui-link"><svg><use href="#i-cal"/></svg>Calendar</span></div>
+                    <div class="ui-days">
+                      <div class="ui-day">
+                        <p class="ui-day__date"><small>Wed</small><b>30</b></p>
+                        <div class="ui-day__card">
+                          <p class="ui-day__title">Finding the simpler story</p>
+                          <p class="ui-day__sum">Product ideas gave way to everyday life, and the pitch got easier to explain.</p>
+                          <p class="ui-meta"><span>6 conversations · 1h 48m<span class="ui-meta__more"> · 3 insights</span></span><svg><use href="#i-chev"/></svg></p>
+                        </div>
+                      </div>
+                      <div class="ui-day">
+                        <p class="ui-day__date"><small>Tue</small><b>29</b></p>
+                        <div class="ui-day__card">
+                          <p class="ui-day__title">Saying no, kindly</p>
+                          <p class="ui-day__sum">You turned down a side project without closing the door.</p>
+                          <p class="ui-meta"><span>4 conversations · 52m<span class="ui-meta__more"> · 2 insights</span></span><svg><use href="#i-chev"/></svg></p>
+                        </div>
+                      </div>
+                      <div class="ui-day">
+                        <p class="ui-day__date"><small>Mon</small><b>28</b></p>
+                        <div class="ui-day__card">
+                          <p class="ui-day__title">Two ways to tell it</p>
+                          <p class="ui-day__sum">Two openings for the pitch. The everyday problem got more questions.</p>
+                          <p class="ui-meta"><span>7 conversations · 2h 10m<span class="ui-meta__more"> · 3 insights</span></span><svg><use href="#i-chev"/></svg></p>
+                        </div>
+                      </div>
+                      <div class="ui-day">
+                        <p class="ui-day__date"><small>Sun</small><b>27</b></p>
+                        <div class="ui-day__card">
+                          <p class="ui-day__title">A slow Sunday</p>
+                          <p class="ui-day__sum">Pancakes, a long call with your sister, and a plan for the week.</p>
+                          <p class="ui-meta"><span>3 conversations · 41m<span class="ui-meta__more"> · 1 insight</span></span><svg><use href="#i-chev"/></svg></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </article>
 
-        <ol class="show__list" data-show-list tabindex="0" aria-label="Larkin app screens">
-          <li class="show__item" id="app-chronicles">
-            <div class="phone phone--inline">
-              <div class="phone__screen">
-                <picture>
-                  <source type="image/webp" srcset="media/app-v2-chronicles-720.webp">
-                  <img src="media/app-v2-chronicles-720.jpg" alt="Chronicles: today is listening and its summary arrives tonight; this week’s days are titled Finding the simpler story and Saying no, kindly" loading="lazy" decoding="async" width="720" height="1561">
-                </picture>
+        <!-- 02 · Conversations — one conversation, with the focus check and
+             what to try next lifted out of the screen. -->
+        <article class="chap" id="app-conversations" aria-labelledby="chap-conversations">
+          <div class="feat feat--flip">
+            <div class="feat__copy rv">
+              <p class="feat__label"><span>02</span> Conversations</p>
+              <h3 class="feat__title" id="chap-conversations">See how you came across.</h3>
+              <p class="feat__text">Open any conversation for the short version, then the part nobody tells you: how you came across, what worked, and three things to try next time. Every point is backed by what you actually said.</p>
+            </div>
+            <div class="stage stage--conv rv" role="img" aria-label="A conversation page, “Pricing call with the agency”: a short summary, how you came across, your focus quoted from the call (“We launch in March.” said plainly; “Maybe we could look at the price later, no?” softened, with a suggestion to try instead), and three things to try next.">
+              <div class="ui-phone">
+                <div class="ui-screen">
+                  <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+                  <div class="ui-bar ui-bar--split"><span class="ui-round"><svg><use href="#i-back"/></svg></span><span class="ui-capsule"><svg><use href="#i-share"/></svg><span class="ui-capsule__sep"></span><svg><use href="#i-trash"/></svg></span></div>
+                  <div class="ui-body ui-body--conv">
+                    <div class="ui-group">
+                      <p class="ui-sub">Oct 6 · 11:20–11:58 AM · 38 min</p>
+                      <p class="ui-h1 ui-h1--conv">Pricing call with the agency</p>
+                    </div>
+                    <p class="ui-lede">You and the agency agree on the launch plan, then go back and forth on price and timing.</p>
+                    <div class="ui-group">
+                      <p class="ui-h2">How you came across</p>
+                      <p class="ui-p">Clear about the launch plan and calm when they pushed on price. You agreed quickly at first, then kept your position.</p>
+                    </div>
+                    <p class="ui-h2">Insights</p>
+                    <div class="ui-insight">
+                      <p class="ui-insight__name" style="--c: var(--clarity)">Clarity &amp; concision</p>
+                      <p class="ui-eyebrow">What worked</p>
+                      <p class="ui-p">You laid out the launch plan in three steps before they asked, so the call started from a shared plan.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="pops">
+                <div class="ui-card pop">
+                  <span class="ui-chip">Your focus</span>
+                  <p class="ui-goal"><svg><use href="#i-focus"/></svg>Say what you want plainly.</p>
+                  <p class="ui-eyebrow">In this conversation</p>
+                  <div class="ui-moment">
+                    <p class="ui-moment__tag"><i></i>Said plainly</p>
+                    <p class="ui-quote">“We launch in March.”</p>
+                  </div>
+                  <div class="ui-moment">
+                    <p class="ui-moment__tag"><i class="o"></i>Softened</p>
+                    <p class="ui-quote">“Maybe we could look at the price later, no?”</p>
+                    <p class="ui-try">Try: “Let’s set the price on Friday.”</p>
+                  </div>
+                </div>
+                <div class="ui-card ui-card--ink pop">
+                  <p class="ui-eyebrow">Try next</p>
+                  <ol class="ui-steps">
+                    <li><b>1</b>Lead with the ask, then the reason.</li>
+                    <li><b>2</b>Put a date on open questions, like the price.</li>
+                    <li><b>3</b>Close by repeating what you both agreed.</li>
+                  </ol>
+                </div>
               </div>
             </div>
-            <div class="show__text">
-              <p class="show__label"><span>01</span> Chronicles</p>
-              <h3>Every day becomes a chapter.</h3>
-              <p>While you go about your day, Larkin listens. That evening your day arrives with a title and a few honest lines — “Finding the simpler story”, “Saying no, kindly” — so a month reads like a story, not a transcript.</p>
-              <div class="show__extra" aria-hidden="true">
-                <span class="pill pill--lime">Reflect on today so far</span>
-              </div>
-            </div>
-          </li>
-          <li class="show__item" id="app-day">
-            <div class="phone phone--inline">
-              <div class="phone__screen">
-                <picture>
-                  <source type="image/webp" srcset="media/app-v2-day-720.webp">
-                  <img src="media/app-v2-day-720.jpg" alt="A day page: 1 hour 48 minutes captured across six conversations, the day’s topics, and each conversation in order" loading="lazy" decoding="async" width="720" height="2076">
-                </picture>
-              </div>
-            </div>
-            <div class="show__text">
-              <p class="show__label"><span>02</span> Day</p>
-              <h3>Open any day.</h3>
-              <p>Every conversation in order, how long Larkin listened, and the topics that came up — explaining your idea to a friend, testing with customers, weekend plans. Then ask Larkin anything about that day.</p>
-              <div class="show__extra" aria-hidden="true">
-                <span class="metric"><b>1h 48m</b> captured · <b>6</b> conversations</span>
-              </div>
-            </div>
-          </li>
-          <li class="show__item" id="app-insights">
-            <div class="phone phone--inline">
-              <div class="phone__screen">
-                <picture>
-                  <source type="image/webp" srcset="media/app-v2-conversation-720.webp">
-                  <img src="media/app-v2-conversation-720.jpg" alt="A conversation page: how you came across, insights on clarity and on persuasion, and three things to try next" loading="lazy" decoding="async" width="720" height="2925">
-                </picture>
-              </div>
-            </div>
-            <div class="show__text">
-              <p class="show__label"><span>03</span> Insights</p>
-              <h3>Honest feedback, with receipts.</h3>
-              <p>Open a conversation to see how you came across, what worked and what slipped — quoted from what you actually said — and three things to try next time.</p>
-              <div class="show__extra" aria-hidden="true">
-                <span class="pill pill--skill" style="--c: var(--clarity)">Clarity &amp; concision</span>
-                <span class="pill pill--skill" style="--c: var(--framing)">Persuasion &amp; framing</span>
-                <span class="pill pill--skill" style="--c: var(--listening)">Listening &amp; inquiry</span>
-              </div>
-            </div>
-          </li>
-          <li class="show__item" id="app-topics">
-            <div class="phone phone--inline">
-              <div class="phone__screen">
-                <picture>
-                  <source type="image/webp" srcset="media/app-v2-topics-720.webp">
-                  <img src="media/app-v2-topics-720.jpg" alt="Topics: a subject that came up on four days, offered to follow, and the topics already followed with their updates" loading="lazy" decoding="async" width="720" height="1561">
-                </picture>
-              </div>
-            </div>
-            <div class="show__text">
-              <p class="show__label"><span>04</span> Topics</p>
-              <h3>Follow what keeps coming back.</h3>
-              <p>When a subject comes up on several days, Larkin offers to follow it. From then on every update lands in one place, so you can watch it develop.</p>
-              <div class="show__extra" aria-hidden="true">
-                <span class="pill pill--lime"><b>+</b> Follow</span>
-                <span class="pill pill--dark">Not now</span>
-              </div>
-            </div>
-          </li>
-          <li class="show__item" id="app-mirror">
-            <div class="phone phone--inline">
-              <div class="phone__screen">
-                <picture>
-                  <source type="image/webp" srcset="media/app-v2-mirror-720.webp">
-                  <img src="media/app-v2-mirror-720.jpg" alt="Mirror: a portrait drawn from what Larkin knows, a new fact to confirm, and speech captured over the week" loading="lazy" decoding="async" width="720" height="3057">
-                </picture>
-              </div>
-            </div>
-            <div class="show__text">
-              <p class="show__label"><span>05</span> Mirror</p>
-              <h3>See yourself more clearly.</h3>
-              <p>A portrait of you, drawn from what Larkin has learned. When it notices something new it asks “Is this you?” — keep what’s true, drop what isn’t.</p>
-              <div class="show__extra" aria-hidden="true">
-                <span class="pill pill--lime">✓ That’s me</span>
-                <span class="pill pill--dark">✕ Not me</span>
-              </div>
-            </div>
-          </li>
-        </ol>
+          </div>
+        </article>
 
-        <div class="show__dots" aria-hidden="true"><i class="is-active"></i><i></i><i></i><i></i><i></i></div>
+        <!-- 03 · Mirror — the portrait and the four scales, then two tiles:
+             the goal you work on, and what Larkin learns about you. -->
+        <article class="chap" id="app-mirror" aria-labelledby="chap-mirror">
+          <div class="feat">
+            <div class="feat__copy rv">
+              <p class="feat__label"><span>03</span> Mirror</p>
+              <h3 class="feat__title" id="chap-mirror">A mirror that gets sharper.</h3>
+              <p class="feat__text">Over the weeks, Larkin builds a portrait of how you communicate: how plainly you ask, who your questions are about, how fast you get to the point. No scores and no right answers. Just a clear view of you, with a report every month.</p>
+            </div>
+            <div class="stage stage--mirror rv" role="img" aria-label="The Mirror screen: a one-line portrait, “You decide fast and say it clearly, then soften how it lands”, above four scales: Assertiveness from softened to plain, Listening from about plans to about people, Clarity from thinks out loud to gets to the point, and Framing from facts first to story first.">
+              <div class="ui-phone">
+                <div class="ui-screen ui-screen--dark">
+                  <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+                  <div class="ui-bar"><span class="ui-capsule ui-capsule--glass"><svg><use href="#i-band"/></svg><i></i><span class="ui-capsule__sep"></span><svg><use href="#i-more"/></svg></span></div>
+                  <div class="ui-hero">
+                    <div class="ui-who">
+                      <span class="ui-avatar">A</span>
+                      <p><b>Alex</b><span>With Larkin since Sep 28</span></p>
+                    </div>
+                    <p class="ui-portrait">You decide fast and say it clearly, then soften how it lands.</p>
+                    <span class="ui-glass">Read your report<svg><use href="#i-chev"/></svg></span>
+                  </div>
+                  <div class="ui-sheet">
+                    <div class="ui-row"><p class="ui-h2">How you communicate</p><span class="ui-link">Full report</span></div>
+                    <div class="ui-focusrow"><span class="ui-badge"><svg><use href="#i-focus"/></svg></span><p>You’re working on <b>saying what you want plainly</b>.<span>Since Oct 4</span></p><svg><use href="#i-chev"/></svg></div>
+                  </div>
+                </div>
+              </div>
+              <div class="pops">
+                <div class="ui-card ui-areas pop">
+                  <div class="ui-row ui-areas__head"><p class="ui-h2">How you communicate</p><span class="ui-link">Full report</span></div>
+                  <div class="ui-area" style="--c: var(--assert); --p: 0.31">
+                    <p class="ui-area__name">Assertiveness <svg><use href="#i-focus"/></svg></p>
+                    <div class="ui-track"><i class="ui-track__dot"></i></div>
+                    <p class="ui-ends"><span>Softened</span><span>Plain</span></p>
+                  </div>
+                  <div class="ui-area" style="--c: var(--listening); --p: 0.25">
+                    <p class="ui-area__name">Listening</p>
+                    <div class="ui-track"><i class="ui-track__dot"></i></div>
+                    <p class="ui-ends"><span>About plans</span><span>About people</span></p>
+                  </div>
+                  <div class="ui-area" style="--c: var(--clarity); --p: 0.62">
+                    <p class="ui-area__name">Clarity</p>
+                    <div class="ui-track"><i class="ui-track__dot"></i></div>
+                    <p class="ui-ends"><span>Thinks out loud</span><span>Gets to the point</span></p>
+                  </div>
+                  <div class="ui-area" style="--c: var(--framing); --p: 0.72">
+                    <p class="ui-area__name">Framing</p>
+                    <div class="ui-track"><i class="ui-track__dot"></i></div>
+                    <p class="ui-ends"><span>Facts first</span><span>Story first</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Your goal — pick one from your patterns, then watch it move. -->
+          <div class="feat feat--flip">
+            <div class="feat__copy rv">
+              <p class="feat__label"><span>Mirror</span> Your goal</p>
+              <h4 class="feat__title feat__title--sub">Pick one thing to work on.</h4>
+              <p class="feat__text">Larkin suggests goals from your own patterns, or you write your own. It follows that goal through every conversation and shows you how it moves, week by week.</p>
+            </div>
+            <div class="stage stage--duo stage--goal rv" role="img" aria-label="Choosing a goal: three suggestions drawn from your patterns, with “Say what you want plainly” selected for work. Beside it, the monthly report shows it moving from softened towards plain: said plainly in 9 of 16 conversations, up from 4 of 15 in October.">
+              <div class="duo">
+                <div class="ui-card ui-choose">
+                  <div class="ui-group">
+                    <p class="ui-h1 ui-h1--sheet">Choose your goal.</p>
+                    <p class="ui-p ui-muted">Larkin checks each conversation for it and shows you how it moves, week by week.</p>
+                  </div>
+                  <p class="ui-eyebrow">From your patterns</p>
+                  <div class="ui-options">
+                    <div class="ui-option is-on"><i class="ui-radio"><svg><use href="#i-check"/></svg></i><p><b>Say what you want plainly.</b><span>From “Direct on what, soft on how”</span></p></div>
+                    <div class="ui-option"><i class="ui-radio"></i><p><b>Keep your answer without agreeing first.</b><span>From “You agree out loud, then keep your answer”</span></p></div>
+                    <div class="ui-option"><i class="ui-radio"></i><p><b>Ask about the person, not just the plan.</b><span>From “Curious about how things work”</span></p></div>
+                  </div>
+                  <div class="ui-chips"><span class="is-on">Work</span><span>Friends</span><span>Family</span></div>
+                  <span class="ui-btn">Start this goal</span>
+                </div>
+                <div class="ui-card ui-progress pop">
+                  <p class="ui-eyebrow">Your November report</p>
+                  <p class="ui-goal"><svg><use href="#i-focus"/></svg>Say what you want plainly.</p>
+                  <div class="ui-move" style="--from: 0.31; --to: 0.55">
+                    <div class="ui-track ui-track--move"><i class="ui-track__moved"></i><i class="ui-track__was"></i><i class="ui-track__dot"></i></div>
+                    <p class="ui-ends"><span>Softened</span><span>Plain</span></p>
+                  </div>
+                  <p class="ui-p">Said plainly in 9 of 16 conversations, up from 4 of 15 in October.</p>
+                  <p class="ui-legend"><span><i class="o"></i>October</span><span><i></i>November</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Learn about you — a new fact to confirm, and what Larkin knows.
+               The card can be answered (larkin.js); the next facts wait in
+               the template. -->
+          <div class="feat">
+            <div class="feat__copy rv">
+              <p class="feat__label"><span>Mirror</span> Learn about you</p>
+              <h4 class="feat__title feat__title--sub">It learns what matters to you.</h4>
+              <p class="feat__text">When Larkin hears something about your life, like what you value or what you’re working on, it checks with you first. Keep what’s true, drop what isn’t. Each answer makes the next insight more precise.</p>
+            </div>
+            <div class="stage stage--duo stage--learn rv" data-learn>
+              <div class="duo">
+                <div class="ui-card ui-ask" data-learn-card>
+                  <div class="ui-ask__q">
+                    <p class="ui-h2">Is this you?</p>
+                    <p class="ui-eyebrow" data-learn-kicker>Heard at lunch today</p>
+                    <p class="ui-ask__fact" id="learn-fact" data-learn-fact>You value having more control over your time.</p>
+                    <p class="ui-ask__quote" data-learn-quote>“I want an environment where I can control my time more.”</p>
+                  </div>
+                  <div class="ui-ask__actions">
+                    <button type="button" class="ui-answer" data-answer="no" aria-describedby="learn-fact"><svg aria-hidden="true"><use href="#i-x"/></svg>Not me</button>
+                    <button type="button" class="ui-answer ui-answer--yes" data-answer="yes" aria-describedby="learn-fact"><svg aria-hidden="true"><use href="#i-check"/></svg>That’s me</button>
+                  </div>
+                </div>
+                <div class="ui-card ui-knows pop">
+                  <div class="ui-row"><p class="ui-h2">What Larkin knows</p><span class="ui-link" data-learn-total>See all 12</span></div>
+                  <ul class="ui-facts" data-learn-list>
+                    <li><span>You’re launching a product in March.</span><span class="ui-chip">New</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
+                    <li><span>You like simple, concrete explanations.</span><span class="ui-chip">New</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
+                    <li><span>Saturday mornings are for the kids.</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
+                    <li><span>You enjoy learning Chinese.</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
+                  </ul>
+                </div>
+              </div>
+              <template data-learn-next>
+                <p data-kicker="Heard on a call this morning" data-fact="You do your best thinking early." data-quote="“Can we do it at eight? I’m sharpest before ten.”"></p>
+                <p data-kicker="Heard at dinner yesterday" data-fact="You’re training for a half marathon." data-quote="“Not Sunday, that’s my long run.”"></p>
+              </template>
+              <p class="sr-only" aria-live="polite" data-learn-status></p>
+            </div>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>
