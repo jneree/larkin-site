@@ -178,18 +178,6 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 .spark { width: 18px; height: 18px; flex: none; fill: currentColor; }
 
 
-.icon-btn {
-  display: inline-grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--card);
-  cursor: pointer;
-  transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
-}
-
 /* --------------------------------------------------------------------------
    5. Header
    -------------------------------------------------------------------------- */
@@ -199,7 +187,8 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
    frosted white pill inset from the
    edges (.is-floating). Scrolling down hides it (.is-hidden: it fades, lifts
    and blurs away) and any scroll up brings it back. Without JS it simply
-   stays a frosted pill at the top. */
+   stays a frosted pill at the top. Below 900px it holds just the wordmark
+   and the Reserve button. */
 .site-header {
   --pill-pad: 14px;
   --pill-h: 54px;
@@ -214,7 +203,7 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 }
 @media (min-width: 900px) { .site-header { --pill-pad: 24px; --pill-h: 58px; --float-top: 14px; } }
 .site-header.is-hidden { opacity: 0; transform: translateY(-14px); filter: blur(7px); }
-.site-header.is-hidden :is(.site-header__inner, .mobile-nav) { pointer-events: none; }
+.site-header.is-hidden .site-header__inner { pointer-events: none; }
 @media (prefers-reduced-motion: reduce) {
   .site-header { transition: opacity 0.2s linear, color 0.35s var(--ease); }
   .site-header.is-hidden { transform: none; filter: none; }
@@ -273,52 +262,17 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 .nav a.is-active { opacity: 1; background: rgba(21, 21, 21, 0.06); }
 .header-actions { grid-column: 3; justify-self: end; display: flex; align-items: center; gap: 10px; }
 
-.nav-toggle { gap: 3.5px; grid-auto-flow: column; }
-.nav-toggle span { width: 4.5px; height: 4.5px; border-radius: 50%; background: currentColor; }
-.nav-toggle[aria-expanded="true"] { background: var(--ink); color: #fff; }
-
-/* The phone menu drops down as a card of the same glass under the pill. */
-.mobile-nav {
-  display: grid;
-  grid-template-rows: 0fr;
-  max-width: calc(var(--shell) + var(--pill-pad) * 2);
-  margin: 8px auto 0;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.94);
-  -webkit-backdrop-filter: blur(30px) saturate(1.8);
-  backdrop-filter: blur(30px) saturate(1.8);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 34px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.035);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: auto;
-  transition: grid-template-rows 0.35s var(--ease), opacity 0.25s var(--ease), visibility 0s linear 0.35s;
-}
-.mobile-nav.is-open { grid-template-rows: 1fr; opacity: 1; visibility: visible; transition: grid-template-rows 0.35s var(--ease), opacity 0.25s var(--ease); }
-.mobile-nav__inner { overflow: hidden; }
-.mobile-nav .shell { max-width: none; padding: 6px 22px 10px; }
-.mobile-nav a {
-  display: block;
-  padding: 14px 0;
-  color: var(--ink);
-  font-size: 1.0625rem;
-  font-weight: 600;
-}
-.mobile-nav a + a { border-top: 1px solid var(--hair); }
-
 @media (min-width: 900px) {
   .nav { display: flex; }
-  .nav-toggle, .mobile-nav { display: none; }
 }
 
 /* Clear over the film, at the very top. Each word of the bar takes the colour
    that reads best against the frame right behind it: larkin.js samples the
    film behind the wordmark and behind each nav link and marks the ones over a
-   dark patch .on-dark. The Reserve and menu buttons are solid shapes, so they
-   read either way. With the menu open the pill is frosted again. Keyed off
-   html.js (set in the head) rather than .over-hero, so the clear bar is there
-   from the first paint, before larkin.js has run. */
-html.js .site-header:not(.is-floating):not(.menu-open) .site-header__inner {
+   dark patch .on-dark. The Reserve button is a solid shape, so it reads
+   either way. Keyed off html.js (set in the head) rather than .over-hero, so
+   the clear bar is there from the first paint, before larkin.js has run. */
+html.js .site-header:not(.is-floating) .site-header__inner {
   border-color: transparent;
   background-color: transparent;
   -webkit-backdrop-filter: none;
@@ -326,16 +280,9 @@ html.js .site-header:not(.is-floating):not(.menu-open) .site-header__inner {
   box-shadow: none;
 }
 .site-header.over-hero .nav a { opacity: 0.92; }
-.site-header.over-hero:not(.menu-open) :is(.brand, .nav a) { transition: opacity 0.2s var(--ease); } /* colour switches with the cut, unfaded */
-.site-header.over-hero:not(.menu-open) :is(.brand, .nav a).on-dark { color: #fff; }
-.site-header.over-hero:not(.menu-open) .brand.on-dark .logo i { background: var(--lime); }
-html.js .site-header:not(.is-floating) .nav-toggle {
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.72);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-}
-.site-header.menu-open .nav-toggle { background: var(--ink); color: #fff; }
+.site-header.over-hero :is(.brand, .nav a) { transition: opacity 0.2s var(--ease); } /* colour switches with the cut, unfaded */
+.site-header.over-hero :is(.brand, .nav a).on-dark { color: #fff; }
+.site-header.over-hero .brand.on-dark .logo i { background: var(--lime); }
 
 /* --------------------------------------------------------------------------
    6. Hero
@@ -1131,11 +1078,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
 
 .preorder__copy { display: grid; gap: 18px; align-content: center; padding: clamp(12px, 3vw, 40px); }
 .preorder__eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lime); }
-.preorder__title { font-size: clamp(2.25rem, 4vw, 3.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.04em; }
-.preorder__price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px; }
-.preorder__was { font-size: 1.5rem; color: var(--on-feature-2); text-decoration: line-through; }
-.preorder__amount { font-size: clamp(3rem, 5vw, 4.25rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
-.preorder__deposit { color: var(--on-feature-2); font-size: 1.0625rem; }
+.preorder__title { font-size: clamp(2.25rem, 4vw, 3.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.04em; text-wrap: balance; }
 .preorder__points { display: grid; gap: 10px; margin-block: 4px 8px; }
 .preorder__points li { display: flex; align-items: center; gap: 12px; font-weight: 600; }
 .preorder__points li::before {
