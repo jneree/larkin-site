@@ -667,15 +667,15 @@ html:has(.site-header.is-hidden) .tour-nav { top: 12px; }
 }
 
 /* Mirror's three parts. Wide: a list beside the phone, the chosen part
-   opening its line of explanation. Phones: a small switch above the phone,
-   with the chosen part's line under it. While the screens advance on their
-   own, a lime line fills over the chosen part's time on screen, in the list
-   and in the player on the phone's tile (on phones, in the player only). */
+   opening its line of explanation, a line under each part. Phones: a small
+   switch above the phone, with the chosen part's line under it. While the
+   screens advance on their own, lime fills the chosen part's line over its
+   time on screen (on phones, a short line in the switch). */
 .mtab {
   position: relative;
   display: grid;
   width: 100%;
-  padding: 14px 18px 14px 26px;
+  padding: 14px 18px 16px;
   border: 0;
   border-radius: 18px;
   background: transparent;
@@ -688,20 +688,14 @@ html:has(.site-header.is-hidden) .tour-nav { top: 12px; }
 .mtab b { font-size: 1.0625rem; line-height: 1.35; font-weight: 600; }
 .mtab:hover { color: #fff; }
 .mtab.is-on { color: #fff; background: rgba(255, 255, 255, 0.06); }
-.mtab::before, .mtab__time {
-  content: "";
-  position: absolute;
-  left: 12px;
-  top: 17px;
-  bottom: 17px;
-  width: 2px;
-  border-radius: 1px;
-  background: rgba(255, 255, 255, 0.14);
-}
-.mtab.is-on::before { background: var(--lime); }
-.mtab__time { background: var(--lime); transform: scaleY(0); transform-origin: top; }
-.mtabs.is-auto .mtab.is-on::before { background: rgba(255, 255, 255, 0.14); }
-.mtabs.is-auto .mtab.is-on .mtab__time { animation: mtab-fill var(--dwell, 6s) linear forwards; }
+/* The line: a faint track under each part. The chosen part's is lime: all
+   at once when picked, filling over its time on screen while they play
+   (.is-playing holds it empty until the phone is in view). */
+.mtab__time { position: relative; height: 3px; margin-top: 12px; overflow: hidden; border-radius: 2px; background: rgba(255, 255, 255, 0.12); }
+.mtab__time::after { content: ""; position: absolute; inset: 0; background: var(--lime); transform: scaleX(0); transform-origin: left; }
+.mtab.is-on .mtab__time::after { transform: none; }
+.mtabs.is-playing .mtab.is-on .mtab__time::after { transform: scaleX(0); }
+.mtabs.is-auto .mtab.is-on .mtab__time::after { animation: mtab-fill var(--dwell, 6s) linear forwards; }
 @keyframes mtab-fill { to { transform: none; } }
 .mtab__more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s var(--ease); }
 .mtab.is-on .mtab__more { grid-template-rows: 1fr; }
@@ -725,7 +719,9 @@ html:has(.site-header.is-hidden) .tour-nav { top: 12px; }
   .mtab { flex: 1; justify-items: center; align-content: center; min-height: 40px; padding: 0 8px; border-radius: 999px; text-align: center; }
   .mtab b { font-size: 0.875rem; white-space: nowrap; }
   .mtab.is-on { background: rgba(255, 255, 255, 0.12); }
-  .mtab::before, .mtab__more, .mtab__long, .mtab__time { display: none; }
+  .mtab__more, .mtab__long { display: none; }
+  .mtab__time { position: absolute; left: 16px; right: 16px; bottom: 5px; height: 2px; margin: 0; background: none; }
+  .mtab.is-on .mtab__time::after { transform: scaleX(0); }
   .mtabs__note { min-height: 4.5em; }
 }
 
@@ -745,67 +741,36 @@ html:has(.site-header.is-hidden) .tour-nav { top: 12px; }
 }
 @media (min-width: 700px) { .stage { padding-top: 44px; } }
 
-/* Mirror's tile also carries a player, built by larkin.js: a bar for each of
-   its three screens above the phone, named where there's room, the one
-   showing filling in lime while they play on their own, and a button to
-   pause or play them. */
-.stage--mirror { flex-direction: column; align-items: center; }
-.stage--mirror:has(> .mplay) { padding-top: 20px; }
-@media (min-width: 700px) { .stage--mirror:has(> .mplay) { padding-top: 28px; } }
-.mplay { display: flex; align-items: center; gap: 12px; width: min(330px, 100%); margin-bottom: 20px; }
-@container stage (min-width: 520px) { .mplay { width: 360px; gap: 16px; margin-bottom: 26px; } }
-.mplay__steps { flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
-.mplay__step {
-  display: grid;
-  gap: 8px;
-  min-width: 0;
-  padding: 6px 0;
-  border: 0;
-  background: none;
-  color: var(--on-feature-2);
-  font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1.2;
-  text-align: left;
-  cursor: pointer;
-  transition: color 0.3s var(--ease);
+/* Mirror's tile holds a phone per screen, fanned like a hand of cards: the
+   chosen one upright in front, the other two smaller, tilted and barely
+   there on either side, a hint there's more. As the parts advance the fan
+   turns one place; the phone at the far end wraps round, passing behind.
+   The phones keep a small gap so they never cross mid-turn. A phone's tile
+   only has room for the one in front, so there the others wait off the
+   tile and slide in. */
+.stage--deck { display: grid; justify-items: center; }
+.mphone {
+  --side-s: 0.9;
+  --side-x: calc(95% + 16px);
+  --side-r: 0deg;
+  --side-o: 0;
+  grid-area: 1 / 1;
+  z-index: 1;
+  transform-origin: 50% 100%;
+  transition: transform 0.9s cubic-bezier(0.6, 0, 0.3, 1), opacity 0.9s cubic-bezier(0.6, 0, 0.3, 1);
 }
-.mplay__step span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.mplay__step:hover, .mplay__step.is-on { color: #fff; }
-.mplay__step i { position: relative; height: 3px; overflow: hidden; border-radius: 2px; background: rgba(255, 255, 255, 0.2); }
-.mplay__step i::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--lime);
-  transform: scaleX(0);
-  transform-origin: left;
+@container stage (min-width: 520px) {
+  .mphone { --side-s: 0.86; --side-x: calc(93% + 14px); --side-r: 4deg; --side-o: 0.1; }
 }
-.mplay__step.is-on i::after { transform: none; }
-.mplay.is-auto .mplay__step.is-on i::after { transform: scaleX(0); animation: mtab-fill var(--dwell, 6s) linear forwards; }
-/* Phones: the switch just above already names them, so bars only. */
-@media (max-width: 699px) {
-  .mplay__step { gap: 0; padding: 14px 0; }
-  .mplay__step span { display: none; }
+.mphone.is-on { z-index: 2; }
+.mphone.is-wrap { z-index: 0; animation: mphone-wrap 0.9s linear; }
+@keyframes mphone-wrap { 20%, 80% { opacity: 0; } }
+.mphone:is(.is-next, .is-prev) { opacity: var(--side-o); cursor: pointer; }
+.mphone.is-next { transform: translateX(var(--side-x)) rotate(var(--side-r)) scale(var(--side-s)); }
+.mphone.is-prev { transform: translateX(calc(var(--side-x) * -1)) rotate(calc(var(--side-r) * -1)) scale(var(--side-s)); }
+@media (hover: hover) {
+  .mphone:is(.is-next, .is-prev):hover { opacity: calc(var(--side-o) + 0.14); }
 }
-.mplay__toggle {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.25s var(--ease);
-}
-.mplay__toggle:hover { background: rgba(255, 255, 255, 0.18); }
-.mplay__toggle svg { display: none; width: 18px; height: 18px; fill: currentColor; }
-.mplay__toggle[data-state="playing"] .i-pause,
-.mplay__toggle[data-state="paused"] .i-play { display: block; }
 
 /* --- App UI, rebuilt ----------------------------------------------------- */
 /* Sizes follow the app (DM Sans, 15–17 px body) and stay put at every width:
@@ -941,18 +906,9 @@ html:has(.site-header.is-hidden) .tour-nav { top: 12px; }
 .ui-point { position: relative; padding-left: 16px; font-size: 15px; line-height: 22px; }
 .ui-point::before { content: ""; position: absolute; left: 1px; top: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--ui-3); }
 
-/* Mirror: three screens stacked in one phone, one shown at a time. */
-.ui-screen--panels { display: grid; grid-template-columns: minmax(0, 1fr); }
-.mpanel {
-  grid-area: 1 / 1;
-  min-height: 100%;
-  background: #fff;
-  color: var(--ui-ink);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.45s var(--ease), visibility 0s linear 0.45s;
-}
-.mpanel.is-on { opacity: 1; visibility: visible; transition: opacity 0.45s var(--ease); }
+/* Mirror: a screen per phone, filling it. */
+.mphone .ui-screen { display: grid; grid-template-columns: minmax(0, 1fr); }
+.mpanel { min-height: 100%; background: #fff; color: var(--ui-ink); }
 .mpanel--dark { background: #151515; color: #fff; }
 .mpanel > [role="img"] { display: flex; flex-direction: column; min-height: 100%; }
 .ui-hero { display: grid; justify-items: start; padding: 14px 20px 0; }
