@@ -365,36 +365,39 @@
     paint();
   }
 
-  /* ---- App tour: the nav that rides along ------------------------------- */
-  /* The nav sticks while the three chapters pass; the chapter whose top has
-     crossed the middle of the screen lights its link. The links are plain
-     anchors, so they work without this. */
-  var tourNav = document.querySelector('[data-tour-nav]');
-  if (tourNav) {
-    var navLinks = [].slice.call(tourNav.querySelectorAll('a'));
-    var chapters = navLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); });
-    var lit = -2, navRaf = 0, navOn = !('IntersectionObserver' in window);
-    var pickChapter = function () {
-      navRaf = 0;
-      var mid = window.innerHeight * 0.5, at = -1;
-      chapters.forEach(function (c, i) { if (c && c.getBoundingClientRect().top <= mid) at = i; });
-      if (at === lit) return;
-      lit = at;
-      navLinks.forEach(function (a, i) {
-        a.classList.toggle('is-active', i === at);
-        if (i === at) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
-      });
+  /* ---- App chapters on phones: a swipeable row -------------------------- */
+  /* Below 700px the three chapters are tiles in a row that swipes, and the
+     dots under it follow along. There the row also takes keyboard focus, so
+     the arrow keys can scroll it. */
+  var tour = document.querySelector('[data-tour]');
+  var tourDots = tour ? [].slice.call(tour.parentNode.querySelectorAll('.tour-dots i')) : [];
+  if (tour && tourDots.length) {
+    var tiles = [].slice.call(tour.children);
+    var asRow = window.matchMedia('(max-width: 699px)');
+    var dotRaf = 0;
+    var pickDot = function () {
+      dotRaf = 0;
+      var step = tiles[1] ? tiles[1].offsetLeft - tiles[0].offsetLeft : 1;
+      var i = Math.round(tour.scrollLeft / step);
+      if (tour.scrollLeft + tour.clientWidth >= tour.scrollWidth - 4) i = tiles.length - 1;
+      i = Math.max(0, Math.min(tiles.length - 1, i));
+      tourDots.forEach(function (d, j) { d.classList.toggle('is-on', j === i); });
     };
-    var queuePick = function () { if (navOn && !navRaf) navRaf = requestAnimationFrame(pickChapter); };
-    if (!navOn) {
-      new IntersectionObserver(function (entries) {
-        navOn = entries[0].isIntersecting;
-        if (navOn) queuePick();
-      }, { rootMargin: '100px 0px' }).observe(document.getElementById('app') || tourNav);
-    }
-    window.addEventListener('scroll', queuePick, { passive: true });
-    window.addEventListener('resize', queuePick, { passive: true });
-    queuePick();
+    tour.addEventListener('scroll', function () { if (!dotRaf) dotRaf = requestAnimationFrame(pickDot); }, { passive: true });
+    var setRow = function () {
+      if (asRow.matches) {
+        tour.tabIndex = 0;
+        tour.setAttribute('role', 'region');
+        tour.setAttribute('aria-label', 'The app, in three parts');
+      } else {
+        tour.removeAttribute('tabindex');
+        tour.removeAttribute('role');
+        tour.removeAttribute('aria-label');
+      }
+    };
+    setRow();
+    if (asRow.addEventListener) asRow.addEventListener('change', setRow);
+    else if (asRow.addListener) asRow.addListener(setRow);
   }
 
   /* ---- Mirror: one screen at a time ------------------------------------- */
@@ -412,7 +415,6 @@
     var phones = panels.map(function (p) { return p.closest('.mphone'); });
     if (phones.indexOf(null) > -1) phones = [];
     var stage = panels[0].closest('[data-mstage]');
-    var note = list.parentNode.querySelector('[data-mtabs-note]');
     var DWELL = 6000;
     var at = 0, auto = !reduceMotion, inView = false, timer = 0;
     list.style.setProperty('--dwell', DWELL / 1000 + 's');
@@ -449,7 +451,6 @@
           ph.classList.toggle('is-prev', prev);
         }
       });
-      if (note) note.textContent = tabs[i].querySelector('.mtab__text').textContent;
       if (focus) tabs[i].focus();
       panels[i].dispatchEvent(new CustomEvent('mirror:show'));
       schedule();
