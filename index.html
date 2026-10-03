@@ -212,14 +212,13 @@
   </section>
 
   <!-- The app — three chapters on the feature card's black, full bleed:
-       Chronicles (your day), Conversations, Mirror (you; with two more rows,
-       Your goal and Learn about you). Each row pairs its copy
-       with the app's own UI, rebuilt in HTML from the Figma screens so it stays
-       sharp and readable at any width, and phones scroll it like the rest of
-       the page. A slim nav sticks while the chapters pass and follows along
-       (larkin.js). The "Is this you?" card in the last row can be answered
-       (larkin.js too); without JS everything still reads, it just doesn't
-       respond. Sample data is one persona, Alex, across every screen. -->
+       Chronicles (your day), Conversations, Mirror (you). Each is one phone
+       beside its copy, one idea per phone: the app's own UI rebuilt in HTML
+       from the Figma screens, so it stays sharp and readable at any width.
+       A slim nav sticks while the chapters pass and follows along; Mirror
+       shows its three parts one screen at a time, and its "Is this you?"
+       card can be answered (all larkin.js). Without JS everything still
+       reads, it just doesn't respond. Sample data is one persona, Alex. -->
   <section class="section app" id="app">
     <svg class="sprite" aria-hidden="true" focusable="false">
       <symbol id="i-chev" viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -307,198 +306,160 @@
           </div>
         </article>
 
-        <!-- 02 · Conversations — one conversation, with the focus check and
-             what to try next lifted out of the screen. -->
+        <!-- 02 · Conversations — one conversation and its insights, skill by
+             skill. -->
         <article class="chap" id="app-conversations" aria-labelledby="chap-conversations">
           <div class="feat feat--flip">
             <div class="feat__copy rv">
               <p class="feat__label"><span>02</span> Conversations</p>
               <h3 class="feat__title" id="chap-conversations">See how you came across.</h3>
-              <p class="feat__text">Open any conversation for the short version, then the part nobody tells you: how you came across, what worked, and three things to try next time. Every point is backed by what you actually said.</p>
+              <p class="feat__text">Open any conversation for honest notes on how you came across, skill by skill: what worked, and what to try next time. Every point is backed by what you actually said.</p>
             </div>
-            <div class="stage stage--conv rv" role="img" aria-label="A conversation page, “Pricing call with the agency”: a short summary, how you came across, your focus quoted from the call (“We launch in March.” said plainly; “Maybe we could look at the price later, no?” softened, with a suggestion to try instead), and three things to try next.">
+            <div class="stage rv" role="img" aria-label="A conversation page, “Pricing call with the agency”, with its insights skill by skill. Clarity and concision, what worked: you laid out the launch plan in three steps before they asked. Persuasion and framing, what slipped: when they questioned the price, you explained costs at length. Listening and inquiry follows below.">
               <div class="ui-phone">
                 <div class="ui-screen">
                   <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
                   <div class="ui-bar ui-bar--split"><span class="ui-round"><svg><use href="#i-back"/></svg></span><span class="ui-capsule"><svg><use href="#i-share"/></svg><span class="ui-capsule__sep"></span><svg><use href="#i-trash"/></svg></span></div>
-                  <div class="ui-body ui-body--conv">
+                  <div class="ui-body">
                     <div class="ui-group">
                       <p class="ui-sub">Oct 6 · 11:20–11:58 AM · 38 min</p>
-                      <p class="ui-h1 ui-h1--conv">Pricing call with the agency</p>
+                      <p class="ui-h1">Pricing call with the agency</p>
                     </div>
-                    <p class="ui-lede">You and the agency agree on the launch plan, then go back and forth on price and timing.</p>
-                    <div class="ui-group">
-                      <p class="ui-h2">How you came across</p>
-                      <p class="ui-p">Clear about the launch plan and calm when they pushed on price. You agreed quickly at first, then kept your position.</p>
-                    </div>
-                    <p class="ui-h2">Insights</p>
-                    <div class="ui-insight">
-                      <p class="ui-insight__name" style="--c: var(--clarity)">Clarity &amp; concision</p>
-                      <p class="ui-eyebrow">What worked</p>
-                      <p class="ui-p">You laid out the launch plan in three steps before they asked, so the call started from a shared plan.</p>
+                    <p class="ui-h2 ui-h2--section">Insights</p>
+                    <div class="ui-insights">
+                      <div class="ui-insight">
+                        <p class="ui-insight__name" style="--c: var(--clarity)">Clarity &amp; concision</p>
+                        <p class="ui-eyebrow">What worked</p>
+                        <p class="ui-point">You laid out the launch plan in three steps before they asked, so the call started from a shared plan.</p>
+                      </div>
+                      <div class="ui-insight">
+                        <p class="ui-insight__name" style="--c: var(--framing)">Persuasion &amp; framing</p>
+                        <p class="ui-eyebrow">What slipped</p>
+                        <p class="ui-point">When they questioned the price, you explained costs at length. One clear reason would have landed better.</p>
+                      </div>
+                      <div class="ui-insight">
+                        <p class="ui-insight__name" style="--c: var(--listening)">Listening &amp; inquiry</p>
+                        <p class="ui-eyebrow">What worked</p>
+                        <p class="ui-point">You asked how they usually price a launch before giving your own number.</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div class="pops">
-                <div class="ui-card pop">
-                  <span class="ui-chip">Your focus</span>
-                  <p class="ui-goal"><svg><use href="#i-focus"/></svg>Say what you want plainly.</p>
-                  <p class="ui-eyebrow">In this conversation</p>
-                  <div class="ui-moment">
-                    <p class="ui-moment__tag"><i></i>Said plainly</p>
-                    <p class="ui-quote">“We launch in March.”</p>
-                  </div>
-                  <div class="ui-moment">
-                    <p class="ui-moment__tag"><i class="o"></i>Softened</p>
-                    <p class="ui-quote">“Maybe we could look at the price later, no?”</p>
-                    <p class="ui-try">Try: “Let’s set the price on Friday.”</p>
-                  </div>
-                </div>
-                <div class="ui-card ui-card--ink pop">
-                  <p class="ui-eyebrow">Try next</p>
-                  <ol class="ui-steps">
-                    <li><b>1</b>Lead with the ask, then the reason.</li>
-                    <li><b>2</b>Put a date on open questions, like the price.</li>
-                    <li><b>3</b>Close by repeating what you both agreed.</li>
-                  </ol>
                 </div>
               </div>
             </div>
           </div>
         </article>
 
-        <!-- 03 · Mirror — the portrait and the four scales, then two tiles:
-             the goal you work on, and what Larkin learns about you. -->
+        <!-- 03 · Mirror — three parts, one screen at a time: pick one from the
+             list (a small switch on phones). The screens also advance on their
+             own while in view, until the visitor picks one (larkin.js). Without
+             JS the first screen shows and the list still names all three. -->
         <article class="chap" id="app-mirror" aria-labelledby="chap-mirror">
           <div class="feat">
             <div class="feat__copy rv">
               <p class="feat__label"><span>03</span> Mirror</p>
               <h3 class="feat__title" id="chap-mirror">A mirror that gets sharper.</h3>
-              <p class="feat__text">Over the weeks, Larkin builds a portrait of how you communicate: how plainly you ask, who your questions are about, how fast you get to the point. No scores and no right answers. Just a clear view of you, with a report every month.</p>
+              <p class="feat__text">The longer you wear Larkin, the clearer its picture of how you communicate. No scores and no right answers: just a clear view of you, and room to grow.</p>
+              <div class="mtabs" role="tablist" aria-label="Inside Mirror" data-mtabs>
+                <button type="button" class="mtab is-on" role="tab" id="mtab-style" aria-selected="true" aria-controls="mpanel-style"><b><span class="mtab__long">How you communicate</span><span class="mtab__short">Your style</span></b><span class="mtab__more"><span class="mtab__text">A one-line portrait and four simple scales, in a report every month.</span></span><i class="mtab__time" aria-hidden="true"></i></button>
+                <button type="button" class="mtab" role="tab" id="mtab-goal" aria-selected="false" aria-controls="mpanel-goal" tabindex="-1"><b><span class="mtab__long">Your goal</span><span class="mtab__short">Your goal</span></b><span class="mtab__more"><span class="mtab__text">Pick one thing to work on. Larkin follows it through every conversation and shows you how it moves.</span></span><i class="mtab__time" aria-hidden="true"></i></button>
+                <button type="button" class="mtab" role="tab" id="mtab-learn" aria-selected="false" aria-controls="mpanel-learn" tabindex="-1"><b><span class="mtab__long">What it learns about you</span><span class="mtab__short">About you</span></b><span class="mtab__more"><span class="mtab__text">When it hears something that matters to you, it checks with you first. Each answer makes the next insight more precise.</span></span><i class="mtab__time" aria-hidden="true"></i></button>
+              </div>
+              <p class="mtabs__note" aria-hidden="true" data-mtabs-note>A one-line portrait and four simple scales, in a report every month.</p>
             </div>
-            <div class="stage stage--mirror rv" role="img" aria-label="The Mirror screen: a one-line portrait, “You decide fast and say it clearly, then soften how it lands”, above four scales: Assertiveness from softened to plain, Listening from about plans to about people, Clarity from thinks out loud to gets to the point, and Framing from facts first to story first.">
+            <div class="stage rv" data-mstage>
               <div class="ui-phone">
-                <div class="ui-screen ui-screen--dark">
-                  <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
-                  <div class="ui-bar"><span class="ui-capsule ui-capsule--glass"><svg><use href="#i-band"/></svg><i></i><span class="ui-capsule__sep"></span><svg><use href="#i-more"/></svg></span></div>
-                  <div class="ui-hero">
-                    <div class="ui-who">
-                      <span class="ui-avatar">A</span>
-                      <p><b>Alex</b><span>With Larkin since Sep 28</span></p>
+                <div class="ui-screen ui-screen--panels">
+
+                  <div class="mpanel mpanel--dark is-on" role="tabpanel" id="mpanel-style" aria-labelledby="mtab-style">
+                    <div role="img" aria-label="Mirror: a one-line portrait, “You decide fast and say it clearly, then soften how it lands”, above scales for assertiveness (softened to plain), listening (about plans to about people), clarity (thinks out loud to gets to the point) and framing (facts first to story first).">
+                      <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+                      <div class="ui-hero">
+                        <div class="ui-who"><span class="ui-avatar">A</span><p><b>Alex</b><span>With Larkin since Sep 28</span></p></div>
+                        <p class="ui-portrait">You decide fast and say it clearly, then soften how it lands.</p>
+                      </div>
+                      <div class="ui-sheet">
+                        <p class="ui-h2">How you communicate</p>
+                        <div class="ui-areas">
+                          <div class="ui-area" style="--c: var(--assert); --p: 0.31">
+                            <p class="ui-area__name">Assertiveness</p>
+                            <div class="ui-track"><i class="ui-track__dot"></i></div>
+                            <p class="ui-ends"><span>Softened</span><span>Plain</span></p>
+                          </div>
+                          <div class="ui-area" style="--c: var(--listening); --p: 0.25">
+                            <p class="ui-area__name">Listening</p>
+                            <div class="ui-track"><i class="ui-track__dot"></i></div>
+                            <p class="ui-ends"><span>About plans</span><span>About people</span></p>
+                          </div>
+                          <div class="ui-area" style="--c: var(--clarity); --p: 0.62">
+                            <p class="ui-area__name">Clarity</p>
+                            <div class="ui-track"><i class="ui-track__dot"></i></div>
+                            <p class="ui-ends"><span>Thinks out loud</span><span>Gets to the point</span></p>
+                          </div>
+                          <div class="ui-area" style="--c: var(--framing); --p: 0.72">
+                            <p class="ui-area__name">Framing</p>
+                            <div class="ui-track"><i class="ui-track__dot"></i></div>
+                            <p class="ui-ends"><span>Facts first</span><span>Story first</span></p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <p class="ui-portrait">You decide fast and say it clearly, then soften how it lands.</p>
-                    <span class="ui-glass">Read your report<svg><use href="#i-chev"/></svg></span>
                   </div>
-                  <div class="ui-sheet">
-                    <div class="ui-row"><p class="ui-h2">How you communicate</p><span class="ui-link">Full report</span></div>
-                    <div class="ui-focusrow"><span class="ui-badge"><svg><use href="#i-focus"/></svg></span><p>You’re working on <b>saying what you want plainly</b>.<span>Since Oct 4</span></p><svg><use href="#i-chev"/></svg></div>
-                  </div>
-                </div>
-              </div>
-              <div class="pops">
-                <div class="ui-card ui-areas pop">
-                  <div class="ui-row ui-areas__head"><p class="ui-h2">How you communicate</p><span class="ui-link">Full report</span></div>
-                  <div class="ui-area" style="--c: var(--assert); --p: 0.31">
-                    <p class="ui-area__name">Assertiveness <svg><use href="#i-focus"/></svg></p>
-                    <div class="ui-track"><i class="ui-track__dot"></i></div>
-                    <p class="ui-ends"><span>Softened</span><span>Plain</span></p>
-                  </div>
-                  <div class="ui-area" style="--c: var(--listening); --p: 0.25">
-                    <p class="ui-area__name">Listening</p>
-                    <div class="ui-track"><i class="ui-track__dot"></i></div>
-                    <p class="ui-ends"><span>About plans</span><span>About people</span></p>
-                  </div>
-                  <div class="ui-area" style="--c: var(--clarity); --p: 0.62">
-                    <p class="ui-area__name">Clarity</p>
-                    <div class="ui-track"><i class="ui-track__dot"></i></div>
-                    <p class="ui-ends"><span>Thinks out loud</span><span>Gets to the point</span></p>
-                  </div>
-                  <div class="ui-area" style="--c: var(--framing); --p: 0.72">
-                    <p class="ui-area__name">Framing</p>
-                    <div class="ui-track"><i class="ui-track__dot"></i></div>
-                    <p class="ui-ends"><span>Facts first</span><span>Story first</span></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Your goal — pick one from your patterns, then watch it move. -->
-          <div class="feat feat--flip">
-            <div class="feat__copy rv">
-              <p class="feat__label"><span>Mirror</span> Your goal</p>
-              <h4 class="feat__title feat__title--sub">Pick one thing to work on.</h4>
-              <p class="feat__text">Larkin suggests goals from your own patterns, or you write your own. It follows that goal through every conversation and shows you how it moves, week by week.</p>
-            </div>
-            <div class="stage stage--duo stage--goal rv" role="img" aria-label="Choosing a goal: three suggestions drawn from your patterns, with “Say what you want plainly” selected for work. Beside it, the monthly report shows it moving from softened towards plain: said plainly in 9 of 16 conversations, up from 4 of 15 in October.">
-              <div class="duo">
-                <div class="ui-card ui-choose">
-                  <div class="ui-group">
-                    <p class="ui-h1 ui-h1--sheet">Choose your goal.</p>
-                    <p class="ui-p ui-muted">Larkin checks each conversation for it and shows you how it moves, week by week.</p>
+                  <div class="mpanel" role="tabpanel" id="mpanel-goal" aria-labelledby="mtab-goal" inert>
+                    <div role="img" aria-label="Your November report: since October you say what you want more plainly, mostly at work. Your goal, “Say what you want plainly”, moved from softened towards plain: said plainly in 9 of 16 conversations, up from 4 of 15 in October.">
+                      <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+                      <div class="ui-body ui-body--top">
+                        <div class="ui-group">
+                          <p class="ui-sub">Nov 1 – Nov 7 · 16 conversations</p>
+                          <p class="ui-h1">Your November report</p>
+                        </div>
+                        <p class="ui-lede">Since October you say what you want more plainly, mostly at work.</p>
+                        <p class="ui-h2 ui-h2--section">Your goal</p>
+                        <div class="ui-tile ui-progress">
+                          <p class="ui-goal"><svg><use href="#i-focus"/></svg>Say what you want plainly.</p>
+                          <div class="ui-move" style="--from: 0.31; --to: 0.55">
+                            <div class="ui-track ui-track--move"><i class="ui-track__moved"></i><i class="ui-track__was"></i><i class="ui-track__dot"></i></div>
+                            <p class="ui-ends"><span>Softened</span><span>Plain</span></p>
+                          </div>
+                          <p class="ui-p">Said plainly in 9 of 16 conversations, up from 4 of 15 in October.</p>
+                          <p class="ui-legend"><span><i class="o"></i>October</span><span><i></i>November</span></p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <p class="ui-eyebrow">From your patterns</p>
-                  <div class="ui-options">
-                    <div class="ui-option is-on"><i class="ui-radio"><svg><use href="#i-check"/></svg></i><p><b>Say what you want plainly.</b><span>From “Direct on what, soft on how”</span></p></div>
-                    <div class="ui-option"><i class="ui-radio"></i><p><b>Keep your answer without agreeing first.</b><span>From “You agree out loud, then keep your answer”</span></p></div>
-                    <div class="ui-option"><i class="ui-radio"></i><p><b>Ask about the person, not just the plan.</b><span>From “Curious about how things work”</span></p></div>
-                  </div>
-                  <div class="ui-chips"><span class="is-on">Work</span><span>Friends</span><span>Family</span></div>
-                  <span class="ui-btn">Start this goal</span>
-                </div>
-                <div class="ui-card ui-progress pop">
-                  <p class="ui-eyebrow">Your November report</p>
-                  <p class="ui-goal"><svg><use href="#i-focus"/></svg>Say what you want plainly.</p>
-                  <div class="ui-move" style="--from: 0.31; --to: 0.55">
-                    <div class="ui-track ui-track--move"><i class="ui-track__moved"></i><i class="ui-track__was"></i><i class="ui-track__dot"></i></div>
-                    <p class="ui-ends"><span>Softened</span><span>Plain</span></p>
-                  </div>
-                  <p class="ui-p">Said plainly in 9 of 16 conversations, up from 4 of 15 in October.</p>
-                  <p class="ui-legend"><span><i class="o"></i>October</span><span><i></i>November</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Learn about you — a new fact to confirm, and what Larkin knows.
-               The card can be answered (larkin.js); the next facts wait in
-               the template. -->
-          <div class="feat">
-            <div class="feat__copy rv">
-              <p class="feat__label"><span>Mirror</span> Learn about you</p>
-              <h4 class="feat__title feat__title--sub">It learns what matters to you.</h4>
-              <p class="feat__text">When Larkin hears something about your life, like what you value or what you’re working on, it checks with you first. Keep what’s true, drop what isn’t. Each answer makes the next insight more precise.</p>
-            </div>
-            <div class="stage stage--duo stage--learn rv" data-learn>
-              <div class="duo">
-                <div class="ui-card ui-ask" data-learn-card>
-                  <div class="ui-ask__q">
-                    <p class="ui-h2">Is this you?</p>
-                    <p class="ui-eyebrow" data-learn-kicker>Heard at lunch today</p>
-                    <p class="ui-ask__fact" id="learn-fact" data-learn-fact>You value having more control over your time.</p>
-                    <p class="ui-ask__quote" data-learn-quote>“I want an environment where I can control my time more.”</p>
+                  <div class="mpanel" role="tabpanel" id="mpanel-learn" aria-labelledby="mtab-learn" inert data-learn>
+                    <div class="ui-status" aria-hidden="true"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+                    <div class="ui-body ui-body--top">
+                      <p class="ui-h1">Is this you?</p>
+                      <div class="ui-tile ui-ask" data-learn-card>
+                        <div class="ui-ask__q">
+                          <p class="ui-eyebrow" data-learn-kicker>Heard at lunch today</p>
+                          <p class="ui-ask__fact" id="learn-fact" data-learn-fact>You value having more control over your time.</p>
+                          <p class="ui-ask__quote" data-learn-quote>“I want an environment where I can control my time more.”</p>
+                        </div>
+                        <div class="ui-ask__actions">
+                          <button type="button" class="ui-answer" data-answer="no" aria-describedby="learn-fact"><svg aria-hidden="true"><use href="#i-x"/></svg>Not me</button>
+                          <button type="button" class="ui-answer ui-answer--yes" data-answer="yes" aria-describedby="learn-fact"><svg aria-hidden="true"><use href="#i-check"/></svg>That’s me</button>
+                        </div>
+                      </div>
+                      <div class="ui-row"><p class="ui-h2">What Larkin knows</p><span class="ui-link" data-learn-total>See all 12</span></div>
+                      <ul class="ui-tile ui-facts" data-learn-list>
+                        <li><span>You’re launching a product in March.</span><span class="ui-chip">New</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
+                        <li><span>You like simple, concrete explanations.</span><span class="ui-chip">New</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
+                        <li><span>Saturday mornings are for the kids.</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
+                      </ul>
+                    </div>
+                    <template data-learn-next>
+                      <p data-kicker="Heard on a call this morning" data-fact="You do your best thinking early." data-quote="“Can we do it at eight? I’m sharpest before ten.”"></p>
+                      <p data-kicker="Heard at dinner yesterday" data-fact="You’re training for a half marathon." data-quote="“Not Sunday, that’s my long run.”"></p>
+                    </template>
+                    <p class="sr-only" aria-live="polite" data-learn-status></p>
                   </div>
-                  <div class="ui-ask__actions">
-                    <button type="button" class="ui-answer" data-answer="no" aria-describedby="learn-fact"><svg aria-hidden="true"><use href="#i-x"/></svg>Not me</button>
-                    <button type="button" class="ui-answer ui-answer--yes" data-answer="yes" aria-describedby="learn-fact"><svg aria-hidden="true"><use href="#i-check"/></svg>That’s me</button>
-                  </div>
-                </div>
-                <div class="ui-card ui-knows pop">
-                  <div class="ui-row"><p class="ui-h2">What Larkin knows</p><span class="ui-link" data-learn-total>See all 12</span></div>
-                  <ul class="ui-facts" data-learn-list>
-                    <li><span>You’re launching a product in March.</span><span class="ui-chip">New</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
-                    <li><span>You like simple, concrete explanations.</span><span class="ui-chip">New</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
-                    <li><span>Saturday mornings are for the kids.</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
-                    <li><span>You enjoy learning Chinese.</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
-                  </ul>
+
                 </div>
               </div>
-              <template data-learn-next>
-                <p data-kicker="Heard on a call this morning" data-fact="You do your best thinking early." data-quote="“Can we do it at eight? I’m sharpest before ten.”"></p>
-                <p data-kicker="Heard at dinner yesterday" data-fact="You’re training for a half marathon." data-quote="“Not Sunday, that’s my long run.”"></p>
-              </template>
-              <p class="sr-only" aria-live="polite" data-learn-status></p>
             </div>
           </div>
         </article>

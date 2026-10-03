@@ -292,12 +292,86 @@
     queuePick();
   }
 
+  /* ---- Mirror: one screen at a time ------------------------------------- */
+  /* Mirror's three parts share one phone. Picking a part from the list (the
+     arrow keys move along it) shows its screen. While the phone is in view
+     the screens also advance on their own every few seconds, a lime line
+     filling over the chosen part; the first tap, key or touch on the list or
+     the phone hands control to the visitor for good. Never under reduced
+     motion. */
+  document.querySelectorAll('[data-mtabs]').forEach(function (list) {
+    var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
+    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+    if (!tabs.length || panels.indexOf(null) > -1) return;
+    var stage = panels[0].closest('[data-mstage]');
+    var note = list.parentNode.querySelector('[data-mtabs-note]');
+    var DWELL = 6000;
+    var at = 0, auto = !reduceMotion, inView = false, timer = 0;
+    list.style.setProperty('--dwell', DWELL / 1000 + 's');
+
+    var running = function () { return auto && inView && !document.hidden; };
+    var schedule = function () {
+      clearTimeout(timer);
+      list.classList.remove('is-auto');
+      if (!running()) return;
+      void list.offsetWidth; // restart the lime line
+      list.classList.add('is-auto');
+      timer = setTimeout(function () { show((at + 1) % tabs.length); }, DWELL);
+    };
+    var show = function (i, focus) {
+      at = i;
+      tabs.forEach(function (t, j) {
+        var on = j === i;
+        t.classList.toggle('is-on', on);
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        panels[j].classList.toggle('is-on', on);
+        panels[j].inert = !on;
+      });
+      if (note) note.textContent = tabs[i].querySelector('.mtab__text').textContent;
+      if (focus) tabs[i].focus();
+      panels[i].dispatchEvent(new CustomEvent('mirror:show'));
+      schedule();
+    };
+    var stop = function () {
+      if (!auto) return;
+      auto = false;
+      schedule();
+    };
+
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { stop(); show(i); });
+    });
+    list.addEventListener('keydown', function (e) {
+      var n = tabs.length, to = -1;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') to = (at + 1) % n;
+      else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') to = (at - 1 + n) % n;
+      else if (e.key === 'Home') to = 0;
+      else if (e.key === 'End') to = n - 1;
+      if (to < 0) return;
+      e.preventDefault();
+      stop();
+      show(to, true);
+    });
+    if (stage) {
+      stage.addEventListener('pointerdown', stop);
+      stage.addEventListener('focusin', stop);
+    }
+    if (auto && stage && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting;
+        schedule();
+      }, { threshold: 0.5 }).observe(stage);
+      document.addEventListener('visibilitychange', schedule);
+    }
+  });
+
   /* ---- "Is this you?" ------------------------------------------------------ */
   /* The card can be answered. "That's me" files the fact at the top of What
      Larkin knows, tagged New, and the count goes up; "Not me" lets it go.
      Either way the next fact from the template takes its place, and after the
      last one the card says so and offers to start over. Before any answer,
-     the lime button nudges once when the card comes into view. */
+     the lime button nudges each time Mirror shows this screen. */
   document.querySelectorAll('[data-learn]').forEach(function (demo) {
     var card = demo.querySelector('[data-learn-card]');
     var q = card && card.querySelector('.ui-ask__q');
@@ -323,6 +397,7 @@
       all: parseInt(total ? total.textContent.replace(/\D+/g, '') : '0', 10) || 0
     };
     var chev = list.querySelector('svg');
+    var max = list.querySelectorAll('li').length;
     var at = 0, all = start.all, busy = false, answered = false, ended = null;
 
     var counts = function () {
@@ -372,7 +447,7 @@
         if (chev) li.appendChild(chev.cloneNode(true));
         list.insertBefore(li, list.firstChild);
         var items = list.querySelectorAll('li');
-        if (items.length > 4) items[items.length - 1].remove();
+        if (items.length > max) items[items.length - 1].remove();
         all += 1;
         counts();
       }
@@ -390,13 +465,11 @@
     [].slice.call(demo.querySelectorAll('[data-answer]')).forEach(function (btn) {
       btn.addEventListener('click', function () { answer(btn.getAttribute('data-answer') === 'yes'); });
     });
-    if (!reduceMotion && 'IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries, obs) {
-        if (!entries[0].isIntersecting) return;
-        obs.disconnect();
-        setTimeout(function () { if (!answered) yes.classList.add('is-hint'); }, 1400);
-      }, { threshold: 0.6 }).observe(card);
-    }
+    demo.addEventListener('mirror:show', function () {
+      if (answered || reduceMotion) return;
+      yes.classList.remove('is-hint');
+      setTimeout(function () { if (!answered) yes.classList.add('is-hint'); }, 700);
+    });
   });
 
   /* ---- Pre-order gallery ------------------------------------------------ */
