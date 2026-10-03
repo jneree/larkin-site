@@ -31,7 +31,7 @@
 <!-- DM Sans is served from this site: a Google Fonts stylesheet blocked the
      first paint (and the film) for 3–4 s on a 4G connection. -->
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="larkin.css?v=71f5a74">
+<link rel="stylesheet" href="larkin.css?v=63547e4">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -216,10 +216,11 @@
        Chronicles (your day), Conversations, Mirror (you). Each is one phone
        beside its copy, one idea per phone: the app's own UI rebuilt in HTML
        from the Figma screens, so it stays sharp and readable at any width.
-       A slim nav sticks while the chapters pass and follows along; Mirror
-       shows its three parts one screen at a time, and its "Is this you?"
-       card can be answered (all larkin.js). Without JS everything still
-       reads, it just doesn't respond. Sample data is one persona, Alex. -->
+       On phones the chapters become a swipeable row of tiles, dots below.
+       Mirror shows its three parts one screen at a time, and its "Is this
+       you?" card can be answered (all larkin.js). Without JS everything
+       still reads, it just doesn't respond. Sample data is one persona,
+       Alex. -->
   <section class="section app" id="app">
     <svg class="sprite" aria-hidden="true" focusable="false">
       <symbol id="i-chev" viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -239,16 +240,9 @@
       <header class="section-head section-head--center rv">
         <p class="eyebrow eyebrow--lime">The app</p>
         <h2 class="h2">Your day. Your conversations. You.</h2>
-        <p class="lead">Larkin turns your days into three things you can use: a chapter for every day, honest notes on every conversation, and a mirror that gets sharper the longer you wear it.</p>
       </header>
 
-      <nav class="tour-nav" aria-label="Parts of the app" data-tour-nav>
-        <a href="#app-chronicles"><i aria-hidden="true"></i>Chronicles</a>
-        <a href="#app-conversations"><i aria-hidden="true"></i>Conversations</a>
-        <a href="#app-mirror"><i aria-hidden="true"></i>Mirror</a>
-      </nav>
-
-      <div class="tour">
+      <div class="tour" data-tour>
 
         <!-- 01 · Chronicles — the week, a chapter per day. -->
         <article class="chap" id="app-chronicles" aria-labelledby="chap-chronicles">
@@ -256,7 +250,7 @@
             <div class="feat__copy rv">
               <p class="feat__label"><span>01</span> Chronicles</p>
               <h3 class="feat__title" id="chap-chronicles">Every day becomes a chapter.</h3>
-              <p class="feat__text">Each evening, your day arrives with a title, a few lines on what happened, and every conversation behind it. Look back over a week and it reads like a story, not a transcript.</p>
+              <p class="feat__text">Each evening, your day comes back with a title and a few lines.</p>
             </div>
             <div class="stage stage--chron rv" role="img" aria-label="The Chronicles screen: this week’s days, each with a title such as “Finding the simpler story” or “Saying no, kindly”, one line on what happened, and how many conversations and insights it holds.">
               <div class="ui-phone">
@@ -314,7 +308,7 @@
             <div class="feat__copy rv">
               <p class="feat__label"><span>02</span> Conversations</p>
               <h3 class="feat__title" id="chap-conversations">See how you came across.</h3>
-              <p class="feat__text">Open any conversation for honest notes on how you came across, skill by skill: what worked, and what to try next time. Every point is backed by what you actually said.</p>
+              <p class="feat__text">Honest notes on every conversation: what worked, and what to try next.</p>
             </div>
             <div class="stage rv" role="img" aria-label="A conversation page, “Pricing call with the agency”, with its insights skill by skill. Clarity and concision, what worked: you laid out the launch plan in three steps before they asked. Persuasion and framing, what slipped: when they questioned the price, you explained costs at length. Listening and inquiry follows below.">
               <div class="ui-phone">
@@ -362,13 +356,12 @@
             <div class="feat__copy rv">
               <p class="feat__label"><span>03</span> Mirror</p>
               <h3 class="feat__title" id="chap-mirror">A mirror that gets sharper.</h3>
-              <p class="feat__text">The longer you wear Larkin, the clearer its picture of how you communicate. No scores and no right answers: just a clear view of you, and room to grow.</p>
+              <p class="feat__text">The longer you wear Larkin, the better it knows you.</p>
               <div class="mtabs" role="tablist" aria-label="Inside Mirror" data-mtabs>
-                <button type="button" class="mtab is-on" role="tab" id="mtab-style" aria-selected="true" aria-controls="mpanel-style"><b><span class="mtab__long">How you communicate</span><span class="mtab__short">Your style</span></b><span class="mtab__more"><span class="mtab__text">A one-line portrait and four simple scales, in a report every month.</span></span><i class="mtab__time" aria-hidden="true"></i></button>
-                <button type="button" class="mtab" role="tab" id="mtab-goal" aria-selected="false" aria-controls="mpanel-goal" tabindex="-1"><b><span class="mtab__long">Your goal</span><span class="mtab__short">Your goal</span></b><span class="mtab__more"><span class="mtab__text">Pick one thing to work on. Larkin follows it through every conversation and shows you how it moves.</span></span><i class="mtab__time" aria-hidden="true"></i></button>
-                <button type="button" class="mtab" role="tab" id="mtab-learn" aria-selected="false" aria-controls="mpanel-learn" tabindex="-1"><b><span class="mtab__long">What it learns about you</span><span class="mtab__short">About you</span></b><span class="mtab__more"><span class="mtab__text">When it hears something that matters to you, it checks with you first. Each answer makes the next insight more precise.</span></span><i class="mtab__time" aria-hidden="true"></i></button>
+                <button type="button" class="mtab is-on" role="tab" id="mtab-style" aria-selected="true" aria-controls="mpanel-style"><b>Your style</b><span class="mtab__more"><span class="mtab__text">How you communicate, in four simple scales.</span></span><i class="mtab__time" aria-hidden="true"></i></button>
+                <button type="button" class="mtab" role="tab" id="mtab-goal" aria-selected="false" aria-controls="mpanel-goal" tabindex="-1"><b>Your goal</b><span class="mtab__more"><span class="mtab__text">Pick one thing to work on, and watch it move.</span></span><i class="mtab__time" aria-hidden="true"></i></button>
+                <button type="button" class="mtab" role="tab" id="mtab-learn" aria-selected="false" aria-controls="mpanel-learn" tabindex="-1"><b>About you</b><span class="mtab__more"><span class="mtab__text">You decide what it learns about you.</span></span><i class="mtab__time" aria-hidden="true"></i></button>
               </div>
-              <p class="mtabs__note" aria-hidden="true" data-mtabs-note>A one-line portrait and four simple scales, in a report every month.</p>
             </div>
             <div class="stage stage--deck rv" data-mstage>
               <div class="ui-phone mphone is-on">
@@ -472,6 +465,7 @@
         </article>
 
       </div>
+      <div class="tour-dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i></div>
     </div>
   </section>
 
@@ -845,6 +839,6 @@
   </div>
 </footer>
 
-<script src="larkin.js?v=71f5a74" defer></script>
+<script src="larkin.js?v=63547e4" defer></script>
 </body>
 </html>
