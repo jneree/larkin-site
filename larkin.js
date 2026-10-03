@@ -34,30 +34,30 @@
     else if (wide.addListener) wide.addListener(onWide);
   }
 
-  /* ---- Header over the hero --------------------------------------------- */
-  /* Clear while the hero is under the bar, solid once it has scrolled away. */
+  /* ---- Header ------------------------------------------------------------- */
+  /* A floating bar. At the very top it's clear over the hero (.over-hero; the
+     film's light and dark are followed below). Once the page has scrolled
+     it's a frosted pill (.is-floating). Scrolling down hides it (.is-hidden)
+     and any scroll up brings it back, never while the menu is open or
+     something in the bar has focus. The nav lights the link of the section
+     that holds the middle of the screen. */
   var header = document.querySelector('.site-header');
   var hero = document.querySelector('[data-hero]');
-  if (header && hero && 'IntersectionObserver' in window) {
-    header.classList.add('over-hero');
-    new IntersectionObserver(function (entries) {
-      header.classList.toggle('over-hero', entries[0].isIntersecting);
-    }, { rootMargin: '-' + (header.offsetHeight || 76) + 'px 0px 0px 0px' }).observe(hero);
-  }
-
-  /* ---- Header hides on the way down (phones) ------------------------------ */
-  /* Screen height is scarce on a phone, above all in the app section where a
-     screen and its explanation must fit together. Past the hero, scrolling
-     down slides the bar away and any scroll up brings it back. Never while
-     the menu is open or something in the bar has focus. */
   if (header) {
-    var narrow = window.matchMedia('(max-width: 899px)');
     var lastY = window.scrollY, pending = false;
+    var headLinks = [].slice.call(header.querySelectorAll('.nav a'));
+    var headTargets = headLinks.map(function (a) {
+      var h = a.getAttribute('href');
+      return h && h.charAt(0) === '#' ? document.querySelector(h) : null;
+    });
+    var lit = -2;
     var place = function () {
       pending = false;
       var y = window.scrollY;
-      var heroEnd = hero ? hero.offsetHeight * 0.7 : 200;
-      if (!narrow.matches || y < heroEnd || header.classList.contains('menu-open') || header.contains(document.activeElement)) {
+      var atTop = y < 10;
+      header.classList.toggle('is-floating', !atTop);
+      header.classList.toggle('over-hero', atTop && !!hero);
+      if (atTop || header.classList.contains('menu-open') || header.contains(document.activeElement)) {
         header.classList.remove('is-hidden');
       } else if (y > lastY + 6) {
         header.classList.add('is-hidden');
@@ -65,11 +65,29 @@
         header.classList.remove('is-hidden');
       }
       lastY = y;
+
+      var mid = window.innerHeight * 0.45, at = -1;
+      headTargets.forEach(function (t, i) {
+        if (!t) return;
+        var r = t.getBoundingClientRect();
+        if (r.top <= mid && r.bottom > mid) at = i;
+      });
+      if (at !== lit) {
+        lit = at;
+        headLinks.forEach(function (a, i) {
+          a.classList.toggle('is-active', i === at);
+          if (i === at) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+        });
+      }
     };
     window.addEventListener('scroll', function () {
       if (!pending) { pending = true; requestAnimationFrame(place); }
     }, { passive: true });
+    window.addEventListener('resize', function () {
+      if (!pending) { pending = true; requestAnimationFrame(place); }
+    }, { passive: true });
     header.addEventListener('focusin', function () { header.classList.remove('is-hidden'); });
+    place();
   }
 
   /* ---- Hero film ---------------------------------------------------------- */

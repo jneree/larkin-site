@@ -61,7 +61,7 @@
   --font: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-@media (min-width: 900px) { :root { --header-h: 76px; } }
+@media (min-width: 900px) { :root { --header-h: 72px; } }
 
 /* --------------------------------------------------------------------------
    2. Base
@@ -193,30 +193,50 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 /* --------------------------------------------------------------------------
    5. Header
    -------------------------------------------------------------------------- */
-/* Solid by default, so a page without JS always has a readable bar. larkin.js
-   adds .over-hero while the hero sits under it, which makes it clear so the
-   film shows through. What .on-dark (the film's dark stretch) does depends on
-   the frame: see below. On phones the bar also slides away while scrolling
-   down (.is-hidden) and comes back on the way up. */
+/* A floating bar. At the very top of the page it's clear over the hero film
+   (larkin.js adds .over-hero there, and .on-dark while the film is dark, see
+   below). Once the page has scrolled it's a frosted white pill inset from the
+   edges (.is-floating). Scrolling down hides it (.is-hidden: it fades, lifts
+   and blurs away) and any scroll up brings it back. Without JS it simply
+   stays a frosted pill at the top. */
 .site-header {
+  --pill-pad: 14px;
+  --pill-h: 54px;
+  --float-top: 10px;
   position: fixed;
   inset: 0 0 auto;
   z-index: 50;
+  padding: var(--float-top) max(10px, calc(var(--gutter) - var(--pill-pad))) 0;
   color: var(--ink);
-  background: rgba(255, 255, 255, 0.86);
-  -webkit-backdrop-filter: saturate(1.4) blur(18px);
-  backdrop-filter: saturate(1.4) blur(18px);
-  box-shadow: 0 1px 0 var(--hair);
-  transition: background-color 0.35s var(--ease), color 0.35s var(--ease), box-shadow 0.35s var(--ease), transform 0.35s var(--ease);
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), filter 0.4s var(--ease), color 0.35s var(--ease);
 }
-.site-header.is-hidden { transform: translateY(-100%); }
+@media (min-width: 900px) { .site-header { --pill-pad: 24px; --pill-h: 58px; --float-top: 14px; } }
+.site-header.is-hidden { opacity: 0; transform: translateY(-14px); filter: blur(7px); }
+.site-header.is-hidden :is(.site-header__inner, .mobile-nav) { pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .site-header { transition: opacity 0.2s linear, color 0.35s var(--ease); }
+  .site-header.is-hidden { transform: none; filter: none; }
+}
 .site-header__inner {
-  display: flex;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 24px;
-  height: var(--header-h);
+  gap: 16px;
+  max-width: calc(var(--shell) + var(--pill-pad) * 2);
+  height: var(--pill-h);
+  padding-inline: var(--pill-pad);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(30px) saturate(1.8);
+  backdrop-filter: blur(30px) saturate(1.8);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(0, 0, 0, 0.03), 0 10px 34px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.035);
+  pointer-events: auto;
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
 }
-.brand { margin-right: auto; font-size: 1.5rem; }
+.brand { grid-column: 1; justify-self: start; font-size: 1.5rem; }
 
 /* The wordmark: "larkin" in DM Sans 800, tightly set, and a lime full stop.
    On light grounds the dot takes the deeper lime from the logo's light
@@ -238,48 +258,66 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   background: var(--lime-deep);
 }
 @media (min-width: 900px) { .brand { font-size: 1.625rem; } }
-.nav { display: none; gap: 32px; }
+/* Nav links are pills; the one for the section on screen is lit. */
+.nav { grid-column: 2; display: none; gap: 2px; }
 .nav a {
+  padding: 8px 14px;
+  border-radius: 999px;
   font-size: 0.9375rem;
   font-weight: 600;
   opacity: 0.72;
-  transition: opacity 0.2s var(--ease);
+  transition: opacity 0.2s var(--ease), background-color 0.25s var(--ease);
 }
 .nav a:hover { opacity: 1; }
-.header-actions { display: flex; align-items: center; gap: 10px; }
+.nav a.is-active { opacity: 1; background: rgba(21, 21, 21, 0.06); }
+.header-actions { grid-column: 3; justify-self: end; display: flex; align-items: center; gap: 10px; }
 
 .nav-toggle { gap: 3.5px; grid-auto-flow: column; }
 .nav-toggle span { width: 4.5px; height: 4.5px; border-radius: 50%; background: currentColor; }
 .nav-toggle[aria-expanded="true"] { background: var(--ink); color: #fff; }
 
+/* The phone menu drops down as a card of the same glass under the pill. */
 .mobile-nav {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s var(--ease);
+  max-width: calc(var(--shell) + var(--pill-pad) * 2);
+  margin: 8px auto 0;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(30px) saturate(1.8);
+  backdrop-filter: blur(30px) saturate(1.8);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 34px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.035);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: auto;
+  transition: grid-template-rows 0.35s var(--ease), opacity 0.25s var(--ease), visibility 0s linear 0.35s;
 }
-.mobile-nav.is-open { grid-template-rows: 1fr; }
+.mobile-nav.is-open { grid-template-rows: 1fr; opacity: 1; visibility: visible; transition: grid-template-rows 0.35s var(--ease), opacity 0.25s var(--ease); }
 .mobile-nav__inner { overflow: hidden; }
-.mobile-nav .shell { padding-bottom: 14px; }
+.mobile-nav .shell { max-width: none; padding: 6px 22px 10px; }
 .mobile-nav a {
   display: block;
-  padding: 15px 0;
-  font-size: 1.125rem;
+  padding: 14px 0;
+  color: var(--ink);
+  font-size: 1.0625rem;
   font-weight: 600;
-  border-top: 1px solid var(--hair);
 }
+.mobile-nav a + a { border-top: 1px solid var(--hair); }
 
 @media (min-width: 900px) {
   .nav { display: flex; }
   .nav-toggle, .mobile-nav { display: none; }
 }
 
-/* Clear over the film. On phones only the wordmark could get lost (the
-   Reserve and menu buttons are solid shapes), so it turns white while the
-   film is dark behind it: measured on the phone crop, the logo's patch of
-   frame is dark over the same 0.7–5.1 s stretch as the desktop copy. With the
-   menu open the bar is solid again. */
-.site-header.over-hero:not(.menu-open) {
-  background: transparent;
+/* Clear over the film, at the very top. On phones only the wordmark could get
+   lost (the Reserve and menu buttons are solid shapes), so it turns white
+   while the film is dark behind it: measured on the phone crop, the logo's
+   patch of frame is dark over the same 0.7–5.1 s stretch as the desktop copy.
+   With the menu open the pill is frosted again. */
+.site-header.over-hero:not(.menu-open) .site-header__inner {
+  border-color: transparent;
+  background-color: transparent;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   box-shadow: none;
@@ -298,26 +336,18 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
    clean wall beside the wrist; everywhere else it's the phone composition. */
 @media (min-width: 900px) and (min-aspect-ratio: 5/4) {
   .site-header.over-hero .nav a { opacity: 0.9; }
-  /* Wide frames keep ink and frost instead (below). */
+  /* Wide frames keep their ink and frost the pill instead while the film is
+     dark: measured on the footage, the wordmark side and the nav side of the
+     top strip go dark at different moments, so no single text colour would
+     hold across the whole film. */
   .site-header.over-hero.on-dark:not(.menu-open) { color: var(--ink); }
   .site-header.over-hero.on-dark:not(.menu-open) .logo i { background: var(--lime-deep); }
-  /* The bar keeps its ink. While the film is dark it gains frosted glass
-     instead: measured on the footage, the wordmark side and the nav side of
-     the top strip go dark at different moments, so no single text colour
-     would hold across the whole film. */
-  .site-header::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: rgba(255, 255, 255, 0.7);
-    -webkit-backdrop-filter: saturate(1.4) blur(18px);
-    backdrop-filter: saturate(1.4) blur(18px);
-    opacity: 0;
-    transition: opacity 0.35s var(--ease);
-    pointer-events: none;
+  .site-header.over-hero.on-dark:not(.menu-open) .site-header__inner {
+    border-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.7);
+    -webkit-backdrop-filter: blur(30px) saturate(1.8);
+    backdrop-filter: blur(30px) saturate(1.8);
   }
-  .site-header.over-hero.on-dark::before { opacity: 1; }
 }
 
 /* --------------------------------------------------------------------------
@@ -561,11 +591,10 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 
 /* The nav that rides along: one link per chapter, the current one lit with
-   the lime dot. It sits under the site header, and on phones moves up into
-   the header's place while that has slid away. */
+   the lime dot. It sits under the site header. */
 .tour-nav {
   position: sticky;
-  top: calc(var(--header-h) + 12px);
+  top: calc(var(--header-h) + 10px);
   z-index: 20;
   display: flex;
   gap: 2px;
@@ -604,9 +633,9 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 }
 .tour-nav a.is-active { color: #fff; background: rgba(255, 255, 255, 0.1); }
 .tour-nav a.is-active i { background: var(--lime); opacity: 1; }
+/* Moves up into the header's place while that has slid away. */
+html:has(.site-header.is-hidden) .tour-nav { top: 12px; }
 @media (max-width: 899px) {
-  .tour-nav { top: calc(var(--header-h) + 8px); }
-  html:has(.site-header.is-hidden) .tour-nav { top: 8px; }
   .tour-nav a { min-height: 38px; padding: 0 13px; font-size: 0.875rem; gap: 7px; }
 }
 @media (max-width: 380px) {
