@@ -31,7 +31,7 @@
 <!-- DM Sans is served from this site: a Google Fonts stylesheet blocked the
      first paint (and the film) for 3–4 s on a 4G connection. -->
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="larkin.css?v=6babb25">
+<link rel="stylesheet" href="larkin.css?v=55a38df">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -232,6 +232,8 @@
       <symbol id="i-more" viewBox="0 0 16 16"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></symbol>
       <symbol id="i-share" viewBox="0 0 16 16"><path d="M8 9.5V2.5M5.25 5 8 2.25 10.75 5M5.5 7H5a1.75 1.75 0 0 0-1.75 1.75v3.5C3.25 13.2 4.03 14 5 14h6c.97 0 1.75-.8 1.75-1.75v-3.5C12.75 7.78 11.97 7 11 7h-.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="i-trash" viewBox="0 0 16 16"><path d="M3 4.5h10M6.5 4.5V3.2c0-.66.54-1.2 1.2-1.2h.6c.66 0 1.2.54 1.2 1.2v1.3m-5 0 .55 8.15c.06.78.7 1.35 1.5 1.35h2.9c.8 0 1.44-.57 1.5-1.35l.55-8.15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><rect x="7" y="5.5" width="3.4" height="13" rx="1.2"/><rect x="13.6" y="5.5" width="3.4" height="13" rx="1.2"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M8.5 5.8v12.4c0 .8.9 1.3 1.6.8l9.3-6.2a1 1 0 0 0 0-1.6L10.1 5c-.7-.5-1.6 0-1.6.8Z"/></symbol>
       <symbol id="i-status" viewBox="0 0 66 12"><rect x="0" y="7.5" width="3" height="4.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="6.5" rx="1"/><rect x="9" y="3" width="3" height="9" rx="1"/><rect x="13.5" y="0.5" width="3" height="11.5" rx="1"/><path d="M27.6 4.7a9.4 9.4 0 0 1 13.8 0M30.2 7.3a5.6 5.6 0 0 1 8.6 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="34.5" cy="10.2" r="1.5"/><rect x="44.5" y="0.5" width="19" height="11" rx="3.2" fill="none" stroke="currentColor" stroke-opacity=".45"/><rect x="46.5" y="2.5" width="15" height="7" rx="1.6"/><path d="M65.2 4.3v3.4" stroke="currentColor" stroke-opacity=".45" stroke-width="1.3" stroke-linecap="round"/></symbol>
     </svg>
 
@@ -353,8 +355,11 @@
 
         <!-- 03 · Mirror — three parts, one screen at a time: pick one from the
              list (a small switch on phones). The screens also advance on their
-             own while in view, until the visitor picks one (larkin.js). Without
-             JS the first screen shows and the list still names all three. -->
+             own while in view, until the visitor picks one or pauses them
+             (larkin.js). The script also tops the phone's tile with a bar per
+             screen (named where there's room), the one showing filling in lime
+             as it plays, and a pause button. Without JS the first screen shows
+             and the list still names all three. -->
         <article class="chap" id="app-mirror" aria-labelledby="chap-mirror">
           <div class="feat">
             <div class="feat__copy rv">
@@ -368,7 +373,7 @@
               </div>
               <p class="mtabs__note" aria-hidden="true" data-mtabs-note>A one-line portrait and four simple scales, in a report every month.</p>
             </div>
-            <div class="stage rv" data-mstage>
+            <div class="stage stage--mirror rv" data-mstage>
               <div class="ui-phone">
                 <div class="ui-screen ui-screen--panels">
 
@@ -839,6 +844,6 @@
   </div>
 </footer>
 
-<script src="larkin.js?v=6babb25" defer></script>
+<script src="larkin.js?v=55a38df" defer></script>
 </body>
 </html>

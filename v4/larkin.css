@@ -669,7 +669,8 @@ html:has(.site-header.is-hidden) .tour-nav { top: 12px; }
 /* Mirror's three parts. Wide: a list beside the phone, the chosen part
    opening its line of explanation. Phones: a small switch above the phone,
    with the chosen part's line under it. While the screens advance on their
-   own, a lime line fills over the chosen part's time on screen. */
+   own, a lime line fills over the chosen part's time on screen, in the list
+   and in the player on the phone's tile (on phones, in the player only). */
 .mtab {
   position: relative;
   display: grid;
@@ -724,8 +725,7 @@ html:has(.site-header.is-hidden) .tour-nav { top: 12px; }
   .mtab { flex: 1; justify-items: center; align-content: center; min-height: 40px; padding: 0 8px; border-radius: 999px; text-align: center; }
   .mtab b { font-size: 0.875rem; white-space: nowrap; }
   .mtab.is-on { background: rgba(255, 255, 255, 0.12); }
-  .mtab::before, .mtab__more, .mtab__long { display: none; }
-  .mtab__time { left: 16px; right: 16px; top: auto; bottom: 5px; width: auto; height: 2px; transform: scaleX(0); transform-origin: left; }
+  .mtab::before, .mtab__more, .mtab__long, .mtab__time { display: none; }
   .mtabs__note { min-height: 4.5em; }
 }
 
@@ -744,6 +744,68 @@ html:has(.site-header.is-hidden) .tour-nav { top: 12px; }
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 @media (min-width: 700px) { .stage { padding-top: 44px; } }
+
+/* Mirror's tile also carries a player, built by larkin.js: a bar for each of
+   its three screens above the phone, named where there's room, the one
+   showing filling in lime while they play on their own, and a button to
+   pause or play them. */
+.stage--mirror { flex-direction: column; align-items: center; }
+.stage--mirror:has(> .mplay) { padding-top: 20px; }
+@media (min-width: 700px) { .stage--mirror:has(> .mplay) { padding-top: 28px; } }
+.mplay { display: flex; align-items: center; gap: 12px; width: min(330px, 100%); margin-bottom: 20px; }
+@container stage (min-width: 520px) { .mplay { width: 360px; gap: 16px; margin-bottom: 26px; } }
+.mplay__steps { flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.mplay__step {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  color: var(--on-feature-2);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.3s var(--ease);
+}
+.mplay__step span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.mplay__step:hover, .mplay__step.is-on { color: #fff; }
+.mplay__step i { position: relative; height: 3px; overflow: hidden; border-radius: 2px; background: rgba(255, 255, 255, 0.2); }
+.mplay__step i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--lime);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.mplay__step.is-on i::after { transform: none; }
+.mplay.is-auto .mplay__step.is-on i::after { transform: scaleX(0); animation: mtab-fill var(--dwell, 6s) linear forwards; }
+/* Phones: the switch just above already names them, so bars only. */
+@media (max-width: 699px) {
+  .mplay__step { gap: 0; padding: 14px 0; }
+  .mplay__step span { display: none; }
+}
+.mplay__toggle {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease);
+}
+.mplay__toggle:hover { background: rgba(255, 255, 255, 0.18); }
+.mplay__toggle svg { display: none; width: 18px; height: 18px; fill: currentColor; }
+.mplay__toggle[data-state="playing"] .i-pause,
+.mplay__toggle[data-state="paused"] .i-play { display: block; }
 
 /* --- App UI, rebuilt ----------------------------------------------------- */
 /* Sizes follow the app (DM Sans, 15–17 px body) and stay put at every width:
@@ -781,6 +843,7 @@ html:has(.site-header.is-hidden) .tour-nav { top: 12px; }
 .ui-status b { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
 .ui-status svg { width: 62px; height: 11px; fill: currentColor; }
 .ui-island { position: absolute; left: 50%; top: 9px; width: 92px; height: 27px; margin-left: -46px; border-radius: 14px; background: #000; }
+@container stage (max-width: 300px) { .ui-island { width: 64px; margin-left: -32px; } }
 .ui-bar { display: flex; align-items: center; justify-content: flex-end; height: 46px; padding: 0 14px; }
 .ui-bar--split { justify-content: space-between; }
 .ui-capsule {
@@ -861,6 +924,7 @@ html:has(.site-header.is-hidden) .tour-nav { top: 12px; }
 .ui-meta { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding-top: 4px; font-size: 12.5px; line-height: 17px; color: var(--ui-2); white-space: nowrap; }
 .ui-meta svg, .ui-facts svg { flex: none; width: 15px; height: 15px; color: var(--ui-3); }
 @container daycard (max-width: 248px) { .ui-meta__more { display: none; } }
+@container daycard (max-width: 199px) { .ui-meta { white-space: normal; } }
 
 /* Conversations: the insights, skill by skill. */
 .ui-insights { display: grid; gap: 10px; }
@@ -878,7 +942,7 @@ html:has(.site-header.is-hidden) .tour-nav { top: 12px; }
 .ui-point::before { content: ""; position: absolute; left: 1px; top: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--ui-3); }
 
 /* Mirror: three screens stacked in one phone, one shown at a time. */
-.ui-screen--panels { display: grid; }
+.ui-screen--panels { display: grid; grid-template-columns: minmax(0, 1fr); }
 .mpanel {
   grid-area: 1 / 1;
   min-height: 100%;
@@ -947,7 +1011,7 @@ html:has(.site-header.is-hidden) .tour-nav { top: 12px; }
 .ui-ask__q { display: grid; gap: 8px; }
 .ui-ask__fact { font-size: 19px; line-height: 25px; font-weight: 600; letter-spacing: -0.015em; text-wrap: balance; }
 .ui-ask__quote { font-size: 14.5px; line-height: 20px; color: var(--ui-2); }
-.ui-ask__actions { display: flex; gap: 10px; }
+.ui-ask__actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .ui-answer {
   flex: 1;
   display: inline-flex;

@@ -400,10 +400,12 @@
   /* ---- Mirror: one screen at a time ------------------------------------- */
   /* Mirror's three parts share one phone. Picking a part from the list (the
      arrow keys move along it) shows its screen. While the phone is in view
-     the screens also advance on their own every few seconds, a lime line
-     filling over the chosen part; the first tap, key or touch on the list or
-     the phone hands control to the visitor for good. Never under reduced
-     motion. */
+     the screens also advance on their own every few seconds. So that's plain
+     to see, the phone's tile gets a player: a bar per screen, named where
+     there's room, a lime line filling the one showing (and beside it in the
+     list), and a pause button. The first tap, key or touch on the list or the phone
+     hands control to the visitor; the player's button gives it back. Never
+     plays by itself under reduced motion. */
   document.querySelectorAll('[data-mtabs]').forEach(function (list) {
     var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
     var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
@@ -412,15 +414,52 @@
     var note = list.parentNode.querySelector('[data-mtabs-note]');
     var DWELL = 6000;
     var at = 0, auto = !reduceMotion, inView = false, timer = 0;
+    var player = null, steps = [], toggle = null;
     list.style.setProperty('--dwell', DWELL / 1000 + 's');
+
+    // The player repeats the list for the eye only (screen readers and the
+    // keyboard have the tabs), apart from its button.
+    if (stage) {
+      player = document.createElement('div');
+      player.className = 'mplay';
+      player.style.setProperty('--dwell', DWELL / 1000 + 's');
+      player.innerHTML = '<div class="mplay__steps" aria-hidden="true"></div>' +
+        '<button type="button" class="mplay__toggle">' +
+        '<svg class="i-pause" aria-hidden="true"><use href="#i-pause"/></svg>' +
+        '<svg class="i-play" aria-hidden="true"><use href="#i-play"/></svg></button>';
+      tabs.forEach(function (t, i) {
+        var step = document.createElement('button');
+        step.type = 'button';
+        step.className = 'mplay__step' + (i === at ? ' is-on' : '');
+        step.tabIndex = -1;
+        step.innerHTML = '<span></span><i></i>';
+        step.firstChild.textContent = t.querySelector('.mtab__short').textContent;
+        step.addEventListener('click', function () { stop(); show(i); });
+        player.firstChild.appendChild(step);
+        steps.push(step);
+      });
+      toggle = player.querySelector('.mplay__toggle');
+      toggle.addEventListener('click', function () {
+        if (auto) { stop(); return; }
+        auto = true;
+        schedule();
+      });
+      stage.insertBefore(player, stage.firstChild);
+    }
 
     var running = function () { return auto && inView && !document.hidden; };
     var schedule = function () {
       clearTimeout(timer);
       list.classList.remove('is-auto');
+      if (player) player.classList.remove('is-auto');
+      if (toggle) {
+        toggle.setAttribute('data-state', auto ? 'playing' : 'paused');
+        toggle.setAttribute('aria-label', auto ? 'Pause Mirror’s screens' : 'Play Mirror’s screens');
+      }
       if (!running()) return;
-      void list.offsetWidth; // restart the lime line
+      void list.offsetWidth; // restart the lime lines
       list.classList.add('is-auto');
+      if (player) player.classList.add('is-auto');
       timer = setTimeout(function () { show((at + 1) % tabs.length); }, DWELL);
     };
     var show = function (i, focus) {
@@ -432,6 +471,7 @@
         t.tabIndex = on ? 0 : -1;
         panels[j].classList.toggle('is-on', on);
         panels[j].inert = !on;
+        if (steps[j]) steps[j].classList.toggle('is-on', on);
       });
       if (note) note.textContent = tabs[i].querySelector('.mtab__text').textContent;
       if (focus) tabs[i].focus();
@@ -459,16 +499,18 @@
       show(to, true);
     });
     if (stage) {
-      stage.addEventListener('pointerdown', stop);
-      stage.addEventListener('focusin', stop);
+      var handOver = function (e) { if (!player.contains(e.target)) stop(); };
+      stage.addEventListener('pointerdown', handOver);
+      stage.addEventListener('focusin', handOver);
     }
-    if (auto && stage && 'IntersectionObserver' in window) {
+    if (stage && 'IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
         inView = entries[0].isIntersecting;
         schedule();
       }, { threshold: 0.5 }).observe(stage);
       document.addEventListener('visibilitychange', schedule);
     }
+    schedule();
   });
 
   /* ---- "Is this you?" ------------------------------------------------------ */
