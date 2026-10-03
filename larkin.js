@@ -34,30 +34,33 @@
     else if (wide.addListener) wide.addListener(onWide);
   }
 
-  /* ---- Header over the hero --------------------------------------------- */
-  /* Clear while the hero is under the bar, solid once it has scrolled away. */
+  /* ---- Header ------------------------------------------------------------- */
+  /* A floating bar. At the very top it's clear over the hero (.over-hero; the
+     film's light and dark are followed below). Once the page has scrolled
+     it's a frosted pill (.is-floating). Scrolling down hides it (.is-hidden)
+     and any scroll up brings it back, never while the menu is open or
+     something in the bar has focus. The nav lights the link of the section
+     that holds the middle of the screen. */
   var header = document.querySelector('.site-header');
   var hero = document.querySelector('[data-hero]');
-  if (header && hero && 'IntersectionObserver' in window) {
-    header.classList.add('over-hero');
-    new IntersectionObserver(function (entries) {
-      header.classList.toggle('over-hero', entries[0].isIntersecting);
-    }, { rootMargin: '-' + (header.offsetHeight || 76) + 'px 0px 0px 0px' }).observe(hero);
-  }
-
-  /* ---- Header hides on the way down (phones) ------------------------------ */
-  /* Screen height is scarce on a phone, above all in the app section where a
-     screen and its explanation must fit together. Past the hero, scrolling
-     down slides the bar away and any scroll up brings it back. Never while
-     the menu is open or something in the bar has focus. */
+  var onHeroTop = null; // set by the hero film below
   if (header) {
-    var narrow = window.matchMedia('(max-width: 899px)');
     var lastY = window.scrollY, pending = false;
+    var headLinks = [].slice.call(header.querySelectorAll('.nav a'));
+    var headTargets = headLinks.map(function (a) {
+      var h = a.getAttribute('href');
+      return h && h.charAt(0) === '#' ? document.querySelector(h) : null;
+    });
+    var lit = -2, wasTop = null;
     var place = function () {
       pending = false;
       var y = window.scrollY;
-      var heroEnd = hero ? hero.offsetHeight * 0.7 : 200;
-      if (!narrow.matches || y < heroEnd || header.classList.contains('menu-open') || header.contains(document.activeElement)) {
+      var atTop = y < 10;
+      header.classList.toggle('is-floating', !atTop);
+      header.classList.toggle('over-hero', atTop && !!hero);
+      if (atTop && wasTop === false && onHeroTop) onHeroTop();
+      wasTop = atTop;
+      if (atTop || header.classList.contains('menu-open') || header.contains(document.activeElement)) {
         header.classList.remove('is-hidden');
       } else if (y > lastY + 6) {
         header.classList.add('is-hidden');
@@ -65,11 +68,29 @@
         header.classList.remove('is-hidden');
       }
       lastY = y;
+
+      var mid = window.innerHeight * 0.45, at = -1;
+      headTargets.forEach(function (t, i) {
+        if (!t) return;
+        var r = t.getBoundingClientRect();
+        if (r.top <= mid && r.bottom > mid) at = i;
+      });
+      if (at !== lit) {
+        lit = at;
+        headLinks.forEach(function (a, i) {
+          a.classList.toggle('is-active', i === at);
+          if (i === at) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+        });
+      }
     };
     window.addEventListener('scroll', function () {
       if (!pending) { pending = true; requestAnimationFrame(place); }
     }, { passive: true });
+    window.addEventListener('resize', function () {
+      if (!pending) { pending = true; requestAnimationFrame(place); }
+    }, { passive: true });
     header.addEventListener('focusin', function () { header.classList.remove('is-hidden'); });
+    place();
   }
 
   /* ---- Hero film ---------------------------------------------------------- */
@@ -89,13 +110,92 @@
   var filmBtn = hero && hero.querySelector('.hero__toggle');
   if (hero && video) {
     var raf = 0;
+
+    /* The header is clear over the film, so each of its words takes the
+       colour that reads best against the frame right behind it. On every new
+       frame of the film (requestVideoFrameCallback, else a quick timer) the
+       frame is drawn into a small thumbnail, the patch behind the wordmark
+       and behind each nav link is averaged, and a word turns white (.on-dark)
+       where white out-contrasts ink. Switching on the frame itself keeps the
+       words in step with the film's hard cuts. If the film can't be read,
+       the timings above stand in. */
+    var tones = header ? [].slice.call(header.querySelectorAll('.brand, .nav a')) : [];
+    var thumb = document.createElement('canvas');
+    var tctx = thumb.getContext && thumb.getContext('2d');
+    var canRead = !!tctx, lastRead = 0;
+    var lin = function (c) { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
+    var readTones = function (force) {
+      if (!canRead || !tones.length || !header.classList.contains('over-hero')) return;
+      var now = Date.now();
+      if (!force && now - lastRead < 30) return;
+      var vw = video.videoWidth, vh = video.videoHeight;
+      if (!vw || !vh || video.readyState < 2 || !hero.classList.contains('is-playing')) return;
+      lastRead = now;
+      var tw = 192, th = Math.round(tw * vh / vw);
+      if (thumb.width !== tw) thumb.width = tw;
+      if (thumb.height !== th) thumb.height = th;
+      // Where the frame sits under the page: object-fit: cover, positioned.
+      var box = video.getBoundingClientRect();
+      var scale = Math.max(box.width / vw, box.height / vh);
+      var at = getComputedStyle(video).objectPosition.split(' ');
+      var offX = (box.width - vw * scale) * ((parseFloat(at[0]) || 50) / 100);
+      var offY = (box.height - vh * scale) * ((parseFloat(at[1]) || 50) / 100);
+      var k = tw / vw / scale; // thumbnail pixels per CSS pixel
+      var spots = tones.map(function (el) {
+        var r = el.getBoundingClientRect();
+        return [
+          Math.max(0, Math.floor((r.left - box.left - offX) * k)),
+          Math.max(0, Math.floor((r.top - box.top - offY) * k)),
+          Math.min(tw, Math.ceil((r.right - box.left - offX) * k)),
+          Math.min(th, Math.ceil((r.bottom - box.top - offY) * k))
+        ];
+      });
+      var yMin = th, yMax = 0;
+      spots.forEach(function (s) { if (s[2] > s[0] && s[3] > s[1]) { yMin = Math.min(yMin, s[1]); yMax = Math.max(yMax, s[3]); } });
+      if (yMax <= yMin) return;
+      try {
+        tctx.drawImage(video, 0, 0, tw, th);
+        var band = tctx.getImageData(0, yMin, tw, yMax - yMin).data;
+        spots.forEach(function (s, n) {
+          if (s[2] <= s[0] || s[3] <= s[1]) return;
+          var sum = 0, count = 0;
+          for (var y = s[1]; y < s[3]; y++) {
+            for (var x = s[0]; x < s[2]; x++) {
+              var i = ((y - yMin) * tw + x) * 4;
+              sum += 0.2126 * lin(band[i]) + 0.7152 * lin(band[i + 1]) + 0.0722 * lin(band[i + 2]);
+              count++;
+            }
+          }
+          var lum = sum / count, el = tones[n];
+          // White and ink contrast equally at a luminance of about 0.2; a
+          // little hysteresis keeps a word from flickering on the line.
+          el.classList.toggle('on-dark', el.classList.contains('on-dark') ? lum < 0.24 : lum < 0.16);
+        });
+      } catch (e) {
+        canRead = false;
+      }
+    };
+    onHeroTop = function () { readTones(true); };
+    var perFrame = 'requestVideoFrameCallback' in video, framing = false;
+    var onFrame = function () {
+      framing = false;
+      readTones(true);
+      watchFrames();
+    };
+    var watchFrames = function () {
+      if (!perFrame || framing || video.paused || video.ended) return;
+      framing = true;
+      video.requestVideoFrameCallback(onFrame);
+    };
+
     var setDark = function (dark) {
       hero.classList.toggle('is-dark', dark);
-      if (header) header.classList.toggle('on-dark', dark);
+      if (!canRead) tones.forEach(function (el) { el.classList.toggle('on-dark', dark); });
     };
     var sync = function () {
       var t = video.currentTime;
       setDark(t >= DARK_FROM && t < DARK_TO);
+      if (!perFrame) readTones(false);
       if (!video.paused && !video.ended) raf = requestAnimationFrame(sync);
     };
     var setBtn = function (state) {
@@ -128,16 +228,21 @@
       setBtn('playing');
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(sync);
+      watchFrames();
     });
     video.addEventListener('pause', function () {
       cancelAnimationFrame(raf);
+      readTones(true);
       if (!video.ended) setBtn('paused');
     });
     video.addEventListener('ended', function () {
       cancelAnimationFrame(raf);
       setDark(false);
+      readTones(true);
       setBtn('ended');
     });
+    video.addEventListener('seeked', function () { readTones(true); });
+    window.addEventListener('resize', function () { readTones(true); }, { passive: true });
 
     var play = function () {
       video.muted = true;
@@ -260,83 +365,239 @@
     paint();
   }
 
-  /* ---- App showcase ----------------------------------------------------- */
-  /* Wide screens: one phone holds still while the five screens' copy scrolls
-     past; whichever item crosses the middle of the viewport owns the phone.
-     Phones: the items are a swipeable row, and the dots follow the swipe. */
-  var show = document.querySelector('[data-show]');
-  if (show) {
-    var items = [].slice.call(show.querySelectorAll('.show__item'));
-    var shots = [].slice.call(show.querySelectorAll('.phone--stage img'));
-    var tabs = [].slice.call(show.querySelectorAll('.show__tabs a'));
-    var dots = [].slice.call(show.querySelectorAll('.show__dots i'));
-    var list = show.querySelector('[data-show-list]');
-    var current = 0;
-
-    var activate = function (i) {
-      if (i === current || i < 0 || i >= items.length) return;
-      current = i;
-      shots.forEach(function (img, j) { img.classList.toggle('is-active', j === i); });
-      tabs.forEach(function (a, j) {
-        a.classList.toggle('is-active', j === i);
-        if (j === i) a.setAttribute('aria-current', 'step'); else a.removeAttribute('aria-current');
-      });
-      dots.forEach(function (d, j) { d.classList.toggle('is-active', j === i); });
+  /* ---- App chapters on phones: a swipeable row -------------------------- */
+  /* Below 700px the three chapters are tiles in a row that swipes, and the
+     dots under it follow along. There the row also takes keyboard focus, so
+     the arrow keys can scroll it. */
+  var tour = document.querySelector('[data-tour]');
+  var tourDots = tour ? [].slice.call(tour.parentNode.querySelectorAll('.tour-dots i')) : [];
+  if (tour && tourDots.length) {
+    var tiles = [].slice.call(tour.children);
+    var asRow = window.matchMedia('(max-width: 699px)');
+    var dotRaf = 0;
+    var pickDot = function () {
+      dotRaf = 0;
+      var step = tiles[1] ? tiles[1].offsetLeft - tiles[0].offsetLeft : 1;
+      var i = Math.round(tour.scrollLeft / step);
+      if (tour.scrollLeft + tour.clientWidth >= tour.scrollWidth - 4) i = tiles.length - 1;
+      i = Math.max(0, Math.min(tiles.length - 1, i));
+      tourDots.forEach(function (d, j) { d.classList.toggle('is-on', j === i); });
     };
-    if (tabs[0]) tabs[0].setAttribute('aria-current', 'step');
-
-    // The stage's pictures are fetched only as the section approaches.
-    var loadShots = function () {
-      shots.forEach(function (img) {
-        if (img.dataset.src && !img.getAttribute('src')) img.src = img.dataset.src;
-      });
+    tour.addEventListener('scroll', function () { if (!dotRaf) dotRaf = requestAnimationFrame(pickDot); }, { passive: true });
+    var setRow = function () {
+      if (asRow.matches) {
+        tour.tabIndex = 0;
+        tour.setAttribute('role', 'region');
+        tour.setAttribute('aria-label', 'The app, in three parts');
+      } else {
+        tour.removeAttribute('tabindex');
+        tour.removeAttribute('role');
+        tour.removeAttribute('aria-label');
+      }
     };
-
-    var stacked = window.matchMedia('(min-width: 960px)');
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries, obs) {
-        if (entries[0].isIntersecting && stacked.matches) { loadShots(); obs.disconnect(); }
-      }, { rootMargin: '1200px 0px' }).observe(show);
-
-      var io = new IntersectionObserver(function (entries) {
-        if (!stacked.matches) return;
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) activate(items.indexOf(entry.target));
-        });
-      }, { rootMargin: '-45% 0px -45% 0px' });
-      items.forEach(function (item) { io.observe(item); });
-    } else {
-      loadShots();
-    }
-    var onStacked = function (e) { if (e.matches) loadShots(); };
-    if (stacked.addEventListener) stacked.addEventListener('change', onStacked);
-    else if (stacked.addListener) stacked.addListener(onStacked);
-
-    // Tabs scroll to their item; on phones they aren't shown.
-    tabs.forEach(function (a, i) {
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        var r = items[i].getBoundingClientRect();
-        var y = window.scrollY + r.top + r.height / 2 - window.innerHeight / 2;
-        window.scrollTo({ top: y, behavior: reduceMotion ? 'auto' : 'smooth' });
-      });
-    });
-
-    if (list) {
-      var swipeRaf = 0;
-      list.addEventListener('scroll', function () {
-        if (stacked.matches || swipeRaf) return;
-        swipeRaf = requestAnimationFrame(function () {
-          swipeRaf = 0;
-          var first = items[0].getBoundingClientRect().left;
-          var step = items[1] ? items[1].getBoundingClientRect().left - first : 1;
-          var i = Math.round((list.getBoundingClientRect().left - first + 1) / step);
-          if (list.scrollLeft + list.clientWidth >= list.scrollWidth - 4) i = items.length - 1;
-          activate(Math.max(0, Math.min(items.length - 1, i)));
-        });
-      }, { passive: true });
-    }
+    setRow();
+    if (asRow.addEventListener) asRow.addEventListener('change', setRow);
+    else if (asRow.addListener) asRow.addListener(setRow);
   }
+
+  /* ---- Mirror: one screen at a time ------------------------------------- */
+  /* Mirror's three parts each have a phone on the tile: the chosen part's in
+     front, the other two barely there on either side. Picking a part from
+     the list (the arrow keys move along it), or clicking a phone at the
+     side, turns its phone to the front. While the tile is in view the parts
+     also advance on their own every few seconds, a lime line filling beside
+     the chosen part; the first tap, key or touch on the list or the phones
+     hands control to the visitor for good. Never under reduced motion. */
+  document.querySelectorAll('[data-mtabs]').forEach(function (list) {
+    var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
+    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+    if (!tabs.length || panels.indexOf(null) > -1) return;
+    var phones = panels.map(function (p) { return p.closest('.mphone'); });
+    if (phones.indexOf(null) > -1) phones = [];
+    var stage = panels[0].closest('[data-mstage]');
+    var DWELL = 6000;
+    var at = 0, auto = !reduceMotion, inView = false, timer = 0;
+    list.style.setProperty('--dwell', DWELL / 1000 + 's');
+
+    var running = function () { return auto && inView && !document.hidden; };
+    var schedule = function () {
+      clearTimeout(timer);
+      list.classList.toggle('is-playing', auto);
+      list.classList.remove('is-auto');
+      if (!running()) return;
+      void list.offsetWidth; // restart the lime line
+      list.classList.add('is-auto');
+      timer = setTimeout(function () { show((at + 1) % tabs.length); }, DWELL);
+    };
+    var show = function (i, focus) {
+      var n = tabs.length;
+      at = i;
+      tabs.forEach(function (t, j) {
+        var on = j === i;
+        t.classList.toggle('is-on', on);
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        panels[j].classList.toggle('is-on', on);
+        panels[j].inert = !on;
+        if (phones[j]) {
+          var ph = phones[j], next = j === (i + 1) % n, prev = j === (i - 1 + n) % n;
+          // The phone moving from one end of the fan to the other passes
+          // behind the rest, fading out on the way (restarted each time).
+          var wrap = (next && ph.classList.contains('is-prev')) || (prev && ph.classList.contains('is-next'));
+          ph.classList.remove('is-wrap');
+          if (wrap) { void ph.offsetWidth; ph.classList.add('is-wrap'); }
+          ph.classList.toggle('is-on', on);
+          ph.classList.toggle('is-next', next);
+          ph.classList.toggle('is-prev', prev);
+        }
+      });
+      if (focus) tabs[i].focus();
+      panels[i].dispatchEvent(new CustomEvent('mirror:show'));
+      schedule();
+    };
+    var stop = function () {
+      if (!auto) return;
+      auto = false;
+      schedule();
+    };
+
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { stop(); show(i); });
+    });
+    // A phone at the side comes to the front when clicked. (Its screen is
+    // inert, so the click lands on the phone itself.)
+    phones.forEach(function (ph, i) {
+      ph.addEventListener('click', function () { if (i !== at) { stop(); show(i); } });
+    });
+    list.addEventListener('keydown', function (e) {
+      var n = tabs.length, to = -1;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') to = (at + 1) % n;
+      else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') to = (at - 1 + n) % n;
+      else if (e.key === 'Home') to = 0;
+      else if (e.key === 'End') to = n - 1;
+      if (to < 0) return;
+      e.preventDefault();
+      stop();
+      show(to, true);
+    });
+    if (stage) {
+      stage.addEventListener('pointerdown', stop);
+      stage.addEventListener('focusin', stop);
+    }
+    if (auto && stage && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting;
+        schedule();
+      }, { threshold: 0.5 }).observe(stage);
+      document.addEventListener('visibilitychange', schedule);
+    }
+  });
+
+  /* ---- "Is this you?" ------------------------------------------------------ */
+  /* The card can be answered. "That's me" files the fact at the top of What
+     Larkin knows, tagged New, and the count goes up; "Not me" lets it go.
+     Either way the next fact from the template takes its place, and after the
+     last one the card says so and offers to start over. Before any answer,
+     the lime button nudges each time Mirror shows this screen. */
+  document.querySelectorAll('[data-learn]').forEach(function (demo) {
+    var card = demo.querySelector('[data-learn-card]');
+    var q = card && card.querySelector('.ui-ask__q');
+    var kicker = demo.querySelector('[data-learn-kicker]');
+    var fact = demo.querySelector('[data-learn-fact]');
+    var quote = demo.querySelector('[data-learn-quote]');
+    var actions = card && card.querySelector('.ui-ask__actions');
+    var list = demo.querySelector('[data-learn-list]');
+    var total = demo.querySelector('[data-learn-total]');
+    var status = demo.querySelector('[data-learn-status]');
+    var tpl = demo.querySelector('template[data-learn-next]');
+    var yes = demo.querySelector('[data-answer="yes"]');
+    if (!card || !q || !fact || !list || !actions || !yes) return;
+
+    var facts = [{ kicker: kicker.textContent, fact: fact.textContent, quote: quote.textContent }];
+    if (tpl && tpl.content) {
+      [].slice.call(tpl.content.querySelectorAll('[data-fact]')).forEach(function (p) {
+        facts.push({ kicker: p.getAttribute('data-kicker'), fact: p.getAttribute('data-fact'), quote: p.getAttribute('data-quote') });
+      });
+    }
+    var start = {
+      list: list.innerHTML,
+      all: parseInt(total ? total.textContent.replace(/\D+/g, '') : '0', 10) || 0
+    };
+    var chev = list.querySelector('svg');
+    var max = list.querySelectorAll('li').length;
+    var at = 0, all = start.all, busy = false, answered = false, ended = null;
+
+    var counts = function () {
+      if (total) total.textContent = 'See all ' + all;
+    };
+    var show = function (i) {
+      kicker.textContent = facts[i].kicker;
+      fact.textContent = facts[i].fact;
+      quote.textContent = facts[i].quote;
+    };
+    var finish = function () {
+      actions.hidden = true;
+      q.hidden = true;
+      ended = document.createElement('div');
+      ended.className = 'ui-ask__q';
+      ended.innerHTML = '<p class="ui-ask__fact">You’re all caught up.</p>' +
+        '<p class="ui-ask__note">Larkin asks again when it hears something new.</p>' +
+        '<button type="button" class="ui-ask__again">Start over</button>';
+      card.appendChild(ended);
+      ended.querySelector('button').addEventListener('click', reset);
+      ended.querySelector('button').focus({ preventScroll: true });
+    };
+    var reset = function () {
+      if (ended) { ended.remove(); ended = null; }
+      list.innerHTML = start.list;
+      all = start.all; at = 0;
+      counts(); show(0);
+      q.hidden = false; actions.hidden = false;
+      yes.focus({ preventScroll: true });
+      if (status) status.textContent = 'Started over.';
+    };
+    var answer = function (keep) {
+      if (busy) return;
+      busy = true; answered = true;
+      yes.classList.remove('is-hint');
+      var said = facts[at].fact;
+      if (keep) {
+        var li = document.createElement('li');
+        li.className = 'is-new';
+        var text = document.createElement('span');
+        text.textContent = said;
+        li.appendChild(text);
+        var tag = document.createElement('span');
+        tag.className = 'ui-chip';
+        tag.textContent = 'New';
+        li.appendChild(tag);
+        if (chev) li.appendChild(chev.cloneNode(true));
+        list.insertBefore(li, list.firstChild);
+        var items = list.querySelectorAll('li');
+        if (items.length > max) items[items.length - 1].remove();
+        all += 1;
+        counts();
+      }
+      if (status) status.textContent = keep ? 'Added to what Larkin knows: ' + said : 'Dropped. Larkin won’t use it.';
+      at += 1;
+      card.classList.add('is-swapping');
+      setTimeout(function () {
+        if (at < facts.length) show(at); else finish();
+        card.classList.remove('is-swapping');
+        busy = false;
+      }, reduceMotion ? 0 : 320);
+    };
+
+    demo.classList.add('is-live');
+    [].slice.call(demo.querySelectorAll('[data-answer]')).forEach(function (btn) {
+      btn.addEventListener('click', function () { answer(btn.getAttribute('data-answer') === 'yes'); });
+    });
+    demo.addEventListener('mirror:show', function () {
+      if (answered || reduceMotion) return;
+      yes.classList.remove('is-hint');
+      setTimeout(function () { if (!answered) yes.classList.add('is-hint'); }, 700);
+    });
+  });
 
   /* ---- Pre-order gallery ------------------------------------------------ */
   /* Auto-advances while on screen, hands over to the visitor for good on the
