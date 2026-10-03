@@ -31,7 +31,7 @@
 <!-- DM Sans is served from this site: a Google Fonts stylesheet blocked the
      first paint (and the film) for 3–4 s on a 4G connection. -->
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="larkin.css?v=63547e4">
+<link rel="stylesheet" href="larkin.css?v=fee6963">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -68,8 +68,9 @@
 
 <a class="skip-link" href="#main">Skip to content</a>
 
-<!-- Header — transparent over the hero, following the film's light and dark
-     (larkin.js), then a frosted white bar once the hero has scrolled away. -->
+<!-- Header — clear over the hero, each word taking white or ink from the
+     film behind it; past the hero a floating frosted pill that slides away
+     on the way down and comes back on the way up (larkin.js). -->
 <header class="site-header">
   <div class="shell site-header__inner">
     <a class="brand" href="/v4/" aria-label="Larkin, home"><span class="logo" aria-hidden="true">larkin<i></i></span></a>
@@ -83,22 +84,6 @@
 
     <div class="header-actions">
       <a class="btn btn--lime btn--sm" href="#reserve">Reserve — $10</a>
-      <button class="icon-btn nav-toggle" type="button" aria-expanded="false"
-              aria-controls="mobile-nav" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-
-  <div class="mobile-nav" id="mobile-nav">
-    <div class="mobile-nav__inner">
-      <div class="shell">
-        <a href="#how">How it works</a>
-        <a href="#app">The app</a>
-        <a href="#use-cases">Use cases</a>
-        <a href="#privacy">Privacy</a>
-        <a href="#faq">Questions</a>
-      </div>
     </div>
   </div>
 </header>
@@ -626,21 +611,16 @@
 
         <div class="preorder__copy">
           <p class="preorder__eyebrow">Founder Edition — limited to 1,000</p>
-          <h2 class="preorder__title">Reserve your Larkin</h2>
-          <p class="preorder__price">
-            <span class="preorder__was">$149</span>
-            <span class="preorder__amount">$99</span>
-          </p>
-          <p class="preorder__deposit">Reserve yours today with a fully refundable $10 deposit.</p>
+          <h2 class="preorder__title">Reserve your Larkin for $10.</h2>
           <ul class="preorder__points">
-            <li>Larkin Membership included, forever</li>
-            <li>Numbered founder unit, shipped first</li>
+            <li>Lifetime membership</li>
+            <li>Numbered, ships first</li>
             <li>Refundable any time</li>
           </ul>
           <a class="btn btn--lime btn--block" data-reserve href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=v4">
-          Reserve Founder Edition — $10
+          Reserve yours — $10
           </a>
-          <p class="preorder__note">You pay $10 now and $89 when it ships in Q1 2027.</p>
+          <p class="preorder__note">Full price $129 when it ships in Q1 2027.</p>
         </div>
       </div>
     </div>
@@ -806,7 +786,7 @@
         </details>
         <details class="faq__item">
           <summary>What does it cost, and when does it ship?</summary>
-          <p>$99 at launch instead of $149. A $10 deposit holds one from the first run of 1,000 and is refundable at any point. Ships Q1 2027.</p>
+          <p>$129 when it ships in Q1 2027. A $10 reservation holds one from the first run of 1,000, refundable any time.</p>
         </details>
       </div>
     </div>
@@ -817,7 +797,7 @@
     <div class="shell">
       <div class="closing__card rv">
         <p class="h2">Keep what mattered.</p>
-        <p>Founder Edition, $99 instead of $149. Hold one with a refundable $10.</p>
+        <p>Founder Edition, limited to 1,000. Refundable any time.</p>
         <a class="btn btn--ink" data-reserve href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=v4">
           Reserve yours — $10
         </a>
@@ -839,6 +819,6 @@
   </div>
 </footer>
 
-<script src="larkin.js?v=63547e4" defer></script>
+<script src="larkin.js?v=fee6963" defer></script>
 </body>
 </html>

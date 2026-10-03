@@ -5,41 +5,12 @@
   var root = document.documentElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---- Mobile nav disclosure ------------------------------------------- */
-  var toggle = document.querySelector('.nav-toggle');
-  var panel = document.getElementById('mobile-nav');
-  if (toggle && panel) {
-    var setOpen = function (open) {
-      toggle.setAttribute('aria-expanded', String(open));
-      panel.classList.toggle('is-open', open);
-      var bar = document.querySelector('.site-header');
-      if (bar) bar.classList.toggle('menu-open', open);
-    };
-    toggle.addEventListener('click', function () {
-      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
-    });
-    // Any link tap closes the panel, so anchor jumps land on a clean view.
-    panel.addEventListener('click', function (e) {
-      if (e.target.closest('a')) setOpen(false);
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
-        setOpen(false);
-        toggle.focus();
-      }
-    });
-    var wide = window.matchMedia('(min-width: 900px)');
-    var onWide = function (e) { if (e.matches) setOpen(false); };
-    if (wide.addEventListener) wide.addEventListener('change', onWide);
-    else if (wide.addListener) wide.addListener(onWide);
-  }
-
   /* ---- Header ------------------------------------------------------------- */
   /* A floating bar. At the very top it's clear over the hero (.over-hero; the
      film's light and dark are followed below). Once the page has scrolled
      it's a frosted pill (.is-floating). Scrolling down hides it (.is-hidden)
-     and any scroll up brings it back, never while the menu is open or
-     something in the bar has focus. The nav lights the link of the section
+     and any scroll up brings it back, never while something in the bar has
+     focus. The nav lights the link of the section
      that holds the middle of the screen. */
   var header = document.querySelector('.site-header');
   var hero = document.querySelector('[data-hero]');
@@ -60,7 +31,7 @@
       header.classList.toggle('over-hero', atTop && !!hero);
       if (atTop && wasTop === false && onHeroTop) onHeroTop();
       wasTop = atTop;
-      if (atTop || header.classList.contains('menu-open') || header.contains(document.activeElement)) {
+      if (atTop || header.contains(document.activeElement)) {
         header.classList.remove('is-hidden');
       } else if (y > lastY + 6) {
         header.classList.add('is-hidden');
