@@ -9,7 +9,7 @@
 
 <meta property="og:title" content="Larkin — Everyone’s met you. Have you?">
 <meta property="og:description" content="A screenless bracelet that shows you how you come across.">
-<meta property="og:image" content="https://getlarkin.com/media/hero-0928-poster-1920.jpg">
+<meta property="og:image" content="https://getlarkin.com/media/hero-u-poster-1920.jpg">
 <meta property="og:image:width" content="1920">
 <meta property="og:image:height" content="1080">
 <meta property="og:url" content="https://getlarkin.com/">
@@ -23,14 +23,14 @@
 
 <!-- The hero's resting frame is the page's largest paint: fetch it first.
      Portrait screens get their own crop of the film and of this frame. -->
-<link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(max-aspect-ratio: 4/5)" href="media/hero-0928-poster-phone.webp">
+<link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(max-aspect-ratio: 4/5)" href="media/hero-u-poster-phone.webp">
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
-      imagesrcset="media/hero-0928-poster-1000.webp 1000w, media/hero-0928-poster-1920.webp 1920w" imagesizes="100vw">
+      imagesrcset="media/hero-u-poster-1000.webp 1000w, media/hero-u-poster-1920.webp 1920w, media/hero-u-poster-2560.webp 2560w, media/hero-u-poster-3840.webp 3840w" imagesizes="100vw">
 
 <!-- DM Sans is served from this site: a Google Fonts stylesheet blocked the
      first paint (and the film) for 3–4 s on a 4G connection. -->
 <link rel="preload" as="font" type="font/woff2" href="fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="larkin.css?v=20261004l">
+<link rel="stylesheet" href="larkin.css?v=20261004m">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -95,11 +95,11 @@
   <section class="hero" data-hero aria-label="Introduction">
     <div class="hero__media">
       <picture>
-        <source type="image/webp" media="(max-aspect-ratio: 4/5)" srcset="media/hero-0928-poster-phone.webp">
-        <source type="image/webp" srcset="media/hero-0928-poster-1000.webp 1000w, media/hero-0928-poster-1920.webp 1920w" sizes="100vw">
-        <img class="hero__poster" src="media/hero-0928-poster-1920.jpg" alt="The Larkin band on a woman's wrist, its lime light on, as she rests her chin on her hand" width="1920" height="1080" fetchpriority="high" decoding="async">
+        <source type="image/webp" media="(max-aspect-ratio: 4/5)" srcset="media/hero-u-poster-phone.webp">
+        <source type="image/webp" srcset="media/hero-u-poster-1000.webp 1000w, media/hero-u-poster-1920.webp 1920w, media/hero-u-poster-2560.webp 2560w, media/hero-u-poster-3840.webp 3840w" sizes="100vw">
+        <img class="hero__poster" src="media/hero-u-poster-1920.jpg" alt="The Larkin band on a woman's wrist, its lime light on, as she rests her chin on her hand" width="1920" height="1080" fetchpriority="high" decoding="async">
       </picture>
-      <video class="hero__video" data-src-phone="media/hero-0928-phone.mp4" data-src-sm="media/hero-0928-720.mp4" data-src-lg="media/hero-0928-1080.mp4"
+      <video class="hero__video" data-src-phone="media/hero-u-phone.mp4" data-src-sm="media/hero-u-720.mp4" data-src-lg="media/hero-u-1080.mp4" data-src-xl="media/hero-u-1440.mp4" data-src-xxl="media/hero-u-2160.mp4"
              muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
     </div>
 
@@ -835,6 +835,6 @@
   </div>
 </footer>
 
-<script src="larkin.js?v=20261004l" defer></script>
+<script src="larkin.js?v=20261004m" defer></script>
 </body>
 </html>
