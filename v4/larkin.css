@@ -380,13 +380,18 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .hero { color: var(--ink); transition: color 0.3s var(--ease); }
   .hero.is-dark { color: #fff; }
   .hero::after { display: none; }
-  .hero__media img, .hero__video { object-position: 50% 50%; }
+  /* The film's box runs 20% past the right edge, so the film sits a little
+     right of centre: in its last shot her wrist moves to about 60% of the
+     screen's width, which leaves the headline room. The crop keeps the top
+     of the frame. */
+  .hero__media { right: -20%; }
+  .hero__media img, .hero__video { object-position: 50% 25%; }
   .hero__inner { align-items: center; padding-top: var(--header-h); padding-bottom: 0; }
-  .hero__copy { gap: 22px; max-width: 41rem; transform: translateY(9vh); } /* the headline sits level with the band in the film's last shot */
-  /* The first line holds one line in the 41rem column and stays clear of her
-     wrist in the film's last shot, at about half the screen's width: ~54px
-     at 1440, ~48px at 1280. */
-  .hero__title { font-size: clamp(2rem, 4.2vw - 6px, 3.375rem); }
+  .hero__copy { gap: 22px; max-width: 54rem; transform: translateY(9vh); } /* the headline sits level with the band in the film's last shot */
+  /* The first line holds one line and stays clear of her wrist in the last
+     shot: ~65px at 1440, ~59px at 1280, 72px on the widest screens. The
+     second term takes over once the content column stops growing (1376px). */
+  .hero__title { font-size: clamp(2.25rem, min(5.1vw - 6px, 0.884vw + 52px), 4.5rem); }
   /* The subhead: one line from 1280 up, two below, where the wrist comes closer. */
   .hero__lead { max-width: min(40rem, calc(50vw - var(--gutter) - 40px)); }
   .hero.is-dark .hero__copy { text-shadow: 0 1px 30px rgba(0, 0, 0, 0.35); }
@@ -515,7 +520,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .phone--peek { --w: min(56vw, 230px); box-shadow: inset 0 0 0 1.5px #2C2C2C, 0 30px 60px -20px rgba(0, 0, 0, 0.35); }
 
 /* --------------------------------------------------------------------------
-   10. The app — three chapters, one phone each
+   10. The app — three chapters: rows, a swipeable row on phones, one held
+       tile on wide screens
    -------------------------------------------------------------------------- */
 .app {
   --ui-ink: #151515;
@@ -731,6 +737,48 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .tour-dots { display: flex; justify-content: center; gap: 8px; margin-top: 28px; }
   .tour-dots i { width: 7px; height: 7px; border-radius: 999px; background: #3A3A3A; transition: width 0.3s var(--ease), background-color 0.3s var(--ease); }
   .tour-dots i.is-on { width: 22px; background: var(--lime); }
+}
+
+/* Wide screens (larkin.js adds .is-held from 960px): the chapters' words
+   scroll past on the left while their screens share one tile on the right,
+   held in place. The chapter whose words reach the middle of the screen is
+   marked .is-at: its screen fades in over the last one, which stays put
+   underneath until it's covered. The chapters and their rows step aside
+   (display: contents) so the words and the tiles sit in one grid: words in
+   the left column, a row each; the tiles stacked in the right column across
+   all three rows, so they stay in reach while it scrolls. Without the
+   script the chapters stay rows, each beside its own tile. */
+@media (min-width: 960px) {
+  .tour.is-held {
+    --held-ph: clamp(440px, calc(100vh - 250px), 600px);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: clamp(48px, 6vw, 104px);
+    row-gap: 0;
+  }
+  .tour.is-held :is(.chap, .feat) { display: contents; }
+  .tour.is-held .feat__copy { grid-column: 1; min-height: 80vh; padding-block: 6vh; }
+  .tour.is-held .chap:nth-child(1) .feat__copy { grid-row: 1; }
+  .tour.is-held .chap:nth-child(2) .feat__copy { grid-row: 2; }
+  .tour.is-held .chap:nth-child(3) .feat__copy { grid-row: 3; }
+  .app .tour.is-held .chap .stage {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    align-self: start;
+    position: sticky;
+    top: max(calc(var(--header-h) + 16px), calc(50vh - var(--held-ph) / 2));
+    z-index: 1;
+    opacity: 0;
+    translate: none;
+    pointer-events: none;
+    transition: opacity 0s linear 0.5s;
+  }
+  .app .tour.is-held .chap.is-at .stage {
+    z-index: 2;
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.5s var(--ease);
+  }
+  .tour.is-held .ui-phone { --ph: var(--held-ph); }
 }
 
 /* --- App UI, rebuilt ----------------------------------------------------- */
