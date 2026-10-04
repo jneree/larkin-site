@@ -178,13 +178,20 @@
     };
 
     var pickSource = function () {
-      // Portrait screens: the 720×1080 crop around the wrist (1.5 MB). Wide
-      // screens: 1080p, or 720p when the browser says data is precious.
+      // Portrait screens: the 1080×1620 crop around the wrist. Wide screens:
+      // the smallest film with the pixels the screen needs. The film covers
+      // the hero, so it's the larger of the hero's width and 16/9 of its
+      // height, times the pixel density: 720p, 1080p, 1440p, or 4K for a
+      // retina laptop on a fast connection. Slow connections get 720p.
       // Autoplay itself is never withheld.
-      if (window.matchMedia('(max-aspect-ratio: 4/5)').matches) return video.dataset.srcPhone;
+      var d = video.dataset;
+      if (window.matchMedia('(max-aspect-ratio: 4/5)').matches) return d.srcPhone;
       var c = navigator.connection || {};
       var slow = c.saveData || /(^|-)2g$|^3g$/.test(c.effectiveType || '');
-      return (hero.offsetWidth >= 1100 && !slow) ? video.dataset.srcLg : video.dataset.srcSm;
+      var fast = !slow && !(c.downlink && c.downlink < 10);
+      var need = Math.max(hero.offsetWidth, hero.offsetHeight * 16 / 9) * (window.devicePixelRatio || 1);
+      if (slow) return d.srcSm;
+      return need > 2800 && fast ? d.srcXxl : need > 2100 ? d.srcXl : need > 1400 ? d.srcLg : d.srcSm;
     };
 
     var attach = function () {
@@ -288,7 +295,8 @@
         // Slow connections keep the smallest.
         var d = howVideo.dataset;
         var need = howFilm.offsetWidth * (window.matchMedia('(max-width: 699px)').matches ? 1.34 : 1) * (window.devicePixelRatio || 1);
-        howVideo.src = slow ? d.srcSm : need > 2800 ? d.srcXxl : need > 2100 ? d.srcXl : need > 1400 ? d.srcLg : d.srcSm;
+        var fast = !slow && !(c.downlink && c.downlink < 10);
+        howVideo.src = slow ? d.srcSm : need > 2800 && fast ? d.srcXxl : need > 2100 ? d.srcXl : need > 1400 ? d.srcLg : d.srcSm;
         howVideo.load();
       };
       howVideo.addEventListener('playing', function () { howFilm.classList.add('is-playing'); });
