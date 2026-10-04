@@ -282,12 +282,13 @@
         var c = navigator.connection || {};
         var slow = c.saveData || /(^|-)2g$|^3g$/.test(c.effectiveType || '');
         howVideo.preload = 'auto';
-        // Wide screens get 1080p, and the 1440p original when they have the
-        // pixels for it (a retina laptop: ~1500 CSS px x 2).
-        var wide = howFilm.offsetWidth >= 1100 && !slow;
-        var dense = howFilm.offsetWidth * (window.devicePixelRatio || 1) > 2200;
-        howVideo.src = wide && dense && howVideo.dataset.srcXl ? howVideo.dataset.srcXl
-          : wide ? howVideo.dataset.srcLg : howVideo.dataset.srcSm;
+        // The smallest film with the pixels the screen needs: the frame runs
+        // the full width (on phones it's cropped from one a third wider), times
+        // the pixel density, so a retina laptop (~3000 across) gets the 4K one.
+        // Slow connections keep the smallest.
+        var d = howVideo.dataset;
+        var need = howFilm.offsetWidth * (window.matchMedia('(max-width: 699px)').matches ? 1.34 : 1) * (window.devicePixelRatio || 1);
+        howVideo.src = slow ? d.srcSm : need > 2800 ? d.srcXxl : need > 2100 ? d.srcXl : need > 1400 ? d.srcLg : d.srcSm;
         howVideo.load();
       };
       howVideo.addEventListener('playing', function () { howFilm.classList.add('is-playing'); });
