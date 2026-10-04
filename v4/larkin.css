@@ -319,27 +319,18 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .hero__copy { display: grid; gap: 18px; max-width: 36rem; }
 .hero__title {
-  font-size: clamp(2.5rem, 6.6vw, 2.875rem);
+  font-size: clamp(3rem, 13vw, 4.25rem);
   font-weight: 700;
   line-height: 0.98;
   letter-spacing: -0.025em;
 }
-/* The headline's two lines are set, never left to the column width, so its
-   size follows the column: the first line ("Other people have met you.",
-   about 12em) must hold one line. Phones get a shorter headline in two
-   lines; the other is display:none there, so screen readers hear only the
-   one on screen. */
+/* The headline's three lines are set, never left to the column width:
+   "Everyone's met you." on one line would need ~900px at full size. */
 .hero__title .block { display: block; }
-.hero__title-narrow { display: none; }
-@media (max-width: 640px) {
-  .hero__title { font-size: 2.5rem; line-height: 1.02; }
-  .hero__title-wide { display: none; }
-  .hero__title-narrow { display: block; }
-}
 .hero__lead {
   font-size: clamp(1.0625rem, 1.35vw, 1.3125rem);
   line-height: 1.5;
-  max-width: 34ch;
+  max-width: 36ch;
   text-wrap: balance;
   opacity: 0.88;
 }
@@ -380,20 +371,10 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .hero { color: var(--ink); transition: color 0.3s var(--ease); }
   .hero.is-dark { color: #fff; }
   .hero::after { display: none; }
-  /* The film's box runs 20% past the right edge, so the film sits a little
-     right of centre: in its last shot her wrist moves to about 60% of the
-     screen's width, which leaves the headline room. The crop keeps the top
-     of the frame. */
-  .hero__media { right: -20%; }
-  .hero__media img, .hero__video { object-position: 50% 25%; }
+  .hero__media img, .hero__video { object-position: 50% 50%; }
   .hero__inner { align-items: center; padding-top: var(--header-h); padding-bottom: 0; }
-  .hero__copy { gap: 22px; max-width: 54rem; transform: translateY(9vh); } /* the headline sits level with the band in the film's last shot */
-  /* The first line holds one line and stays clear of her wrist in the last
-     shot: ~65px at 1440, ~59px at 1280, 72px on the widest screens. The
-     second term takes over once the content column stops growing (1376px). */
-  .hero__title { font-size: clamp(2.25rem, min(5.1vw - 6px, 0.884vw + 52px), 4.5rem); }
-  /* The subhead: one line from 1280 up, two below, where the wrist comes closer. */
-  .hero__lead { max-width: min(40rem, calc(50vw - var(--gutter) - 40px)); }
+  .hero__copy { gap: 22px; max-width: 40rem; transform: translateY(10vh); } /* headline starts just below 35% of the screen */
+  .hero__title { font-size: clamp(4rem, 7.4vw, 6.5rem); }
   .hero.is-dark .hero__copy { text-shadow: 0 1px 30px rgba(0, 0, 0, 0.35); }
   .hero__toggle {
     top: auto;
