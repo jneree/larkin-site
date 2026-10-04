@@ -487,7 +487,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .how-film__tag {
   position: absolute;
   left: var(--tag-x);
-  bottom: 63%;
+  bottom: var(--tag-bottom, 63%);
   transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
@@ -508,13 +508,25 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   background: var(--lime);
   box-shadow: 0 0 0 4px rgba(210, 237, 40, 0.18);
 }
+/* Wide screens show only the strip of the film the arm rests in, 26% to
+   92% of its height (the rest is empty white), so the headline, the lead
+   and the whole band fit on one screen together. While the arm swings in,
+   its hand rises higher than where it comes to rest (to 14% of the frame),
+   so the strip starts higher and drifts down with the arm as it settles:
+   the hand is never cut and the arm stays level on screen. */
 @media (min-width: 700px) {
   .how-film__media {
     --tag-x: 38.3%;
-    aspect-ratio: 16 / 9;
-    margin-top: calc(clamp(40px, 9vw, 150px) * -1);
+    --tag-bottom: 83.3%;
+    aspect-ratio: 16 / 5.94;
+    margin-top: 0;
   }
-  .how-film__media :is(img, video) { object-position: 50% 50%; }
+  .how-film__media :is(img, video) { object-position: 50% 76.5%; }
+  .how-film.is-playing .how-film__video { animation: how-frame 3.4s cubic-bezier(0.4, 0, 0.2, 1) both; }
+}
+@keyframes how-frame {
+  0%, 30% { object-position: 50% 35%; }
+  100% { object-position: 50% 76.5%; }
 }
 
 /* The day: a dark card, the copy beside a line from morning to evening.
