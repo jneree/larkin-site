@@ -38,7 +38,6 @@
   --on-feature-2: #A3A39D;
   --chip-dark: rgba(255, 255, 255, 0.12);
   --lime: #D2ED28;
-  --lime-deep: #BFD81C;
   --on-lime: #151515;
   --hair: rgba(21, 21, 21, 0.10);
   --hair-dark: rgba(255, 255, 255, 0.12);
@@ -127,9 +126,17 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   font-size: clamp(2.125rem, 4.6vw, 4rem);                 /* 34 → 64 */
   font-weight: 700;
   line-height: 1.02;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
+/* Headline tracking is about half what DM Sans would take without its
+   optical sizes: at headline sizes the browser switches to the display cut
+   (font-optical-sizing: auto), which already sets type ~8% tighter than the
+   text cut, so heavy negative tracking made letters touch. DM Sans also
+   draws "r" so its arm meets the next diagonal: before a v or y, that r
+   gets a hair of room (.kern), whatever the size. Below headline sizes the
+   tracking is 0: the font's own spacing. */
+.kern { margin-right: 0.03em; }
 .h2__soft { color: var(--ink-3); }
 .lead {
   font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
@@ -155,7 +162,6 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   border-radius: 999px;
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: -0.005em;
   white-space: nowrap;
   cursor: pointer;
   transition: transform 0.25s var(--ease), background-color 0.25s var(--ease), color 0.25s var(--ease), box-shadow 0.25s var(--ease);
@@ -163,7 +169,7 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 .btn:hover { transform: translateY(-1px); }
 .btn:active { transform: translateY(0) scale(0.98); }
 .btn--lime { background: var(--lime); color: var(--on-lime); }
-.btn--lime:hover { background: var(--lime-deep); box-shadow: 0 10px 30px -12px rgba(150, 175, 10, 0.7); }
+.btn--lime:hover { box-shadow: 0 10px 24px -12px rgba(21, 21, 21, 0.45); } /* lifts; the lime itself never shifts */
 .btn--ink { background: var(--ink); color: #fff; }
 .btn--ink:hover { background: #000; }
 .btn--ghost {
@@ -178,18 +184,6 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 .spark { width: 18px; height: 18px; flex: none; fill: currentColor; }
 
 
-.icon-btn {
-  display: inline-grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--card);
-  cursor: pointer;
-  transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
-}
-
 /* --------------------------------------------------------------------------
    5. Header
    -------------------------------------------------------------------------- */
@@ -199,7 +193,8 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
    frosted white pill inset from the
    edges (.is-floating). Scrolling down hides it (.is-hidden: it fades, lifts
    and blurs away) and any scroll up brings it back. Without JS it simply
-   stays a frosted pill at the top. */
+   stays a frosted pill at the top. Below 900px it holds just the wordmark
+   and the Reserve button. */
 .site-header {
   --pill-pad: 14px;
   --pill-h: 54px;
@@ -214,7 +209,7 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 }
 @media (min-width: 900px) { .site-header { --pill-pad: 24px; --pill-h: 58px; --float-top: 14px; } }
 .site-header.is-hidden { opacity: 0; transform: translateY(-14px); filter: blur(7px); }
-.site-header.is-hidden :is(.site-header__inner, .mobile-nav) { pointer-events: none; }
+.site-header.is-hidden .site-header__inner { pointer-events: none; }
 @media (prefers-reduced-motion: reduce) {
   .site-header { transition: opacity 0.2s linear, color 0.35s var(--ease); }
   .site-header.is-hidden { transform: none; filter: none; }
@@ -239,25 +234,11 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 }
 .brand { grid-column: 1; justify-self: start; font-size: 1.5rem; }
 
-/* The wordmark: "larkin" in DM Sans 800, tightly set, and a lime full stop.
-   On light grounds the dot takes the deeper lime from the logo's light
-   version; on dark grounds the brighter one. The dot's margin cancels the
-   trailing letter-spacing after the "n". */
-.logo {
-  display: inline-flex;
-  align-items: baseline;
-  font-weight: 800;
-  letter-spacing: -0.053em;
-  line-height: 1;
-}
-.logo i {
-  display: inline-block;
-  width: 0.2em;
-  height: 0.2em;
-  margin-left: 0.1em;
-  border-radius: 50%;
-  background: var(--lime-deep);
-}
+/* The wordmark: the design system's file for small sizes (looser spacing,
+   for anything under 32px tall), inlined so it takes the text colour: ink
+   on light, white on dark, never lime. 0.75em sets its "l" as tall as the
+   font's own at that size. */
+.logo { display: block; width: auto; height: 0.75em; fill: currentColor; }
 @media (min-width: 900px) { .brand { font-size: 1.625rem; } }
 /* Nav links are pills; the one for the section on screen is lit. */
 .nav { grid-column: 2; display: none; gap: 2px; }
@@ -273,52 +254,17 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 .nav a.is-active { opacity: 1; background: rgba(21, 21, 21, 0.06); }
 .header-actions { grid-column: 3; justify-self: end; display: flex; align-items: center; gap: 10px; }
 
-.nav-toggle { gap: 3.5px; grid-auto-flow: column; }
-.nav-toggle span { width: 4.5px; height: 4.5px; border-radius: 50%; background: currentColor; }
-.nav-toggle[aria-expanded="true"] { background: var(--ink); color: #fff; }
-
-/* The phone menu drops down as a card of the same glass under the pill. */
-.mobile-nav {
-  display: grid;
-  grid-template-rows: 0fr;
-  max-width: calc(var(--shell) + var(--pill-pad) * 2);
-  margin: 8px auto 0;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.94);
-  -webkit-backdrop-filter: blur(30px) saturate(1.8);
-  backdrop-filter: blur(30px) saturate(1.8);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 34px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.035);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: auto;
-  transition: grid-template-rows 0.35s var(--ease), opacity 0.25s var(--ease), visibility 0s linear 0.35s;
-}
-.mobile-nav.is-open { grid-template-rows: 1fr; opacity: 1; visibility: visible; transition: grid-template-rows 0.35s var(--ease), opacity 0.25s var(--ease); }
-.mobile-nav__inner { overflow: hidden; }
-.mobile-nav .shell { max-width: none; padding: 6px 22px 10px; }
-.mobile-nav a {
-  display: block;
-  padding: 14px 0;
-  color: var(--ink);
-  font-size: 1.0625rem;
-  font-weight: 600;
-}
-.mobile-nav a + a { border-top: 1px solid var(--hair); }
-
 @media (min-width: 900px) {
   .nav { display: flex; }
-  .nav-toggle, .mobile-nav { display: none; }
 }
 
 /* Clear over the film, at the very top. Each word of the bar takes the colour
    that reads best against the frame right behind it: larkin.js samples the
    film behind the wordmark and behind each nav link and marks the ones over a
-   dark patch .on-dark. The Reserve and menu buttons are solid shapes, so they
-   read either way. With the menu open the pill is frosted again. Keyed off
-   html.js (set in the head) rather than .over-hero, so the clear bar is there
-   from the first paint, before larkin.js has run. */
-html.js .site-header:not(.is-floating):not(.menu-open) .site-header__inner {
+   dark patch .on-dark. The Reserve button is a solid shape, so it reads
+   either way. Keyed off html.js (set in the head) rather than .over-hero, so
+   the clear bar is there from the first paint, before larkin.js has run. */
+html.js .site-header:not(.is-floating) .site-header__inner {
   border-color: transparent;
   background-color: transparent;
   -webkit-backdrop-filter: none;
@@ -326,16 +272,8 @@ html.js .site-header:not(.is-floating):not(.menu-open) .site-header__inner {
   box-shadow: none;
 }
 .site-header.over-hero .nav a { opacity: 0.92; }
-.site-header.over-hero:not(.menu-open) :is(.brand, .nav a) { transition: opacity 0.2s var(--ease); } /* colour switches with the cut, unfaded */
-.site-header.over-hero:not(.menu-open) :is(.brand, .nav a).on-dark { color: #fff; }
-.site-header.over-hero:not(.menu-open) .brand.on-dark .logo i { background: var(--lime); }
-html.js .site-header:not(.is-floating) .nav-toggle {
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.72);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-}
-.site-header.menu-open .nav-toggle { background: var(--ink); color: #fff; }
+.site-header.over-hero :is(.brand, .nav a) { transition: opacity 0.2s var(--ease); } /* colour switches with the cut, unfaded */
+.site-header.over-hero :is(.brand, .nav a).on-dark { color: #fff; }
 
 /* --------------------------------------------------------------------------
    6. Hero
@@ -381,10 +319,10 @@ html.js .site-header:not(.is-floating) .nav-toggle {
 }
 .hero__copy { display: grid; gap: 18px; max-width: 36rem; }
 .hero__title {
-  font-size: clamp(3rem, 13vw, 4.25rem);
+  font-size: clamp(2.875rem, 13vw, 4.25rem); /* "Know yourself." holds one line on a 320px phone */
   font-weight: 700;
   line-height: 0.96;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.025em;
 }
 .hero__lead {
   font-size: clamp(1.0625rem, 1.35vw, 1.3125rem);
@@ -432,8 +370,8 @@ html.js .site-header:not(.is-floating) .nav-toggle {
   .hero::after { display: none; }
   .hero__media img, .hero__video { object-position: 50% 50%; }
   .hero__inner { align-items: center; padding-top: var(--header-h); padding-bottom: 0; }
-  .hero__copy { gap: 22px; max-width: 40rem; transform: translateY(6vh); }
-  /* Capped so "Know yourself." holds one line in the 40rem column. */
+  .hero__copy { gap: 22px; max-width: 41rem; transform: translateY(6vh); }
+  /* Capped so "Know yourself." holds one line in the 41rem column. */
   .hero__title { font-size: clamp(4rem, 7.4vw, 6.5rem); }
   .hero.is-dark .hero__copy { text-shadow: 0 1px 30px rgba(0, 0, 0, 0.35); }
   .hero__toggle {
@@ -460,7 +398,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
   font-size: clamp(1.625rem, 3.5vw, 3.25rem);
   font-weight: 650;
   line-height: 1.12;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
   text-wrap: balance;
 }
 .statement p + p { margin-top: 0.6em; }
@@ -476,7 +414,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
   --mark: 100%;
   color: inherit;
   background-color: transparent;
-  background-image: linear-gradient(100deg, rgba(210, 237, 40, 0.35) 0, var(--lime) 0.3em, var(--lime) calc(100% - 0.3em), rgba(210, 237, 40, 0.55) 100%);
+  background-image: linear-gradient(var(--lime), var(--lime));
   background-repeat: no-repeat;
   background-position: 0 72%;
   background-size: var(--mark) 0.82em;
@@ -534,7 +472,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
   font-variant-numeric: tabular-nums;
 }
 .how-card--dark .how-card__n { background: var(--chip-dark); }
-.how-card h3 { font-size: clamp(1.5rem, 2vw, 1.75rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+.how-card h3 { font-size: clamp(1.5rem, 2vw, 1.75rem); font-weight: 700; line-height: 1.1; }
 .how-card p { color: var(--ink-2); font-size: 1.0625rem; }
 @media (min-width: 900px) { .how__grid { grid-template-columns: repeat(3, 1fr); } }
 
@@ -590,7 +528,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -601,7 +539,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
   font-size: clamp(2rem, 3.6vw, 3.25rem);
   font-weight: 700;
   line-height: 1.02;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.015em;
   text-wrap: balance;
 }
 .feat__text { max-width: 36ch; color: var(--on-feature-2); font-size: clamp(1.0625rem, 1.3vw, 1.1875rem); line-height: 1.55; }
@@ -812,7 +750,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
   height: 46px;
   padding: 2px 22px 0 30px;
 }
-.ui-status b { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.ui-status b { font-size: 15px; font-weight: 600; }
 .ui-status svg { width: 62px; height: 11px; fill: currentColor; }
 .ui-island { position: absolute; left: 50%; top: 9px; width: 92px; height: 27px; margin-left: -46px; border-radius: 14px; background: #000; }
 @container stage (max-width: 300px) { .ui-island { width: 64px; margin-left: -32px; } }
@@ -844,8 +782,8 @@ html.js .site-header:not(.is-floating) .nav-toggle {
 .ui-body { display: grid; gap: 14px; align-content: start; padding: 4px 18px 0; }
 .ui-body--top { padding-top: 14px; }
 .ui-group { display: grid; gap: 6px; }
-.ui-h1 { font-size: 26px; line-height: 31px; font-weight: 700; letter-spacing: -0.02em; }
-.ui-h2 { font-size: 19px; line-height: 25px; font-weight: 700; letter-spacing: -0.02em; }
+.ui-h1 { font-size: 26px; line-height: 31px; font-weight: 700; }
+.ui-h2 { font-size: 19px; line-height: 25px; font-weight: 700; }
 .ui-h2--section { margin-top: 8px; }
 .ui-p { font-size: 15px; line-height: 22px; }
 .ui-sub { font-size: 14px; line-height: 20px; color: var(--ui-2); }
@@ -878,7 +816,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
 .ui-day { display: flex; gap: 10px; }
 .ui-day__date { flex: none; display: flex; flex-direction: column; align-items: center; width: 34px; }
 .ui-day__date small { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--ui-2); }
-.ui-day__date b { font-size: 20px; line-height: 26px; font-weight: 600; letter-spacing: -0.01em; }
+.ui-day__date b { font-size: 20px; line-height: 26px; font-weight: 600; }
 .ui-day__date::after { content: ""; flex: 1; width: 1px; margin-top: 8px; background: var(--ui-track); }
 .ui-day__card {
   container: daycard / inline-size;
@@ -891,7 +829,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
   background: #fff;
   box-shadow: inset 0 0 0 1px var(--ui-line), var(--ui-shadow);
 }
-.ui-day__title { font-size: 16.5px; line-height: 21px; font-weight: 600; letter-spacing: -0.01em; }
+.ui-day__title { font-size: 16.5px; line-height: 21px; font-weight: 600; }
 .ui-day__sum { font-size: 14.5px; line-height: 20px; color: var(--ui-2); }
 .ui-meta { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding-top: 4px; font-size: 12.5px; line-height: 17px; color: var(--ui-2); white-space: nowrap; }
 .ui-meta svg, .ui-facts svg { flex: none; width: 15px; height: 15px; color: var(--ui-3); }
@@ -908,7 +846,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
   background: #fff;
   box-shadow: inset 0 0 0 1px var(--ui-line), var(--ui-shadow);
 }
-.ui-insight__name { display: flex; align-items: center; gap: 10px; font-size: 16.5px; line-height: 22px; font-weight: 600; letter-spacing: -0.01em; }
+.ui-insight__name { display: flex; align-items: center; gap: 10px; font-size: 16.5px; line-height: 22px; font-weight: 600; }
 .ui-insight__name::before { content: ""; width: 4px; height: 17px; border-radius: 2px; background: var(--c); }
 .ui-point { position: relative; padding-left: 16px; font-size: 15px; line-height: 22px; }
 .ui-point::before { content: ""; position: absolute; left: 1px; top: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--ui-3); }
@@ -934,9 +872,9 @@ html.js .site-header:not(.is-floating) .nav-toggle {
   font-weight: 600;
 }
 .ui-who p { display: grid; }
-.ui-who b { font-size: 22px; line-height: 27px; font-weight: 700; letter-spacing: -0.03em; }
+.ui-who b { font-size: 22px; line-height: 27px; font-weight: 700; }
 .ui-who p > span { font-size: 13.5px; line-height: 19px; color: var(--ui-3); }
-.ui-portrait { margin-top: 18px; font-size: 21px; line-height: 28px; letter-spacing: -0.025em; text-wrap: pretty; }
+.ui-portrait { margin-top: 18px; font-size: 21px; line-height: 28px; text-wrap: pretty; }
 .ui-sheet { flex: 1; display: grid; gap: 4px; align-content: start; margin-top: 26px; padding: 22px 0 0; border-radius: 26px 26px 0 0; background: #fff; color: var(--ui-ink); }
 .ui-sheet > .ui-h2 { padding: 0 20px 6px; font-size: 18px; }
 .ui-area { display: grid; gap: 9px; padding: 14px 20px 15px; }
@@ -948,7 +886,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
 .ui-track__dot { position: absolute; top: 0; left: calc((100% - 12px) * var(--p)); width: 12px; height: 12px; border-radius: 50%; background: var(--ui-ink); }
 .ui-ends { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; line-height: 16px; font-weight: 500; color: var(--ui-2); }
 
-.ui-goal { display: flex; align-items: center; gap: 10px; font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.02em; }
+.ui-goal { display: flex; align-items: center; gap: 10px; font-size: 17px; line-height: 22px; font-weight: 600; }
 .ui-goal svg { flex: none; width: 18px; height: 18px; }
 .ui-progress { gap: 14px; padding: 20px 20px 18px; }
 .ui-move { display: grid; gap: 7px; }
@@ -972,7 +910,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
 
 .ui-ask { gap: 16px; padding: 20px; }
 .ui-ask__q { display: grid; gap: 8px; }
-.ui-ask__fact { font-size: 19px; line-height: 25px; font-weight: 600; letter-spacing: -0.015em; text-wrap: balance; }
+.ui-ask__fact { font-size: 19px; line-height: 25px; font-weight: 600; text-wrap: balance; }
 .ui-ask__quote { font-size: 14.5px; line-height: 20px; color: var(--ui-2); }
 .ui-ask__actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .ui-answer {
@@ -1048,7 +986,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
 }
 .uc__copy { position: absolute; left: 24px; right: 24px; bottom: 24px; display: grid; gap: 6px; }
 .uc__eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.8; }
-.uc__title { font-size: clamp(1.375rem, 2.2vw, 1.875rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; text-wrap: balance; }
+.uc__title { font-size: clamp(1.375rem, 2.2vw, 1.875rem); font-weight: 700; line-height: 1.1; text-wrap: balance; }
 @media (min-width: 800px) {
   .uc-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
   .uc { aspect-ratio: 16 / 11; }
@@ -1074,7 +1012,7 @@ html.js .site-header:not(.is-floating) .nav-toggle {
   border-radius: var(--r-lg);
   background: var(--card);
 }
-.pcard h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.015em; text-wrap: balance; }
+.pcard h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; text-wrap: balance; }
 .pcard p { color: var(--ink-2); }
 .pcard__icon {
   display: grid;
@@ -1131,11 +1069,9 @@ html.js .site-header:not(.is-floating) .nav-toggle {
 
 .preorder__copy { display: grid; gap: 18px; align-content: center; padding: clamp(12px, 3vw, 40px); }
 .preorder__eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lime); }
-.preorder__title { font-size: clamp(2.25rem, 4vw, 3.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.04em; }
-.preorder__price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px; }
-.preorder__was { font-size: 1.5rem; color: var(--on-feature-2); text-decoration: line-through; }
-.preorder__amount { font-size: clamp(3rem, 5vw, 4.25rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
-.preorder__deposit { color: var(--on-feature-2); font-size: 1.0625rem; }
+.preorder__title { font-size: clamp(2.25rem, 4vw, 3.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.02em; text-wrap: balance; }
+.preorder__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; margin-top: -4px; color: var(--on-feature-2); font-size: 1rem; }
+.preorder__price b { color: #fff; font-size: clamp(1.75rem, 2.4vw, 2.25rem); font-weight: 700; line-height: 1.1; }
 .preorder__points { display: grid; gap: 10px; margin-block: 4px 8px; }
 .preorder__points li { display: flex; align-items: center; gap: 12px; font-weight: 600; }
 .preorder__points li::before {
@@ -1146,7 +1082,6 @@ html.js .site-header:not(.is-floating) .nav-toggle {
   border-radius: 50%;
   background: var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.5 12.5l3.5 3.5 7.5-8' fill='none' stroke='%23151515' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 15px no-repeat;
 }
-.preorder__note { font-size: 0.875rem; color: var(--on-feature-2); text-align: center; }
 @media (min-width: 900px) {
   .preorder { grid-template-columns: 1.05fr 1fr; }
 }
@@ -1261,7 +1196,6 @@ html.js .site-header:not(.is-floating) .nav-toggle {
   padding: 22px 72px 22px 26px;
   font-size: 1.125rem;
   font-weight: 650;
-  letter-spacing: -0.01em;
   cursor: pointer;
   list-style: none;
 }
@@ -1305,7 +1239,6 @@ html.js .site-header:not(.is-floating) .nav-toggle {
 .site-footer { background: var(--feature); color: #fff; padding-block: 56px; }
 .site-footer__inner { display: grid; gap: 28px; }
 .site-footer__mark { font-size: 1.75rem; }
-.site-footer .logo i { background: var(--lime); }
 .site-footer__links { display: flex; flex-wrap: wrap; gap: 14px 28px; }
 .site-footer__links a { color: var(--on-feature-2); font-weight: 500; transition: color 0.2s var(--ease); }
 .site-footer__links a:hover { color: #fff; }
