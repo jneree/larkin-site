@@ -127,9 +127,16 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   font-size: clamp(2.125rem, 4.6vw, 4rem);                 /* 34 → 64 */
   font-weight: 700;
   line-height: 1.02;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
+/* Headline tracking is about half what DM Sans would take without its
+   optical sizes: at headline sizes the browser switches to the display cut
+   (font-optical-sizing: auto), which already sets type ~8% tighter than the
+   text cut, so heavy negative tracking made letters touch. DM Sans also
+   draws "r" so its arm meets the next diagonal: before a v or y, that r
+   gets a hair of room (.kern). */
+.kern { letter-spacing: 0.01em; }
 .h2__soft { color: var(--ink-3); }
 .lead {
   font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
@@ -328,10 +335,10 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .hero__copy { display: grid; gap: 18px; max-width: 36rem; }
 .hero__title {
-  font-size: clamp(3rem, 13vw, 4.25rem);
+  font-size: clamp(2.875rem, 13vw, 4.25rem); /* "Know yourself." holds one line on a 320px phone */
   font-weight: 700;
   line-height: 0.96;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.025em;
 }
 .hero__lead {
   font-size: clamp(1.0625rem, 1.35vw, 1.3125rem);
@@ -379,8 +386,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .hero::after { display: none; }
   .hero__media img, .hero__video { object-position: 50% 50%; }
   .hero__inner { align-items: center; padding-top: var(--header-h); padding-bottom: 0; }
-  .hero__copy { gap: 22px; max-width: 40rem; transform: translateY(6vh); }
-  /* Capped so "Know yourself." holds one line in the 40rem column. */
+  .hero__copy { gap: 22px; max-width: 41rem; transform: translateY(6vh); }
+  /* Capped so "Know yourself." holds one line in the 41rem column. */
   .hero__title { font-size: clamp(4rem, 7.4vw, 6.5rem); }
   .hero.is-dark .hero__copy { text-shadow: 0 1px 30px rgba(0, 0, 0, 0.35); }
   .hero__toggle {
@@ -407,7 +414,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   font-size: clamp(1.625rem, 3.5vw, 3.25rem);
   font-weight: 650;
   line-height: 1.12;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
   text-wrap: balance;
 }
 .statement p + p { margin-top: 0.6em; }
@@ -481,7 +488,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   font-variant-numeric: tabular-nums;
 }
 .how-card--dark .how-card__n { background: var(--chip-dark); }
-.how-card h3 { font-size: clamp(1.5rem, 2vw, 1.75rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+.how-card h3 { font-size: clamp(1.5rem, 2vw, 1.75rem); font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; }
 .how-card p { color: var(--ink-2); font-size: 1.0625rem; }
 @media (min-width: 900px) { .how__grid { grid-template-columns: repeat(3, 1fr); } }
 
@@ -548,7 +555,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   font-size: clamp(2rem, 3.6vw, 3.25rem);
   font-weight: 700;
   line-height: 1.02;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.015em;
   text-wrap: balance;
 }
 .feat__text { max-width: 36ch; color: var(--on-feature-2); font-size: clamp(1.0625rem, 1.3vw, 1.1875rem); line-height: 1.55; }
@@ -995,7 +1002,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .uc__copy { position: absolute; left: 24px; right: 24px; bottom: 24px; display: grid; gap: 6px; }
 .uc__eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.8; }
-.uc__title { font-size: clamp(1.375rem, 2.2vw, 1.875rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; text-wrap: balance; }
+.uc__title { font-size: clamp(1.375rem, 2.2vw, 1.875rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.01em; text-wrap: balance; }
 @media (min-width: 800px) {
   .uc-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
   .uc { aspect-ratio: 16 / 11; }
@@ -1021,7 +1028,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   border-radius: var(--r-lg);
   background: var(--card);
 }
-.pcard h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.015em; text-wrap: balance; }
+.pcard h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; text-wrap: balance; }
 .pcard p { color: var(--ink-2); }
 .pcard__icon {
   display: grid;
@@ -1078,7 +1085,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 
 .preorder__copy { display: grid; gap: 18px; align-content: center; padding: clamp(12px, 3vw, 40px); }
 .preorder__eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lime); }
-.preorder__title { font-size: clamp(2.25rem, 4vw, 3.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.04em; text-wrap: balance; }
+.preorder__title { font-size: clamp(2.25rem, 4vw, 3.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.02em; text-wrap: balance; }
+.preorder__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; margin-top: -4px; color: var(--on-feature-2); font-size: 1rem; }
+.preorder__price b { color: #fff; font-size: clamp(1.75rem, 2.4vw, 2.25rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.01em; }
 .preorder__points { display: grid; gap: 10px; margin-block: 4px 8px; }
 .preorder__points li { display: flex; align-items: center; gap: 12px; font-weight: 600; }
 .preorder__points li::before {
@@ -1089,7 +1098,6 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   border-radius: 50%;
   background: var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.5 12.5l3.5 3.5 7.5-8' fill='none' stroke='%23151515' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 15px no-repeat;
 }
-.preorder__note { font-size: 0.875rem; color: var(--on-feature-2); text-align: center; }
 @media (min-width: 900px) {
   .preorder { grid-template-columns: 1.05fr 1fr; }
 }
