@@ -446,37 +446,195 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 /* --------------------------------------------------------------------------
    8. How it works
    -------------------------------------------------------------------------- */
+/* The film: an arm slides in from the left and rests on white, the
+   headline above it. The film's own top third is empty white, so it tucks up
+   under the copy; its background is levelled to #FFFFFF at export so the
+   edges vanish into the page. The poster is the film's last frame. */
 .how { padding-top: 0; }
-.how__grid { display: grid; gap: 16px; }
-.how-card {
-  display: flex;
-  flex-direction: column;
+.how-film { display: grid; }
+.how-film__head {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  text-align: center;
+}
+.how-film__line { display: block; }
+.how-film__lead { margin-inline: auto; text-wrap: balance; }
+.how-film__media {
+  --tag-x: 41%;
+  position: relative;
+  width: 100%;
+  max-width: 1680px;
+  margin: 8px auto 0;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
-  border-radius: var(--r-xl);
-  background: var(--card);
+  background: #fff;
 }
-.how-card__media { aspect-ratio: 4 / 3; overflow: hidden; }
-.how-card__media img { width: 100%; height: 100%; object-fit: cover; object-position: 40% 50%; }
-.how-card--dark { background: var(--feature); color: var(--on-feature); }
-.how-card--dark .how-card__media img { object-position: 62% 50%; }
-.how-card--dark p { color: var(--on-feature-2); }
-.how-card--lime { background: var(--lime); }
-.how-card--lime p { color: rgba(21, 21, 21, 0.72); }
-.how-card__media--phone { display: flex; justify-content: center; padding-top: 28px; }
-.how-card__body { display: grid; gap: 10px; padding: clamp(24px, 2.6vw, 34px); }
-.how-card__n {
-  justify-self: start;
-  padding: 4px 10px;
+.how-film__media :is(img, video) {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 30% 50%;
+}
+.how-film__video { opacity: 0; transition: opacity 0.3s linear; }
+.how-film.is-playing .how-film__video { opacity: 1; }
+/* A small ink pill just above the module (its place in the film's last
+   frame): on ink, lime is allowed. */
+.how-film__tag {
+  position: absolute;
+  left: var(--tag-x);
+  bottom: 63%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px 8px 12px;
   border-radius: 999px;
-  background: rgba(21, 21, 21, 0.07);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
+  background: var(--ink);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 12px 28px -14px rgba(21, 21, 21, 0.5);
 }
-.how-card--dark .how-card__n { background: var(--chip-dark); }
-.how-card h3 { font-size: clamp(1.5rem, 2vw, 1.75rem); font-weight: 700; line-height: 1.1; }
-.how-card p { color: var(--ink-2); font-size: 1.0625rem; }
-@media (min-width: 900px) { .how__grid { grid-template-columns: repeat(3, 1fr); } }
+.how-film__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 0 4px rgba(210, 237, 40, 0.18);
+}
+@media (min-width: 700px) {
+  .how-film__media {
+    --tag-x: 38.3%;
+    aspect-ratio: 16 / 9;
+    margin-top: calc(clamp(40px, 9vw, 150px) * -1);
+  }
+  .how-film__media :is(img, video) { object-position: 50% 50%; }
+}
+
+/* The day: a dark card, the copy beside a line from morning to evening.
+   Lime is only ever on this dark ground. --D is how long the dot takes to
+   cross the day; each conversation lights as the dot reaches it. */
+.day {
+  --D: 6.5s;
+  display: grid;
+  gap: clamp(32px, 5vw, 64px);
+  margin-top: clamp(24px, 4vw, 56px);
+  padding: clamp(28px, 5vw, 72px);
+  border-radius: var(--r-xl);
+  background: var(--feature);
+  color: var(--on-feature);
+}
+.day__copy { display: grid; align-content: start; gap: 16px; }
+.day__title {
+  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.day__copy p:last-child { max-width: 40ch; color: var(--on-feature-2); font-size: 1.0625rem; }
+
+.day__line {
+  display: grid;
+  grid-template-columns: auto 2px 1fr;
+  column-gap: clamp(16px, 2vw, 24px);
+  height: clamp(340px, 32vw, 420px);
+}
+.day__marks { position: relative; }
+.day__marks li {
+  position: absolute;
+  right: 0;
+  top: calc(var(--at) * 100%);
+  transform: translateY(calc(var(--at) * -100%));
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--on-feature-2);
+  line-height: 1;
+}
+/* An invisible copy of the longest word holds the column's width. */
+.day__marks::before {
+  content: "Afternoon";
+  visibility: hidden;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.day__track { position: relative; border-radius: 2px; background: var(--hair-dark); }
+.day__seg {
+  position: absolute;
+  left: -1px;
+  width: 4px;
+  top: calc(var(--s) * 100%);
+  height: calc((var(--e) - var(--s)) * 100%);
+  border-radius: 2px;
+  background: var(--lime);
+  transform-origin: 50% 0;
+}
+.day__dot {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--lime);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 7px rgba(210, 237, 40, 0.16), 0 0 22px rgba(210, 237, 40, 0.45);
+}
+.day__convos { position: relative; }
+.day__convos li {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--s) * 100%);
+  display: grid;
+  gap: 2px;
+  margin-top: -3px;
+}
+.day__convos strong { font-size: 1.0625rem; font-weight: 600; line-height: 1.25; }
+.day__convos span { color: var(--on-feature-2); font-size: 0.9375rem; line-height: 1.35; }
+.day__when { display: none; }
+.day__end { color: var(--lime); font-weight: 600; font-size: 1.0625rem; }
+/* Narrow screens: no room for a label column, so each conversation carries
+   its own time of day and the line takes the full width. */
+@media (max-width: 599px) {
+  .day__line { grid-template-columns: 2px 1fr; height: 380px; }
+  .day__marks { display: none; }
+  .day__when {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--on-feature-2);
+  }
+}
+@media (min-width: 900px) {
+  .day { grid-template-columns: 1fr 1fr; align-items: start; row-gap: 28px; }
+  .day__copy { grid-row: span 2; }
+}
+
+/* Three plain facts under the card, hairline above each. */
+.how__notes {
+  display: grid;
+  gap: 28px;
+  margin-top: clamp(40px, 5vw, 64px);
+}
+.how__notes li { display: grid; gap: 8px; padding-top: 20px; border-top: 1px solid var(--hair); }
+.how__notes h3 { font-size: 1.1875rem; font-weight: 700; line-height: 1.2; }
+.how__notes p { color: var(--ink-2); font-size: 1.0625rem; max-width: 34ch; }
+@media (min-width: 900px) { .how__notes { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
 
 /* --------------------------------------------------------------------------
    9. Phone frame
@@ -1315,12 +1473,47 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .hero__copy > :nth-child(5) { animation-delay: 300ms; }
 }
 @media (prefers-reduced-motion: no-preference) and (min-width: 700px) {
-  :is(.how__grid, .uc-grid, .privacy__grid) > .rv:nth-child(2) { --rv-d: 90ms; }
-  :is(.how__grid, .uc-grid, .privacy__grid) > .rv:nth-child(3) { --rv-d: 180ms; }
+  :is(.how__notes, .uc-grid, .privacy__grid) > .rv:nth-child(2) { --rv-d: 90ms; }
+  :is(.how__notes, .uc-grid, .privacy__grid) > .rv:nth-child(3) { --rv-d: 180ms; }
   .uc-grid > .rv:nth-child(4) { --rv-d: 120ms; }
   .privacy__grid > .rv:nth-child(4) { --rv-d: 0ms; }
   .privacy__grid > .rv:nth-child(5) { --rv-d: 90ms; }
   .privacy__grid > .rv:nth-child(6) { --rv-d: 180ms; }
+}
+/* How it works: the headline rises with the arm, the pill appears once the
+   arm has settled, and the day plays out along its line. Until the film
+   plays, its frame is empty white (the poster would give the ending away);
+   .is-still brings the poster back if the film can't play. */
+@media (prefers-reduced-motion: no-preference) {
+  .js-anim .how-film :is(.eyebrow, .how-film__line, .how-film__lead) {
+    opacity: 0;
+    translate: 0 0.35em;
+    filter: blur(6px);
+    transition: opacity 0.9s var(--ease), translate 1s var(--ease), filter 0.9s var(--ease);
+  }
+  .js-anim .how-film.is-on :is(.eyebrow, .how-film__line, .how-film__lead) { opacity: 1; translate: none; filter: none; }
+  .js-anim .how-film.is-on .how-film__line:nth-child(2) { transition-delay: 0.9s; }
+  .js-anim .how-film.is-on .how-film__lead { transition-delay: 1.7s; }
+  .js-anim .how-film__poster { opacity: 0; transition: opacity 0.6s linear; }
+  .js-anim .how-film.is-still .how-film__poster { opacity: 1; }
+  .js-anim .how-film__tag { opacity: 0; translate: 0 8px; scale: 0.92; transition: opacity 0.5s var(--ease), translate 0.6s var(--ease), scale 0.6s var(--ease); }
+  .js-anim .how-film.is-settled .how-film__tag { opacity: 1; translate: none; scale: 1; }
+
+  .js-anim .day__dot { top: 0; }
+  .js-anim .day.is-live .day__dot { top: 100%; transition: top var(--D) linear 0.5s; }
+  .js-anim .day__seg { transform: scaleY(0); }
+  .js-anim .day.is-live .day__seg {
+    transform: none;
+    transition: transform calc((var(--e) - var(--s)) * var(--D)) linear calc(0.5s + var(--s) * var(--D));
+  }
+  .js-anim :is(.day__convos li, .day__end) { opacity: 0; translate: 0 8px; }
+  .js-anim .day.is-live .day__convos li {
+    opacity: 1;
+    translate: none;
+    transition: opacity 0.6s var(--ease), translate 0.7s var(--ease);
+    transition-delay: calc(0.5s + var(--s) * var(--D));
+  }
+  .js-anim .day.is-live .day__end { opacity: 1; translate: none; transition: opacity 0.6s var(--ease) calc(0.7s + var(--D)), translate 0.7s var(--ease) calc(0.7s + var(--D)); }
 }
 /* The app's screens come alive once their tile is in view: the days and
    the insights file in, Mirror's dots find their places and the goal's dot
