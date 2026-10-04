@@ -38,7 +38,6 @@
   --on-feature-2: #A3A39D;
   --chip-dark: rgba(255, 255, 255, 0.12);
   --lime: #D2ED28;
-  --lime-deep: #BFD81C;
   --on-lime: #151515;
   --hair: rgba(21, 21, 21, 0.10);
   --hair-dark: rgba(255, 255, 255, 0.12);
@@ -135,8 +134,9 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
    (font-optical-sizing: auto), which already sets type ~8% tighter than the
    text cut, so heavy negative tracking made letters touch. DM Sans also
    draws "r" so its arm meets the next diagonal: before a v or y, that r
-   gets a hair of room (.kern). */
-.kern { letter-spacing: 0.01em; }
+   gets a hair of room (.kern), whatever the size. Below headline sizes the
+   tracking is 0: the font's own spacing. */
+.kern { margin-right: 0.03em; }
 .h2__soft { color: var(--ink-3); }
 .lead {
   font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
@@ -162,7 +162,6 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   border-radius: 999px;
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: -0.005em;
   white-space: nowrap;
   cursor: pointer;
   transition: transform 0.25s var(--ease), background-color 0.25s var(--ease), color 0.25s var(--ease), box-shadow 0.25s var(--ease);
@@ -170,7 +169,7 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 .btn:hover { transform: translateY(-1px); }
 .btn:active { transform: translateY(0) scale(0.98); }
 .btn--lime { background: var(--lime); color: var(--on-lime); }
-.btn--lime:hover { background: var(--lime-deep); box-shadow: 0 10px 30px -12px rgba(150, 175, 10, 0.7); }
+.btn--lime:hover { box-shadow: 0 10px 24px -12px rgba(21, 21, 21, 0.45); } /* lifts; the lime itself never shifts */
 .btn--ink { background: var(--ink); color: #fff; }
 .btn--ink:hover { background: #000; }
 .btn--ghost {
@@ -235,25 +234,11 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 }
 .brand { grid-column: 1; justify-self: start; font-size: 1.5rem; }
 
-/* The wordmark: "larkin" in DM Sans 800, tightly set, and a lime full stop.
-   On light grounds the dot takes the deeper lime from the logo's light
-   version; on dark grounds the brighter one. The dot's margin cancels the
-   trailing letter-spacing after the "n". */
-.logo {
-  display: inline-flex;
-  align-items: baseline;
-  font-weight: 800;
-  letter-spacing: -0.053em;
-  line-height: 1;
-}
-.logo i {
-  display: inline-block;
-  width: 0.2em;
-  height: 0.2em;
-  margin-left: 0.1em;
-  border-radius: 50%;
-  background: var(--lime-deep);
-}
+/* The wordmark: the design system's file for small sizes (looser spacing,
+   for anything under 32px tall), inlined so it takes the text colour: ink
+   on light, white on dark, never lime. 0.75em sets its "l" as tall as the
+   font's own at that size. */
+.logo { display: block; width: auto; height: 0.75em; fill: currentColor; }
 @media (min-width: 900px) { .brand { font-size: 1.625rem; } }
 /* Nav links are pills; the one for the section on screen is lit. */
 .nav { grid-column: 2; display: none; gap: 2px; }
@@ -289,7 +274,6 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .site-header.over-hero .nav a { opacity: 0.92; }
 .site-header.over-hero :is(.brand, .nav a) { transition: opacity 0.2s var(--ease); } /* colour switches with the cut, unfaded */
 .site-header.over-hero :is(.brand, .nav a).on-dark { color: #fff; }
-.site-header.over-hero .brand.on-dark .logo i { background: var(--lime); }
 
 /* --------------------------------------------------------------------------
    6. Hero
@@ -430,7 +414,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   --mark: 100%;
   color: inherit;
   background-color: transparent;
-  background-image: linear-gradient(100deg, rgba(210, 237, 40, 0.35) 0, var(--lime) 0.3em, var(--lime) calc(100% - 0.3em), rgba(210, 237, 40, 0.55) 100%);
+  background-image: linear-gradient(var(--lime), var(--lime));
   background-repeat: no-repeat;
   background-position: 0 72%;
   background-size: var(--mark) 0.82em;
@@ -488,7 +472,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   font-variant-numeric: tabular-nums;
 }
 .how-card--dark .how-card__n { background: var(--chip-dark); }
-.how-card h3 { font-size: clamp(1.5rem, 2vw, 1.75rem); font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; }
+.how-card h3 { font-size: clamp(1.5rem, 2vw, 1.75rem); font-weight: 700; line-height: 1.1; }
 .how-card p { color: var(--ink-2); font-size: 1.0625rem; }
 @media (min-width: 900px) { .how__grid { grid-template-columns: repeat(3, 1fr); } }
 
@@ -544,7 +528,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -766,7 +750,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   height: 46px;
   padding: 2px 22px 0 30px;
 }
-.ui-status b { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.ui-status b { font-size: 15px; font-weight: 600; }
 .ui-status svg { width: 62px; height: 11px; fill: currentColor; }
 .ui-island { position: absolute; left: 50%; top: 9px; width: 92px; height: 27px; margin-left: -46px; border-radius: 14px; background: #000; }
 @container stage (max-width: 300px) { .ui-island { width: 64px; margin-left: -32px; } }
@@ -798,8 +782,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .ui-body { display: grid; gap: 14px; align-content: start; padding: 4px 18px 0; }
 .ui-body--top { padding-top: 14px; }
 .ui-group { display: grid; gap: 6px; }
-.ui-h1 { font-size: 26px; line-height: 31px; font-weight: 700; letter-spacing: -0.02em; }
-.ui-h2 { font-size: 19px; line-height: 25px; font-weight: 700; letter-spacing: -0.02em; }
+.ui-h1 { font-size: 26px; line-height: 31px; font-weight: 700; }
+.ui-h2 { font-size: 19px; line-height: 25px; font-weight: 700; }
 .ui-h2--section { margin-top: 8px; }
 .ui-p { font-size: 15px; line-height: 22px; }
 .ui-sub { font-size: 14px; line-height: 20px; color: var(--ui-2); }
@@ -832,7 +816,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .ui-day { display: flex; gap: 10px; }
 .ui-day__date { flex: none; display: flex; flex-direction: column; align-items: center; width: 34px; }
 .ui-day__date small { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--ui-2); }
-.ui-day__date b { font-size: 20px; line-height: 26px; font-weight: 600; letter-spacing: -0.01em; }
+.ui-day__date b { font-size: 20px; line-height: 26px; font-weight: 600; }
 .ui-day__date::after { content: ""; flex: 1; width: 1px; margin-top: 8px; background: var(--ui-track); }
 .ui-day__card {
   container: daycard / inline-size;
@@ -845,7 +829,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   background: #fff;
   box-shadow: inset 0 0 0 1px var(--ui-line), var(--ui-shadow);
 }
-.ui-day__title { font-size: 16.5px; line-height: 21px; font-weight: 600; letter-spacing: -0.01em; }
+.ui-day__title { font-size: 16.5px; line-height: 21px; font-weight: 600; }
 .ui-day__sum { font-size: 14.5px; line-height: 20px; color: var(--ui-2); }
 .ui-meta { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding-top: 4px; font-size: 12.5px; line-height: 17px; color: var(--ui-2); white-space: nowrap; }
 .ui-meta svg, .ui-facts svg { flex: none; width: 15px; height: 15px; color: var(--ui-3); }
@@ -862,7 +846,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   background: #fff;
   box-shadow: inset 0 0 0 1px var(--ui-line), var(--ui-shadow);
 }
-.ui-insight__name { display: flex; align-items: center; gap: 10px; font-size: 16.5px; line-height: 22px; font-weight: 600; letter-spacing: -0.01em; }
+.ui-insight__name { display: flex; align-items: center; gap: 10px; font-size: 16.5px; line-height: 22px; font-weight: 600; }
 .ui-insight__name::before { content: ""; width: 4px; height: 17px; border-radius: 2px; background: var(--c); }
 .ui-point { position: relative; padding-left: 16px; font-size: 15px; line-height: 22px; }
 .ui-point::before { content: ""; position: absolute; left: 1px; top: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--ui-3); }
@@ -888,9 +872,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   font-weight: 600;
 }
 .ui-who p { display: grid; }
-.ui-who b { font-size: 22px; line-height: 27px; font-weight: 700; letter-spacing: -0.03em; }
+.ui-who b { font-size: 22px; line-height: 27px; font-weight: 700; }
 .ui-who p > span { font-size: 13.5px; line-height: 19px; color: var(--ui-3); }
-.ui-portrait { margin-top: 18px; font-size: 21px; line-height: 28px; letter-spacing: -0.025em; text-wrap: pretty; }
+.ui-portrait { margin-top: 18px; font-size: 21px; line-height: 28px; text-wrap: pretty; }
 .ui-sheet { flex: 1; display: grid; gap: 4px; align-content: start; margin-top: 26px; padding: 22px 0 0; border-radius: 26px 26px 0 0; background: #fff; color: var(--ui-ink); }
 .ui-sheet > .ui-h2 { padding: 0 20px 6px; font-size: 18px; }
 .ui-area { display: grid; gap: 9px; padding: 14px 20px 15px; }
@@ -902,7 +886,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .ui-track__dot { position: absolute; top: 0; left: calc((100% - 12px) * var(--p)); width: 12px; height: 12px; border-radius: 50%; background: var(--ui-ink); }
 .ui-ends { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; line-height: 16px; font-weight: 500; color: var(--ui-2); }
 
-.ui-goal { display: flex; align-items: center; gap: 10px; font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.02em; }
+.ui-goal { display: flex; align-items: center; gap: 10px; font-size: 17px; line-height: 22px; font-weight: 600; }
 .ui-goal svg { flex: none; width: 18px; height: 18px; }
 .ui-progress { gap: 14px; padding: 20px 20px 18px; }
 .ui-move { display: grid; gap: 7px; }
@@ -926,7 +910,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 
 .ui-ask { gap: 16px; padding: 20px; }
 .ui-ask__q { display: grid; gap: 8px; }
-.ui-ask__fact { font-size: 19px; line-height: 25px; font-weight: 600; letter-spacing: -0.015em; text-wrap: balance; }
+.ui-ask__fact { font-size: 19px; line-height: 25px; font-weight: 600; text-wrap: balance; }
 .ui-ask__quote { font-size: 14.5px; line-height: 20px; color: var(--ui-2); }
 .ui-ask__actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .ui-answer {
@@ -1002,7 +986,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .uc__copy { position: absolute; left: 24px; right: 24px; bottom: 24px; display: grid; gap: 6px; }
 .uc__eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.8; }
-.uc__title { font-size: clamp(1.375rem, 2.2vw, 1.875rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.01em; text-wrap: balance; }
+.uc__title { font-size: clamp(1.375rem, 2.2vw, 1.875rem); font-weight: 700; line-height: 1.1; text-wrap: balance; }
 @media (min-width: 800px) {
   .uc-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
   .uc { aspect-ratio: 16 / 11; }
@@ -1028,7 +1012,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   border-radius: var(--r-lg);
   background: var(--card);
 }
-.pcard h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; text-wrap: balance; }
+.pcard h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; text-wrap: balance; }
 .pcard p { color: var(--ink-2); }
 .pcard__icon {
   display: grid;
@@ -1087,7 +1071,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .preorder__eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lime); }
 .preorder__title { font-size: clamp(2.25rem, 4vw, 3.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.02em; text-wrap: balance; }
 .preorder__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; margin-top: -4px; color: var(--on-feature-2); font-size: 1rem; }
-.preorder__price b { color: #fff; font-size: clamp(1.75rem, 2.4vw, 2.25rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.01em; }
+.preorder__price b { color: #fff; font-size: clamp(1.75rem, 2.4vw, 2.25rem); font-weight: 700; line-height: 1.1; }
 .preorder__points { display: grid; gap: 10px; margin-block: 4px 8px; }
 .preorder__points li { display: flex; align-items: center; gap: 12px; font-weight: 600; }
 .preorder__points li::before {
@@ -1212,7 +1196,6 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   padding: 22px 72px 22px 26px;
   font-size: 1.125rem;
   font-weight: 650;
-  letter-spacing: -0.01em;
   cursor: pointer;
   list-style: none;
 }
@@ -1256,7 +1239,6 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .site-footer { background: var(--feature); color: #fff; padding-block: 56px; }
 .site-footer__inner { display: grid; gap: 28px; }
 .site-footer__mark { font-size: 1.75rem; }
-.site-footer .logo i { background: var(--lime); }
 .site-footer__links { display: flex; flex-wrap: wrap; gap: 14px 28px; }
 .site-footer__links a { color: var(--on-feature-2); font-weight: 500; transition: color 0.2s var(--ease); }
 .site-footer__links a:hover { color: #fff; }

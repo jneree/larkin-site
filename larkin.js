@@ -386,7 +386,7 @@
     var phones = panels.map(function (p) { return p.closest('.mphone'); });
     if (phones.indexOf(null) > -1) phones = [];
     var stage = panels[0].closest('[data-mstage]');
-    var DWELL = 6000;
+    var DWELL = 4500;
     var at = 0, auto = !reduceMotion, inView = false, timer = 0;
     list.style.setProperty('--dwell', DWELL / 1000 + 's');
 
