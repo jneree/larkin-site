@@ -371,6 +371,87 @@
     else if (asRow.addListener) asRow.addListener(setRow);
   }
 
+  /* ---- App chapters on wide screens: one tile, held ---------------------- */
+  /* From 960px the chapters' words scroll past on the left while their
+     screens share one tile on the right, held in place (.is-held, laid out in
+     CSS). The chapter whose words have reached the middle of the screen is
+     marked .is-at and its screen shows. Each screen's small animations (the
+     days filing in, the dots finding their places) play when it arrives and
+     reset once it has faded out, so they play again on the way back; the
+     scroll reveals stop handing those out here. Clicking or tabbing into a
+     chapter (Mirror's list, say, before its words reach the middle) brings
+     its screen forward. Without this script the chapters stay rows. */
+  var chaps = tour ? [].slice.call(tour.querySelectorAll('.chap')) : [];
+  if (chaps.length > 1) {
+    var held = window.matchMedia('(min-width: 960px)');
+    var copies = chaps.map(function (c) { return c.querySelector('.feat__copy'); });
+    var shots = chaps.map(function (c) { return c.querySelector('.stage'); });
+    var atChap = -1, heldOn = false, heldRaf = 0, resets = [];
+    var markAt = function (i) {
+      if (i === atChap) return;
+      atChap = i;
+      chaps.forEach(function (c, j) {
+        var on = j === i;
+        if (c.classList.contains('is-at') === on) return;
+        c.classList.toggle('is-at', on);
+        clearTimeout(resets[j]);
+        if (!on) {
+          resets[j] = setTimeout(function () {
+            if (!c.classList.contains('is-at')) shots[j].classList.remove('in');
+          }, 600);
+        }
+        shots[j].dispatchEvent(new CustomEvent('chapter:toggle'));
+      });
+    };
+    var pickChap = function () {
+      heldRaf = 0;
+      var vh = window.innerHeight || root.clientHeight, i = 0;
+      copies.forEach(function (el, j) { if (el.getBoundingClientRect().top <= vh / 2) i = j; });
+      markAt(i);
+      // Its animations wait until the tile is actually on screen.
+      var r = shots[i].getBoundingClientRect();
+      if (r.top < vh * 0.85 && r.bottom > vh * 0.15) shots[i].classList.add('in');
+    };
+    var onHeldScroll = function () { if (!heldRaf) heldRaf = requestAnimationFrame(pickChap); };
+    var setHeld = function () {
+      if (held.matches === heldOn) return;
+      heldOn = held.matches;
+      tour.classList.toggle('is-held', heldOn);
+      if (heldOn) {
+        if (rvo) shots.forEach(function (s) { rvo.unobserve(s); });
+        shots.forEach(function (s) { s.classList.remove('in'); });
+        atChap = -1;
+        pickChap();
+        window.addEventListener('scroll', onHeldScroll, { passive: true });
+        window.addEventListener('resize', onHeldScroll, { passive: true });
+      } else {
+        window.removeEventListener('scroll', onHeldScroll);
+        window.removeEventListener('resize', onHeldScroll);
+        atChap = -1;
+        chaps.forEach(function (c, j) {
+          clearTimeout(resets[j]);
+          c.classList.remove('is-at');
+          shots[j].classList.add('in');
+          shots[j].dispatchEvent(new CustomEvent('chapter:toggle'));
+        });
+      }
+    };
+    var bringForward = function (j) {
+      return function () {
+        if (!heldOn) return;
+        markAt(j);
+        shots[j].classList.add('in');
+      };
+    };
+    chaps.forEach(function (c, j) {
+      c.addEventListener('focusin', bringForward(j));
+      copies[j].addEventListener('pointerdown', bringForward(j));
+    });
+    setHeld();
+    if (held.addEventListener) held.addEventListener('change', setHeld);
+    else if (held.addListener) held.addListener(setHeld);
+  }
+
   /* ---- Mirror: one screen at a time ------------------------------------- */
   /* Mirror's three parts each have a phone on the tile: the chosen part's in
      front, the other two barely there on either side. Picking a part from
@@ -390,7 +471,11 @@
     var at = 0, auto = !reduceMotion, inView = false, timer = 0;
     list.style.setProperty('--dwell', DWELL / 1000 + 's');
 
-    var running = function () { return auto && inView && !document.hidden; };
+    // On wide screens the tile is shared: Mirror's parts advance only while
+    // Mirror is the chapter on show.
+    var chap = stage && stage.closest('.chap');
+    var shown = function () { return !chap || !tour || !tour.classList.contains('is-held') || chap.classList.contains('is-at'); };
+    var running = function () { return auto && inView && shown() && !document.hidden; };
     var schedule = function () {
       clearTimeout(timer);
       list.classList.toggle('is-playing', auto);
@@ -454,6 +539,7 @@
     if (stage) {
       stage.addEventListener('pointerdown', stop);
       stage.addEventListener('focusin', stop);
+      stage.addEventListener('chapter:toggle', schedule);
     }
     if (auto && stage && 'IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
