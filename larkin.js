@@ -282,7 +282,12 @@
         var c = navigator.connection || {};
         var slow = c.saveData || /(^|-)2g$|^3g$/.test(c.effectiveType || '');
         howVideo.preload = 'auto';
-        howVideo.src = (howFilm.offsetWidth >= 1100 && !slow) ? howVideo.dataset.srcLg : howVideo.dataset.srcSm;
+        // Wide screens get 1080p, and the 1440p original when they have the
+        // pixels for it (a retina laptop: ~1500 CSS px x 2).
+        var wide = howFilm.offsetWidth >= 1100 && !slow;
+        var dense = howFilm.offsetWidth * (window.devicePixelRatio || 1) > 2200;
+        howVideo.src = wide && dense && howVideo.dataset.srcXl ? howVideo.dataset.srcXl
+          : wide ? howVideo.dataset.srcLg : howVideo.dataset.srcSm;
         howVideo.load();
       };
       howVideo.addEventListener('playing', function () { howFilm.classList.add('is-playing'); });

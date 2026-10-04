@@ -447,7 +447,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    8. How it works
    -------------------------------------------------------------------------- */
 /* The film: an arm slides in from the left and rests on white, the
-   headline above it. The film's own top third is empty white, so it tucks up
+   headline above it. It runs the full width of the screen at every size, so
+   the arm always comes in from beyond the left edge. The film's own top third is empty white, so it tucks up
    under the copy; its background is levelled to #FFFFFF at export so the
    edges vanish into the page. The poster is the film's last frame. */
 .how { padding-top: 0; }
@@ -466,7 +467,6 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   --tag-x: 41%;
   position: relative;
   width: 100%;
-  max-width: 1680px;
   margin: 8px auto 0;
   aspect-ratio: 4 / 3;
   overflow: hidden;
