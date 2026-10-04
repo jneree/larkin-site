@@ -261,6 +261,71 @@
     });
   }
 
+  /* ---- How it works: the arm film and the day ---------------------------- */
+  /* The film starts loading a screen before it arrives and plays once when
+     the section is properly in view, resting on its last frame (the poster).
+     .is-on raises the headline, .is-settled shows the pill once the arm has
+     come to rest (data-settle, seconds into the film), and .is-still brings
+     the poster back whenever the film can't play. The day card plays its line
+     once, when most of the line is on screen. */
+  var howFilm = document.querySelector('[data-how-film]');
+  if (howFilm) {
+    var howVideo = howFilm.querySelector('video');
+    var settleAt = parseFloat(howFilm.getAttribute('data-settle')) || 3.5;
+    var still = function () { howFilm.classList.add('is-on', 'is-still', 'is-settled'); };
+
+    if (reduceMotion || !('IntersectionObserver' in window) || !howVideo) {
+      still();
+    } else {
+      var howAttach = function () {
+        if (howVideo.getAttribute('src')) return;
+        var c = navigator.connection || {};
+        var slow = c.saveData || /(^|-)2g$|^3g$/.test(c.effectiveType || '');
+        howVideo.preload = 'auto';
+        howVideo.src = (howFilm.offsetWidth >= 1100 && !slow) ? howVideo.dataset.srcLg : howVideo.dataset.srcSm;
+        howVideo.load();
+      };
+      howVideo.addEventListener('playing', function () { howFilm.classList.add('is-playing'); });
+      howVideo.addEventListener('timeupdate', function () {
+        if (howVideo.currentTime >= settleAt) howFilm.classList.add('is-settled');
+      });
+      howVideo.addEventListener('ended', function () { howFilm.classList.add('is-settled'); });
+      howVideo.addEventListener('error', still);
+
+      if (howFilm.getBoundingClientRect().bottom < 0) {
+        still(); // already scrolled past on a mid-page reload
+      } else {
+        new IntersectionObserver(function (entries, obs) {
+          if (!entries[0].isIntersecting) return;
+          obs.disconnect();
+          howAttach();
+        }, { rootMargin: '100% 0px' }).observe(howFilm);
+
+        new IntersectionObserver(function (entries, obs) {
+          if (!entries[0].isIntersecting) return;
+          obs.disconnect();
+          howFilm.classList.add('is-on');
+          howAttach();
+          var p = howVideo.play();
+          if (p && p.catch) p.catch(still); // Low Power Mode and friends: show the resting frame
+        }, { threshold: 0.4 }).observe(howFilm.querySelector('.how-film__media'));
+      }
+    }
+  }
+
+  var day = document.querySelector('[data-day]');
+  if (day) {
+    if (reduceMotion || !('IntersectionObserver' in window) || day.getBoundingClientRect().bottom < 0) {
+      day.classList.add('is-live');
+    } else {
+      new IntersectionObserver(function (entries, obs) {
+        if (!entries[0].isIntersecting) return;
+        obs.disconnect();
+        day.classList.add('is-live');
+      }, { threshold: 0.6 }).observe(day.querySelector('.day__line'));
+    }
+  }
+
   /* ---- Read-along statement -------------------------------------------- */
   /* The statement pins while scroll lights it word by word, and the marked
      key phrase gets its highlighter swept in once the reading reaches it
