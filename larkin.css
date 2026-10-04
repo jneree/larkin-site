@@ -234,11 +234,11 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 }
 .brand { grid-column: 1; justify-self: start; font-size: 1.5rem; }
 
-/* The wordmark: the design system's file for small sizes (looser spacing,
-   for anything under 32px tall), inlined so it takes the text colour: ink
-   on light, white on dark, never lime. 0.75em sets its "l" as tall as the
-   font's own at that size. */
+/* The wordmark, from the logo file and inlined: its letters take the text
+   colour (ink on light, white on dark), its full stop is always lime.
+   0.75em sets its "l" as tall as the font's own at that size. */
 .logo { display: block; width: auto; height: 0.75em; fill: currentColor; }
+.logo__dot { fill: var(--lime); }
 @media (min-width: 900px) { .brand { font-size: 1.625rem; } }
 /* Nav links are pills; the one for the section on screen is lit. */
 .nav { grid-column: 2; display: none; gap: 2px; }
@@ -319,15 +319,25 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .hero__copy { display: grid; gap: 18px; max-width: 36rem; }
 .hero__title {
-  font-size: clamp(2.875rem, 13vw, 4.25rem); /* "Know yourself." holds one line on a 320px phone */
+  font-size: clamp(2.875rem, 13vw, 4.25rem);
   font-weight: 700;
-  line-height: 0.96;
+  line-height: 0.98;
   letter-spacing: -0.025em;
+}
+/* The headline's three lines are set, never left to the column width. Phones
+   get a shorter headline in two lines; the other is display:none there, so
+   screen readers hear only the one on screen. */
+.hero__title .block { display: block; }
+.hero__title-narrow { display: none; }
+@media (max-width: 640px) {
+  .hero__title { font-size: 2.5rem; line-height: 1.02; }
+  .hero__title-wide { display: none; }
+  .hero__title-narrow { display: block; }
 }
 .hero__lead {
   font-size: clamp(1.0625rem, 1.35vw, 1.3125rem);
   line-height: 1.5;
-  max-width: 36ch;
+  max-width: 34ch;
   text-wrap: pretty;
   opacity: 0.88;
 }
@@ -370,9 +380,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .hero::after { display: none; }
   .hero__media img, .hero__video { object-position: 50% 50%; }
   .hero__inner { align-items: center; padding-top: var(--header-h); padding-bottom: 0; }
-  .hero__copy { gap: 22px; max-width: 41rem; transform: translateY(6vh); }
-  /* Capped so "Know yourself." holds one line in the 41rem column. */
-  .hero__title { font-size: clamp(4rem, 7.4vw, 6.5rem); }
+  .hero__copy { gap: 22px; max-width: 41rem; transform: translateY(9vh); } /* headline starts just below 35% of the screen */
+  /* ~88px at 1440. */
+  .hero__title { font-size: clamp(3.5rem, 6.1vw, 5.5rem); }
   .hero.is-dark .hero__copy { text-shadow: 0 1px 30px rgba(0, 0, 0, 0.35); }
   .hero__toggle {
     top: auto;
@@ -1220,18 +1230,20 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 /* --------------------------------------------------------------------------
    17. Closing
    -------------------------------------------------------------------------- */
-.closing { padding-top: 0; }
-.closing__card {
-  display: grid;
-  justify-items: center;
-  gap: 18px;
-  padding: clamp(56px, 8vw, 112px) 24px;
-  border-radius: var(--r-xl);
-  background: var(--lime);
-  text-align: center;
+/* The hero's headline style at about 70% of its size, its CTA and footnote
+   again, centred. On a phone the headline keeps the section headlines' size
+   rather than dropping below them. */
+.closing { padding-block: clamp(96px, 11vw, 160px); background: var(--bg); text-align: center; }
+.closing__inner { display: grid; justify-items: center; gap: 22px; }
+.closing__title {
+  font-size: clamp(2.125rem, 4.3vw, 3.875rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
 }
-.closing__card p:not(.h2) { font-size: 1.125rem; color: rgba(21, 21, 21, 0.72); max-width: 34ch; }
-.closing__card .btn { margin-top: 8px; }
+.closing__body { max-width: 40ch; font-size: clamp(1.0625rem, 1.35vw, 1.3125rem); line-height: 1.5; color: var(--ink-2); text-wrap: balance; }
+.closing__actions { display: flex; justify-content: center; margin-top: 6px; }
+.closing__fine { font-size: 0.875rem; font-weight: 600; color: var(--ink); opacity: 0.7; }
 
 /* --------------------------------------------------------------------------
    18. Footer
