@@ -319,14 +319,16 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .hero__copy { display: grid; gap: 18px; max-width: 36rem; }
 .hero__title {
-  font-size: clamp(2.875rem, 13vw, 4.25rem);
+  font-size: clamp(2.5rem, 6.6vw, 2.875rem);
   font-weight: 700;
   line-height: 0.98;
   letter-spacing: -0.025em;
 }
-/* The headline's three lines are set, never left to the column width. Phones
-   get a shorter headline in two lines; the other is display:none there, so
-   screen readers hear only the one on screen. */
+/* The headline's two lines are set, never left to the column width, so its
+   size follows the column: the first line ("Other people have met you.",
+   about 12em) must hold one line. Phones get a shorter headline in two
+   lines; the other is display:none there, so screen readers hear only the
+   one on screen. */
 .hero__title .block { display: block; }
 .hero__title-narrow { display: none; }
 @media (max-width: 640px) {
@@ -338,7 +340,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   font-size: clamp(1.0625rem, 1.35vw, 1.3125rem);
   line-height: 1.5;
   max-width: 34ch;
-  text-wrap: pretty;
+  text-wrap: balance;
   opacity: 0.88;
 }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
@@ -380,9 +382,13 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .hero::after { display: none; }
   .hero__media img, .hero__video { object-position: 50% 50%; }
   .hero__inner { align-items: center; padding-top: var(--header-h); padding-bottom: 0; }
-  .hero__copy { gap: 22px; max-width: 41rem; transform: translateY(9vh); } /* headline starts just below 35% of the screen */
-  /* ~88px at 1440. */
-  .hero__title { font-size: clamp(3.5rem, 6.1vw, 5.5rem); }
+  .hero__copy { gap: 22px; max-width: 41rem; transform: translateY(9vh); } /* the headline sits level with the band in the film's last shot */
+  /* The first line holds one line in the 41rem column and stays clear of her
+     wrist in the film's last shot, at about half the screen's width: ~54px
+     at 1440, ~48px at 1280. */
+  .hero__title { font-size: clamp(2rem, 4.2vw - 6px, 3.375rem); }
+  /* The subhead: one line from 1280 up, two below, where the wrist comes closer. */
+  .hero__lead { max-width: min(40rem, calc(50vw - var(--gutter) - 40px)); }
   .hero.is-dark .hero__copy { text-shadow: 0 1px 30px rgba(0, 0, 0, 0.35); }
   .hero__toggle {
     top: auto;
