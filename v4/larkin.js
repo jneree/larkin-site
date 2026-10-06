@@ -273,8 +273,8 @@
      the section is properly in view, resting on its last frame (the poster).
      .is-on raises the headline, .is-settled shows the pill once the arm has
      come to rest (data-settle, seconds into the film), and .is-still brings
-     the poster back whenever the film can't play. The day card plays its line
-     once, when most of the line is on screen. */
+     the poster back whenever the film can't play. The day card brings its
+     three moments in once, when most of them are on screen. */
   var howFilm = document.querySelector('[data-how-film]');
   if (howFilm) {
     var howVideo = howFilm.querySelector('video');
@@ -336,7 +336,7 @@
         if (!entries[0].isIntersecting) return;
         obs.disconnect();
         day.classList.add('is-live');
-      }, { threshold: 0.6 }).observe(day.querySelector('.day__line'));
+      }, { threshold: 0.6 }).observe(day.querySelector('.day__moments'));
     }
   }
 
@@ -535,10 +535,13 @@
   /* Mirror's three parts each have a phone on the tile: the chosen part's in
      front, the other two barely there on either side. Picking a part from
      the list (the arrow keys move along it), or clicking a phone at the
-     side, turns its phone to the front. While the tile is in view the parts
-     also advance on their own every few seconds, a lime line filling beside
-     the chosen part; the first tap, key or touch on the list or the phones
-     hands control to the visitor for good. Never under reduced motion. */
+     side, turns its phone to the front. On wide screens (.is-held) Mirror's
+     words hold in place while scroll takes the parts in turn, a lime line
+     filling beside the chosen part as it goes, and picking a part scrolls
+     to it. Narrower, while the tile is in view the parts advance on their
+     own every few seconds, the line filling over each part's time; the
+     first tap, key or touch on the list or the phones hands control to the
+     visitor for good. Never under reduced motion. */
   document.querySelectorAll('[data-mtabs]').forEach(function (list) {
     var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
     var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
@@ -554,7 +557,8 @@
     // Mirror is the chapter on show.
     var chap = stage && stage.closest('.chap');
     var shown = function () { return !chap || !tour || !tour.classList.contains('is-held') || chap.classList.contains('is-at'); };
-    var running = function () { return auto && inView && shown() && !document.hidden; };
+    var held = function () { return !!(chap && tour && tour.classList.contains('is-held')); };
+    var running = function () { return auto && inView && shown() && !held() && !document.hidden; };
     var schedule = function () {
       clearTimeout(timer);
       list.classList.toggle('is-playing', auto);
@@ -596,13 +600,54 @@
       schedule();
     };
 
+    // Held, Mirror's row is two screens longer than the others and its words
+    // stick within it: how far they've travelled picks the part, a third of
+    // the way each, and how far into its third fills the line.
+    var copy = chap && chap.querySelector('.feat__copy');
+    var prevCopy = chap && chap.previousElementSibling && chap.previousElementSibling.querySelector('.feat__copy');
+    var span = function () {
+      var start = prevCopy ? prevCopy.getBoundingClientRect().bottom : copy.getBoundingClientRect().top;
+      var top = parseFloat(getComputedStyle(copy).top) || 0;
+      var travel = tour.getBoundingClientRect().bottom - start - copy.offsetHeight;
+      return { start: start, top: top, travel: Math.max(travel, 1) };
+    };
+    var scrollRaf = 0;
+    var follow = function () {
+      scrollRaf = 0;
+      if (!held() || !copy) {
+        if (list.classList.contains('is-scrolled')) { list.classList.remove('is-scrolled'); schedule(); }
+        return;
+      }
+      list.classList.add('is-scrolled');
+      var g = span(), n = tabs.length;
+      var p = Math.min(Math.max((g.top - g.start) / g.travel, 0), 1);
+      var i = Math.min(n - 1, Math.floor(p * n));
+      if (i !== at) show(i);
+      list.style.setProperty('--fill', String(Math.min(p * n - i, 1)));
+    };
+    var onScroll = function () { if (!scrollRaf) scrollRaf = requestAnimationFrame(follow); };
+    // Picking a part while held scrolls to the start of its third.
+    var go = function (i) {
+      var g = span();
+      window.scrollBy({ top: g.start - g.top + (i / tabs.length) * g.travel + 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+    };
+    var pick = function (i, focus) {
+      stop();
+      if (held()) {
+        go(i);
+        if (focus) tabs[i].focus({ preventScroll: true });
+      } else {
+        show(i, focus);
+      }
+    };
+
     tabs.forEach(function (t, i) {
-      t.addEventListener('click', function () { stop(); show(i); });
+      t.addEventListener('click', function () { pick(i); });
     });
     // A phone at the side comes to the front when clicked. (Its screen is
     // inert, so the click lands on the phone itself.)
     phones.forEach(function (ph, i) {
-      ph.addEventListener('click', function () { if (i !== at) { stop(); show(i); } });
+      ph.addEventListener('click', function () { if (i !== at) pick(i); });
     });
     list.addEventListener('keydown', function (e) {
       var n = tabs.length, to = -1;
@@ -612,13 +657,17 @@
       else if (e.key === 'End') to = n - 1;
       if (to < 0) return;
       e.preventDefault();
-      stop();
-      show(to, true);
+      pick(to, true);
     });
     if (stage) {
       stage.addEventListener('pointerdown', stop);
       stage.addEventListener('focusin', stop);
       stage.addEventListener('chapter:toggle', schedule);
+    }
+    if (chap && tour && copy) {
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      follow();
     }
     if (auto && stage && 'IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {

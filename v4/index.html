@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Larkin — Everyone’s met you. Have you?</title>
+<title>Larkin: Everyone’s met you. Have you?</title>
 <meta name="description" content="A screenless bracelet that shows you how you come across.">
 <meta name="theme-color" content="#FFFFFF">
 
-<meta property="og:title" content="Larkin — Everyone’s met you. Have you?">
+<meta property="og:title" content="Larkin: Everyone’s met you. Have you?">
 <meta property="og:description" content="A screenless bracelet that shows you how you come across.">
 <meta property="og:image" content="https://getlarkin.com/media/hero-u-poster-1920.jpg">
 <meta property="og:image:width" content="1920">
@@ -31,7 +31,7 @@
 <!-- DM Sans is served from this site: a Google Fonts stylesheet blocked the
      first paint (and the film) for 3–4 s on a 4G connection. -->
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="larkin.css?v=c65d975">
+<link rel="stylesheet" href="larkin.css?v=20261006a">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -83,7 +83,7 @@
     </nav>
 
     <div class="header-actions">
-      <a class="btn btn--lime btn--sm" href="#reserve"><span>Rese<span class="kern">r</span>ve — $10</span></a>
+      <a class="btn btn--lime btn--sm" href="#reserve"><span>Rese<span class="kern">r</span>ve for $10</span></a>
     </div>
   </div>
 </header>
@@ -110,7 +110,7 @@
         <p class="hero__lead">A screenless bracelet that shows you how you come across.</p>
         <div class="hero__actions">
           <a class="btn btn--lime" data-reserve href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=v4">
-          <span>Rese<span class="kern">r</span>ve yours — $10</span>
+          <span>Rese<span class="kern">r</span>ve yours for $10</span>
           </a>
         </div>
         <p class="hero__fine">Fully refundable · Ships Q1 2027</p>
@@ -133,7 +133,7 @@
     <section class="statement statement--reveal" aria-label="What Larkin does">
       <div class="shell">
         <p class="statement__read">You can't see yourself the way other people do.</p>
-        <p class="statement__read">Larkin can. It listens through your day and shows you how it really went — <mark class="marker">what you said, what landed, and what you keep coming back to</mark> — so you can build on it.</p>
+        <p class="statement__read">Larkin can. It listens through your day and shows you <mark class="marker">what you said, what landed, and what you keep coming back to</mark>, so you can build on it.</p>
       </div>
     </section>
   </div>
@@ -141,10 +141,9 @@
   <!-- How it works — an arm slides in wearing the band, then a day plays
        out on a line. The film loads near the viewport and plays once, resting
        on its last frame, which is also the poster; the headline rises with
-       it. The day card draws its line once it's in view: the dot travels from
-       morning to evening and each unplanned conversation lights up as it
-       passes (larkin.js). Without JS or with reduced motion, the poster and
-       the finished day simply show. -->
+       it. The day card's three moments come in one after another once it's
+       in view (larkin.js). Without JS or with reduced motion, the poster and
+       the three moments simply show. -->
   <section class="section how" id="how">
     <div class="how-film" data-how-film data-settle="3.6">
       <header class="shell how-film__head">
@@ -171,41 +170,12 @@
           <p>You'd never press record for them. With Larkin, you don't have to.</p>
         </div>
 
-        <div class="day__line" role="img" aria-label="A day on a line from morning to evening, with three conversations nobody planned: a coffee that ran long in the morning, a hallway chat after a meeting in the afternoon, and dinner with an old friend in the evening.">
-          <ol class="day__marks" aria-hidden="true">
-            <li style="--at: 0">Morning</li>
-            <li style="--at: 0.5">Afternoon</li>
-            <li style="--at: 1">Evening</li>
-          </ol>
-          <div class="day__track" aria-hidden="true">
-            <span class="day__seg" style="--s: 0.12; --e: 0.2"></span>
-            <span class="day__seg" style="--s: 0.44; --e: 0.5"></span>
-            <span class="day__seg" style="--s: 0.72; --e: 0.82"></span>
-            <span class="day__dot"></span>
-          </div>
-          <ol class="day__convos" aria-hidden="true">
-            <li style="--s: 0.12"><em class="day__when">Morning</em><strong>A coffee that ran long</strong><span>Nobody planned the second hour.</span></li>
-            <li style="--s: 0.44"><em class="day__when">Afternoon</em><strong>The hallway, after the meeting</strong><span>Ten minutes that settled it.</span></li>
-            <li style="--s: 0.72"><em class="day__when">Evening</em><strong>Dinner with an old friend</strong><span>You stayed until they closed.</span></li>
-          </ol>
-        </div>
-        <p class="day__end">Tonight: three conversations, ready to read.</p>
+        <ol class="day__moments">
+          <li>Monday morning, an unplanned coffee with a friend that turned out to be really insightful.</li>
+          <li>Wednesday afternoon, a quick chat after a meeting where the real decision got made.</li>
+          <li>Friday night, dinner with an old friend that went on until the restaurant closed.</li>
+        </ol>
       </div>
-
-      <ul class="how__notes">
-        <li class="rv">
-          <h3>Seven days a charge</h3>
-          <p>Around 160 hours of listening. Charge it on Sunday and forget it until the next one.</p>
-        </li>
-        <li class="rv">
-          <h3>Pause when you want</h3>
-          <p>Stop it whenever you like. Nothing new is captured until you start it again.</p>
-        </li>
-        <li class="rv">
-          <h3>Read it back tonight</h3>
-          <p>Each evening your day arrives in the app as a chapter: what happened, who you talked to, what's worth keeping.</p>
-        </li>
-      </ul>
     </div>
   </section>
 
@@ -623,7 +593,7 @@
         </div>
 
         <div class="preorder__copy">
-          <p class="preorder__eyebrow">Founder Edition — limited to 1,000</p>
+          <p class="preorder__eyebrow">Founder Edition, limited to 1,000</p>
           <h2 class="preorder__title">Rese<span class="kern">r</span>ve your Larkin for $10.</h2>
           <p class="preorder__price"><b>$129</b> full price, ships Q1 2027</p>
           <ul class="preorder__points">
@@ -632,7 +602,7 @@
             <li>Refundable any time</li>
           </ul>
           <a class="btn btn--lime btn--block" data-reserve href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=v4">
-          <span>Rese<span class="kern">r</span>ve yours — $10</span>
+          <span>Rese<span class="kern">r</span>ve yours for $10</span>
           </a>
         </div>
       </div>
@@ -814,7 +784,7 @@
       <p class="closing__body">Most AI is built to think for you. Larkin is built to make you think.</p>
       <div class="closing__actions">
         <a class="btn btn--lime" data-reserve href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=v4">
-          <span>Rese<span class="kern">r</span>ve yours — $10</span>
+          <span>Rese<span class="kern">r</span>ve yours for $10</span>
         </a>
       </div>
       <p class="closing__fine">Fully refundable · Ships Q1 2027</p>
@@ -836,6 +806,6 @@
   </div>
 </footer>
 
-<script src="larkin.js?v=c65d975" defer></script>
+<script src="larkin.js?v=20261006a" defer></script>
 </body>
 </html>
