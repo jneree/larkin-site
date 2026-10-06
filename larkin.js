@@ -837,9 +837,11 @@
     }, { threshold: 0.4 }).observe(watch);
   });
 
-  /* The invite form asks for an email and posts it as JSON to data-endpoint.
-     A Lead goes to Meta for the ads. Without an endpoint (the preview) it
-     only says thanks. */
+  /* The invite form sends the email to Loops, whose newsletter-form
+     endpoint (data-endpoint) takes a plain form post from a static page:
+     the contact joins the audience tagged userGroup "beta" and source, and
+     a Loops automation sends the invite. A Lead goes to Meta for the ads.
+     Without an endpoint it only says thanks. */
   document.querySelectorAll('[data-beta-form]').forEach(function (form) {
     var input = form.querySelector('input[type="email"]');
     var button = form.querySelector('button[type="submit"]');
@@ -867,14 +869,19 @@
       button.disabled = true;
       fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, source: segment })
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'email=' + encodeURIComponent(email) + '&userGroup=beta&source=' + encodeURIComponent('site-' + segment)
       }).then(function (r) {
-        if (!r.ok) throw new Error(r.status);
-        done();
-      }).catch(function () {
+        return r.json().catch(function () { return {}; }).then(function (data) {
+          if (r.status === 429) throw new Error('busy');
+          if (!r.ok || data.success === false) throw new Error(data.message || r.status);
+          done();
+        });
+      }).catch(function (err) {
         button.disabled = false;
-        say('That didn’t go through. Please try again in a moment.');
+        say(err && err.message === 'busy'
+          ? 'Lots of sign-ups right now. Please try again in a minute.'
+          : 'That didn’t go through. Please try again in a moment.');
       });
     });
   });
