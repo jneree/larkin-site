@@ -850,7 +850,7 @@
     var say = function (text) { msg.textContent = text; };
     var done = function () {
       form.classList.add('is-done');
-      say('You’re in. Your invite is on its way to ' + input.value.trim() + '.');
+      say('You’re on the list. Your invite will come to ' + input.value.trim() + '.');
       if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: 'App beta', content_category: segment });
     };
     input.addEventListener('input', function () {
