@@ -529,11 +529,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   100% { object-position: 50% 76.5%; }
 }
 
-/* The day: a dark card, the copy beside a line from morning to evening.
-   Lime is only ever on this dark ground. --D is how long the dot takes to
-   cross the day; each conversation lights as the dot reaches it. */
+/* The day: a dark card, the copy beside three moments on a thin line, a
+   lime dot for each. Lime is only ever on this dark ground. */
 .day {
-  --D: 6.5s;
   display: grid;
   gap: clamp(32px, 5vw, 64px);
   margin-top: clamp(24px, 4vw, 56px);
@@ -552,101 +550,40 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .day__copy p:last-child { max-width: 40ch; color: var(--on-feature-2); font-size: 1.0625rem; }
 
-.day__line {
-  display: grid;
-  grid-template-columns: auto 2px 1fr;
-  column-gap: clamp(16px, 2vw, 24px);
-  height: clamp(340px, 32vw, 420px);
+.day__moments { --gap: clamp(28px, 3.4vw, 44px); display: grid; gap: var(--gap); padding-left: 34px; }
+.day__moments li {
+  position: relative;
+  max-width: 32ch;
+  font-size: clamp(1.125rem, 1.45vw, 1.3125rem);
+  font-weight: 500;
+  line-height: 1.4;
+  text-wrap: pretty;
 }
-.day__marks { position: relative; }
-.day__marks li {
+/* The dot sits on the first line; the line runs down to the next dot. */
+.day__moments li::before {
+  content: "";
   position: absolute;
-  right: 0;
-  top: calc(var(--at) * 100%);
-  transform: translateY(calc(var(--at) * -100%));
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--on-feature-2);
-  line-height: 1;
-}
-/* An invisible copy of the longest word holds the column's width. */
-.day__marks::before {
-  content: "Afternoon";
-  visibility: hidden;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.day__track { position: relative; border-radius: 2px; background: var(--hair-dark); }
-.day__seg {
-  position: absolute;
-  left: -1px;
-  width: 4px;
-  top: calc(var(--s) * 100%);
-  height: calc((var(--e) - var(--s)) * 100%);
-  border-radius: 2px;
-  background: var(--lime);
-  transform-origin: 50% 0;
-}
-.day__dot {
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  width: 14px;
-  height: 14px;
+  left: -34px;
+  top: calc(0.7em - 6px);
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: var(--lime);
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 0 7px rgba(210, 237, 40, 0.16), 0 0 22px rgba(210, 237, 40, 0.45);
 }
-.day__convos { position: relative; }
-.day__convos li {
+.day__moments li:not(:last-child)::after {
+  content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(var(--s) * 100%);
-  display: grid;
-  gap: 2px;
-  margin-top: -3px;
-}
-.day__convos strong { font-size: 1.0625rem; font-weight: 600; line-height: 1.25; }
-.day__convos span { color: var(--on-feature-2); font-size: 0.9375rem; line-height: 1.35; }
-.day__when { display: none; }
-.day__end { color: var(--lime); font-weight: 600; font-size: 1.0625rem; }
-/* Narrow screens: no room for a label column, so each conversation carries
-   its own time of day and the line takes the full width. */
-@media (max-width: 599px) {
-  .day__line { grid-template-columns: 2px 1fr; height: 380px; }
-  .day__marks { display: none; }
-  .day__when {
-    display: block;
-    margin-bottom: 2px;
-    font-size: 0.6875rem;
-    font-style: normal;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--on-feature-2);
-  }
+  left: -29px;
+  top: calc(0.7em + 12px);
+  width: 2px;
+  height: calc(100% + var(--gap) - 24px);
+  border-radius: 2px;
+  background: var(--hair-dark);
+  transform-origin: 50% 0;
 }
 @media (min-width: 900px) {
-  .day { grid-template-columns: 1fr 1fr; align-items: start; row-gap: 28px; }
-  .day__copy { grid-row: span 2; }
+  .day { grid-template-columns: 1fr 1fr; align-items: center; }
 }
-
-/* Three plain facts under the card, hairline above each. */
-.how__notes {
-  display: grid;
-  gap: 28px;
-  margin-top: clamp(40px, 5vw, 64px);
-}
-.how__notes li { display: grid; gap: 8px; padding-top: 20px; border-top: 1px solid var(--hair); }
-.how__notes h3 { font-size: 1.1875rem; font-weight: 700; line-height: 1.2; }
-.how__notes p { color: var(--ink-2); font-size: 1.0625rem; max-width: 34ch; }
-@media (min-width: 900px) { .how__notes { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
 
 /* --------------------------------------------------------------------------
    9. Phone frame
@@ -725,8 +662,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 
 /* Mirror's three parts. Wide: a list beside the phone, the chosen part
    opening its line of explanation. Phones: a small switch above the phone.
-   While the screens advance on their own, a lime line fills over the
-   chosen part's time on screen. */
+   A lime line fills beside the chosen part: with scroll on wide screens,
+   over its time on screen while the parts advance on their own on phones. */
 .mtab {
   position: relative;
   display: grid;
@@ -760,6 +697,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    until the phone is in view, then fills. */
 .mtabs.is-playing .mtab.is-on::before { background: rgba(255, 255, 255, 0.14); }
 .mtabs.is-auto .mtab.is-on .mtab__time { animation: mtab-fill var(--dwell, 6s) linear forwards; }
+/* Wide screens: scroll moves through the parts, and the line fills with it. */
+.mtabs.is-scrolled .mtab.is-on::before { background: rgba(255, 255, 255, 0.14); }
+.mtabs.is-scrolled .mtab.is-on .mtab__time { transform: scaleY(var(--fill, 0)); }
 @keyframes mtab-fill { to { transform: none; } }
 .mtab__more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s var(--ease); }
 .mtab.is-on .mtab__more { grid-template-rows: 1fr; }
@@ -911,6 +851,14 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .tour.is-held .chap:nth-child(1) .feat__copy { grid-row: 1; }
   .tour.is-held .chap:nth-child(2) .feat__copy { grid-row: 2; }
   .tour.is-held .chap:nth-child(3) .feat__copy { grid-row: 3; }
+  /* Mirror's row runs two screens longer: its words hold in the middle
+     while scroll takes its three parts in turn (larkin.js). */
+  .tour.is-held { grid-template-rows: auto auto calc(80vh + 2 * var(--mirror-step)); --mirror-step: 70vh; }
+  .tour.is-held .chap:nth-child(3) .feat__copy {
+    align-self: start;
+    position: sticky;
+    top: 10vh;
+  }
   .app .tour.is-held .chap .stage {
     grid-column: 2;
     grid-row: 1 / 4;
@@ -1485,15 +1433,15 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .hero__copy > :nth-child(5) { animation-delay: 300ms; }
 }
 @media (prefers-reduced-motion: no-preference) and (min-width: 700px) {
-  :is(.how__notes, .uc-grid, .privacy__grid) > .rv:nth-child(2) { --rv-d: 90ms; }
-  :is(.how__notes, .uc-grid, .privacy__grid) > .rv:nth-child(3) { --rv-d: 180ms; }
+  :is(.uc-grid, .privacy__grid) > .rv:nth-child(2) { --rv-d: 90ms; }
+  :is(.uc-grid, .privacy__grid) > .rv:nth-child(3) { --rv-d: 180ms; }
   .uc-grid > .rv:nth-child(4) { --rv-d: 120ms; }
   .privacy__grid > .rv:nth-child(4) { --rv-d: 0ms; }
   .privacy__grid > .rv:nth-child(5) { --rv-d: 90ms; }
   .privacy__grid > .rv:nth-child(6) { --rv-d: 180ms; }
 }
 /* How it works: the headline rises with the arm, the pill appears once the
-   arm has settled, and the day plays out along its line. Until the film
+   arm has settled, and the day's three moments come in one by one. Until the film
    plays, its frame is empty white (the poster would give the ending away);
    .is-still brings the poster back if the film can't play. */
 @media (prefers-reduced-motion: no-preference) {
@@ -1511,21 +1459,15 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .js-anim .how-film__tag { opacity: 0; translate: 0 8px; scale: 0.92; transition: opacity 0.5s var(--ease), translate 0.6s var(--ease), scale 0.6s var(--ease); }
   .js-anim .how-film.is-settled .how-film__tag { opacity: 1; translate: none; scale: 1; }
 
-  .js-anim .day__dot { top: 0; }
-  .js-anim .day.is-live .day__dot { top: 100%; transition: top var(--D) linear 0.5s; }
-  .js-anim .day__seg { transform: scaleY(0); }
-  .js-anim .day.is-live .day__seg {
-    transform: none;
-    transition: transform calc((var(--e) - var(--s)) * var(--D)) linear calc(0.5s + var(--s) * var(--D));
-  }
-  .js-anim :is(.day__convos li, .day__end) { opacity: 0; translate: 0 8px; }
-  .js-anim .day.is-live .day__convos li {
-    opacity: 1;
-    translate: none;
-    transition: opacity 0.6s var(--ease), translate 0.7s var(--ease);
-    transition-delay: calc(0.5s + var(--s) * var(--D));
-  }
-  .js-anim .day.is-live .day__end { opacity: 1; translate: none; transition: opacity 0.6s var(--ease) calc(0.7s + var(--D)), translate 0.7s var(--ease) calc(0.7s + var(--D)); }
+  .js-anim .day__moments li { opacity: 0; translate: 0 10px; }
+  .js-anim .day__moments li::after { scale: 1 0; }
+  .js-anim .day.is-live .day__moments li { opacity: 1; translate: none; transition: opacity 0.7s var(--ease), translate 0.8s var(--ease); }
+  .js-anim .day.is-live .day__moments li::after { scale: 1 1; transition: scale 0.8s var(--ease); }
+  .js-anim .day.is-live .day__moments li:nth-child(1) { transition-delay: 0.2s; }
+  .js-anim .day.is-live .day__moments li:nth-child(1)::after { transition-delay: 0.6s; }
+  .js-anim .day.is-live .day__moments li:nth-child(2) { transition-delay: 1.1s; }
+  .js-anim .day.is-live .day__moments li:nth-child(2)::after { transition-delay: 1.5s; }
+  .js-anim .day.is-live .day__moments li:nth-child(3) { transition-delay: 2s; }
 }
 /* The app's screens come alive once their tile is in view: the days and
    the insights file in, Mirror's dots find their places and the goal's dot
