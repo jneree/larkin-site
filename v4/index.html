@@ -31,7 +31,7 @@
 <!-- DM Sans is served from this site: a Google Fonts stylesheet blocked the
      first paint (and the film) for 3–4 s on a 4G connection. -->
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="larkin.css?v=20261006g">
+<link rel="stylesheet" href="larkin.css?v=20261007a">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -631,9 +631,8 @@
        iPhone, free for everyone. A light card, so its button is ink and the
        page's one lime ask stays Reserve. The watch plays the app's own hold-
        to-record animation (rendered from the watch app's drawing code) behind
-       Apple's bezel, in front of the Chronicles screen. The form posts to
-       data-endpoint once there is one; until then it only says thanks
-       (larkin.js). -->
+       Apple's bezel, in front of the Chronicles screen. The form posts the
+       email to the Loops "Beta invite" form (data-endpoint; larkin.js). -->
   <section class="section beta" id="beta" aria-labelledby="beta-title">
     <div class="shell">
       <div class="beta-card rv">
@@ -641,7 +640,7 @@
           <p class="eyebrow">Try it now</p>
           <h2 class="beta__title" id="beta-title">Start today on your Apple Watch.</h2>
           <p class="beta__lead">The Larkin app is in beta on Apple Watch and iPhone, free for everyone.</p>
-          <form class="beta__form" data-beta-form data-endpoint="" novalidate>
+          <form class="beta__form" data-beta-form data-endpoint="https://app.loops.so/api/newsletter-form/cmuwuct3g02c80j0l18k7sf6z" novalidate>
             <label class="sr-only" for="beta-email">Your email</label>
             <input class="beta__input" id="beta-email" type="email" name="email" autocomplete="email" inputmode="email" placeholder="Your email" required>
             <button class="btn btn--ink" type="submit"><span>Get your invite</span></button>
@@ -905,6 +904,6 @@
   </div>
 </footer>
 
-<script src="larkin.js?v=20261006g" defer></script>
+<script src="larkin.js?v=20261007a" defer></script>
 </body>
 </html>
