@@ -30,7 +30,7 @@
 <!-- DM Sans is served from this site: a Google Fonts stylesheet blocked the
      first paint (and the film) for 3–4 s on a 4G connection. -->
 <link rel="preload" as="font" type="font/woff2" href="fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="larkin.css?v=20261006a">
+<link rel="stylesheet" href="larkin.css?v=20261006b">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -140,7 +140,7 @@
   <!-- How it works — an arm slides in wearing the band, then a day plays
        out on a line. The film loads near the viewport and plays once, resting
        on its last frame, which is also the poster; the headline rises with
-       it. The day card's three moments come in one after another once it's
+       it. The day card's morning, afternoon and night come in one after another once it's
        in view (larkin.js). Without JS or with reduced motion, the poster and
        the three moments simply show. -->
   <section class="section how" id="how">
@@ -170,9 +170,9 @@
         </div>
 
         <ol class="day__moments">
-          <li>Monday morning, an unplanned coffee with a friend that turned out to be really insightful.</li>
-          <li>Wednesday afternoon, a quick chat after a meeting where the real decision got made.</li>
-          <li>Friday night, dinner with an old friend that went on until the restaurant closed.</li>
+          <li><span class="day__when">Morning</span><p>An unplanned coffee with a friend that turned out to be really insightful.</p></li>
+          <li><span class="day__when">Afternoon</span><p>A quick chat after a meeting, where the real decision got made.</p></li>
+          <li><span class="day__when">Night</span><p>Dinner with an old friend that went on until the restaurant closed.</p></li>
         </ol>
       </div>
     </div>
@@ -805,6 +805,6 @@
   </div>
 </footer>
 
-<script src="larkin.js?v=20261006a" defer></script>
+<script src="larkin.js?v=20261006b" defer></script>
 </body>
 </html>
