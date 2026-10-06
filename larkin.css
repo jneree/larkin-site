@@ -529,9 +529,10 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   100% { object-position: 50% 76.5%; }
 }
 
-/* The day: a dark card, the copy beside a line from morning to evening.
+/* The day: a dark card, the copy beside a line from morning to night.
    Lime is only ever on this dark ground. --D is how long the dot takes to
-   cross the day; each conversation lights as the dot reaches it. */
+   cross the day; each moment, its time of day beside it, lights as the dot
+   reaches it. */
 .day {
   --D: 6.5s;
   display: grid;
@@ -559,16 +560,17 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   height: clamp(340px, 32vw, 420px);
 }
 .day__marks { position: relative; }
+/* Each time of day sits level with the first line of its moment. */
 .day__marks li {
   position: absolute;
   right: 0;
-  top: calc(var(--at) * 100%);
-  transform: translateY(calc(var(--at) * -100%));
+  top: calc(var(--s) * 100%);
+  margin-top: 4px;
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--on-feature-2);
+  color: var(--lime);
   line-height: 1;
 }
 /* An invisible copy of the longest word holds the column's width. */
@@ -612,14 +614,12 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   gap: 2px;
   margin-top: -3px;
 }
-.day__convos strong { font-size: 1.0625rem; font-weight: 600; line-height: 1.25; }
-.day__convos span { color: var(--on-feature-2); font-size: 0.9375rem; line-height: 1.35; }
+.day__convos p { max-width: 32ch; font-size: clamp(1.0625rem, 1.3vw, 1.1875rem); font-weight: 500; line-height: 1.35; text-wrap: pretty; }
 .day__when { display: none; }
-.day__end { color: var(--lime); font-weight: 600; font-size: 1.0625rem; }
-/* Narrow screens: no room for a label column, so each conversation carries
-   its own time of day and the line takes the full width. */
+/* Narrow screens: no room for a label column, so each moment carries its
+   own time of day and the line takes the full width. */
 @media (max-width: 599px) {
-  .day__line { grid-template-columns: 2px 1fr; height: 380px; }
+  .day__line { grid-template-columns: 2px 1fr; height: 440px; }
   .day__marks { display: none; }
   .day__when {
     display: block;
@@ -629,24 +629,12 @@ html.js .site-header:not(.is-floating) .site-header__inner {
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--on-feature-2);
+    color: var(--lime);
   }
 }
 @media (min-width: 900px) {
-  .day { grid-template-columns: 1fr 1fr; align-items: start; row-gap: 28px; }
-  .day__copy { grid-row: span 2; }
+  .day { grid-template-columns: 1fr 1fr; align-items: center; }
 }
-
-/* Three plain facts under the card, hairline above each. */
-.how__notes {
-  display: grid;
-  gap: 28px;
-  margin-top: clamp(40px, 5vw, 64px);
-}
-.how__notes li { display: grid; gap: 8px; padding-top: 20px; border-top: 1px solid var(--hair); }
-.how__notes h3 { font-size: 1.1875rem; font-weight: 700; line-height: 1.2; }
-.how__notes p { color: var(--ink-2); font-size: 1.0625rem; max-width: 34ch; }
-@media (min-width: 900px) { .how__notes { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
 
 /* --------------------------------------------------------------------------
    9. Phone frame
@@ -725,8 +713,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 
 /* Mirror's three parts. Wide: a list beside the phone, the chosen part
    opening its line of explanation. Phones: a small switch above the phone.
-   While the screens advance on their own, a lime line fills over the
-   chosen part's time on screen. */
+   A lime line fills beside the chosen part: with scroll on wide screens,
+   over its time on screen while the parts advance on their own on phones. */
 .mtab {
   position: relative;
   display: grid;
@@ -760,6 +748,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    until the phone is in view, then fills. */
 .mtabs.is-playing .mtab.is-on::before { background: rgba(255, 255, 255, 0.14); }
 .mtabs.is-auto .mtab.is-on .mtab__time { animation: mtab-fill var(--dwell, 6s) linear forwards; }
+/* Wide screens: scroll moves through the parts, and the line fills with it. */
+.mtabs.is-scrolled .mtab.is-on::before { background: rgba(255, 255, 255, 0.14); }
+.mtabs.is-scrolled .mtab.is-on .mtab__time { transform: scaleY(var(--fill, 0)); }
 @keyframes mtab-fill { to { transform: none; } }
 .mtab__more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s var(--ease); }
 .mtab.is-on .mtab__more { grid-template-rows: 1fr; }
@@ -911,6 +902,14 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .tour.is-held .chap:nth-child(1) .feat__copy { grid-row: 1; }
   .tour.is-held .chap:nth-child(2) .feat__copy { grid-row: 2; }
   .tour.is-held .chap:nth-child(3) .feat__copy { grid-row: 3; }
+  /* Mirror's row runs two screens longer: its words hold in the middle
+     while scroll takes its three parts in turn (larkin.js). */
+  .tour.is-held { grid-template-rows: auto auto calc(80vh + 2 * var(--mirror-step)); --mirror-step: 70vh; }
+  .tour.is-held .chap:nth-child(3) .feat__copy {
+    align-self: start;
+    position: sticky;
+    top: 10vh;
+  }
   .app .tour.is-held .chap .stage {
     grid-column: 2;
     grid-row: 1 / 4;
@@ -1485,8 +1484,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .hero__copy > :nth-child(5) { animation-delay: 300ms; }
 }
 @media (prefers-reduced-motion: no-preference) and (min-width: 700px) {
-  :is(.how__notes, .uc-grid, .privacy__grid) > .rv:nth-child(2) { --rv-d: 90ms; }
-  :is(.how__notes, .uc-grid, .privacy__grid) > .rv:nth-child(3) { --rv-d: 180ms; }
+  :is(.uc-grid, .privacy__grid) > .rv:nth-child(2) { --rv-d: 90ms; }
+  :is(.uc-grid, .privacy__grid) > .rv:nth-child(3) { --rv-d: 180ms; }
   .uc-grid > .rv:nth-child(4) { --rv-d: 120ms; }
   .privacy__grid > .rv:nth-child(4) { --rv-d: 0ms; }
   .privacy__grid > .rv:nth-child(5) { --rv-d: 90ms; }
@@ -1518,14 +1517,13 @@ html.js .site-header:not(.is-floating) .site-header__inner {
     transform: none;
     transition: transform calc((var(--e) - var(--s)) * var(--D)) linear calc(0.5s + var(--s) * var(--D));
   }
-  .js-anim :is(.day__convos li, .day__end) { opacity: 0; translate: 0 8px; }
-  .js-anim .day.is-live .day__convos li {
+  .js-anim :is(.day__convos li, .day__marks li) { opacity: 0; translate: 0 8px; }
+  .js-anim .day.is-live :is(.day__convos li, .day__marks li) {
     opacity: 1;
     translate: none;
     transition: opacity 0.6s var(--ease), translate 0.7s var(--ease);
     transition-delay: calc(0.5s + var(--s) * var(--D));
   }
-  .js-anim .day.is-live .day__end { opacity: 1; translate: none; transition: opacity 0.6s var(--ease) calc(0.7s + var(--D)), translate 0.7s var(--ease) calc(0.7s + var(--D)); }
 }
 /* The app's screens come alive once their tile is in view: the days and
    the insights file in, Mirror's dots find their places and the goal's dot
