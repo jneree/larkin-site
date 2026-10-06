@@ -31,7 +31,7 @@
 <!-- DM Sans is served from this site: a Google Fonts stylesheet blocked the
      first paint (and the film) for 3–4 s on a 4G connection. -->
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="larkin.css?v=20261006c">
+<link rel="stylesheet" href="larkin.css?v=20261006d">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -611,13 +611,85 @@
           <h2 class="preorder__title">Rese<span class="kern">r</span>ve your Larkin for $10.</h2>
           <p class="preorder__price"><b>$129</b> full price, ships Q1 2027</p>
           <ul class="preorder__points">
-            <li>Lifetime membership</li>
+            <li>The app free for life</li>
             <li>Numbered, ships first</li>
             <li>Refundable any time</li>
           </ul>
           <a class="btn btn--lime btn--block" data-reserve href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=v4">
           <span>Rese<span class="kern">r</span>ve yours for $10</span>
           </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Try the app — after the reservation and clearly second to it: the
+       bracelet is the product, the app is in beta now on Apple Watch and
+       iPhone, free for everyone. A light card, so its button is ink and the
+       page's one lime ask stays Reserve. The watch plays the app's own hold-
+       to-record animation (rendered from the watch app's drawing code) inside
+       Apple's bezel, in front of the Chronicles screen. The form posts to
+       data-endpoint once there is one; until then it only says thanks
+       (larkin.js). -->
+  <section class="section beta" id="beta" aria-labelledby="beta-title">
+    <div class="shell">
+      <div class="beta-card rv">
+        <div class="beta__copy">
+          <p class="eyebrow">Try it now</p>
+          <h2 class="beta__title" id="beta-title">Start today on your Apple Watch.</h2>
+          <p class="beta__lead">The Larkin app is in beta on Apple Watch and iPhone, free for everyone. Start it on your watch and it keeps listening in the background. Each evening, your day comes back on your iPhone.</p>
+          <form class="beta__form" data-beta-form data-endpoint="" novalidate>
+            <label class="sr-only" for="beta-email">Your email</label>
+            <input class="beta__input" id="beta-email" type="email" name="email" autocomplete="email" inputmode="email" placeholder="Your email" required>
+            <button class="btn btn--ink" type="submit"><span>Get your invite</span></button>
+            <p class="beta__msg" role="status" aria-live="polite" data-beta-msg></p>
+          </form>
+          <p class="beta__note">Needs an iPhone and an Apple Watch. <a href="#reserve">Reserve the bracelet</a> and the app stays free for you, for life.</p>
+        </div>
+        <div class="beta__devices" role="img" aria-label="The Larkin app on an Apple Watch, recording in lime with the words “Larkin is with you”, in front of an iPhone showing this week’s days in Chronicles.">
+          <div class="ui-phone">
+            <div class="ui-screen">
+              <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+              <div class="ui-bar"><span class="ui-capsule"><svg><use href="#i-band"/></svg><i></i><span class="ui-capsule__sep"></span><svg><use href="#i-more"/></svg></span></div>
+              <div class="ui-body">
+                <p class="ui-h1">Chronicles</p>
+                <div class="ui-row"><span class="ui-eyebrow">This week</span><span class="ui-link"><svg><use href="#i-cal"/></svg>Calendar</span></div>
+                <div class="ui-days">
+                  <div class="ui-day">
+                    <p class="ui-day__date"><small>Wed</small><b>30</b></p>
+                    <div class="ui-day__card">
+                      <p class="ui-day__title">Finding the simpler story</p>
+                      <p class="ui-day__sum">Product ideas gave way to everyday life, and the pitch got easier to explain.</p>
+                      <p class="ui-meta"><span>6 conversations · 1h 48m<span class="ui-meta__more"> · 3 insights</span></span><svg><use href="#i-chev"/></svg></p>
+                    </div>
+                  </div>
+                  <div class="ui-day">
+                    <p class="ui-day__date"><small>Tue</small><b>29</b></p>
+                    <div class="ui-day__card">
+                      <p class="ui-day__title">Saying no, kindly</p>
+                      <p class="ui-day__sum">You turned down a side project without closing the door.</p>
+                      <p class="ui-meta"><span>4 conversations · 52m<span class="ui-meta__more"> · 2 insights</span></span><svg><use href="#i-chev"/></svg></p>
+                    </div>
+                  </div>
+                  <div class="ui-day">
+                    <p class="ui-day__date"><small>Mon</small><b>28</b></p>
+                    <div class="ui-day__card">
+                      <p class="ui-day__title">Two ways to tell it</p>
+                      <p class="ui-day__sum">Two openings for the pitch. The everyday problem got more questions.</p>
+                      <p class="ui-meta"><span>7 conversations · 2h 10m<span class="ui-meta__more"> · 3 insights</span></span><svg><use href="#i-chev"/></svg></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="watch" data-watch>
+            <img class="watch__bezel" src="/media/watch-bezel-560.webp" alt="" width="560" height="880" loading="lazy" decoding="async">
+            <div class="watch__screen">
+              <img class="watch__still" src="/media/watch-record-still-520.webp" alt="" width="520" height="620" loading="lazy" decoding="async">
+              <video class="watch__video" data-src="/media/watch-record-520.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -782,6 +854,14 @@
           <p>Seven days of normal wear, around 160 hours of listening. Ninety minutes on the magnetic charger takes it back to full.</p>
         </details>
         <details class="faq__item">
+          <summary>Can I try Larkin before the bracelet ships?</summary>
+          <p>Yes. The Larkin app is in beta on Apple Watch and iPhone, free for everyone. <a href="#beta">Get your invite</a> and your watch does the listening until your bracelet arrives.</p>
+        </details>
+        <details class="faq__item">
+          <summary>What does the lifetime membership include?</summary>
+          <p>The app is free for everyone during the beta. When it becomes a paid membership, everyone who reserved a Founder Edition keeps it free, for life. If you cancel your reservation and take back your $10, the membership goes with it.</p>
+        </details>
+        <details class="faq__item">
           <summary>What does it cost, and when does it ship?</summary>
           <p>$129 when it ships in Q1 2027. A $10 reservation holds one from the first run of 1,000, refundable any time.</p>
         </details>
@@ -822,6 +902,6 @@
   </div>
 </footer>
 
-<script src="larkin.js?v=20261006c" defer></script>
+<script src="larkin.js?v=20261006d" defer></script>
 </body>
 </html>
