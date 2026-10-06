@@ -6,5 +6,6 @@ Disallow: /v1/
 Disallow: /v2/
 Disallow: /v3/
 Disallow: /v4/
+Disallow: /v5/
 
 Sitemap: https://getlarkin.com/sitemap.xml
