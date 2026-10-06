@@ -30,7 +30,7 @@
 <!-- DM Sans is served from this site: a Google Fonts stylesheet blocked the
      first paint (and the film) for 3–4 s on a 4G connection. -->
 <link rel="preload" as="font" type="font/woff2" href="fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="larkin.css?v=20261006f">
+<link rel="stylesheet" href="larkin.css?v=20261006g">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -614,9 +614,12 @@
             <li>Numbered, ships first</li>
             <li>Refundable any time</li>
           </ul>
-          <a class="btn btn--lime btn--block" data-reserve href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=general">
-          <span>Rese<span class="kern">r</span>ve yours for $10</span>
-          </a>
+          <div class="preorder__actions">
+            <a class="btn btn--lime btn--block" data-reserve href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=general">
+            <span>Rese<span class="kern">r</span>ve yours for $10</span>
+            </a>
+            <a class="btn btn--ghost btn--block" href="#beta"><span>Try it now on Apple Watch</span></a>
+          </div>
         </div>
       </div>
     </div>
@@ -626,7 +629,7 @@
        bracelet is the product, the app is in beta now on Apple Watch and
        iPhone, free for everyone. A light card, so its button is ink and the
        page's one lime ask stays Reserve. The watch plays the app's own hold-
-       to-record animation (rendered from the watch app's drawing code) inside
+       to-record animation (rendered from the watch app's drawing code) behind
        Apple's bezel, in front of the Chronicles screen. The form posts to
        data-endpoint once there is one; until then it only says thanks
        (larkin.js). -->
@@ -636,14 +639,14 @@
         <div class="beta__copy">
           <p class="eyebrow">Try it now</p>
           <h2 class="beta__title" id="beta-title">Start today on your Apple Watch.</h2>
-          <p class="beta__lead">The Larkin app is in beta on Apple Watch and iPhone, free for everyone. Start it on your watch and it keeps listening in the background. Each evening, your day comes back on your iPhone.</p>
+          <p class="beta__lead">The Larkin app is in beta on Apple Watch and iPhone, free for everyone.</p>
           <form class="beta__form" data-beta-form data-endpoint="" novalidate>
             <label class="sr-only" for="beta-email">Your email</label>
             <input class="beta__input" id="beta-email" type="email" name="email" autocomplete="email" inputmode="email" placeholder="Your email" required>
             <button class="btn btn--ink" type="submit"><span>Get your invite</span></button>
             <p class="beta__msg" role="status" aria-live="polite" data-beta-msg></p>
           </form>
-          <p class="beta__note">Needs an iPhone and an Apple Watch. <a href="#reserve">Reserve the bracelet</a> and the app stays free for you, for life.</p>
+          <p class="beta__note">Needs an iPhone and an Apple Watch.</p>
         </div>
         <div class="beta__devices" role="img" aria-label="The Larkin app on an Apple Watch, recording in lime with the words “Larkin is with you”, in front of an iPhone showing this week’s days in Chronicles.">
           <div class="ui-phone">
@@ -683,11 +686,11 @@
             </div>
           </div>
           <div class="watch" data-watch>
-            <img class="watch__bezel" src="media/watch-bezel-560.webp" alt="" width="560" height="880" loading="lazy" decoding="async">
             <div class="watch__screen">
               <img class="watch__still" src="media/watch-record-still-520.webp" alt="" width="520" height="620" loading="lazy" decoding="async">
               <video class="watch__video" data-src="media/watch-record-520.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
             </div>
+            <img class="watch__bezel" src="media/watch-bezel-560.webp" alt="" width="560" height="880" loading="lazy" decoding="async">
           </div>
         </div>
       </div>
@@ -901,6 +904,6 @@
   </div>
 </footer>
 
-<script src="larkin.js?v=20261006f" defer></script>
+<script src="larkin.js?v=20261006g" defer></script>
 </body>
 </html>

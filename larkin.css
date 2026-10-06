@@ -1282,6 +1282,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .pgal__thumbs button.is-active { opacity: 1; outline: 2px solid var(--lime); outline-offset: 2px; }
 
 .preorder__copy { display: grid; gap: 18px; align-content: center; padding: clamp(12px, 3vw, 40px); }
+.preorder__actions { display: grid; gap: 10px; }
 .preorder__eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lime); }
 .preorder__title { font-size: clamp(2.25rem, 4vw, 3.5rem); font-weight: 700; line-height: 1; letter-spacing: -0.02em; text-wrap: balance; }
 .preorder__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; margin-top: -4px; color: var(--on-feature-2); font-size: 1rem; }
@@ -1354,8 +1355,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .beta__devices .ui-phone { --pw: 290px; --ph: 470px; flex: none; }
 /* The watch stands in front of the phone's lower left, its band cut by
-   the card's edge like the phone's foot. The screen sits in the bezel's
-   opening (its 72-487 x 192-687 in the 560 x 880 PNG), rounded to match. */
+   the card's edge like the phone's foot. The screen sits behind the bezel,
+   a little larger than its transparent opening (72-487 x 192-687 in the
+   560 x 880 PNG), so the bezel's own rounded edge frames it exactly. */
 .watch {
   position: relative;
   z-index: 1;
@@ -1363,23 +1365,26 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   order: -1;
   width: var(--ww);
   aspect-ratio: 560 / 880;
-  margin: 0 calc(var(--ww) * -0.42) calc(var(--ww) * -0.24) 0;
+  margin: 0 calc(var(--ww) * -0.42) calc(var(--ww) * -0.17) 0;
   filter: drop-shadow(0 24px 30px rgba(21, 21, 21, 0.28));
 }
-.watch__bezel { display: block; width: 100%; height: 100%; }
+.watch__bezel { position: relative; display: block; width: 100%; height: 100%; }
 .watch__screen {
   position: absolute;
-  left: 12.857%;
-  top: 21.818%;
-  width: 74.107%;
-  height: 56.25%;
+  left: 11.6%;
+  top: 21%;
+  width: 76.6%;
+  height: 57.9%;
   overflow: hidden;
-  border-radius: 24.5% / 20.6%;
+  border-radius: 22%;
   background: #000;
 }
 .watch__screen :is(img, video) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* Once the film is up, the lime still underneath goes, so no sliver of
+   it shows at an edge. */
 .watch__video { opacity: 0; transition: opacity 0.4s var(--ease); }
 .watch.is-playing .watch__video { opacity: 1; }
+.watch.is-playing .watch__still { opacity: 0; transition: opacity 0s linear 0.4s; }
 @media (min-width: 900px) {
   .beta-card { grid-template-columns: 1fr 1fr; }
   .beta__copy { padding-bottom: clamp(28px, 5vw, 72px); }
