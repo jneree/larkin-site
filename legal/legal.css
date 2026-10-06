@@ -1,0 +1,27 @@
+/* Privacy policy and terms: the marketing site's type and tokens, set for long reading. */
+.legal-page .logo circle:last-child { fill: var(--lime); }
+.legal { max-width: 720px; margin: 0 auto; padding: 140px 24px 96px; }
+.legal__head { display: grid; gap: 16px; padding-bottom: 40px; border-bottom: 1px solid var(--hair); margin-bottom: 48px; }
+.legal__head h1 { font-size: clamp(2.75rem, 6vw, 4.5rem); line-height: 1; letter-spacing: -0.025em; font-weight: 700; }
+.legal__head p { color: var(--ink-2); font-size: 1.125rem; line-height: 1.5; }
+.legal__meta { font-size: 0.875rem; color: var(--ink-3); }
+.legal__summary { background: var(--card); border-radius: 28px; padding: 28px 32px; margin-bottom: 56px; }
+.legal__summary h2 { font-size: 1.25rem; margin-bottom: 14px; }
+.legal__summary ul { margin: 0; }
+.legal section { margin-bottom: 48px; scroll-margin-top: 100px; }
+.legal h2 { font-size: 1.75rem; line-height: 1.15; letter-spacing: -0.015em; font-weight: 700; margin-bottom: 16px; }
+.legal h3 { font-size: 1.125rem; font-weight: 700; margin: 24px 0 8px; }
+.legal p, .legal li { font-size: 1.0625rem; line-height: 1.6; color: var(--ink); }
+.legal p + p { margin-top: 12px; }
+.legal ul { list-style: disc; padding-left: 1.2em; margin: 12px 0; display: grid; gap: 8px; }
+.legal li::marker { color: var(--ink-3); }
+.legal a { text-decoration: underline; text-underline-offset: 3px; }
+.legal table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.9375rem; }
+.legal th, .legal td { text-align: left; vertical-align: top; padding: 12px 12px 12px 0; border-bottom: 1px solid var(--hair); line-height: 1.5; }
+.legal th { font-weight: 700; }
+.legal .table-wrap { overflow-x: auto; }
+@media (max-width: 640px) {
+  .legal { padding-top: 110px; }
+  .legal__summary { padding: 24px; border-radius: 22px; }
+  .legal table { font-size: 0.875rem; }
+}
