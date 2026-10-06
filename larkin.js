@@ -816,11 +816,73 @@
     }
   });
 
+  var segment = root.getAttribute('data-theme') || 'general';
+
+  /* ---- Try the app ------------------------------------------------------ */
+  /* The watch plays the app's hold-to-record animation, looping, only while
+     it's on screen; the lime recording frame stands in until then, and for
+     good under reduced motion or when the video can't play. */
+  document.querySelectorAll('[data-watch]').forEach(function (watch) {
+    var video = watch.querySelector('video');
+    if (!video || reduceMotion || !('IntersectionObserver' in window)) return;
+    video.addEventListener('playing', function () { watch.classList.add('is-playing'); });
+    new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        if (!video.src) video.src = video.getAttribute('data-src');
+        var p = video.play();
+        if (p && p.catch) p.catch(function () {});
+      } else {
+        video.pause();
+      }
+    }, { threshold: 0.4 }).observe(watch);
+  });
+
+  /* The invite form asks for an email and posts it as JSON to data-endpoint.
+     A Lead goes to Meta for the ads. Without an endpoint (the preview) it
+     only says thanks. */
+  document.querySelectorAll('[data-beta-form]').forEach(function (form) {
+    var input = form.querySelector('input[type="email"]');
+    var button = form.querySelector('button[type="submit"]');
+    var msg = form.querySelector('[data-beta-msg]');
+    var endpoint = form.getAttribute('data-endpoint');
+    var say = function (text) { msg.textContent = text; };
+    var done = function () {
+      form.classList.add('is-done');
+      say('You’re in. Your invite is on its way to ' + input.value.trim() + '.');
+      if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: 'App beta', content_category: segment });
+    };
+    input.addEventListener('input', function () {
+      if (input.getAttribute('aria-invalid')) { input.removeAttribute('aria-invalid'); say(''); }
+    });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = input.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        input.setAttribute('aria-invalid', 'true');
+        say('That email doesn’t look right. Could you check it?');
+        input.focus();
+        return;
+      }
+      if (!endpoint) { done(); return; }
+      button.disabled = true;
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, source: segment })
+      }).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        done();
+      }).catch(function () {
+        button.disabled = false;
+        say('That didn’t go through. Please try again in a moment.');
+      });
+    });
+  });
+
   /* ---- Checkout attribution -------------------------------------------- */
   /* Every reserve CTA goes to the Stripe Payment Link for the $10 deposit,
      tagged with the page as client_reference_id. Fire InitiateCheckout with
      the same segment so the pages stay distinguishable in Meta reporting. */
-  var segment = root.getAttribute('data-theme') || 'general';
   document.querySelectorAll('a[data-reserve]').forEach(function (link) {
     link.addEventListener('click', function () {
       if (typeof window.fbq === 'function') {
