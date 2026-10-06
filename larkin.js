@@ -273,8 +273,8 @@
      the section is properly in view, resting on its last frame (the poster).
      .is-on raises the headline, .is-settled shows the pill once the arm has
      come to rest (data-settle, seconds into the film), and .is-still brings
-     the poster back whenever the film can't play. The day card brings its
-     three moments in once, when most of them are on screen. */
+     the poster back whenever the film can't play. The day card plays its line
+     once, when most of the line is on screen. */
   var howFilm = document.querySelector('[data-how-film]');
   if (howFilm) {
     var howVideo = howFilm.querySelector('video');
@@ -336,7 +336,7 @@
         if (!entries[0].isIntersecting) return;
         obs.disconnect();
         day.classList.add('is-live');
-      }, { threshold: 0.6 }).observe(day.querySelector('.day__moments'));
+      }, { threshold: 0.6 }).observe(day.querySelector('.day__line'));
     }
   }
 

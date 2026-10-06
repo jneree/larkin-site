@@ -529,9 +529,12 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   100% { object-position: 50% 76.5%; }
 }
 
-/* The day: a dark card, the copy beside one day's morning, afternoon and
-   night. Lime is only ever on this dark ground. */
+/* The day: a dark card, the copy beside a line from morning to night.
+   Lime is only ever on this dark ground. --D is how long the dot takes to
+   cross the day; each moment, its time of day beside it, lights as the dot
+   reaches it. */
 .day {
+  --D: 6.5s;
   display: grid;
   gap: clamp(32px, 5vw, 64px);
   margin-top: clamp(24px, 4vw, 56px);
@@ -550,31 +553,84 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .day__copy p:last-child { max-width: 40ch; color: var(--on-feature-2); font-size: 1.0625rem; }
 
-/* One day in three rows: the time of day in lime, then what happened. */
-.day__moments li {
+.day__line {
   display: grid;
-  gap: 6px;
-  padding-block: clamp(18px, 2vw, 24px);
-  border-top: 1px solid var(--hair-dark);
+  grid-template-columns: auto 2px 1fr;
+  column-gap: clamp(16px, 2vw, 24px);
+  height: clamp(340px, 32vw, 420px);
 }
-.day__moments li:last-child { padding-bottom: 0; }
-.day__when {
-  color: var(--lime);
-  font-size: 0.8125rem;
+.day__marks { position: relative; }
+/* Each time of day sits level with the first line of its moment. */
+.day__marks li {
+  position: absolute;
+  right: 0;
+  top: calc(var(--s) * 100%);
+  margin-top: 4px;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  line-height: 1.6;
+  color: var(--lime);
+  line-height: 1;
 }
-.day__moments p {
-  max-width: 34ch;
-  font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
-  font-weight: 500;
-  line-height: 1.4;
-  text-wrap: pretty;
+/* An invisible copy of the longest word holds the column's width. */
+.day__marks::before {
+  content: "Afternoon";
+  visibility: hidden;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
-@media (min-width: 600px) {
-  .day__moments li { grid-template-columns: 7.5rem 1fr; column-gap: 20px; align-items: baseline; }
+.day__track { position: relative; border-radius: 2px; background: var(--hair-dark); }
+.day__seg {
+  position: absolute;
+  left: -1px;
+  width: 4px;
+  top: calc(var(--s) * 100%);
+  height: calc((var(--e) - var(--s)) * 100%);
+  border-radius: 2px;
+  background: var(--lime);
+  transform-origin: 50% 0;
+}
+.day__dot {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--lime);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 7px rgba(210, 237, 40, 0.16), 0 0 22px rgba(210, 237, 40, 0.45);
+}
+.day__convos { position: relative; }
+.day__convos li {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--s) * 100%);
+  display: grid;
+  gap: 2px;
+  margin-top: -3px;
+}
+.day__convos p { max-width: 32ch; font-size: clamp(1.0625rem, 1.3vw, 1.1875rem); font-weight: 500; line-height: 1.35; text-wrap: pretty; }
+.day__when { display: none; }
+/* Narrow screens: no room for a label column, so each moment carries its
+   own time of day and the line takes the full width. */
+@media (max-width: 599px) {
+  .day__line { grid-template-columns: 2px 1fr; height: 440px; }
+  .day__marks { display: none; }
+  .day__when {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--lime);
+  }
 }
 @media (min-width: 900px) {
   .day { grid-template-columns: 1fr 1fr; align-items: center; }
@@ -1436,7 +1492,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .privacy__grid > .rv:nth-child(6) { --rv-d: 180ms; }
 }
 /* How it works: the headline rises with the arm, the pill appears once the
-   arm has settled, and the day's three moments come in one by one. Until the film
+   arm has settled, and the day plays out along its line. Until the film
    plays, its frame is empty white (the poster would give the ending away);
    .is-still brings the poster back if the film can't play. */
 @media (prefers-reduced-motion: no-preference) {
@@ -1454,10 +1510,20 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .js-anim .how-film__tag { opacity: 0; translate: 0 8px; scale: 0.92; transition: opacity 0.5s var(--ease), translate 0.6s var(--ease), scale 0.6s var(--ease); }
   .js-anim .how-film.is-settled .how-film__tag { opacity: 1; translate: none; scale: 1; }
 
-  .js-anim .day__moments li { opacity: 0; translate: 0 10px; }
-  .js-anim .day.is-live .day__moments li { opacity: 1; translate: none; transition: opacity 0.7s var(--ease), translate 0.8s var(--ease); }
-  .js-anim .day.is-live .day__moments li:nth-child(2) { transition-delay: 0.5s; }
-  .js-anim .day.is-live .day__moments li:nth-child(3) { transition-delay: 1s; }
+  .js-anim .day__dot { top: 0; }
+  .js-anim .day.is-live .day__dot { top: 100%; transition: top var(--D) linear 0.5s; }
+  .js-anim .day__seg { transform: scaleY(0); }
+  .js-anim .day.is-live .day__seg {
+    transform: none;
+    transition: transform calc((var(--e) - var(--s)) * var(--D)) linear calc(0.5s + var(--s) * var(--D));
+  }
+  .js-anim :is(.day__convos li, .day__marks li) { opacity: 0; translate: 0 8px; }
+  .js-anim .day.is-live :is(.day__convos li, .day__marks li) {
+    opacity: 1;
+    translate: none;
+    transition: opacity 0.6s var(--ease), translate 0.7s var(--ease);
+    transition-delay: calc(0.5s + var(--s) * var(--D));
+  }
 }
 /* The app's screens come alive once their tile is in view: the days and
    the insights file in, Mirror's dots find their places and the goal's dot
