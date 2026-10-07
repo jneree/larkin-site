@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="general">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Larkin is reserved</title>
+<meta name="description" content="Your Larkin reservation is confirmed.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/v5.css?v=20261007f">
+<style>
+  /* After checkout. The homepage's stylesheet, so the page is the brand:
+     white, DM Sans, the wordmark with its lime full stop. A plain header
+     (no film behind it, nothing to hide on scroll), the confirmation, the
+     one thing to do now (the app beta, on the dark card where lime can be
+     the button), what happens next, and the homepage footer. */
+  .ty-header { padding: clamp(20px, 3vw, 32px) 0 0; }
+  .ty-header .brand { display: inline-block; color: var(--ink); }
+
+  .ty { padding-block: clamp(56px, 9vw, 120px) var(--section); }
+  .ty__intro { display: grid; gap: 18px; max-width: 46rem; }
+  .ty__title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+  }
+  .ty__title > span { display: block; color: var(--ink-3); }
+  .ty__lead { max-width: 40ch; color: var(--ink-2); font-size: clamp(1.0625rem, 1.4vw, 1.25rem); text-wrap: pretty; }
+
+  /* The app beta: copy and the lime button on the left, the watch playing
+     the app's own animation on the right. */
+  .ty-beta {
+    display: grid;
+    gap: 28px;
+    margin-top: clamp(48px, 7vw, 88px);
+    padding: clamp(28px, 5vw, 64px);
+    overflow: hidden;
+    border-radius: var(--r-xl);
+    background: var(--feature);
+    color: #fff;
+  }
+  .ty-beta__copy { display: grid; gap: 16px; align-content: center; justify-items: start; }
+  .ty-beta__copy .eyebrow { color: var(--lime); }
+  .ty-beta__title { font-size: clamp(2rem, 3.6vw, 3.25rem); font-weight: 700; line-height: 1.02; letter-spacing: -0.02em; text-wrap: balance; }
+  .ty-beta__text { max-width: 40ch; color: var(--on-feature-2); font-size: 1.0625rem; }
+  .ty-beta__copy .btn { margin-top: 6px; }
+  .ty-beta__note { color: var(--on-feature-2); font-size: 0.875rem; }
+  .ty-beta__watch { display: flex; justify-content: center; align-items: center; }
+  .ty-beta .watch { --ww: clamp(150px, 18vw, 230px); order: 0; margin: 0; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.5)); }
+  @media (min-width: 900px) {
+    .ty-beta { grid-template-columns: 1.3fr 1fr; }
+  }
+
+  /* What happens next: three rows, hairline above each. */
+  .ty-next { display: grid; gap: 28px; margin-top: clamp(56px, 8vw, 104px); }
+  .ty-next li { display: grid; gap: 8px; padding-top: 20px; border-top: 1px solid var(--hair); }
+  .ty-next b { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+  .ty-next h2 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; }
+  .ty-next p { max-width: 34ch; color: var(--ink-2); font-size: 1rem; }
+  @media (min-width: 900px) { .ty-next { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
+
+  .ty-foot { display: grid; gap: 20px; justify-items: start; margin-top: clamp(48px, 7vw, 88px); }
+  .ty-foot p { max-width: 46ch; color: var(--ink-2); }
+</style>
+<!-- ==================== FACEBOOK PIXEL ==================== -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1033614279315561');
+  fbq('track', 'PageView');
+
+  /* The Stripe Payment Link redirects here with ?session_id={CHECKOUT_SESSION_ID}.
+     Purchase carries that session id as its eventID. No session_id in the URL
+     means this page was opened directly rather than reached from checkout,
+     so there is no purchase to report. */
+  (function () {
+    var id = new URLSearchParams(window.location.search).get('session_id');
+    if (!id || !/^cs_[A-Za-z0-9_]+$/.test(id)) return;
+    fbq('track', 'Purchase', {
+      value: 10,
+      currency: 'USD',
+      content_name: 'Larkin Wristband (Reservation)'
+    }, { eventID: id });
+  })();
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1033614279315561&ev=PageView&noscript=1" alt="" />
+</noscript>
+<!-- ================== END FACEBOOK PIXEL ================== -->
+</head>
+<body>
+
+<header class="ty-header">
+  <div class="shell">
+    <a class="brand" href="/" aria-label="Larkin, home"><svg class="logo" viewBox="189 333 431.8 129.2" aria-hidden="true" focusable="false"><path d="M189 460V336H212.91V460ZM250.69 462.13Q240.24 462.13 233.42 458.58Q226.6 455.04 223.41 449.02Q220.22 442.99 220.22 435.73Q220.22 427.58 224.38 421.38Q228.55 415.18 237.05 411.73Q245.55 408.27 258.48 408.27H280.63Q280.63 401.72 278.77 397.47Q276.91 393.22 273.1 391.09Q269.29 388.97 263.44 388.97Q256.54 388.97 251.66 392.07Q246.79 395.17 245.55 401.72H222.35Q223.41 391.98 228.81 384.89Q234.22 377.81 243.16 373.91Q252.11 370.01 263.44 370.01Q276.2 370.01 285.41 374.17Q294.62 378.34 299.58 386.4Q304.54 394.46 304.54 405.97V460H284.7L282.22 446.36H281.51Q278.68 450.26 275.4 453.27Q272.12 456.28 268.23 458.23Q264.33 460.18 259.9 461.15Q255.47 462.13 250.69 462.13ZM258.48 443.7Q263.44 443.7 267.08 442.02Q270.71 440.34 273.36 437.5Q276.02 434.67 277.53 430.86Q279.03 427.05 279.56 422.98H261.14Q255.65 422.98 252.2 424.31Q248.74 425.63 247.15 428.03Q245.55 430.42 245.55 433.61Q245.55 436.79 247.15 439.1Q248.74 441.4 251.75 442.55Q254.76 443.7 258.48 443.7ZM311.85 460V372.14H332.22L334.35 391.45H335.05Q338.95 382.06 343.56 377.54Q348.16 373.02 354.1 371.52Q360.03 370.01 367.47 370.01V395.34H360.92Q354.89 395.34 350.2 396.67Q345.51 398 342.32 400.92Q339.13 403.85 337.45 408.63Q335.76 413.41 335.76 420.14V460ZM431.15 460 392.71 411.64 426.55 372.14H454.89L411.14 421.56L410.96 402.61L460.74 460ZM372.34 460V336H396.26V460ZM465.12 460V372.14H489.04V460ZM496.83 460V372.14H517.2L519.33 386.49H520.04Q524.29 378.69 531.55 374.35Q538.81 370.01 549.8 370.01Q560.78 370.01 568.4 374.71Q576.01 379.4 580 388.43Q583.98 397.47 583.98 410.75V460H560.07V412.88Q560.07 401.9 555.64 396.05Q551.21 390.21 541.65 390.21Q535.62 390.21 530.84 393.13Q526.06 396.05 523.4 401.45Q520.74 406.86 520.74 414.65V460Z"/><circle cx="477.08" cy="348" r="15"/><circle class="logo__dot" cx="605.8" cy="446.5" r="15"/></svg></a>
+  </div>
+</header>
+
+<main class="ty" id="main">
+  <div class="shell">
+    <div class="ty__intro">
+      <p class="eyebrow">Founder Edition</p>
+      <h1 class="ty__title">You’re in. <span>Your Larkin is rese<span class="kern">r</span>ved.</span></h1>
+      <p class="ty__lead">A receipt is on its way to your inbox. Your Larkin is held from the first run of 1,000, numbered, and ships before anyone else’s.</p>
+    </div>
+
+    <section class="ty-beta" aria-labelledby="ty-beta">
+      <div class="ty-beta__copy">
+        <p class="eyebrow">Start today</p>
+        <h2 class="ty-beta__title" id="ty-beta">Try Larkin now on your Apple Watch.</h2>
+        <p class="ty-beta__text">The Larkin app is in beta on Apple Watch and iPhone. As a founder, it stays free for you, for life.</p>
+        <a class="btn btn--lime" href="https://testflight.apple.com/join/z2xAFY9x" rel="noopener"><span>Join the beta on TestFlight</span></a>
+        <p class="ty-beta__note">Open this on your iPhone. Needs an Apple Watch.</p>
+      </div>
+      <div class="ty-beta__watch" aria-hidden="true">
+        <div class="watch" data-watch>
+          <div class="watch__screen">
+            <img class="watch__still" src="/media/watch-record-still-520.webp" alt="" width="520" height="620" decoding="async">
+            <video class="watch__video" data-src="/media/watch-record-520.mp4" muted loop playsinline preload="none" tabindex="-1"></video>
+          </div>
+          <img class="watch__bezel" src="/media/watch-bezel-560.webp" alt="" width="560" height="880" decoding="async">
+        </div>
+      </div>
+    </section>
+
+    <ol class="ty-next" aria-label="What happens next">
+      <li>
+        <b>Today</b>
+        <h2>Your $10 is held, not spent.</h2>
+        <p>It comes off the price of your Larkin, and it’s yours back whenever you ask.</p>
+      </li>
+      <li>
+        <b>Until launch</b>
+        <h2>Notes from us, now and then.</h2>
+        <p>What we’re building and what we’re learning. Nothing else.</p>
+      </li>
+      <li>
+        <b>Q1 2027</b>
+        <h2>Your Larkin ships.</h2>
+        <p>With the app free for you, for life. The remaining $119 is charged then, not before.</p>
+      </li>
+    </ol>
+
+    <div class="ty-foot">
+      <p>Changed your mind, or want to ask something? Reply to your receipt and a real person will get back to you.</p>
+      <a class="btn btn--ink" href="/"><span>Back to Larkin</span></a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer grain">
+  <div class="shell site-footer__inner">
+    <svg class="site-footer__mark logo" viewBox="189 333 431.8 129.2" role="img" aria-label="Larkin" focusable="false"><path d="M189 460V336H212.91V460ZM250.69 462.13Q240.24 462.13 233.42 458.58Q226.6 455.04 223.41 449.02Q220.22 442.99 220.22 435.73Q220.22 427.58 224.38 421.38Q228.55 415.18 237.05 411.73Q245.55 408.27 258.48 408.27H280.63Q280.63 401.72 278.77 397.47Q276.91 393.22 273.1 391.09Q269.29 388.97 263.44 388.97Q256.54 388.97 251.66 392.07Q246.79 395.17 245.55 401.72H222.35Q223.41 391.98 228.81 384.89Q234.22 377.81 243.16 373.91Q252.11 370.01 263.44 370.01Q276.2 370.01 285.41 374.17Q294.62 378.34 299.58 386.4Q304.54 394.46 304.54 405.97V460H284.7L282.22 446.36H281.51Q278.68 450.26 275.4 453.27Q272.12 456.28 268.23 458.23Q264.33 460.18 259.9 461.15Q255.47 462.13 250.69 462.13ZM258.48 443.7Q263.44 443.7 267.08 442.02Q270.71 440.34 273.36 437.5Q276.02 434.67 277.53 430.86Q279.03 427.05 279.56 422.98H261.14Q255.65 422.98 252.2 424.31Q248.74 425.63 247.15 428.03Q245.55 430.42 245.55 433.61Q245.55 436.79 247.15 439.1Q248.74 441.4 251.75 442.55Q254.76 443.7 258.48 443.7ZM311.85 460V372.14H332.22L334.35 391.45H335.05Q338.95 382.06 343.56 377.54Q348.16 373.02 354.1 371.52Q360.03 370.01 367.47 370.01V395.34H360.92Q354.89 395.34 350.2 396.67Q345.51 398 342.32 400.92Q339.13 403.85 337.45 408.63Q335.76 413.41 335.76 420.14V460ZM431.15 460 392.71 411.64 426.55 372.14H454.89L411.14 421.56L410.96 402.61L460.74 460ZM372.34 460V336H396.26V460ZM465.12 460V372.14H489.04V460ZM496.83 460V372.14H517.2L519.33 386.49H520.04Q524.29 378.69 531.55 374.35Q538.81 370.01 549.8 370.01Q560.78 370.01 568.4 374.71Q576.01 379.4 580 388.43Q583.98 397.47 583.98 410.75V460H560.07V412.88Q560.07 401.9 555.64 396.05Q551.21 390.21 541.65 390.21Q535.62 390.21 530.84 393.13Q526.06 396.05 523.4 401.45Q520.74 406.86 520.74 414.65V460Z"/><circle cx="477.08" cy="348" r="15"/><circle class="logo__dot" cx="605.8" cy="446.5" r="15"/></svg>
+    <div class="site-footer__row">
+      <nav class="site-footer__links" aria-label="Footer">
+        <a href="/">Home</a>
+        <a href="/how-it-works/">How it works</a>
+        <a href="/privacy/">Privacy policy</a>
+        <a href="/terms/">Terms</a>
+      </nav>
+      <span class="site-footer__copy">© 2026 Larkin. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* The watch plays the app's animation while it's on screen; the still
+     stays for reduced motion or if the film can't play. */
+  (function () {
+    var watch = document.querySelector('[data-watch]');
+    var video = watch && watch.querySelector('video');
+    if (!video || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    video.addEventListener('playing', function () { watch.classList.add('is-playing'); });
+    new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        if (!video.src) video.src = video.getAttribute('data-src');
+        var p = video.play();
+        if (p && p.catch) p.catch(function () {});
+      } else {
+        video.pause();
+      }
+    }, { threshold: 0.4 }).observe(watch);
+  })();
+</script>
+</body>
+</html>
