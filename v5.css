@@ -616,17 +616,12 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 @media (min-width: 700px) {
   .how-film__media {
-    --tag-x: 38.3%;
-    --tag-bottom: 83.3%;
+    --tag-x: 37%;
+    --tag-bottom: 74%;
     aspect-ratio: 16 / 5.94;
     margin-top: 0;
   }
-  .how-film__media :is(img, video) { object-position: 50% 76.5%; }
-  .how-film.is-playing .how-film__video { animation: how-frame 3.4s cubic-bezier(0.4, 0, 0.2, 1) both; }
-}
-@keyframes how-frame {
-  0%, 30% { object-position: 50% 35%; }
-  100% { object-position: 50% 76.5%; }
+  .how-film__media :is(img, video) { object-position: 50% 50%; }
 }
 
 /* The day: a dark card, the copy beside a line from morning to night. */
