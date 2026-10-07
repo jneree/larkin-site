@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="general">
+<html lang="en" data-theme="general" data-segment="general">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,14 +23,11 @@
 
 <!-- The hero's resting frame is the page's largest paint: fetch it first.
      Portrait screens get their own crop of the film and of this frame. -->
-<link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(max-aspect-ratio: 4/5)" href="media/hero-s-poster-phone.webp">
+<link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(max-aspect-ratio: 4/5)" href="/media/hero-s-poster-phone.webp">
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
-      imagesrcset="media/hero-s-poster-1000.webp 1000w, media/hero-s-poster-1920.webp 1920w, media/hero-s-poster-2560.webp 2560w, media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
-
-<!-- DM Sans is served from this site: a Google Fonts stylesheet blocked the
-     first paint (and the film) for 3–4 s on a 4G connection. -->
-<link rel="preload" as="font" type="font/woff2" href="fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="larkin.css?v=20261007a">
+      imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
+<link rel="stylesheet" href="v5.css?v=20261007d">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -67,9 +64,16 @@
 
 <a class="skip-link" href="#main">Skip to content</a>
 
-<!-- Header — clear over the hero, each word taking white or ink from the
-     film behind it; past the hero a floating frosted pill that slides away
-     on the way down and comes back on the way up (larkin.js). -->
+<!-- Intro — an ink curtain with the wordmark: the dot comes on like the
+     band's light, then the curtain lifts off the film. Once per visit
+     (sessionStorage), never under reduced motion, never without JS. -->
+<div class="intro" data-intro aria-hidden="true">
+  <svg class="logo intro__logo" viewBox="189 333 431.8 129.2" focusable="false"><path d="M189 460V336H212.91V460ZM250.69 462.13Q240.24 462.13 233.42 458.58Q226.6 455.04 223.41 449.02Q220.22 442.99 220.22 435.73Q220.22 427.58 224.38 421.38Q228.55 415.18 237.05 411.73Q245.55 408.27 258.48 408.27H280.63Q280.63 401.72 278.77 397.47Q276.91 393.22 273.1 391.09Q269.29 388.97 263.44 388.97Q256.54 388.97 251.66 392.07Q246.79 395.17 245.55 401.72H222.35Q223.41 391.98 228.81 384.89Q234.22 377.81 243.16 373.91Q252.11 370.01 263.44 370.01Q276.2 370.01 285.41 374.17Q294.62 378.34 299.58 386.4Q304.54 394.46 304.54 405.97V460H284.7L282.22 446.36H281.51Q278.68 450.26 275.4 453.27Q272.12 456.28 268.23 458.23Q264.33 460.18 259.9 461.15Q255.47 462.13 250.69 462.13ZM258.48 443.7Q263.44 443.7 267.08 442.02Q270.71 440.34 273.36 437.5Q276.02 434.67 277.53 430.86Q279.03 427.05 279.56 422.98H261.14Q255.65 422.98 252.2 424.31Q248.74 425.63 247.15 428.03Q245.55 430.42 245.55 433.61Q245.55 436.79 247.15 439.1Q248.74 441.4 251.75 442.55Q254.76 443.7 258.48 443.7ZM311.85 460V372.14H332.22L334.35 391.45H335.05Q338.95 382.06 343.56 377.54Q348.16 373.02 354.1 371.52Q360.03 370.01 367.47 370.01V395.34H360.92Q354.89 395.34 350.2 396.67Q345.51 398 342.32 400.92Q339.13 403.85 337.45 408.63Q335.76 413.41 335.76 420.14V460ZM431.15 460 392.71 411.64 426.55 372.14H454.89L411.14 421.56L410.96 402.61L460.74 460ZM372.34 460V336H396.26V460ZM465.12 460V372.14H489.04V460ZM496.83 460V372.14H517.2L519.33 386.49H520.04Q524.29 378.69 531.55 374.35Q538.81 370.01 549.8 370.01Q560.78 370.01 568.4 374.71Q576.01 379.4 580 388.43Q583.98 397.47 583.98 410.75V460H560.07V412.88Q560.07 401.9 555.64 396.05Q551.21 390.21 541.65 390.21Q535.62 390.21 530.84 393.13Q526.06 396.05 523.4 401.45Q520.74 406.86 520.74 414.65V460Z"/><circle cx="477.08" cy="348" r="15"/><circle class="logo__dot" cx="605.8" cy="446.5" r="15"/></svg>
+</div>
+
+<!-- Header — clear over the hero, white or ink with the film behind it;
+     past the hero a floating frosted pill that slides away on the way down
+     and comes back on the way up (v5.js). -->
 <header class="site-header">
   <div class="shell site-header__inner">
     <a class="brand" href="/" aria-label="Larkin, home"><svg class="logo" viewBox="189 333 431.8 129.2" aria-hidden="true" focusable="false"><path d="M189 460V336H212.91V460ZM250.69 462.13Q240.24 462.13 233.42 458.58Q226.6 455.04 223.41 449.02Q220.22 442.99 220.22 435.73Q220.22 427.58 224.38 421.38Q228.55 415.18 237.05 411.73Q245.55 408.27 258.48 408.27H280.63Q280.63 401.72 278.77 397.47Q276.91 393.22 273.1 391.09Q269.29 388.97 263.44 388.97Q256.54 388.97 251.66 392.07Q246.79 395.17 245.55 401.72H222.35Q223.41 391.98 228.81 384.89Q234.22 377.81 243.16 373.91Q252.11 370.01 263.44 370.01Q276.2 370.01 285.41 374.17Q294.62 378.34 299.58 386.4Q304.54 394.46 304.54 405.97V460H284.7L282.22 446.36H281.51Q278.68 450.26 275.4 453.27Q272.12 456.28 268.23 458.23Q264.33 460.18 259.9 461.15Q255.47 462.13 250.69 462.13ZM258.48 443.7Q263.44 443.7 267.08 442.02Q270.71 440.34 273.36 437.5Q276.02 434.67 277.53 430.86Q279.03 427.05 279.56 422.98H261.14Q255.65 422.98 252.2 424.31Q248.74 425.63 247.15 428.03Q245.55 430.42 245.55 433.61Q245.55 436.79 247.15 439.1Q248.74 441.4 251.75 442.55Q254.76 443.7 258.48 443.7ZM311.85 460V372.14H332.22L334.35 391.45H335.05Q338.95 382.06 343.56 377.54Q348.16 373.02 354.1 371.52Q360.03 370.01 367.47 370.01V395.34H360.92Q354.89 395.34 350.2 396.67Q345.51 398 342.32 400.92Q339.13 403.85 337.45 408.63Q335.76 413.41 335.76 420.14V460ZM431.15 460 392.71 411.64 426.55 372.14H454.89L411.14 421.56L410.96 402.61L460.74 460ZM372.34 460V336H396.26V460ZM465.12 460V372.14H489.04V460ZM496.83 460V372.14H517.2L519.33 386.49H520.04Q524.29 378.69 531.55 374.35Q538.81 370.01 549.8 370.01Q560.78 370.01 568.4 374.71Q576.01 379.4 580 388.43Q583.98 397.47 583.98 410.75V460H560.07V412.88Q560.07 401.9 555.64 396.05Q551.21 390.21 541.65 390.21Q535.62 390.21 530.84 393.13Q526.06 396.05 523.4 401.45Q520.74 406.86 520.74 414.65V460Z"/><circle cx="477.08" cy="348" r="15"/><circle class="logo__dot" cx="605.8" cy="446.5" r="15"/></svg></a>
@@ -82,92 +86,100 @@
     </nav>
 
     <div class="header-actions">
-      <a class="btn btn--lime btn--sm" href="#reserve"><span>Rese<span class="kern">r</span>ve for $10</span></a>
+      <a class="btn btn--lime btn--sm" href="#reserve" data-magnet><span>Rese<span class="kern">r</span>ve for $10</span></a>
     </div>
   </div>
 </header>
 
 <main id="main">
 
-  <!-- Hero — the film is the background. It plays once and rests on its last
-       frame, which is also the poster, so nothing jumps at the end. The copy
-       flips between ink and white with the film (timings in larkin.js). -->
+  <!-- Hero — the film is the background. It plays once and rests on its
+       last frame, which is also the poster, so nothing jumps at the end.
+       The headline rises line by line out of its own baseline once the
+       curtain has lifted; the copy flips between ink and white with the
+       film (timings in v5.js). Scrolling lifts the film away as a card, over
+       the white of the page. -->
   <section class="hero" data-hero aria-label="Introduction">
-    <div class="hero__media">
-      <picture>
-        <source type="image/webp" media="(max-aspect-ratio: 4/5)" srcset="media/hero-s-poster-phone.webp">
-        <source type="image/webp" srcset="media/hero-s-poster-1000.webp 1000w, media/hero-s-poster-1920.webp 1920w, media/hero-s-poster-2560.webp 2560w, media/hero-s-poster-3840.webp 3840w" sizes="100vw">
-        <img class="hero__poster" src="media/hero-s-poster-1920.jpg" alt="The Larkin band on a woman's wrist, its lime light on, as she rests her chin on her hand" width="1920" height="1080" fetchpriority="high" decoding="async">
-      </picture>
-      <video class="hero__video" data-src-phone="media/hero-s-phone.mp4" data-src-sm="media/hero-s-720.mp4" data-src-lg="media/hero-s-1080.mp4" data-src-xl="media/hero-s-1440.mp4" data-src-xxl="media/hero-s-2160.mp4"
-             muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-    </div>
-
-    <div class="shell hero__inner">
-      <div class="hero__copy">
-        <h1 class="hero__title"><span class="block">Eve<span class="kern">r</span>yone’s</span> <span class="block">met you.</span> <span class="block">Have you?</span></h1>
-        <p class="hero__lead">A screenless bracelet that shows you how you come across.</p>
-        <div class="hero__actions">
-          <a class="btn btn--lime" data-reserve href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=general">
-          <span>Rese<span class="kern">r</span>ve yours for $10</span>
-          </a>
-        </div>
-        <p class="hero__fine">Fully refundable · Ships Q1 2027</p>
+    <div class="hero__frame">
+      <div class="hero__media">
+        <picture>
+          <source type="image/webp" media="(max-aspect-ratio: 4/5)" srcset="/media/hero-s-poster-phone.webp">
+          <source type="image/webp" srcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" sizes="100vw">
+          <img class="hero__poster" src="/media/hero-s-poster-1920.jpg" alt="The Larkin band on a woman's wrist, its lime light on, as she rests her chin on her hand" width="1920" height="1080" fetchpriority="high" decoding="async">
+        </picture>
+        <video class="hero__video" data-src-phone="/media/hero-s-phone.mp4" data-src-sm="/media/hero-s-720.mp4" data-src-lg="/media/hero-s-1080.mp4" data-src-xl="/media/hero-s-1440.mp4" data-src-xxl="/media/hero-s-2160.mp4"
+               muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+        <div class="hero__scrim" aria-hidden="true"></div>
       </div>
-    </div>
 
-    <button class="hero__toggle" type="button" aria-label="Pause the film" hidden>
-      <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="5.5" width="3.4" height="13" rx="1.2"/><rect x="13.6" y="5.5" width="3.4" height="13" rx="1.2"/></svg>
-      <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.8v12.4c0 .8.9 1.3 1.6.8l9.3-6.2a1 1 0 0 0 0-1.6L10.1 5c-.7-.5-1.6 0-1.6.8Z"/></svg>
-      <svg class="i-replay" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6L3.5 8.5"/><path d="M3.5 3.5v5h5"/></svg>
-    </button>
+      <div class="shell hero__inner">
+        <div class="hero__copy">
+          <h1 class="hero__title">
+            <span class="line"><span class="line__in">Eve<span class="kern">r</span>yone’s</span></span>
+            <span class="line"><span class="line__in">met you.</span></span>
+            <span class="line"><span class="line__in">Have you?</span></span>
+          </h1>
+          <p class="hero__lead">A screenless bracelet that shows you how you come across.</p>
+          <div class="hero__actions">
+            <a class="btn btn--lime" data-reserve data-magnet href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=general">
+              <span>Rese<span class="kern">r</span>ve yours for $10</span>
+            </a>
+          </div>
+          <p class="hero__fine">Fully refundable · Ships Q1 2027</p>
+        </div>
+      </div>
+
+
+      <button class="hero__toggle" type="button" aria-label="Pause the film" hidden>
+        <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="5.5" width="3.4" height="13" rx="1.2"/><rect x="13.6" y="5.5" width="3.4" height="13" rx="1.2"/></svg>
+        <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.8v12.4c0 .8.9 1.3 1.6.8l9.3-6.2a1 1 0 0 0 0-1.6L10.1 5c-.7-.5-1.6 0-1.6.8Z"/></svg>
+        <svg class="i-replay" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6L3.5 8.5"/><path d="M3.5 3.5v5h5"/></svg>
+      </button>
+    </div>
   </section>
 
-  <!-- Statement — pinned read-along. The tall .statement-pin holds the sentence
-       in the viewport while scroll lights it word by word (larkin.js), and a
-       highlighter sweeps across the key phrase once the reading reaches it.
-       With no JS or reduced motion nothing pins, the words are full ink and
-       the phrase is simply highlighted. -->
+  <!-- Statement — pinned read-along. The tall .statement-pin holds the
+       sentence in the viewport while scroll lights it word by word (v5.js),
+       and a highlighter sweeps across the key phrase once the reading
+       reaches it. With no JS or reduced motion nothing pins, the words are
+       full ink and the phrase is simply highlighted. -->
   <div class="statement-pin">
     <section class="statement statement--reveal" aria-label="What Larkin does">
       <div class="shell">
-        <p class="statement__read">You can't see yourself the way other people do.</p>
+        <p class="statement__read">You can’t see yourself the way other people do.</p>
         <p class="statement__read">Larkin can. It listens through your day and shows you <mark class="marker">what you said, what landed, and what you keep coming back to</mark>, so you can build on it.</p>
       </div>
     </section>
   </div>
 
   <!-- How it works — an arm slides in wearing the band, then a day plays
-       out on a line. The film loads near the viewport and plays once, resting
-       on its last frame, which is also the poster; the headline rises with
-       it. The day card draws its line once it's in view: the dot travels from
-       morning to night and each unplanned conversation lights up as it
-       passes (larkin.js). Without JS or with reduced motion, the poster and
-       the finished day simply show. -->
+       out on a line. The film loads near the viewport and plays once,
+       resting on its last frame, which is also the poster; the headline
+       rises with it. The day card draws its line once it's in view (v5.js). -->
   <section class="section how" id="how">
     <div class="how-film" data-how-film data-settle="3.6">
       <header class="shell how-film__head">
-        <p class="eyebrow">How it works</p>
-        <h2 class="h2 how-film__title"><span class="how-film__line">Put it on.</span> <span class="how-film__line">Forget it's there.</span></h2>
+        <div class="sec-rule rv"><span class="eyebrow">How it works</span></div>
+        <h2 class="h2 how-film__title"><span class="how-film__line">Put it on.</span> <span class="how-film__line">Forget it’s there.</span></h2>
         <p class="lead how-film__lead">Other AI recorders wait for you to press something. Larkin stays on all day, because nobody schedules a good conversation.</p>
       </header>
       <div class="how-film__media">
         <picture>
-          <source type="image/webp" srcset="media/how-arm-u-poster-1000.webp 1000w, media/how-arm-u-poster-1920.webp 1920w, media/how-arm-u-poster-2560.webp 2560w, media/how-arm-u-poster-3840.webp 3840w" sizes="(max-width: 699px) 134vw, 100vw">
-          <img class="how-film__poster" src="media/how-arm-u-poster-1920.jpg" alt="A bare forearm resting on white, the white Larkin band on its wrist, a thin lime light on the module" width="1920" height="1080" loading="lazy" decoding="async">
+          <source type="image/webp" srcset="/media/how-arm-u-poster-1000.webp 1000w, /media/how-arm-u-poster-1920.webp 1920w, /media/how-arm-u-poster-2560.webp 2560w, /media/how-arm-u-poster-3840.webp 3840w" sizes="(max-width: 699px) 134vw, 100vw">
+          <img class="how-film__poster" src="/media/how-arm-u-poster-1920.jpg" alt="A bare forearm resting on white, the white Larkin band on its wrist, a thin lime light on the module" width="1920" height="1080" loading="lazy" decoding="async">
         </picture>
-        <video class="how-film__video" data-src-sm="media/how-arm-u-720.mp4" data-src-lg="media/how-arm-u-1080.mp4" data-src-xl="media/how-arm-u-1440.mp4" data-src-xxl="media/how-arm-u-2160.mp4"
+        <video class="how-film__video" data-src-sm="/media/how-arm-u-720.mp4" data-src-lg="/media/how-arm-u-1080.mp4" data-src-xl="/media/how-arm-u-1440.mp4" data-src-xxl="/media/how-arm-u-2160.mp4"
                muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
         <p class="how-film__tag"><span class="how-film__dot" aria-hidden="true"></span>Listening all day</p>
       </div>
     </div>
 
     <div class="shell">
-      <div class="day rv" data-day>
+      <div class="day rv grain" data-day>
         <div class="day__copy">
           <p class="eyebrow eyebrow--lime">Always on</p>
           <h3 class="day__title">The best conversations happen when you least expect them.</h3>
-          <p>You'd never press record for them. With Larkin, you don't have to.</p>
+          <p>You’d never press record for them. With Larkin, you don’t have to.</p>
         </div>
 
         <div class="day__line" role="img" aria-label="One day on a line from morning to night, with three conversations nobody planned. Morning: an unplanned coffee with a friend that turned out to be really insightful. Afternoon: a quick chat after a meeting, where the real decision got made. Night: dinner with an old friend that went on until the restaurant closed.">
@@ -192,16 +204,37 @@
     </div>
   </section>
 
-  <!-- The app — three chapters on the feature card's black, full bleed:
-       Chronicles (your day), Conversations, Mirror (you). Each is one phone
-       beside its copy, one idea per phone: the app's own UI rebuilt in HTML
-       from the Figma screens, so it stays sharp and readable at any width.
-       On phones the chapters become a swipeable row of tiles, dots below.
-       Mirror shows its three parts one screen at a time, and its "Is this
-       you?" card can be answered (all larkin.js). Without JS everything
-       still reads, it just doesn't respond. Sample data is one persona,
-       Alex. -->
-  <section class="section app" id="app">
+  <!-- The device — a pinned close-up of the module, scrubbed by scroll:
+       the light comes on as you move through it (39 frames of the hero
+       film's close-up shot, drawn on a canvas by v5.js). The copy sits on
+       the frame; the second line arrives with the light. Without JS, or
+       with reduced motion, the lit frame simply shows. -->
+  <section class="device" id="device" aria-labelledby="device-title">
+    <div class="device__pin" data-scrub data-frames="39" data-src-l="/media/ring/l-{n}.webp" data-src-p="/media/ring/p-{n}.webp">
+      <div class="device__stage">
+        <picture class="device__poster">
+          <source media="(max-aspect-ratio: 4/5)" srcset="/media/ring/p-39.webp">
+          <img src="/media/ring/l-39.webp" alt="The Larkin module close up on a wrist, its thin lime light on" width="1600" height="900" loading="lazy" decoding="async">
+        </picture>
+        <canvas class="device__canvas" aria-hidden="true"></canvas>
+        <div class="device__shade" aria-hidden="true"></div>
+        <div class="shell device__copy">
+          <div class="sec-rule sec-rule--light"><span class="eyebrow">The device</span></div>
+          <h2 class="h2 device__title" id="device-title">Designed to disappear.</h2>
+          <p class="device__lead">No screen to check. One thin light, and it only glows while Larkin is listening.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The app — three chapters on ink, full bleed: Chronicles (your day),
+       Conversations, Mirror (you). Each is one phone beside its copy, one
+       idea per phone: the app's own UI rebuilt in HTML, so it stays sharp
+       at any width. On phones the chapters become a swipeable row of tiles,
+       dots below. Mirror shows its three parts one screen at a time, and
+       its "Is this you?" card can be answered (all v5.js). Sample data is
+       one persona, Alex. -->
+  <section class="section app grain" id="app">
     <svg class="sprite" aria-hidden="true" focusable="false">
       <symbol id="i-chev" viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="i-back" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -217,8 +250,8 @@
     </svg>
 
     <div class="shell">
-      <header class="section-head section-head--center rv">
-        <p class="eyebrow eyebrow--lime">The app</p>
+      <header class="sec-head sec-head--center rv">
+        <div class="sec-rule sec-rule--dark"><span class="eyebrow eyebrow--lime">The app</span></div>
         <h2 class="h2">Your day. Your conversations. You.</h2>
       </header>
 
@@ -326,11 +359,7 @@
         </article>
 
         <!-- 03 · Mirror — three parts, a phone each: the chosen one in front,
-             the other two barely there on either side, a hint there's more.
-             Pick one from the list (a small switch on phones) or click a phone
-             at the side. They also turn through on their own while in view,
-             until the visitor picks one (larkin.js). Without JS the first
-             screen is in front and the list still names all three. -->
+             the other two barely there on either side, a hint there's more. -->
         <article class="chap" id="app-mirror" aria-labelledby="chap-mirror">
           <div class="feat">
             <div class="feat__copy rv">
@@ -449,22 +478,24 @@
     </div>
   </section>
 
-  <!-- Use cases — four pictures, each carrying one piece of the app. -->
+  <!-- Use cases — four pictures, each carrying one piece of the app. The
+       photos drift a little slower than the page (parallax, v5.js) and
+       ease closer under the pointer. On phones they're a row to swipe. -->
   <section class="section" id="use-cases">
     <div class="shell">
-      <header class="section-head section-head--row rv">
-        <div>
-          <p class="eyebrow">Use cases</p>
-          <h2 class="h2">How will you use yours?</h2>
-        </div>
+      <header class="sec-head rv">
+        <div class="sec-rule"><span class="eyebrow">Use cases</span></div>
+        <h2 class="h2">How will you use yours?</h2>
       </header>
 
-      <div class="uc-grid">
+      <div class="uc-grid" data-ucrow>
         <figure class="uc rv">
-          <picture>
-            <source type="image/webp" srcset="media/uc-leaders-800.webp 800w, media/uc-leaders-1400.webp 1400w, media/uc-leaders-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
-            <img src="media/uc-leaders-800.jpg" alt="A leader in a navy blazer laughing, the Larkin band on her wrist" loading="lazy" decoding="async" width="800" height="446">
-          </picture>
+          <div class="uc__media" data-parallax="40">
+            <picture>
+              <source type="image/webp" srcset="/media/uc-leaders-800.webp 800w, /media/uc-leaders-1400.webp 1400w, /media/uc-leaders-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
+              <img src="/media/uc-leaders-800.jpg" alt="A leader in a navy blazer laughing, the Larkin band on her wrist" loading="lazy" decoding="async" width="800" height="446">
+            </picture>
+          </div>
           <figcaption class="uc__copy">
             <p class="uc__eyebrow">For leaders</p>
             <p class="uc__title">Every promise your team trusts you with, kept</p>
@@ -472,10 +503,12 @@
         </figure>
 
         <figure class="uc rv">
-          <picture>
-            <source type="image/webp" srcset="media/uc-adhd-800.webp 800w, media/uc-adhd-1400.webp 1400w, media/uc-adhd-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
-            <img src="media/uc-adhd-800.jpg" alt="A man mid-idea, pointing up and laughing, the Larkin band on his wrist" loading="lazy" decoding="async" width="800" height="446">
-          </picture>
+          <div class="uc__media" data-parallax="40">
+            <picture>
+              <source type="image/webp" srcset="/media/uc-adhd-800.webp 800w, /media/uc-adhd-1400.webp 1400w, /media/uc-adhd-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
+              <img src="/media/uc-adhd-800.jpg" alt="A man mid-idea, pointing up and laughing, the Larkin band on his wrist" loading="lazy" decoding="async" width="800" height="446">
+            </picture>
+          </div>
           <figcaption class="uc__copy">
             <p class="uc__eyebrow">For the ADHD brain</p>
             <p class="uc__title">It catches what working memory drops</p>
@@ -483,10 +516,12 @@
         </figure>
 
         <figure class="uc rv">
-          <picture>
-            <source type="image/webp" srcset="media/uc-parents-800.webp 800w, media/uc-parents-1400.webp 1400w, media/uc-parents-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
-            <img src="media/uc-parents-800.jpg" alt="A father laughing with his daughter on his back, the Larkin band on his wrist" loading="lazy" decoding="async" width="800" height="446">
-          </picture>
+          <div class="uc__media" data-parallax="40">
+            <picture>
+              <source type="image/webp" srcset="/media/uc-parents-800.webp 800w, /media/uc-parents-1400.webp 1400w, /media/uc-parents-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
+              <img src="/media/uc-parents-800.jpg" alt="A father laughing with his daughter on his back, the Larkin band on his wrist" loading="lazy" decoding="async" width="800" height="446">
+            </picture>
+          </div>
           <figcaption class="uc__copy">
             <p class="uc__eyebrow">For parents</p>
             <p class="uc__title">Their little voices, kept word for word</p>
@@ -494,10 +529,12 @@
         </figure>
 
         <figure class="uc rv">
-          <picture>
-            <source type="image/webp" srcset="media/uc-journal-800.webp 800w, media/uc-journal-1400.webp 1400w, media/uc-journal-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
-            <img src="media/uc-journal-800.jpg" alt="A woman holding a warm mug, lost in thought, the Larkin band on her wrist" loading="lazy" decoding="async" width="800" height="446">
-          </picture>
+          <div class="uc__media" data-parallax="40">
+            <picture>
+              <source type="image/webp" srcset="/media/uc-journal-800.webp 800w, /media/uc-journal-1400.webp 1400w, /media/uc-journal-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
+              <img src="/media/uc-journal-800.jpg" alt="A woman holding a warm mug, lost in thought, the Larkin band on her wrist" loading="lazy" decoding="async" width="800" height="446">
+            </picture>
+          </div>
           <figcaption class="uc__copy">
             <p class="uc__eyebrow">For journaling</p>
             <p class="uc__title">The journal that writes itself</p>
@@ -507,14 +544,12 @@
     </div>
   </section>
 
-  <!-- Privacy — heading on top, six cards below. -->
+  <!-- Privacy — heading on top, six tiles below. -->
   <section class="section privacy" id="privacy">
     <div class="shell">
-      <header class="section-head section-head--split rv">
-        <div>
-          <p class="eyebrow">Privacy</p>
-          <h2 class="h2">Private and secure by design.</h2>
-        </div>
+      <header class="sec-head sec-head--split rv">
+        <div class="sec-rule"><span class="eyebrow">Privacy</span></div>
+        <h2 class="h2">Private and secure by design.</h2>
         <p class="lead">What happens to your voice in the current Watch and iPhone beta.</p>
       </header>
 
@@ -562,45 +597,46 @@
           <p>Your transcripts aren’t publicly browseable. Sharing selected notes is your choice, and you can revoke their link.</p>
         </div>
       </div>
-      <p style="margin-top:32px"><a class="btn btn--ink" href="/how-it-works/">See how Larkin works <span aria-hidden="true">↗</span></a></p>
+      <p class="privacy__more rv"><a class="btn btn--ink" href="/how-it-works/" data-magnet><span>See how Larkin works <span aria-hidden="true">↗</span></span></a></p>
     </div>
   </section>
 
-  <!-- Reserve — one black pre-order card: gallery left, founder offer right.
-       The gallery auto-advances until the visitor picks (larkin.js). -->
+  <!-- Reserve — one ink pre-order card: gallery left, founder offer right.
+       The gallery drifts slowly closer and advances on its own until the
+       visitor picks (v5.js). -->
   <section class="section reserve" id="reserve">
     <div class="shell">
-      <div class="preorder rv">
+      <div class="preorder rv grain">
         <div class="preorder__media">
           <div class="pgal" data-pgal>
             <div class="pgal__main">
               <picture class="pgal__frame is-active" style="--pos: 38% 50%">
-                <source type="image/webp" srcset="media/band-wrist-black-v2-800.webp 800w, media/band-wrist-black-v2-1400.webp 1400w" sizes="(min-width: 900px) 42vw, 92vw">
-                <img src="media/band-wrist-black-v2-800.jpg" alt="The black band on a wrist" loading="lazy" decoding="async" width="800" height="446">
+                <source type="image/webp" srcset="/media/band-wrist-black-v2-800.webp 800w, /media/band-wrist-black-v2-1400.webp 1400w" sizes="(min-width: 900px) 42vw, 92vw">
+                <img src="/media/band-wrist-black-v2-800.jpg" alt="The black band on a wrist" loading="lazy" decoding="async" width="800" height="446">
               </picture>
               <picture class="pgal__frame" style="--pos: 50% 58%">
-                <source type="image/webp" srcset="media/band-desk-v2-700.webp 700w, media/band-desk-v2-1200.webp 1200w" sizes="(min-width: 900px) 42vw, 92vw">
-                <img src="media/band-desk-v2-700.jpg" alt="The black band on a white desk beside sticky notes" loading="lazy" decoding="async" width="700" height="938">
+                <source type="image/webp" srcset="/media/band-desk-v2-700.webp 700w, /media/band-desk-v2-1200.webp 1200w" sizes="(min-width: 900px) 42vw, 92vw">
+                <img src="/media/band-desk-v2-700.jpg" alt="The black band on a white desk beside sticky notes" loading="lazy" decoding="async" width="700" height="938">
               </picture>
               <picture class="pgal__frame" style="--pos: 40% 50%">
-                <source type="image/webp" srcset="media/band-wrist-white-v2-800.webp 800w, media/band-wrist-white-v2-1400.webp 1400w" sizes="(min-width: 900px) 42vw, 92vw">
-                <img src="media/band-wrist-white-v2-800.jpg" alt="The white band on a wrist" loading="lazy" decoding="async" width="800" height="446">
+                <source type="image/webp" srcset="/media/band-wrist-white-v2-800.webp 800w, /media/band-wrist-white-v2-1400.webp 1400w" sizes="(min-width: 900px) 42vw, 92vw">
+                <img src="/media/band-wrist-white-v2-800.jpg" alt="The white band on a wrist" loading="lazy" decoding="async" width="800" height="446">
               </picture>
               <picture class="pgal__frame" style="--pos: 55% 62%">
-                <source type="image/webp" srcset="media/band-sill-v2-700.webp 700w, media/band-sill-v2-1200.webp 1200w" sizes="(min-width: 900px) 42vw, 92vw">
-                <img src="media/band-sill-v2-700.jpg" alt="The white band on a stone windowsill beside a cup of tea" loading="lazy" decoding="async" width="700" height="938">
+                <source type="image/webp" srcset="/media/band-sill-v2-700.webp 700w, /media/band-sill-v2-1200.webp 1200w" sizes="(min-width: 900px) 42vw, 92vw">
+                <img src="/media/band-sill-v2-700.jpg" alt="The white band on a stone windowsill beside a cup of tea" loading="lazy" decoding="async" width="700" height="938">
               </picture>
               <picture class="pgal__frame" style="--pos: 60% 50%">
-                <source type="image/webp" srcset="media/band-ring-lime-v2-1200.webp">
-                <img src="media/band-ring-lime-v2-1200.jpg" alt="The module's ring glowing lime, close up" loading="lazy" decoding="async" width="1200" height="675">
+                <source type="image/webp" srcset="/media/band-ring-lime-v2-1200.webp">
+                <img src="/media/band-ring-lime-v2-1200.jpg" alt="The module's ring glowing lime, close up" loading="lazy" decoding="async" width="1200" height="675">
               </picture>
             </div>
             <div class="pgal__thumbs" role="group" aria-label="Product photos">
-              <button type="button" class="is-active" aria-label="Show photo 1" aria-pressed="true" style="--pos: 38% 50%"><img src="media/band-wrist-black-v2-800.webp" alt="" loading="lazy" decoding="async" width="800" height="446"></button>
-              <button type="button" aria-label="Show photo 2" aria-pressed="false" style="--pos: 50% 58%"><img src="media/band-desk-v2-700.webp" alt="" loading="lazy" decoding="async" width="700" height="938"></button>
-              <button type="button" aria-label="Show photo 3" aria-pressed="false" style="--pos: 40% 50%"><img src="media/band-wrist-white-v2-800.webp" alt="" loading="lazy" decoding="async" width="800" height="446"></button>
-              <button type="button" aria-label="Show photo 4" aria-pressed="false" style="--pos: 55% 62%"><img src="media/band-sill-v2-700.webp" alt="" loading="lazy" decoding="async" width="700" height="938"></button>
-              <button type="button" aria-label="Show photo 5" aria-pressed="false" style="--pos: 60% 50%"><img src="media/band-ring-lime-v2-1200.webp" alt="" loading="lazy" decoding="async" width="1200" height="675"></button>
+              <button type="button" class="is-active" aria-label="Show photo 1" aria-pressed="true" style="--pos: 38% 50%"><img src="/media/band-wrist-black-v2-800.webp" alt="" loading="lazy" decoding="async" width="800" height="446"><i class="pgal__time" aria-hidden="true"></i></button>
+              <button type="button" aria-label="Show photo 2" aria-pressed="false" style="--pos: 50% 58%"><img src="/media/band-desk-v2-700.webp" alt="" loading="lazy" decoding="async" width="700" height="938"><i class="pgal__time" aria-hidden="true"></i></button>
+              <button type="button" aria-label="Show photo 3" aria-pressed="false" style="--pos: 40% 50%"><img src="/media/band-wrist-white-v2-800.webp" alt="" loading="lazy" decoding="async" width="800" height="446"><i class="pgal__time" aria-hidden="true"></i></button>
+              <button type="button" aria-label="Show photo 4" aria-pressed="false" style="--pos: 55% 62%"><img src="/media/band-sill-v2-700.webp" alt="" loading="lazy" decoding="async" width="700" height="938"><i class="pgal__time" aria-hidden="true"></i></button>
+              <button type="button" aria-label="Show photo 5" aria-pressed="false" style="--pos: 60% 50%"><img src="/media/band-ring-lime-v2-1200.webp" alt="" loading="lazy" decoding="async" width="1200" height="675"><i class="pgal__time" aria-hidden="true"></i></button>
             </div>
           </div>
         </div>
@@ -615,8 +651,8 @@
             <li>Refundable any time</li>
           </ul>
           <div class="preorder__actions">
-            <a class="btn btn--lime btn--block" data-reserve href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=general">
-            <span>Rese<span class="kern">r</span>ve yours for $10</span>
+            <a class="btn btn--lime btn--block" data-reserve data-magnet href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=general">
+              <span>Rese<span class="kern">r</span>ve yours for $10</span>
             </a>
             <a class="btn btn--ghost btn--block" href="#beta"><span>Try it now on Apple Watch</span></a>
           </div>
@@ -625,13 +661,10 @@
     </div>
   </section>
 
-  <!-- Try the app — after the reservation and clearly second to it: the
-       bracelet is the product, the app is in beta now on Apple Watch and
-       iPhone, free for everyone. A light card, so its button is ink and the
-       page's one lime ask stays Reserve. The watch plays the app's own hold-
-       to-record animation (rendered from the watch app's drawing code) behind
-       Apple's bezel, in front of the Chronicles screen. The form posts the
-       email to the Loops "Beta invite" form (data-endpoint; larkin.js). -->
+  <!-- Try the app — after the reservation and clearly second to it. The
+       watch plays the app's own hold-to-record animation behind Apple's
+       bezel, in front of the Chronicles screen. The form posts the email to
+       the Loops "Beta invite" form (data-endpoint; v5.js). -->
   <section class="section beta" id="beta" aria-labelledby="beta-title">
     <div class="shell">
       <div class="beta-card rv">
@@ -686,10 +719,10 @@
           </div>
           <div class="watch" data-watch>
             <div class="watch__screen">
-              <img class="watch__still" src="media/watch-record-still-520.webp" alt="" width="520" height="620" loading="lazy" decoding="async">
-              <video class="watch__video" data-src="media/watch-record-520.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+              <img class="watch__still" src="/media/watch-record-still-520.webp" alt="" width="520" height="620" loading="lazy" decoding="async">
+              <video class="watch__video" data-src="/media/watch-record-520.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
             </div>
-            <img class="watch__bezel" src="media/watch-bezel-560.webp" alt="" width="560" height="880" loading="lazy" decoding="async">
+            <img class="watch__bezel" src="/media/watch-bezel-560.webp" alt="" width="560" height="880" loading="lazy" decoding="async">
           </div>
         </div>
       </div>
@@ -699,8 +732,8 @@
   <!-- How it compares -->
   <section class="section compare-sec" id="compare">
     <div class="shell">
-      <header class="section-head section-head--center rv">
-        <p class="eyebrow">How it compares</p>
+      <header class="sec-head sec-head--center rv">
+        <div class="sec-rule"><span class="eyebrow">How it compares</span></div>
         <h2 class="h2">Nothing to open. Nothing to press.</h2>
       </header>
       <p class="compare-hint">Scroll the table sideways to see every column.</p>
@@ -771,7 +804,7 @@
               <td><span class="qual">Partly</span></td>
             </tr>
             <tr>
-              <th scope="row">A light shows when it's on</th>
+              <th scope="row">A light shows when it’s on</th>
               <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
               <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
               <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
@@ -784,42 +817,38 @@
     </div>
   </section>
 
-  <!-- The device — a wide photo with the design line set into its empty
-       wall, then the spec sheet beside a portrait of the band. -->
-  <section class="section device" id="specs">
+  <!-- Specs — the numbers that matter, large, counting up as they arrive
+       (v5.js), the rest of the sheet on hairlines, the band on a desk beside
+       them. -->
+  <section class="section specs-sec" id="specs">
     <div class="shell">
-      <figure class="device__hero rv">
-        <picture>
-          <source type="image/webp" srcset="media/band-wrist-white-v2-800.webp 800w, media/band-wrist-white-v2-1400.webp 1400w, media/band-wrist-white-v2-2000.webp 2000w" sizes="(min-width: 1376px) 1280px, 94vw">
-          <img src="media/band-wrist-white-v2-1400.jpg" alt="The white Larkin band on a wrist, its lime ring lit" loading="lazy" decoding="async" width="1400" height="781">
-        </picture>
-        <figcaption class="device__line">
-          <p class="eyebrow">The device</p>
-          <p class="h2">Designed to disappear.</p>
-          <p>No screen to check. One thin light, and it only glows while Larkin is listening.</p>
-        </figcaption>
-      </figure>
-
+      <header class="sec-head rv">
+        <div class="sec-rule"><span class="eyebrow">Specifications</span></div>
+        <h2 class="h2">Simple, screen-free.</h2>
+      </header>
       <div class="specs">
         <div class="specs__media rv">
-          <picture>
-            <source type="image/webp" srcset="media/band-desk-v2-700.webp 700w, media/band-desk-v2-1200.webp 1200w" sizes="(min-width: 900px) 40vw, 92vw">
-            <img src="media/band-desk-v2-700.jpg" alt="The black Larkin band on a white desk beside sticky notes and a pencil" loading="lazy" decoding="async" width="700" height="938">
-          </picture>
+          <div class="specs__photo" data-parallax="50">
+            <picture>
+              <source type="image/webp" srcset="/media/band-desk-v2-700.webp 700w, /media/band-desk-v2-1200.webp 1200w" sizes="(min-width: 900px) 40vw, 92vw">
+              <img src="/media/band-desk-v2-700.jpg" alt="The black Larkin band on a white desk beside sticky notes and a pencil" loading="lazy" decoding="async" width="700" height="938">
+            </picture>
+          </div>
         </div>
-        <div class="specs__sheet rv">
-          <h2 class="h2">Simple, screen-free.</h2>
-          <dl>
-            <div class="spec-row"><dt>Battery</dt><dd>7 days · 160 h listening</dd></div>
-            <div class="spec-row"><dt>Microphones</dt><dd>2, with noise filtering</dd></div>
-            <div class="spec-row"><dt>Weight</dt><dd>11 g, module and band</dd></div>
+        <div class="specs__sheet">
+          <ol class="nums">
+            <li class="num rv"><b class="num__v"><span data-count="7">7</span></b><span class="num__u">days of battery</span><p>About 160 hours of listening on one charge.</p></li>
+            <li class="num rv"><b class="num__v"><span data-count="11">11</span><small>g</small></b><span class="num__u">module and band</span><p>Light enough to forget on your wrist.</p></li>
+            <li class="num rv"><b class="num__v"><span data-count="2">2</span></b><span class="num__u">microphones</span><p>With noise filtering, for both sides of a conversation.</p></li>
+            <li class="num rv"><b class="num__v"><span data-count="3">3</span></b><span class="num__u">days on its own</span><p>Stored on the band until your phone is nearby.</p></li>
+            <li class="num rv"><b class="num__v"><span data-count="40">40</span><small>+</small></b><span class="num__u">languages</span><p>Spoken, heard and read back in yours.</p></li>
+            <li class="num rv"><b class="num__v"><span data-count="90">90</span><small>min</small></b><span class="num__u">to a full charge</span><p>On the magnetic USB-C charger.</p></li>
+          </ol>
+          <dl class="spec-list rv">
             <div class="spec-row"><dt>Controls</dt><dd>One press. No screen</dd></div>
             <div class="spec-row"><dt>Band</dt><dd>Silicone, 140–200 mm</dd></div>
             <div class="spec-row"><dt>Water resistance</dt><dd>IPX5</dd></div>
-            <div class="spec-row"><dt>Charging</dt><dd>Magnetic USB-C, 90 min</dd></div>
-            <div class="spec-row"><dt>Languages</dt><dd>40+</dd></div>
             <div class="spec-row"><dt>Works with</dt><dd>iPhone &amp; Android, Bluetooth LE</dd></div>
-            <div class="spec-row"><dt>Storage on band</dt><dd>3 days without your phone</dd></div>
           </dl>
         </div>
       </div>
@@ -829,56 +858,56 @@
   <!-- FAQ -->
   <section class="section faq-sec" id="faq">
     <div class="shell">
-      <header class="section-head section-head--center rv">
-        <p class="eyebrow">Questions</p>
+      <header class="sec-head sec-head--center rv">
+        <div class="sec-rule"><span class="eyebrow">Questions</span></div>
         <h2 class="h2">Good to know.</h2>
       </header>
       <div class="faq rv">
         <details class="faq__item">
           <summary>Does it record everything I say?</summary>
-          <p>The current Watch beta records while it is running. Audio is removed after delivery and phone import, with delays possible while offline or if cleanup fails. <a href="/how-it-works/#audio">See what happens to the audio.</a></p>
+          <div class="faq__body"><p>The current Watch beta records while it is running. Audio is removed after delivery and phone import, with delays possible while offline or if cleanup fails. <a href="/how-it-works/#audio">See what happens to the audio.</a></p></div>
         </details>
         <details class="faq__item">
           <summary>How do I stop it listening?</summary>
-          <p>In the current beta, use Stop on the Watch. This stops new capture; pieces already recorded may still finish processing.</p>
+          <div class="faq__body"><p>In the current beta, use Stop on the Watch. This stops new capture; pieces already recorded may still finish processing.</p></div>
         </details>
         <details class="faq__item">
           <summary>What about recording laws where I live?</summary>
-          <p>Tell the people around you before recording, respect their requests to stop, and follow the rules where you are. The app does not determine everyone’s consent or the law for you.</p>
+          <div class="faq__body"><p>Tell the people around you before recording, respect their requests to stop, and follow the rules where you are. The app does not determine everyone’s consent or the law for you.</p></div>
         </details>
         <details class="faq__item">
           <summary>Do I need my phone with me?</summary>
-          <p>No. The band holds about three days on its own and syncs when your phone is nearby.</p>
+          <div class="faq__body"><p>No. The band holds about three days on its own and syncs when your phone is nearby.</p></div>
         </details>
         <details class="faq__item">
           <summary>How long does the battery last?</summary>
-          <p>Seven days of normal wear, around 160 hours of listening. Ninety minutes on the magnetic charger takes it back to full.</p>
+          <div class="faq__body"><p>Seven days of normal wear, around 160 hours of listening. Ninety minutes on the magnetic charger takes it back to full.</p></div>
         </details>
         <details class="faq__item">
           <summary>Can I try Larkin before the bracelet ships?</summary>
-          <p>Yes. The Larkin app is in beta on Apple Watch and iPhone, free for everyone. <a href="#beta">Get your invite</a> and your watch does the listening until your bracelet arrives.</p>
+          <div class="faq__body"><p>Yes. The Larkin app is in beta on Apple Watch and iPhone, free for everyone. <a href="#beta">Get your invite</a> and your watch does the listening until your bracelet arrives.</p></div>
         </details>
         <details class="faq__item">
           <summary>What does the lifetime membership include?</summary>
-          <p>The app is free for everyone during the beta. When it becomes a paid membership, everyone who reserved a Founder Edition keeps it free, for life. If you cancel your reservation and take back your $10, the membership goes with it.</p>
+          <div class="faq__body"><p>The app is free for everyone during the beta. When it becomes a paid membership, everyone who reserved a Founder Edition keeps it free, for life. If you cancel your reservation and take back your $10, the membership goes with it.</p></div>
         </details>
         <details class="faq__item">
           <summary>What does it cost, and when does it ship?</summary>
-          <p>$129 when it ships in Q1 2027. A $10 reservation holds one from the first run of 1,000, refundable any time.</p>
+          <div class="faq__body"><p>$129 when it ships in Q1 2027. A $10 reservation holds one from the first run of 1,000, refundable any time.</p></div>
         </details>
       </div>
     </div>
   </section>
 
-  <!-- Closing — answers the hero: one line, one action, the hero's CTA and
-       footnote again. White rather than the hero's grey, because a lime
-       button loses its edge on #E8E8E6 (design guideline). -->
-  <section class="section closing" aria-labelledby="closing-title">
+  <!-- Closing — answers the hero: one line, one action, on the deepest
+       ink, a slow lime light breathing behind it. -->
+  <section class="section closing grain" aria-labelledby="closing-title">
+    <div class="closing__glow" aria-hidden="true"></div>
     <div class="shell closing__inner rv">
       <h2 class="closing__title" id="closing-title">Think more.</h2>
       <p class="closing__body">Most AI is built to think for you. Larkin is built to make you think.</p>
       <div class="closing__actions">
-        <a class="btn btn--lime" data-reserve href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=general">
+        <a class="btn btn--lime" data-reserve data-magnet href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=general">
           <span>Rese<span class="kern">r</span>ve yours for $10</span>
         </a>
       </div>
@@ -888,21 +917,23 @@
 
 </main>
 
-<footer class="site-footer">
+<footer class="site-footer grain">
   <div class="shell site-footer__inner">
-    <svg class="site-footer__mark logo" viewBox="189 333 431.8 129.2" role="img" aria-label="Larkin" focusable="false"><path d="M189 460V336H212.91V460ZM250.69 462.13Q240.24 462.13 233.42 458.58Q226.6 455.04 223.41 449.02Q220.22 442.99 220.22 435.73Q220.22 427.58 224.38 421.38Q228.55 415.18 237.05 411.73Q245.55 408.27 258.48 408.27H280.63Q280.63 401.72 278.77 397.47Q276.91 393.22 273.1 391.09Q269.29 388.97 263.44 388.97Q256.54 388.97 251.66 392.07Q246.79 395.17 245.55 401.72H222.35Q223.41 391.98 228.81 384.89Q234.22 377.81 243.16 373.91Q252.11 370.01 263.44 370.01Q276.2 370.01 285.41 374.17Q294.62 378.34 299.58 386.4Q304.54 394.46 304.54 405.97V460H284.7L282.22 446.36H281.51Q278.68 450.26 275.4 453.27Q272.12 456.28 268.23 458.23Q264.33 460.18 259.9 461.15Q255.47 462.13 250.69 462.13ZM258.48 443.7Q263.44 443.7 267.08 442.02Q270.71 440.34 273.36 437.5Q276.02 434.67 277.53 430.86Q279.03 427.05 279.56 422.98H261.14Q255.65 422.98 252.2 424.31Q248.74 425.63 247.15 428.03Q245.55 430.42 245.55 433.61Q245.55 436.79 247.15 439.1Q248.74 441.4 251.75 442.55Q254.76 443.7 258.48 443.7ZM311.85 460V372.14H332.22L334.35 391.45H335.05Q338.95 382.06 343.56 377.54Q348.16 373.02 354.1 371.52Q360.03 370.01 367.47 370.01V395.34H360.92Q354.89 395.34 350.2 396.67Q345.51 398 342.32 400.92Q339.13 403.85 337.45 408.63Q335.76 413.41 335.76 420.14V460ZM431.15 460 392.71 411.64 426.55 372.14H454.89L411.14 421.56L410.96 402.61L460.74 460ZM372.34 460V336H396.26V460ZM465.12 460V372.14H489.04V460ZM496.83 460V372.14H517.2L519.33 386.49H520.04Q524.29 378.69 531.55 374.35Q538.81 370.01 549.8 370.01Q560.78 370.01 568.4 374.71Q576.01 379.4 580 388.43Q583.98 397.47 583.98 410.75V460H560.07V412.88Q560.07 401.9 555.64 396.05Q551.21 390.21 541.65 390.21Q535.62 390.21 530.84 393.13Q526.06 396.05 523.4 401.45Q520.74 406.86 520.74 414.65V460Z"/><circle cx="477.08" cy="348" r="15"/><circle class="logo__dot" cx="605.8" cy="446.5" r="15"/></svg>
-    <nav class="site-footer__links" aria-label="Footer">
-      <a href="/how-it-works/">How it works</a>
-      <a href="#privacy">Privacy</a>
-      <a href="#faq">FAQ</a>
-      <a href="#reserve">Reserve</a>
-      <a href="/privacy/">Privacy policy</a>
-      <a href="/terms/">Terms</a>
-    </nav>
-    <span class="site-footer__copy">© 2026 Larkin. All rights reserved.</span>
+    <svg class="site-footer__mark logo rv" viewBox="189 333 431.8 129.2" role="img" aria-label="Larkin" focusable="false"><path d="M189 460V336H212.91V460ZM250.69 462.13Q240.24 462.13 233.42 458.58Q226.6 455.04 223.41 449.02Q220.22 442.99 220.22 435.73Q220.22 427.58 224.38 421.38Q228.55 415.18 237.05 411.73Q245.55 408.27 258.48 408.27H280.63Q280.63 401.72 278.77 397.47Q276.91 393.22 273.1 391.09Q269.29 388.97 263.44 388.97Q256.54 388.97 251.66 392.07Q246.79 395.17 245.55 401.72H222.35Q223.41 391.98 228.81 384.89Q234.22 377.81 243.16 373.91Q252.11 370.01 263.44 370.01Q276.2 370.01 285.41 374.17Q294.62 378.34 299.58 386.4Q304.54 394.46 304.54 405.97V460H284.7L282.22 446.36H281.51Q278.68 450.26 275.4 453.27Q272.12 456.28 268.23 458.23Q264.33 460.18 259.9 461.15Q255.47 462.13 250.69 462.13ZM258.48 443.7Q263.44 443.7 267.08 442.02Q270.71 440.34 273.36 437.5Q276.02 434.67 277.53 430.86Q279.03 427.05 279.56 422.98H261.14Q255.65 422.98 252.2 424.31Q248.74 425.63 247.15 428.03Q245.55 430.42 245.55 433.61Q245.55 436.79 247.15 439.1Q248.74 441.4 251.75 442.55Q254.76 443.7 258.48 443.7ZM311.85 460V372.14H332.22L334.35 391.45H335.05Q338.95 382.06 343.56 377.54Q348.16 373.02 354.1 371.52Q360.03 370.01 367.47 370.01V395.34H360.92Q354.89 395.34 350.2 396.67Q345.51 398 342.32 400.92Q339.13 403.85 337.45 408.63Q335.76 413.41 335.76 420.14V460ZM431.15 460 392.71 411.64 426.55 372.14H454.89L411.14 421.56L410.96 402.61L460.74 460ZM372.34 460V336H396.26V460ZM465.12 460V372.14H489.04V460ZM496.83 460V372.14H517.2L519.33 386.49H520.04Q524.29 378.69 531.55 374.35Q538.81 370.01 549.8 370.01Q560.78 370.01 568.4 374.71Q576.01 379.4 580 388.43Q583.98 397.47 583.98 410.75V460H560.07V412.88Q560.07 401.9 555.64 396.05Q551.21 390.21 541.65 390.21Q535.62 390.21 530.84 393.13Q526.06 396.05 523.4 401.45Q520.74 406.86 520.74 414.65V460Z"/><circle cx="477.08" cy="348" r="15"/><circle class="logo__dot" cx="605.8" cy="446.5" r="15"/></svg>
+    <div class="site-footer__row">
+      <nav class="site-footer__links" aria-label="Footer">
+        <a href="/how-it-works/">How it works</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#faq">FAQ</a>
+        <a href="#reserve">Reserve</a>
+        <a href="/privacy/">Privacy policy</a>
+        <a href="/terms/">Terms</a>
+      </nav>
+      <span class="site-footer__copy">© 2026 Larkin. All rights reserved.</span>
+    </div>
   </div>
 </footer>
 
-<script src="larkin.js?v=20261007a" defer></script>
+<script src="v5.js?v=20261007d" defer></script>
 </body>
 </html>
