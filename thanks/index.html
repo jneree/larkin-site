@@ -98,6 +98,33 @@
     color: var(--fg-muted);
   }
 
+  /* The app beta, theirs to try today: one quiet card with the TestFlight
+     link, before the three beats. */
+  .ty__beta {
+    max-width: 760px;
+    margin: 0 auto clamp(2.5rem, 5vw, 3.5rem);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid var(--rule, rgba(242, 237, 224, 0.14));
+    border-radius: 24px;
+    text-align: center;
+  }
+  .ty__beta h2 {
+    font-family: var(--font-serif);
+    font-weight: 450;
+    font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+    color: var(--fg);
+    margin-bottom: 0.5rem;
+  }
+  .ty__beta p {
+    max-width: 48ch;
+    margin: 0 auto 1.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--fg-muted);
+  }
+  .ty__beta a.btn { padding-inline: 1.75rem; }
+  .ty__beta small { display: block; margin-top: 0.875rem; font-size: 0.8125rem; color: var(--fg-dim); }
+
   .ty__foot {
     max-width: 52ch;
     margin: clamp(2.75rem, 5.5vw, 3.5rem) auto 0;
@@ -125,8 +152,15 @@
 
     <p class="ty__lead">
       A receipt is on its way to your inbox. Your founder unit is held from the
-      first run of 1,000 — numbered, and shipping before anyone else's.
+      first run of 1,000, numbered, and shipping before anyone else's.
     </p>
+
+    <section class="ty__beta" aria-labelledby="ty-beta">
+      <h2 id="ty-beta">Start today on your Apple Watch.</h2>
+      <p>The Larkin app is in beta on Apple Watch and iPhone. As a founder, it stays free for you, for life.</p>
+      <a class="btn btn--primary" href="https://testflight.apple.com/join/z2xAFY9x" rel="noopener">Join the beta on TestFlight</a>
+      <small>Open this on your iPhone. Needs an Apple Watch.</small>
+    </section>
 
     <ol class="ty__next">
       <li class="ty__step">
@@ -135,11 +169,11 @@
       </li>
       <li class="ty__step">
         <h2>Until launch</h2>
-        <p>Occasional notes from us as Larkin comes together — what we're building, and what we're learning. Nothing else.</p>
+        <p>Occasional notes from us as Larkin comes together: what we're building, and what we're learning. Nothing else.</p>
       </li>
       <li class="ty__step">
         <h2>Q1 2027</h2>
-        <p>Your Larkin ships with the membership included, forever. The remaining $89 is charged then, not before.</p>
+        <p>Your Larkin ships with the membership included, forever. The remaining $119 is charged then, not before.</p>
       </li>
     </ol>
 
