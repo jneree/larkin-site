@@ -1283,7 +1283,10 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
 .uc__media picture, .uc__media img { position: absolute; inset: 0; width: 100%; height: 100%; }
 /* The photo is a little larger than its frame, so it can drift with the
    scroll (v5.js) and ease closer under the pointer without showing an edge. */
-.uc__media img { object-fit: cover; object-position: 50% 30%; transform: scale(1.14); transition: transform 1.6s var(--ease); }
+/* Each card sets its photo's focal point for the landscape crop (--pos)
+   and for the portrait crop on phones (--pos-m). */
+.uc__media img { object-fit: cover; object-position: var(--pos, 50% 30%); transform: scale(1.14); transition: transform 1.6s var(--ease); }
+@media (max-width: 799px) { .uc__media img { object-position: var(--pos-m, var(--pos, 50% 30%)); } }
 @media (hover: hover) { .uc:hover .uc__media img { transform: scale(1.2); } }
 .uc::after {
   content: "";
