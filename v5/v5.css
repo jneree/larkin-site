@@ -189,6 +189,8 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
 .sec-rule--light .eyebrow { color: rgba(255, 255, 255, 0.78); }
 .sec-head--center { justify-items: center; text-align: center; }
 .sec-head--center .lead { margin-inline: auto; }
+/* Under a centred headline the eyebrow sits centred on the line too. */
+.sec-head--center .sec-rule, .how-film__head .sec-rule { justify-content: center; }
 .sec-head--split .lead { max-width: 34ch; text-wrap: balance; }
 @media (min-width: 900px) {
   .sec-head--split { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); column-gap: 48px; align-items: end; }
