@@ -295,7 +295,7 @@
     }
 
     /* Scrolling lifts the film away: the frame shrinks a little, rounds its
-       corners and dims, so the ink of the statement is already there. */
+       corners and fades towards the white of the page. */
     var heroFrame = hero.querySelector('.hero__frame');
     if (heroFrame && !reduceMotion) {
       var lastP = -1;
@@ -309,7 +309,7 @@
         var e = easeOut(p);
         heroFrame.style.setProperty('--exit-s', (1 - 0.1 * e).toFixed(4));
         heroFrame.style.setProperty('--exit-r', (44 * e).toFixed(1) + 'px');
-        heroFrame.style.setProperty('--exit-o', (1 - 0.5 * p).toFixed(3));
+        heroFrame.style.setProperty('--exit-o', (1 - 0.35 * p).toFixed(3));
         return false;
       });
     }

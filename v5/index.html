@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Larkin: Everyone’s met you. Have you?</title>
 <meta name="description" content="A screenless bracelet that shows you how you come across.">
-<meta name="theme-color" content="#151515">
+<meta name="theme-color" content="#FFFFFF">
 
 <meta property="og:title" content="Larkin: Everyone’s met you. Have you?">
 <meta property="og:description" content="A screenless bracelet that shows you how you come across.">
@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v5.css?v=20261007a">
+<link rel="stylesheet" href="v5.css?v=20261007b">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -98,7 +98,8 @@
        last frame, which is also the poster, so nothing jumps at the end.
        The headline rises line by line out of its own baseline once the
        curtain has lifted; the copy flips between ink and white with the
-       film (timings in v5.js). Scrolling lifts the film away as a card. -->
+       film (timings in v5.js). Scrolling lifts the film away as a card, over
+       the white of the page. -->
   <section class="hero" data-hero aria-label="Introduction">
     <div class="hero__frame">
       <div class="hero__media">
@@ -129,7 +130,6 @@
         </div>
       </div>
 
-      <div class="hero__cue" aria-hidden="true"><span class="hero__cue-track"><i></i></span><span class="hero__cue-label">Scroll</span></div>
 
       <button class="hero__toggle" type="button" aria-label="Pause the film" hidden>
         <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="5.5" width="3.4" height="13" rx="1.2"/><rect x="13.6" y="5.5" width="3.4" height="13" rx="1.2"/></svg>
@@ -139,12 +139,13 @@
     </div>
   </section>
 
-  <!-- Statement — pinned read-along on ink. The tall .statement-pin holds
-       the sentence in the viewport while scroll lights it word by word
-       (v5.js); the key phrase turns lime once the reading reaches it. With
-       no JS or reduced motion nothing pins and the words are full white. -->
+  <!-- Statement — pinned read-along. The tall .statement-pin holds the
+       sentence in the viewport while scroll lights it word by word (v5.js),
+       and a highlighter sweeps across the key phrase once the reading
+       reaches it. With no JS or reduced motion nothing pins, the words are
+       full ink and the phrase is simply highlighted. -->
   <div class="statement-pin">
-    <section class="statement statement--reveal grain" aria-label="What Larkin does">
+    <section class="statement statement--reveal" aria-label="What Larkin does">
       <div class="shell">
         <p class="statement__read">You can’t see yourself the way other people do.</p>
         <p class="statement__read">Larkin can. It listens through your day and shows you <mark class="marker">what you said, what landed, and what you keep coming back to</mark>, so you can build on it.</p>
@@ -159,7 +160,7 @@
   <section class="section how" id="how">
     <div class="how-film" data-how-film data-settle="3.6">
       <header class="shell how-film__head">
-        <div class="sec-rule rv"><span class="eyebrow">How it works</span><span class="sec-index">01</span></div>
+        <div class="sec-rule rv"><span class="eyebrow">How it works</span></div>
         <h2 class="h2 how-film__title"><span class="how-film__line">Put it on.</span> <span class="how-film__line">Forget it’s there.</span></h2>
         <p class="lead how-film__lead">Other AI recorders wait for you to press something. Larkin stays on all day, because nobody schedules a good conversation.</p>
       </header>
@@ -219,7 +220,7 @@
         <canvas class="device__canvas" aria-hidden="true"></canvas>
         <div class="device__shade" aria-hidden="true"></div>
         <div class="shell device__copy">
-          <div class="sec-rule sec-rule--light"><span class="eyebrow">The device</span><span class="sec-index">02</span></div>
+          <div class="sec-rule sec-rule--light"><span class="eyebrow">The device</span></div>
           <h2 class="h2 device__title" id="device-title">Designed to disappear.</h2>
           <p class="device__lead">No screen to check. One thin light, and it only glows while Larkin is listening.</p>
         </div>
@@ -251,7 +252,7 @@
 
     <div class="shell">
       <header class="sec-head sec-head--center rv">
-        <div class="sec-rule sec-rule--dark"><span class="eyebrow eyebrow--lime">The app</span><span class="sec-index">03</span></div>
+        <div class="sec-rule sec-rule--dark"><span class="eyebrow eyebrow--lime">The app</span></div>
         <h2 class="h2">Your day. Your conversations. You.</h2>
       </header>
 
@@ -484,7 +485,7 @@
   <section class="section" id="use-cases">
     <div class="shell">
       <header class="sec-head rv">
-        <div class="sec-rule"><span class="eyebrow">Use cases</span><span class="sec-index">04</span></div>
+        <div class="sec-rule"><span class="eyebrow">Use cases</span></div>
         <h2 class="h2">How will you use yours?</h2>
       </header>
 
@@ -544,59 +545,59 @@
     </div>
   </section>
 
-  <!-- Privacy — heading on top, six points on hairlines below. -->
+  <!-- Privacy — heading on top, six tiles below. -->
   <section class="section privacy" id="privacy">
     <div class="shell">
       <header class="sec-head sec-head--split rv">
-        <div class="sec-rule"><span class="eyebrow">Privacy</span><span class="sec-index">05</span></div>
+        <div class="sec-rule"><span class="eyebrow">Privacy</span></div>
         <h2 class="h2">Private and secure by design.</h2>
         <p class="lead">What happens to your voice in the current Watch and iPhone beta.</p>
       </header>
 
-      <ol class="plist">
-        <li class="plist__item rv">
-          <span class="plist__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><line x1="6" y1="18" x2="18" y2="6" stroke="currentColor" stroke-width="1.8"/></svg></span>
-          <div class="plist__body">
-            <h3>Audio is temporary.</h3>
-            <p>After the phone imports completed text, it deletes the cloud recording and its local audio copy. Waiting imports and cleanup failures can delay deletion.</p>
-          </div>
-        </li>
-        <li class="plist__item rv">
-          <span class="plist__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="7.5" y="5" width="3.2" height="14" rx="1.6" fill="currentColor"/><rect x="13.3" y="5" width="3.2" height="14" rx="1.6" fill="currentColor"/></svg></span>
-          <div class="plist__body">
-            <h3>You control recording.</h3>
-            <p>Use Stop on the Watch to stop new capture. Previously recorded pieces may still finish processing.</p>
-          </div>
-        </li>
-        <li class="plist__item rv">
-          <span class="plist__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.4" stroke="currentColor" stroke-width="1.8"/><path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5" stroke="currentColor" stroke-width="1.8"/></svg></span>
-          <div class="plist__body">
-            <h3>Protected in transit.</h3>
-            <p>Cloud transfers use HTTPS to encrypt data on the way. Account checks keep other users from reading your transcripts.</p>
-          </div>
-        </li>
-        <li class="plist__item rv">
-          <span class="plist__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="6" width="16" height="2.2" rx="1.1" fill="currentColor"/><rect x="4" y="11" width="11" height="2.2" rx="1.1" fill="currentColor" opacity="0.55"/><rect x="4" y="16" width="6" height="2.2" rx="1.1" fill="currentColor" opacity="0.25"/></svg></span>
-          <div class="plist__body">
-            <h3>Clear about deletion.</h3>
-            <p>Removing a note hides it from your journal. Account deletion removes Larkin’s stored account data and audio. Provider log retention is separate.</p>
-          </div>
-        </li>
-        <li class="plist__item rv">
-          <span class="plist__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.8"/><rect x="9" y="9" width="6" height="6" rx="1.4" fill="currentColor"/></svg></span>
-          <div class="plist__body">
-            <h3>Cloud services, explained.</h3>
-            <p>Supabase hosts your account, Deepgram transcribes audio, and OpenAI processes text for notes and insights.</p>
-          </div>
-        </li>
-        <li class="plist__item rv">
-          <span class="plist__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="6.5" y="3.5" width="11" height="17" rx="4" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/></svg></span>
-          <div class="plist__body">
-            <h3>Private by default.</h3>
-            <p>Your transcripts aren’t publicly browseable. Sharing selected notes is your choice, and you can revoke their link.</p>
-          </div>
-        </li>
-      </ol>
+      <div class="privacy__grid">
+        <div class="pcard rv">
+          <span class="pcard__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><line x1="6" y1="18" x2="18" y2="6" stroke="currentColor" stroke-width="1.8"/></svg>
+          </span>
+          <h3>Audio is temporary.</h3>
+          <p>After the phone imports completed text, it deletes the cloud recording and its local audio copy. Waiting imports and cleanup failures can delay deletion.</p>
+        </div>
+        <div class="pcard rv">
+          <span class="pcard__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="7.5" y="5" width="3.2" height="14" rx="1.6" fill="currentColor"/><rect x="13.3" y="5" width="3.2" height="14" rx="1.6" fill="currentColor"/></svg>
+          </span>
+          <h3>You control recording.</h3>
+          <p>Use Stop on the Watch to stop new capture. Previously recorded pieces may still finish processing.</p>
+        </div>
+        <div class="pcard rv">
+          <span class="pcard__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.4" stroke="currentColor" stroke-width="1.8"/><path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5" stroke="currentColor" stroke-width="1.8"/></svg>
+          </span>
+          <h3>Protected in transit.</h3>
+          <p>Cloud transfers use HTTPS to encrypt data on the way. Account checks keep other users from reading your transcripts.</p>
+        </div>
+        <div class="pcard rv">
+          <span class="pcard__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="6" width="16" height="2.2" rx="1.1" fill="currentColor"/><rect x="4" y="11" width="11" height="2.2" rx="1.1" fill="currentColor" opacity="0.55"/><rect x="4" y="16" width="6" height="2.2" rx="1.1" fill="currentColor" opacity="0.25"/></svg>
+          </span>
+          <h3>Clear about deletion.</h3>
+          <p>Removing a note hides it from your journal. Account deletion removes Larkin’s stored account data and audio. Provider log retention is separate.</p>
+        </div>
+        <div class="pcard rv">
+          <span class="pcard__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.8"/><rect x="9" y="9" width="6" height="6" rx="1.4" fill="currentColor"/></svg>
+          </span>
+          <h3>Cloud services, explained.</h3>
+          <p>Supabase hosts your account, Deepgram transcribes audio, and OpenAI processes text for notes and insights.</p>
+        </div>
+        <div class="pcard rv">
+          <span class="pcard__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="6.5" y="3.5" width="11" height="17" rx="4" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/></svg>
+          </span>
+          <h3>Private by default.</h3>
+          <p>Your transcripts aren’t publicly browseable. Sharing selected notes is your choice, and you can revoke their link.</p>
+        </div>
+      </div>
       <p class="privacy__more rv"><a class="btn btn--ink" href="/how-it-works/" data-magnet><span>See how Larkin works <span aria-hidden="true">↗</span></span></a></p>
     </div>
   </section>
@@ -733,7 +734,7 @@
   <section class="section compare-sec" id="compare">
     <div class="shell">
       <header class="sec-head sec-head--center rv">
-        <div class="sec-rule"><span class="eyebrow">How it compares</span><span class="sec-index">06</span></div>
+        <div class="sec-rule"><span class="eyebrow">How it compares</span></div>
         <h2 class="h2">Nothing to open. Nothing to press.</h2>
       </header>
       <p class="compare-hint">Scroll the table sideways to see every column.</p>
@@ -823,7 +824,7 @@
   <section class="section specs-sec" id="specs">
     <div class="shell">
       <header class="sec-head rv">
-        <div class="sec-rule"><span class="eyebrow">Specifications</span><span class="sec-index">07</span></div>
+        <div class="sec-rule"><span class="eyebrow">Specifications</span></div>
         <h2 class="h2">Simple, screen-free.</h2>
       </header>
       <div class="specs">
@@ -859,7 +860,7 @@
   <section class="section faq-sec" id="faq">
     <div class="shell">
       <header class="sec-head sec-head--center rv">
-        <div class="sec-rule"><span class="eyebrow">Questions</span><span class="sec-index">08</span></div>
+        <div class="sec-rule"><span class="eyebrow">Questions</span></div>
         <h2 class="h2">Good to know.</h2>
       </header>
       <div class="faq rv">
@@ -934,6 +935,6 @@
   </div>
 </footer>
 
-<script src="v5.js?v=20261007a" defer></script>
+<script src="v5.js?v=20261007b" defer></script>
 </body>
 </html>

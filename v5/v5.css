@@ -78,7 +78,7 @@
 /* Never let the page pan sideways on a phone. Body clips (clip, not hidden,
    so position: sticky keeps working); the root guard stops body's value
    propagating to the viewport. */
-html { -webkit-text-size-adjust: 100%; overflow-x: hidden; background: var(--feature); }
+html { -webkit-text-size-adjust: 100%; overflow-x: hidden; background: var(--bg); }
 body {
   margin: 0;
   background: var(--bg);
@@ -164,9 +164,9 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   max-width: 40ch;
 }
 
-/* Section heads: a hairline across the top, the eyebrow on the left and
-   the section's index on the right, then the headline. The hairline draws
-   itself in from the left as the head arrives. */
+/* Section heads: a hairline across the top with the eyebrow under it, then
+   the headline. The hairline draws itself in from the left as the head
+   arrives. */
 .sec-head { display: grid; gap: clamp(20px, 3vw, 32px); margin-bottom: clamp(40px, 6vw, 72px); }
 .sec-rule {
   position: relative;
@@ -186,14 +186,6 @@ section[id], [id^="app-"] { scroll-margin-top: var(--header-h); }
   transform-origin: left;
 }
 .sec-rule--dark::before, .sec-rule--light::before { background: var(--hair-dark); }
-.sec-index {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--ink-3);
-  font-variant-numeric: tabular-nums;
-}
-.sec-rule--dark .sec-index, .sec-rule--light .sec-index { color: var(--on-feature-2); }
 .sec-rule--light .eyebrow { color: rgba(255, 255, 255, 0.78); }
 .sec-head--center { justify-items: center; text-align: center; }
 .sec-head--center .lead { margin-inline: auto; }
@@ -374,14 +366,14 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 /* --------------------------------------------------------------------------
    7. Hero
    -------------------------------------------------------------------------- */
-/* The film fills the frame. The whole frame sits on ink and, as the page
-   scrolls, shrinks and rounds into a card lifting away (--exit-s, --exit-r,
-   v5.js), so the ink of the statement below is already there behind it. */
+/* The film fills the frame. The whole frame sits on the white of the page
+   and, as the page scrolls, shrinks and rounds into a card lifting away
+   (--exit-s, --exit-r, v5.js), fading into the statement below. */
 .hero {
   position: relative;
   display: grid;
   min-height: max(600px, 100svh);
-  background: var(--feature);
+  background: var(--bg);
   color: #fff;
 }
 .hero__frame {
@@ -455,38 +447,6 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
 .hero__fine { font-size: 0.875rem; font-weight: 600; opacity: 0.7; }
 
-/* A hairline with a light sliding down it: the one hint to scroll. */
-.hero__cue {
-  position: absolute;
-  left: 50%;
-  bottom: 26px;
-  z-index: 1;
-  display: none;
-  justify-items: center;
-  gap: 12px;
-  translate: -50% 0;
-  opacity: 0.75;
-  pointer-events: none;
-}
-.hero__cue-track { position: relative; width: 1px; height: 44px; background: currentColor; opacity: 0.35; }
-.hero__cue-track i {
-  position: absolute;
-  left: -1.5px;
-  top: 0;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: currentColor;
-  animation: cue 2.4s var(--ease-io) infinite;
-}
-.hero__cue-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
-@keyframes cue {
-  0% { top: 0; opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-}
-
 .hero__toggle {
   position: absolute;
   right: var(--gutter);
@@ -524,7 +484,6 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .hero__copy { gap: 22px; max-width: 40rem; transform: translateY(10vh); } /* headline starts just below 35% of the screen */
   .hero__title { font-size: clamp(4rem, 7.4vw, 6.5rem); }
   .hero.is-dark .hero__copy { text-shadow: 0 1px 30px rgba(0, 0, 0, 0.35); }
-  .hero__cue { display: grid; }
   .hero__toggle {
     top: auto;
     bottom: 32px;
@@ -535,18 +494,16 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 /* --------------------------------------------------------------------------
-   8. Statement — read-along on ink
+   8. Statement — read-along
    -------------------------------------------------------------------------- */
-.statement-pin { background: var(--feature); }
+.statement-pin { background: var(--bg); }
 .statement {
   display: grid;
   place-items: center;
   padding-block: clamp(96px, 15vw, 200px);
-  background: var(--feature);
-  color: #fff;
+  background: var(--bg);
   text-align: center;
 }
-.statement .shell { position: relative; z-index: 1; }
 .statement p {
   max-width: 24ch;
   margin-inline: auto;
@@ -557,13 +514,30 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   text-wrap: balance;
 }
 .statement p + p { margin-top: 0.6em; }
-.statement p:first-child { color: var(--on-feature-2); }
-.statement .w { transition: opacity 0.12s linear, color 0.4s var(--ease); }
-/* The key phrase turns lime (on ink, lime may be text) once the reading
-   reaches it; without the read-along it is simply lime. */
-.marker { color: var(--lime); background: none; }
-.stmt-scrub .marker { color: inherit; }
-.stmt-scrub .marker.is-on .w { color: var(--lime); opacity: 1 !important; transition: color 0.45s var(--ease) var(--d, 0s), opacity 0.25s linear var(--d, 0s); }
+.statement p:first-child { color: var(--ink-2); }
+.statement .w { transition: opacity 0.12s linear; }
+
+/* The key phrase gets a lime highlighter (a lime shape with ink text, as
+   lime goes on light). Inline backgrounds paint as one strip across line
+   breaks, so growing the strip's width sweeps the marker along the phrase
+   in reading order. It rests fully drawn; the read-along (v5.js) starts it
+   at zero and sweeps it in when the reading reaches the phrase. */
+.marker {
+  --mark: 100%;
+  color: inherit;
+  background-color: transparent;
+  background-image: linear-gradient(var(--lime), var(--lime));
+  background-repeat: no-repeat;
+  background-position: 0 72%;
+  background-size: var(--mark) 0.82em;
+  padding-inline: 0.08em;
+  margin-inline: -0.08em;
+  border-radius: 0.14em;
+  transition: background-size 1.5s cubic-bezier(0.55, 0.05, 0.3, 1);
+}
+.stmt-scrub .marker { --mark: 0%; }
+.stmt-scrub .marker.is-on { --mark: 100%; }
+.stmt-scrub .marker.is-on .w { opacity: 1 !important; transition: opacity 0.25s linear var(--d, 0s); }
 
 .stmt-scrub .statement-pin { height: 220vh; }
 .stmt-scrub .statement-pin .statement {
@@ -1345,34 +1319,34 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
 }
 
 /* --------------------------------------------------------------------------
-   13. Privacy
+   13. Privacy — six tiles
    -------------------------------------------------------------------------- */
 .privacy { padding-top: 0; }
-.plist { display: grid; border-top: 1px solid var(--hair); }
-.plist__item {
+.privacy__grid { display: grid; gap: 16px; }
+.pcard {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: start;
-  gap: 22px;
-  padding: clamp(24px, 3vw, 36px) 0;
-  border-bottom: 1px solid var(--hair);
+  align-content: start;
+  gap: 10px;
+  padding: clamp(24px, 2.6vw, 34px);
+  border-radius: var(--r-lg);
+  background: var(--card);
 }
-.plist__icon {
+.pcard h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; text-wrap: balance; }
+.pcard p { color: var(--ink-2); text-wrap: pretty; }
+/* On the tile's ink circle, lime may be the icon. */
+.pcard__icon {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 14px;
   border-radius: 50%;
   background: var(--ink);
   color: var(--lime);
 }
-.plist__body { display: grid; gap: 8px; }
-.plist__body h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
-.plist__body p { color: var(--ink-2); max-width: 46ch; text-wrap: pretty; }
-.privacy__more { margin-top: clamp(32px, 4vw, 48px); }
-@media (min-width: 900px) {
-  .plist { grid-template-columns: 1fr 1fr; column-gap: clamp(48px, 6vw, 96px); }
-}
+.privacy__more { margin-top: clamp(28px, 3vw, 40px); }
+@media (min-width: 700px) { .privacy__grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) { .privacy__grid { grid-template-columns: repeat(3, 1fr); } }
 
 /* --------------------------------------------------------------------------
    14. Reserve
@@ -1766,7 +1740,7 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
     translate: 0 30px;
     transition: opacity 1.1s var(--ease) var(--rv-d, 0ms), translate 1.1s var(--ease) var(--rv-d, 0ms), filter 1.1s var(--ease) var(--rv-d, 0ms);
   }
-  .js-anim :is(.sec-head, .feat__copy, .num, .plist__item, .closing__inner).rv { filter: blur(10px); }
+  .js-anim :is(.sec-head, .feat__copy, .num, .closing__inner).rv { filter: blur(10px); }
   .js-anim .rv.in { opacity: 1; translate: none; filter: none; }
 
   /* Hairlines draw themselves in. */
@@ -1779,12 +1753,11 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
   .js.is-ready .hero__title .line__in { animation: line-in 1.3s var(--ease) forwards; }
   .js.is-ready .hero__title .line:nth-child(2) .line__in { animation-delay: 0.1s; }
   .js.is-ready .hero__title .line:nth-child(3) .line__in { animation-delay: 0.2s; }
-  .js :is(.hero__lead, .hero__actions, .hero__fine, .hero__cue) { opacity: 0; translate: 0 16px; }
-  .js.is-ready :is(.hero__lead, .hero__actions, .hero__fine, .hero__cue) { animation: rise-soft 1.1s var(--ease) forwards; }
+  .js :is(.hero__lead, .hero__actions, .hero__fine) { opacity: 0; translate: 0 16px; }
+  .js.is-ready :is(.hero__lead, .hero__actions, .hero__fine) { animation: rise-soft 1.1s var(--ease) forwards; }
   .js.is-ready .hero__lead { animation-delay: 0.5s; }
   .js.is-ready .hero__actions { animation-delay: 0.6s; }
   .js.is-ready .hero__fine { animation-delay: 0.7s; }
-  .js.is-ready .hero__cue { animation-delay: 1.4s; }
 }
 @keyframes line-in { to { transform: none; opacity: 1; } }
 @keyframes rise-soft { to { opacity: 1; translate: none; } }
@@ -1792,7 +1765,10 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
   .uc-grid > .rv:nth-child(2) { --rv-d: 90ms; }
   .uc-grid > .rv:nth-child(3) { --rv-d: 0ms; }
   .uc-grid > .rv:nth-child(4) { --rv-d: 90ms; }
-  .plist > .rv:nth-child(2n) { --rv-d: 90ms; }
+  .privacy__grid > .rv:nth-child(2) { --rv-d: 90ms; }
+  .privacy__grid > .rv:nth-child(3) { --rv-d: 180ms; }
+  .privacy__grid > .rv:nth-child(5) { --rv-d: 90ms; }
+  .privacy__grid > .rv:nth-child(6) { --rv-d: 180ms; }
   .nums > .rv:nth-child(3n + 2) { --rv-d: 90ms; }
   .nums > .rv:nth-child(3n) { --rv-d: 180ms; }
 }
