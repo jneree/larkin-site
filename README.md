@@ -2,6 +2,10 @@
 
 Static landing site for **Larkin**, the AI memory wristband. Served by GitHub Pages from `main` at **https://getlarkin.com**.
 
+## Design trial: /v5/
+
+A premium cut of the homepage at `v5/` (`index.html`, `v5.css`, `v5.js`), sharing the root `/media/` and `/fonts/`. Same copy, headline and brand system as `/`; the finish is turned up: an ink curtain with the wordmark that lifts off the hero film (once per visit), the headline rising line by line, the film shrinking into a card as you scroll, the read-along statement on ink with the key phrase turning lime, a pinned close-up of the module scrubbed by scroll (39 frames cut from the hero film's 4K master into `media/ring/`, landscape plus a portrait crop for phones), hairline section rules with their index, spec numbers that count themselves in, grain on the dark surfaces, and the wordmark as a full-width signature in the footer. `noindex`, disallowed in `robots.txt`; its checkout links carry `client_reference_id=v5`.
+
 ## 2026 redesign (branch `redesign`)
 
 The homepage is rebuilt for the new band and the new app, in the app's own design language: DM Sans, white canvas, `#151515` ink and feature cards, `#F0F0F0` cards, lime `#DEFA55` for the one thing to press.

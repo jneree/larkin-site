@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="general" data-segment="v5">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Larkin: Everyone’s met you. Have you?</title>
+<meta name="description" content="A screenless bracelet that shows you how you come across.">
+<meta name="theme-color" content="#FFFFFF">
+
+<meta property="og:title" content="Larkin: Everyone’s met you. Have you?">
+<meta property="og:description" content="A screenless bracelet that shows you how you come across.">
+<meta property="og:image" content="https://getlarkin.com/media/hero-s-poster-1920.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:url" content="https://getlarkin.com/v5/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Larkin">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://getlarkin.com/v5/">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<!-- The hero's resting frame is the page's largest paint: fetch it first.
+     Portrait screens get their own crop of the film and of this frame. -->
+<link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(max-aspect-ratio: 4/5)" href="/media/hero-s-poster-phone.webp">
+<link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
+      imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
+<link rel="stylesheet" href="v5.css?v=20261007c">
+<script>document.documentElement.classList.add('js')</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Larkin",
+  "url": "https://getlarkin.com/",
+  "logo": "https://getlarkin.com/favicon.svg",
+  "description": "Larkin is an AI wristband that listens to what you say and hear, and gives it back as something you can read, learn from and build on."
+}
+</script>
+
+<!-- ==================== FACEBOOK PIXEL ==================== -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1033614279315561');
+  fbq('track', 'PageView');
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1033614279315561&ev=PageView&noscript=1" alt="" />
+</noscript>
+<!-- ================== END FACEBOOK PIXEL ================== -->
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Intro — an ink curtain with the wordmark: the dot comes on like the
+     band's light, then the curtain lifts off the film. Once per visit
+     (sessionStorage), never under reduced motion, never without JS. -->
+<div class="intro" data-intro aria-hidden="true">
+  <svg class="logo intro__logo" viewBox="189 333 431.8 129.2" focusable="false"><path d="M189 460V336H212.91V460ZM250.69 462.13Q240.24 462.13 233.42 458.58Q226.6 455.04 223.41 449.02Q220.22 442.99 220.22 435.73Q220.22 427.58 224.38 421.38Q228.55 415.18 237.05 411.73Q245.55 408.27 258.48 408.27H280.63Q280.63 401.72 278.77 397.47Q276.91 393.22 273.1 391.09Q269.29 388.97 263.44 388.97Q256.54 388.97 251.66 392.07Q246.79 395.17 245.55 401.72H222.35Q223.41 391.98 228.81 384.89Q234.22 377.81 243.16 373.91Q252.11 370.01 263.44 370.01Q276.2 370.01 285.41 374.17Q294.62 378.34 299.58 386.4Q304.54 394.46 304.54 405.97V460H284.7L282.22 446.36H281.51Q278.68 450.26 275.4 453.27Q272.12 456.28 268.23 458.23Q264.33 460.18 259.9 461.15Q255.47 462.13 250.69 462.13ZM258.48 443.7Q263.44 443.7 267.08 442.02Q270.71 440.34 273.36 437.5Q276.02 434.67 277.53 430.86Q279.03 427.05 279.56 422.98H261.14Q255.65 422.98 252.2 424.31Q248.74 425.63 247.15 428.03Q245.55 430.42 245.55 433.61Q245.55 436.79 247.15 439.1Q248.74 441.4 251.75 442.55Q254.76 443.7 258.48 443.7ZM311.85 460V372.14H332.22L334.35 391.45H335.05Q338.95 382.06 343.56 377.54Q348.16 373.02 354.1 371.52Q360.03 370.01 367.47 370.01V395.34H360.92Q354.89 395.34 350.2 396.67Q345.51 398 342.32 400.92Q339.13 403.85 337.45 408.63Q335.76 413.41 335.76 420.14V460ZM431.15 460 392.71 411.64 426.55 372.14H454.89L411.14 421.56L410.96 402.61L460.74 460ZM372.34 460V336H396.26V460ZM465.12 460V372.14H489.04V460ZM496.83 460V372.14H517.2L519.33 386.49H520.04Q524.29 378.69 531.55 374.35Q538.81 370.01 549.8 370.01Q560.78 370.01 568.4 374.71Q576.01 379.4 580 388.43Q583.98 397.47 583.98 410.75V460H560.07V412.88Q560.07 401.9 555.64 396.05Q551.21 390.21 541.65 390.21Q535.62 390.21 530.84 393.13Q526.06 396.05 523.4 401.45Q520.74 406.86 520.74 414.65V460Z"/><circle cx="477.08" cy="348" r="15"/><circle class="logo__dot" cx="605.8" cy="446.5" r="15"/></svg>
+</div>
+
+<!-- Header — clear over the hero, white or ink with the film behind it;
+     past the hero a floating frosted pill that slides away on the way down
+     and comes back on the way up (v5.js). -->
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="brand" href="/v5/" aria-label="Larkin, home"><svg class="logo" viewBox="189 333 431.8 129.2" aria-hidden="true" focusable="false"><path d="M189 460V336H212.91V460ZM250.69 462.13Q240.24 462.13 233.42 458.58Q226.6 455.04 223.41 449.02Q220.22 442.99 220.22 435.73Q220.22 427.58 224.38 421.38Q228.55 415.18 237.05 411.73Q245.55 408.27 258.48 408.27H280.63Q280.63 401.72 278.77 397.47Q276.91 393.22 273.1 391.09Q269.29 388.97 263.44 388.97Q256.54 388.97 251.66 392.07Q246.79 395.17 245.55 401.72H222.35Q223.41 391.98 228.81 384.89Q234.22 377.81 243.16 373.91Q252.11 370.01 263.44 370.01Q276.2 370.01 285.41 374.17Q294.62 378.34 299.58 386.4Q304.54 394.46 304.54 405.97V460H284.7L282.22 446.36H281.51Q278.68 450.26 275.4 453.27Q272.12 456.28 268.23 458.23Q264.33 460.18 259.9 461.15Q255.47 462.13 250.69 462.13ZM258.48 443.7Q263.44 443.7 267.08 442.02Q270.71 440.34 273.36 437.5Q276.02 434.67 277.53 430.86Q279.03 427.05 279.56 422.98H261.14Q255.65 422.98 252.2 424.31Q248.74 425.63 247.15 428.03Q245.55 430.42 245.55 433.61Q245.55 436.79 247.15 439.1Q248.74 441.4 251.75 442.55Q254.76 443.7 258.48 443.7ZM311.85 460V372.14H332.22L334.35 391.45H335.05Q338.95 382.06 343.56 377.54Q348.16 373.02 354.1 371.52Q360.03 370.01 367.47 370.01V395.34H360.92Q354.89 395.34 350.2 396.67Q345.51 398 342.32 400.92Q339.13 403.85 337.45 408.63Q335.76 413.41 335.76 420.14V460ZM431.15 460 392.71 411.64 426.55 372.14H454.89L411.14 421.56L410.96 402.61L460.74 460ZM372.34 460V336H396.26V460ZM465.12 460V372.14H489.04V460ZM496.83 460V372.14H517.2L519.33 386.49H520.04Q524.29 378.69 531.55 374.35Q538.81 370.01 549.8 370.01Q560.78 370.01 568.4 374.71Q576.01 379.4 580 388.43Q583.98 397.47 583.98 410.75V460H560.07V412.88Q560.07 401.9 555.64 396.05Q551.21 390.21 541.65 390.21Q535.62 390.21 530.84 393.13Q526.06 396.05 523.4 401.45Q520.74 406.86 520.74 414.65V460Z"/><circle cx="477.08" cy="348" r="15"/><circle class="logo__dot" cx="605.8" cy="446.5" r="15"/></svg></a>
+
+    <nav class="nav" aria-label="Primary">
+      <a href="/how-it-works/">How it works</a>
+      <a href="#app">The app</a>
+      <a href="#use-cases">Use cases</a>
+      <a href="#privacy">Privacy</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="btn btn--lime btn--sm" href="#reserve" data-magnet><span>Rese<span class="kern">r</span>ve for $10</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Hero — the film is the background. It plays once and rests on its
+       last frame, which is also the poster, so nothing jumps at the end.
+       The headline rises line by line out of its own baseline once the
+       curtain has lifted; the copy flips between ink and white with the
+       film (timings in v5.js). Scrolling lifts the film away as a card, over
+       the white of the page. -->
+  <section class="hero" data-hero aria-label="Introduction">
+    <div class="hero__frame">
+      <div class="hero__media">
+        <picture>
+          <source type="image/webp" media="(max-aspect-ratio: 4/5)" srcset="/media/hero-s-poster-phone.webp">
+          <source type="image/webp" srcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" sizes="100vw">
+          <img class="hero__poster" src="/media/hero-s-poster-1920.jpg" alt="The Larkin band on a woman's wrist, its lime light on, as she rests her chin on her hand" width="1920" height="1080" fetchpriority="high" decoding="async">
+        </picture>
+        <video class="hero__video" data-src-phone="/media/hero-s-phone.mp4" data-src-sm="/media/hero-s-720.mp4" data-src-lg="/media/hero-s-1080.mp4" data-src-xl="/media/hero-s-1440.mp4" data-src-xxl="/media/hero-s-2160.mp4"
+               muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+        <div class="hero__scrim" aria-hidden="true"></div>
+      </div>
+
+      <div class="shell hero__inner">
+        <div class="hero__copy">
+          <h1 class="hero__title">
+            <span class="line"><span class="line__in">Eve<span class="kern">r</span>yone’s</span></span>
+            <span class="line"><span class="line__in">met you.</span></span>
+            <span class="line"><span class="line__in">Have you?</span></span>
+          </h1>
+          <p class="hero__lead">A screenless bracelet that shows you how you come across.</p>
+          <div class="hero__actions">
+            <a class="btn btn--lime" data-reserve data-magnet href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=v5">
+              <span>Rese<span class="kern">r</span>ve yours for $10</span>
+            </a>
+          </div>
+          <p class="hero__fine">Fully refundable · Ships Q1 2027</p>
+        </div>
+      </div>
+
+
+      <button class="hero__toggle" type="button" aria-label="Pause the film" hidden>
+        <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="5.5" width="3.4" height="13" rx="1.2"/><rect x="13.6" y="5.5" width="3.4" height="13" rx="1.2"/></svg>
+        <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.8v12.4c0 .8.9 1.3 1.6.8l9.3-6.2a1 1 0 0 0 0-1.6L10.1 5c-.7-.5-1.6 0-1.6.8Z"/></svg>
+        <svg class="i-replay" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6L3.5 8.5"/><path d="M3.5 3.5v5h5"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- Statement — pinned read-along. The tall .statement-pin holds the
+       sentence in the viewport while scroll lights it word by word (v5.js),
+       and a highlighter sweeps across the key phrase once the reading
+       reaches it. With no JS or reduced motion nothing pins, the words are
+       full ink and the phrase is simply highlighted. -->
+  <div class="statement-pin">
+    <section class="statement statement--reveal" aria-label="What Larkin does">
+      <div class="shell">
+        <p class="statement__read">You can’t see yourself the way other people do.</p>
+        <p class="statement__read">Larkin can. It listens through your day and shows you <mark class="marker">what you said, what landed, and what you keep coming back to</mark>, so you can build on it.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- How it works — an arm slides in wearing the band, then a day plays
+       out on a line. The film loads near the viewport and plays once,
+       resting on its last frame, which is also the poster; the headline
+       rises with it. The day card draws its line once it's in view (v5.js). -->
+  <section class="section how" id="how">
+    <div class="how-film" data-how-film data-settle="3.6">
+      <header class="shell how-film__head">
+        <div class="sec-rule rv"><span class="eyebrow">How it works</span></div>
+        <h2 class="h2 how-film__title"><span class="how-film__line">Put it on.</span> <span class="how-film__line">Forget it’s there.</span></h2>
+        <p class="lead how-film__lead">Other AI recorders wait for you to press something. Larkin stays on all day, because nobody schedules a good conversation.</p>
+      </header>
+      <div class="how-film__media">
+        <picture>
+          <source type="image/webp" srcset="/media/how-arm-u-poster-1000.webp 1000w, /media/how-arm-u-poster-1920.webp 1920w, /media/how-arm-u-poster-2560.webp 2560w, /media/how-arm-u-poster-3840.webp 3840w" sizes="(max-width: 699px) 134vw, 100vw">
+          <img class="how-film__poster" src="/media/how-arm-u-poster-1920.jpg" alt="A bare forearm resting on white, the white Larkin band on its wrist, a thin lime light on the module" width="1920" height="1080" loading="lazy" decoding="async">
+        </picture>
+        <video class="how-film__video" data-src-sm="/media/how-arm-u-720.mp4" data-src-lg="/media/how-arm-u-1080.mp4" data-src-xl="/media/how-arm-u-1440.mp4" data-src-xxl="/media/how-arm-u-2160.mp4"
+               muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+        <p class="how-film__tag"><span class="how-film__dot" aria-hidden="true"></span>Listening all day</p>
+      </div>
+    </div>
+
+    <div class="shell">
+      <div class="day rv grain" data-day>
+        <div class="day__copy">
+          <p class="eyebrow eyebrow--lime">Always on</p>
+          <h3 class="day__title">The best conversations happen when you least expect them.</h3>
+          <p>You’d never press record for them. With Larkin, you don’t have to.</p>
+        </div>
+
+        <div class="day__line" role="img" aria-label="One day on a line from morning to night, with three conversations nobody planned. Morning: an unplanned coffee with a friend that turned out to be really insightful. Afternoon: a quick chat after a meeting, where the real decision got made. Night: dinner with an old friend that went on until the restaurant closed.">
+          <ol class="day__marks" aria-hidden="true">
+            <li style="--s: 0.08">Morning</li>
+            <li style="--s: 0.42">Afternoon</li>
+            <li style="--s: 0.76">Night</li>
+          </ol>
+          <div class="day__track" aria-hidden="true">
+            <span class="day__seg" style="--s: 0.08; --e: 0.17"></span>
+            <span class="day__seg" style="--s: 0.42; --e: 0.48"></span>
+            <span class="day__seg" style="--s: 0.76; --e: 0.86"></span>
+            <span class="day__dot"></span>
+          </div>
+          <ol class="day__convos" aria-hidden="true">
+            <li style="--s: 0.08"><em class="day__when">Morning</em><p>An unplanned coffee with a friend that turned out to be really insightful.</p></li>
+            <li style="--s: 0.42"><em class="day__when">Afternoon</em><p>A quick chat after a meeting, where the real decision got made.</p></li>
+            <li style="--s: 0.76"><em class="day__when">Night</em><p>Dinner with an old friend that went on until the restaurant closed.</p></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The device — a pinned close-up of the module, scrubbed by scroll:
+       the light comes on as you move through it (39 frames of the hero
+       film's close-up shot, drawn on a canvas by v5.js). The copy sits on
+       the frame; the second line arrives with the light. Without JS, or
+       with reduced motion, the lit frame simply shows. -->
+  <section class="device" id="device" aria-labelledby="device-title">
+    <div class="device__pin" data-scrub data-frames="39" data-src-l="/media/ring/l-{n}.webp" data-src-p="/media/ring/p-{n}.webp">
+      <div class="device__stage">
+        <picture class="device__poster">
+          <source media="(max-aspect-ratio: 4/5)" srcset="/media/ring/p-39.webp">
+          <img src="/media/ring/l-39.webp" alt="The Larkin module close up on a wrist, its thin lime light on" width="1600" height="900" loading="lazy" decoding="async">
+        </picture>
+        <canvas class="device__canvas" aria-hidden="true"></canvas>
+        <div class="device__shade" aria-hidden="true"></div>
+        <div class="shell device__copy">
+          <div class="sec-rule sec-rule--light"><span class="eyebrow">The device</span></div>
+          <h2 class="h2 device__title" id="device-title">Designed to disappear.</h2>
+          <p class="device__lead">No screen to check. One thin light, and it only glows while Larkin is listening.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The app — three chapters on ink, full bleed: Chronicles (your day),
+       Conversations, Mirror (you). Each is one phone beside its copy, one
+       idea per phone: the app's own UI rebuilt in HTML, so it stays sharp
+       at any width. On phones the chapters become a swipeable row of tiles,
+       dots below. Mirror shows its three parts one screen at a time, and
+       its "Is this you?" card can be answered (all v5.js). Sample data is
+       one persona, Alex. -->
+  <section class="section app grain" id="app">
+    <svg class="sprite" aria-hidden="true" focusable="false">
+      <symbol id="i-chev" viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-back" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-cal" viewBox="0 0 16 16"><path d="M11 3.5H5A2.5 2.5 0 0 0 2.5 6v5A2.5 2.5 0 0 0 5 13.5h6a2.5 2.5 0 0 0 2.5-2.5V6A2.5 2.5 0 0 0 11 3.5Z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 6.75h11M5.5 2.25V4.5m5-2.25V4.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+      <symbol id="i-focus" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="10" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+      <symbol id="i-check" viewBox="0 0 14 14"><path d="m2.75 7.25 3 3 5.5-6.25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-x" viewBox="0 0 14 14"><path d="m3.5 3.5 7 7m0-7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-band" viewBox="0 0 16 16"><rect x="4.25" y="3.5" width="7.5" height="9" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.2 3.5V1.75m3.6 1.75V1.75M6.2 12.5v1.75m3.6-1.75v1.75" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+      <symbol id="i-more" viewBox="0 0 16 16"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></symbol>
+      <symbol id="i-share" viewBox="0 0 16 16"><path d="M8 9.5V2.5M5.25 5 8 2.25 10.75 5M5.5 7H5a1.75 1.75 0 0 0-1.75 1.75v3.5C3.25 13.2 4.03 14 5 14h6c.97 0 1.75-.8 1.75-1.75v-3.5C12.75 7.78 11.97 7 11 7h-.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 16 16"><path d="M3 4.5h10M6.5 4.5V3.2c0-.66.54-1.2 1.2-1.2h.6c.66 0 1.2.54 1.2 1.2v1.3m-5 0 .55 8.15c.06.78.7 1.35 1.5 1.35h2.9c.8 0 1.44-.57 1.5-1.35l.55-8.15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-status" viewBox="0 0 66 12"><rect x="0" y="7.5" width="3" height="4.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="6.5" rx="1"/><rect x="9" y="3" width="3" height="9" rx="1"/><rect x="13.5" y="0.5" width="3" height="11.5" rx="1"/><path d="M27.6 4.7a9.4 9.4 0 0 1 13.8 0M30.2 7.3a5.6 5.6 0 0 1 8.6 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="34.5" cy="10.2" r="1.5"/><rect x="44.5" y="0.5" width="19" height="11" rx="3.2" fill="none" stroke="currentColor" stroke-opacity=".45"/><rect x="46.5" y="2.5" width="15" height="7" rx="1.6"/><path d="M65.2 4.3v3.4" stroke="currentColor" stroke-opacity=".45" stroke-width="1.3" stroke-linecap="round"/></symbol>
+    </svg>
+
+    <div class="shell">
+      <header class="sec-head sec-head--center rv">
+        <div class="sec-rule sec-rule--dark"><span class="eyebrow eyebrow--lime">The app</span></div>
+        <h2 class="h2">Your day. Your conversations. You.</h2>
+      </header>
+
+      <div class="tour" data-tour>
+
+        <!-- 01 · Chronicles — the week, a chapter per day. -->
+        <article class="chap" id="app-chronicles" aria-labelledby="chap-chronicles">
+          <div class="feat">
+            <div class="feat__copy rv">
+              <p class="feat__label"><span>01</span> Chronicles</p>
+              <h3 class="feat__title" id="chap-chronicles">Eve<span class="kern">r</span>y day becomes a chapter.</h3>
+              <p class="feat__text">Each evening, your day comes back with a title and a few lines.</p>
+            </div>
+            <div class="stage stage--chron rv" role="img" aria-label="The Chronicles screen: this week’s days, each with a title such as “Finding the simpler story” or “Saying no, kindly”, one line on what happened, and how many conversations and insights it holds.">
+              <div class="ui-phone">
+                <div class="ui-screen">
+                  <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+                  <div class="ui-bar"><span class="ui-capsule"><svg><use href="#i-band"/></svg><i></i><span class="ui-capsule__sep"></span><svg><use href="#i-more"/></svg></span></div>
+                  <div class="ui-body">
+                    <p class="ui-h1">Chronicles</p>
+                    <div class="ui-row"><span class="ui-eyebrow">This week</span><span class="ui-link"><svg><use href="#i-cal"/></svg>Calendar</span></div>
+                    <div class="ui-days">
+                      <div class="ui-day">
+                        <p class="ui-day__date"><small>Wed</small><b>30</b></p>
+                        <div class="ui-day__card">
+                          <p class="ui-day__title">Finding the simpler story</p>
+                          <p class="ui-day__sum">Product ideas gave way to everyday life, and the pitch got easier to explain.</p>
+                          <p class="ui-meta"><span>6 conversations · 1h 48m<span class="ui-meta__more"> · 3 insights</span></span><svg><use href="#i-chev"/></svg></p>
+                        </div>
+                      </div>
+                      <div class="ui-day">
+                        <p class="ui-day__date"><small>Tue</small><b>29</b></p>
+                        <div class="ui-day__card">
+                          <p class="ui-day__title">Saying no, kindly</p>
+                          <p class="ui-day__sum">You turned down a side project without closing the door.</p>
+                          <p class="ui-meta"><span>4 conversations · 52m<span class="ui-meta__more"> · 2 insights</span></span><svg><use href="#i-chev"/></svg></p>
+                        </div>
+                      </div>
+                      <div class="ui-day">
+                        <p class="ui-day__date"><small>Mon</small><b>28</b></p>
+                        <div class="ui-day__card">
+                          <p class="ui-day__title">Two ways to tell it</p>
+                          <p class="ui-day__sum">Two openings for the pitch. The everyday problem got more questions.</p>
+                          <p class="ui-meta"><span>7 conversations · 2h 10m<span class="ui-meta__more"> · 3 insights</span></span><svg><use href="#i-chev"/></svg></p>
+                        </div>
+                      </div>
+                      <div class="ui-day">
+                        <p class="ui-day__date"><small>Sun</small><b>27</b></p>
+                        <div class="ui-day__card">
+                          <p class="ui-day__title">A slow Sunday</p>
+                          <p class="ui-day__sum">Pancakes, a long call with your sister, and a plan for the week.</p>
+                          <p class="ui-meta"><span>3 conversations · 41m<span class="ui-meta__more"> · 1 insight</span></span><svg><use href="#i-chev"/></svg></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 02 · Conversations — one conversation and its insights, skill by
+             skill. -->
+        <article class="chap" id="app-conversations" aria-labelledby="chap-conversations">
+          <div class="feat feat--flip">
+            <div class="feat__copy rv">
+              <p class="feat__label"><span>02</span> Conversations</p>
+              <h3 class="feat__title" id="chap-conversations">See how you came across.</h3>
+              <p class="feat__text">Honest notes on every conversation: what worked, and what to try next.</p>
+            </div>
+            <div class="stage rv" role="img" aria-label="A conversation page, “Pricing call with the agency”, with its insights skill by skill. Clarity and concision, what worked: you laid out the launch plan in three steps before they asked. Persuasion and framing, what slipped: when they questioned the price, you explained costs at length. Listening and inquiry follows below.">
+              <div class="ui-phone">
+                <div class="ui-screen">
+                  <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+                  <div class="ui-bar ui-bar--split"><span class="ui-round"><svg><use href="#i-back"/></svg></span><span class="ui-capsule"><svg><use href="#i-share"/></svg><span class="ui-capsule__sep"></span><svg><use href="#i-trash"/></svg></span></div>
+                  <div class="ui-body">
+                    <div class="ui-group">
+                      <p class="ui-sub">Oct 6 · 11:20–11:58 AM · 38 min</p>
+                      <p class="ui-h1">Pricing call with the agency</p>
+                    </div>
+                    <p class="ui-h2 ui-h2--section">Insights</p>
+                    <div class="ui-insights">
+                      <div class="ui-insight">
+                        <p class="ui-insight__name" style="--c: var(--clarity)">Clarity &amp; concision</p>
+                        <p class="ui-eyebrow">What worked</p>
+                        <p class="ui-point">You laid out the launch plan in three steps before they asked, so the call started from a shared plan.</p>
+                      </div>
+                      <div class="ui-insight">
+                        <p class="ui-insight__name" style="--c: var(--framing)">Persuasion &amp; framing</p>
+                        <p class="ui-eyebrow">What slipped</p>
+                        <p class="ui-point">When they questioned the price, you explained costs at length. One clear reason would have landed better.</p>
+                      </div>
+                      <div class="ui-insight">
+                        <p class="ui-insight__name" style="--c: var(--listening)">Listening &amp; inquiry</p>
+                        <p class="ui-eyebrow">What worked</p>
+                        <p class="ui-point">You asked how they usually price a launch before giving your own number.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 03 · Mirror — three parts, a phone each: the chosen one in front,
+             the other two barely there on either side, a hint there's more. -->
+        <article class="chap" id="app-mirror" aria-labelledby="chap-mirror">
+          <div class="feat">
+            <div class="feat__copy rv">
+              <p class="feat__label"><span>03</span> Mirror</p>
+              <h3 class="feat__title" id="chap-mirror">A mirror that gets sharper.</h3>
+              <p class="feat__text">The longer you wear Larkin, the better it knows you.</p>
+              <div class="mtabs" role="tablist" aria-label="Inside Mirror" data-mtabs>
+                <button type="button" class="mtab is-on" role="tab" id="mtab-style" aria-selected="true" aria-controls="mpanel-style"><b>Your style</b><span class="mtab__more"><span class="mtab__text">How you communicate, in four simple scales.</span></span><i class="mtab__time" aria-hidden="true"></i></button>
+                <button type="button" class="mtab" role="tab" id="mtab-goal" aria-selected="false" aria-controls="mpanel-goal" tabindex="-1"><b>Your goal</b><span class="mtab__more"><span class="mtab__text">Pick one thing to work on, and watch it move.</span></span><i class="mtab__time" aria-hidden="true"></i></button>
+                <button type="button" class="mtab" role="tab" id="mtab-learn" aria-selected="false" aria-controls="mpanel-learn" tabindex="-1"><b>About you</b><span class="mtab__more"><span class="mtab__text">You decide what it learns about you.</span></span><i class="mtab__time" aria-hidden="true"></i></button>
+              </div>
+            </div>
+            <div class="stage stage--deck rv" data-mstage>
+              <div class="ui-phone mphone is-on">
+                <div class="ui-screen">
+                  <div class="mpanel mpanel--dark is-on" role="tabpanel" id="mpanel-style" aria-labelledby="mtab-style">
+                    <div role="img" aria-label="Mirror: a one-line portrait, “You decide fast and say it clearly, then soften how it lands”, above scales for assertiveness (softened to plain), listening (about plans to about people), clarity (thinks out loud to gets to the point) and framing (facts first to story first).">
+                      <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+                      <div class="ui-hero">
+                        <div class="ui-who"><span class="ui-avatar">A</span><p><b>Alex</b><span>With Larkin since Sep 28</span></p></div>
+                        <p class="ui-portrait">You decide fast and say it clearly, then soften how it lands.</p>
+                      </div>
+                      <div class="ui-sheet">
+                        <p class="ui-h2">How you communicate</p>
+                        <div class="ui-areas">
+                          <div class="ui-area" style="--c: var(--assert); --p: 0.31">
+                            <p class="ui-area__name">Assertiveness</p>
+                            <div class="ui-track"><i class="ui-track__dot"></i></div>
+                            <p class="ui-ends"><span>Softened</span><span>Plain</span></p>
+                          </div>
+                          <div class="ui-area" style="--c: var(--listening); --p: 0.25">
+                            <p class="ui-area__name">Listening</p>
+                            <div class="ui-track"><i class="ui-track__dot"></i></div>
+                            <p class="ui-ends"><span>About plans</span><span>About people</span></p>
+                          </div>
+                          <div class="ui-area" style="--c: var(--clarity); --p: 0.62">
+                            <p class="ui-area__name">Clarity</p>
+                            <div class="ui-track"><i class="ui-track__dot"></i></div>
+                            <p class="ui-ends"><span>Thinks out loud</span><span>Gets to the point</span></p>
+                          </div>
+                          <div class="ui-area" style="--c: var(--framing); --p: 0.72">
+                            <p class="ui-area__name">Framing</p>
+                            <div class="ui-track"><i class="ui-track__dot"></i></div>
+                            <p class="ui-ends"><span>Facts first</span><span>Story first</span></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-phone mphone is-next">
+                <div class="ui-screen">
+                  <div class="mpanel" role="tabpanel" id="mpanel-goal" aria-labelledby="mtab-goal" inert>
+                    <div role="img" aria-label="Your November report: since October you say what you want more plainly, mostly at work. Your goal, “Say what you want plainly”, moved from softened towards plain: said plainly in 9 of 16 conversations, up from 4 of 15 in October.">
+                      <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+                      <div class="ui-body ui-body--top">
+                        <div class="ui-group">
+                          <p class="ui-sub">Nov 1 – Nov 7 · 16 conversations</p>
+                          <p class="ui-h1">Your November report</p>
+                        </div>
+                        <p class="ui-lede">Since October you say what you want more plainly, mostly at work.</p>
+                        <p class="ui-h2 ui-h2--section">Your goal</p>
+                        <div class="ui-tile ui-progress">
+                          <p class="ui-goal"><svg><use href="#i-focus"/></svg>Say what you want plainly.</p>
+                          <div class="ui-move" style="--from: 0.31; --to: 0.55">
+                            <div class="ui-track ui-track--move"><i class="ui-track__moved"></i><i class="ui-track__was"></i><i class="ui-track__dot"></i></div>
+                            <p class="ui-ends"><span>Softened</span><span>Plain</span></p>
+                          </div>
+                          <p class="ui-p">Said plainly in 9 of 16 conversations, up from 4 of 15 in October.</p>
+                          <p class="ui-legend"><span><i class="o"></i>October</span><span><i></i>November</span></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-phone mphone is-prev">
+                <div class="ui-screen">
+                  <div class="mpanel" role="tabpanel" id="mpanel-learn" aria-labelledby="mtab-learn" inert data-learn>
+                    <div class="ui-status" aria-hidden="true"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+                    <div class="ui-body ui-body--top">
+                      <p class="ui-h1">Is this you?</p>
+                      <div class="ui-tile ui-ask" data-learn-card>
+                        <div class="ui-ask__q">
+                          <p class="ui-eyebrow" data-learn-kicker>Heard at lunch today</p>
+                          <p class="ui-ask__fact" id="learn-fact" data-learn-fact>You value having more control over your time.</p>
+                          <p class="ui-ask__quote" data-learn-quote>“I want an environment where I can control my time more.”</p>
+                        </div>
+                        <div class="ui-ask__actions">
+                          <button type="button" class="ui-answer" data-answer="no" aria-describedby="learn-fact"><svg aria-hidden="true"><use href="#i-x"/></svg>Not me</button>
+                          <button type="button" class="ui-answer ui-answer--yes" data-answer="yes" aria-describedby="learn-fact"><svg aria-hidden="true"><use href="#i-check"/></svg>That’s me</button>
+                        </div>
+                      </div>
+                      <div class="ui-row"><p class="ui-h2">What Larkin knows</p><span class="ui-link" data-learn-total>See all 12</span></div>
+                      <ul class="ui-tile ui-facts" data-learn-list>
+                        <li><span>You’re launching a product in March.</span><span class="ui-chip">New</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
+                        <li><span>You like simple, concrete explanations.</span><span class="ui-chip">New</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
+                        <li><span>Saturday mornings are for the kids.</span><svg aria-hidden="true"><use href="#i-chev"/></svg></li>
+                      </ul>
+                    </div>
+                    <template data-learn-next>
+                      <p data-kicker="Heard on a call this morning" data-fact="You do your best thinking early." data-quote="“Can we do it at eight? I’m sharpest before ten.”"></p>
+                      <p data-kicker="Heard at dinner yesterday" data-fact="You’re training for a half marathon." data-quote="“Not Sunday, that’s my long run.”"></p>
+                    </template>
+                    <p class="sr-only" aria-live="polite" data-learn-status></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+      <div class="tour-dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i></div>
+    </div>
+  </section>
+
+  <!-- Use cases — four pictures, each carrying one piece of the app. The
+       photos drift a little slower than the page (parallax, v5.js) and
+       ease closer under the pointer. On phones they're a row to swipe. -->
+  <section class="section" id="use-cases">
+    <div class="shell">
+      <header class="sec-head rv">
+        <div class="sec-rule"><span class="eyebrow">Use cases</span></div>
+        <h2 class="h2">How will you use yours?</h2>
+      </header>
+
+      <div class="uc-grid" data-ucrow>
+        <figure class="uc rv">
+          <div class="uc__media" data-parallax="40">
+            <picture>
+              <source type="image/webp" srcset="/media/uc-leaders-800.webp 800w, /media/uc-leaders-1400.webp 1400w, /media/uc-leaders-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
+              <img src="/media/uc-leaders-800.jpg" alt="A leader in a navy blazer laughing, the Larkin band on her wrist" loading="lazy" decoding="async" width="800" height="446">
+            </picture>
+          </div>
+          <figcaption class="uc__copy">
+            <p class="uc__eyebrow">For leaders</p>
+            <p class="uc__title">Every promise your team trusts you with, kept</p>
+          </figcaption>
+        </figure>
+
+        <figure class="uc rv">
+          <div class="uc__media" data-parallax="40">
+            <picture>
+              <source type="image/webp" srcset="/media/uc-adhd-800.webp 800w, /media/uc-adhd-1400.webp 1400w, /media/uc-adhd-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
+              <img src="/media/uc-adhd-800.jpg" alt="A man mid-idea, pointing up and laughing, the Larkin band on his wrist" loading="lazy" decoding="async" width="800" height="446">
+            </picture>
+          </div>
+          <figcaption class="uc__copy">
+            <p class="uc__eyebrow">For the ADHD brain</p>
+            <p class="uc__title">It catches what working memory drops</p>
+          </figcaption>
+        </figure>
+
+        <figure class="uc rv">
+          <div class="uc__media" data-parallax="40">
+            <picture>
+              <source type="image/webp" srcset="/media/uc-parents-800.webp 800w, /media/uc-parents-1400.webp 1400w, /media/uc-parents-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
+              <img src="/media/uc-parents-800.jpg" alt="A father laughing with his daughter on his back, the Larkin band on his wrist" loading="lazy" decoding="async" width="800" height="446">
+            </picture>
+          </div>
+          <figcaption class="uc__copy">
+            <p class="uc__eyebrow">For parents</p>
+            <p class="uc__title">Their little voices, kept word for word</p>
+          </figcaption>
+        </figure>
+
+        <figure class="uc rv">
+          <div class="uc__media" data-parallax="40">
+            <picture>
+              <source type="image/webp" srcset="/media/uc-journal-800.webp 800w, /media/uc-journal-1400.webp 1400w, /media/uc-journal-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
+              <img src="/media/uc-journal-800.jpg" alt="A woman holding a warm mug, lost in thought, the Larkin band on her wrist" loading="lazy" decoding="async" width="800" height="446">
+            </picture>
+          </div>
+          <figcaption class="uc__copy">
+            <p class="uc__eyebrow">For journaling</p>
+            <p class="uc__title">The journal that writes itself</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy — heading on top, six tiles below. -->
+  <section class="section privacy" id="privacy">
+    <div class="shell">
+      <header class="sec-head sec-head--split rv">
+        <div class="sec-rule"><span class="eyebrow">Privacy</span></div>
+        <h2 class="h2">Private and secure by design.</h2>
+        <p class="lead">What happens to your voice in the current Watch and iPhone beta.</p>
+      </header>
+
+      <div class="privacy__grid">
+        <div class="pcard rv">
+          <span class="pcard__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><line x1="6" y1="18" x2="18" y2="6" stroke="currentColor" stroke-width="1.8"/></svg>
+          </span>
+          <h3>Audio is temporary.</h3>
+          <p>After the phone imports completed text, it deletes the cloud recording and its local audio copy. Waiting imports and cleanup failures can delay deletion.</p>
+        </div>
+        <div class="pcard rv">
+          <span class="pcard__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="7.5" y="5" width="3.2" height="14" rx="1.6" fill="currentColor"/><rect x="13.3" y="5" width="3.2" height="14" rx="1.6" fill="currentColor"/></svg>
+          </span>
+          <h3>You control recording.</h3>
+          <p>Use Stop on the Watch to stop new capture. Previously recorded pieces may still finish processing.</p>
+        </div>
+        <div class="pcard rv">
+          <span class="pcard__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.4" stroke="currentColor" stroke-width="1.8"/><path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5" stroke="currentColor" stroke-width="1.8"/></svg>
+          </span>
+          <h3>Protected in transit.</h3>
+          <p>Cloud transfers use HTTPS to encrypt data on the way. Account checks keep other users from reading your transcripts.</p>
+        </div>
+        <div class="pcard rv">
+          <span class="pcard__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="6" width="16" height="2.2" rx="1.1" fill="currentColor"/><rect x="4" y="11" width="11" height="2.2" rx="1.1" fill="currentColor" opacity="0.55"/><rect x="4" y="16" width="6" height="2.2" rx="1.1" fill="currentColor" opacity="0.25"/></svg>
+          </span>
+          <h3>Clear about deletion.</h3>
+          <p>Removing a note hides it from your journal. Account deletion removes Larkin’s stored account data and audio. Provider log retention is separate.</p>
+        </div>
+        <div class="pcard rv">
+          <span class="pcard__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.8"/><rect x="9" y="9" width="6" height="6" rx="1.4" fill="currentColor"/></svg>
+          </span>
+          <h3>Cloud services, explained.</h3>
+          <p>Supabase hosts your account, Deepgram transcribes audio, and OpenAI processes text for notes and insights.</p>
+        </div>
+        <div class="pcard rv">
+          <span class="pcard__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="6.5" y="3.5" width="11" height="17" rx="4" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/></svg>
+          </span>
+          <h3>Private by default.</h3>
+          <p>Your transcripts aren’t publicly browseable. Sharing selected notes is your choice, and you can revoke their link.</p>
+        </div>
+      </div>
+      <p class="privacy__more rv"><a class="btn btn--ink" href="/how-it-works/" data-magnet><span>See how Larkin works <span aria-hidden="true">↗</span></span></a></p>
+    </div>
+  </section>
+
+  <!-- Reserve — one ink pre-order card: gallery left, founder offer right.
+       The gallery drifts slowly closer and advances on its own until the
+       visitor picks (v5.js). -->
+  <section class="section reserve" id="reserve">
+    <div class="shell">
+      <div class="preorder rv grain">
+        <div class="preorder__media">
+          <div class="pgal" data-pgal>
+            <div class="pgal__main">
+              <picture class="pgal__frame is-active" style="--pos: 38% 50%">
+                <source type="image/webp" srcset="/media/band-wrist-black-v2-800.webp 800w, /media/band-wrist-black-v2-1400.webp 1400w" sizes="(min-width: 900px) 42vw, 92vw">
+                <img src="/media/band-wrist-black-v2-800.jpg" alt="The black band on a wrist" loading="lazy" decoding="async" width="800" height="446">
+              </picture>
+              <picture class="pgal__frame" style="--pos: 50% 58%">
+                <source type="image/webp" srcset="/media/band-desk-v2-700.webp 700w, /media/band-desk-v2-1200.webp 1200w" sizes="(min-width: 900px) 42vw, 92vw">
+                <img src="/media/band-desk-v2-700.jpg" alt="The black band on a white desk beside sticky notes" loading="lazy" decoding="async" width="700" height="938">
+              </picture>
+              <picture class="pgal__frame" style="--pos: 40% 50%">
+                <source type="image/webp" srcset="/media/band-wrist-white-v2-800.webp 800w, /media/band-wrist-white-v2-1400.webp 1400w" sizes="(min-width: 900px) 42vw, 92vw">
+                <img src="/media/band-wrist-white-v2-800.jpg" alt="The white band on a wrist" loading="lazy" decoding="async" width="800" height="446">
+              </picture>
+              <picture class="pgal__frame" style="--pos: 55% 62%">
+                <source type="image/webp" srcset="/media/band-sill-v2-700.webp 700w, /media/band-sill-v2-1200.webp 1200w" sizes="(min-width: 900px) 42vw, 92vw">
+                <img src="/media/band-sill-v2-700.jpg" alt="The white band on a stone windowsill beside a cup of tea" loading="lazy" decoding="async" width="700" height="938">
+              </picture>
+              <picture class="pgal__frame" style="--pos: 60% 50%">
+                <source type="image/webp" srcset="/media/band-ring-lime-v2-1200.webp">
+                <img src="/media/band-ring-lime-v2-1200.jpg" alt="The module's ring glowing lime, close up" loading="lazy" decoding="async" width="1200" height="675">
+              </picture>
+            </div>
+            <div class="pgal__thumbs" role="group" aria-label="Product photos">
+              <button type="button" class="is-active" aria-label="Show photo 1" aria-pressed="true" style="--pos: 38% 50%"><img src="/media/band-wrist-black-v2-800.webp" alt="" loading="lazy" decoding="async" width="800" height="446"><i class="pgal__time" aria-hidden="true"></i></button>
+              <button type="button" aria-label="Show photo 2" aria-pressed="false" style="--pos: 50% 58%"><img src="/media/band-desk-v2-700.webp" alt="" loading="lazy" decoding="async" width="700" height="938"><i class="pgal__time" aria-hidden="true"></i></button>
+              <button type="button" aria-label="Show photo 3" aria-pressed="false" style="--pos: 40% 50%"><img src="/media/band-wrist-white-v2-800.webp" alt="" loading="lazy" decoding="async" width="800" height="446"><i class="pgal__time" aria-hidden="true"></i></button>
+              <button type="button" aria-label="Show photo 4" aria-pressed="false" style="--pos: 55% 62%"><img src="/media/band-sill-v2-700.webp" alt="" loading="lazy" decoding="async" width="700" height="938"><i class="pgal__time" aria-hidden="true"></i></button>
+              <button type="button" aria-label="Show photo 5" aria-pressed="false" style="--pos: 60% 50%"><img src="/media/band-ring-lime-v2-1200.webp" alt="" loading="lazy" decoding="async" width="1200" height="675"><i class="pgal__time" aria-hidden="true"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="preorder__copy">
+          <p class="preorder__eyebrow">Founder Edition, limited to 1,000</p>
+          <h2 class="preorder__title">Rese<span class="kern">r</span>ve your Larkin for $10.</h2>
+          <p class="preorder__price"><b>$129</b> full price, ships Q1 2027</p>
+          <ul class="preorder__points">
+            <li>The app free for life</li>
+            <li>Numbered, ships first</li>
+            <li>Refundable any time</li>
+          </ul>
+          <div class="preorder__actions">
+            <a class="btn btn--lime btn--block" data-reserve data-magnet href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=v5">
+              <span>Rese<span class="kern">r</span>ve yours for $10</span>
+            </a>
+            <a class="btn btn--ghost btn--block" href="#beta"><span>Try it now on Apple Watch</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Try the app — after the reservation and clearly second to it. The
+       watch plays the app's own hold-to-record animation behind Apple's
+       bezel, in front of the Chronicles screen. The form posts the email to
+       the Loops "Beta invite" form (data-endpoint; v5.js). -->
+  <section class="section beta" id="beta" aria-labelledby="beta-title">
+    <div class="shell">
+      <div class="beta-card rv">
+        <div class="beta__copy">
+          <p class="eyebrow">Try it now</p>
+          <h2 class="beta__title" id="beta-title">Start today on your Apple Watch.</h2>
+          <p class="beta__lead">The Larkin app is in beta on Apple Watch and iPhone, free for everyone.</p>
+          <form class="beta__form" data-beta-form data-endpoint="https://app.loops.so/api/newsletter-form/cmuwuct3g02c80j0l18k7sf6z" novalidate>
+            <label class="sr-only" for="beta-email">Your email</label>
+            <input class="beta__input" id="beta-email" type="email" name="email" autocomplete="email" inputmode="email" placeholder="Your email" required>
+            <button class="btn btn--ink" type="submit"><span>Get your invite</span></button>
+            <p class="beta__msg" role="status" aria-live="polite" data-beta-msg></p>
+          </form>
+          <p class="beta__note">Needs an iPhone and an Apple Watch.</p>
+        </div>
+        <div class="beta__devices" role="img" aria-label="The Larkin app on an Apple Watch, recording in lime with the words “Larkin is with you”, in front of an iPhone showing this week’s days in Chronicles.">
+          <div class="ui-phone">
+            <div class="ui-screen">
+              <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+              <div class="ui-bar"><span class="ui-capsule"><svg><use href="#i-band"/></svg><i></i><span class="ui-capsule__sep"></span><svg><use href="#i-more"/></svg></span></div>
+              <div class="ui-body">
+                <p class="ui-h1">Chronicles</p>
+                <div class="ui-row"><span class="ui-eyebrow">This week</span><span class="ui-link"><svg><use href="#i-cal"/></svg>Calendar</span></div>
+                <div class="ui-days">
+                  <div class="ui-day">
+                    <p class="ui-day__date"><small>Wed</small><b>30</b></p>
+                    <div class="ui-day__card">
+                      <p class="ui-day__title">Finding the simpler story</p>
+                      <p class="ui-day__sum">Product ideas gave way to everyday life, and the pitch got easier to explain.</p>
+                      <p class="ui-meta"><span>6 conversations · 1h 48m<span class="ui-meta__more"> · 3 insights</span></span><svg><use href="#i-chev"/></svg></p>
+                    </div>
+                  </div>
+                  <div class="ui-day">
+                    <p class="ui-day__date"><small>Tue</small><b>29</b></p>
+                    <div class="ui-day__card">
+                      <p class="ui-day__title">Saying no, kindly</p>
+                      <p class="ui-day__sum">You turned down a side project without closing the door.</p>
+                      <p class="ui-meta"><span>4 conversations · 52m<span class="ui-meta__more"> · 2 insights</span></span><svg><use href="#i-chev"/></svg></p>
+                    </div>
+                  </div>
+                  <div class="ui-day">
+                    <p class="ui-day__date"><small>Mon</small><b>28</b></p>
+                    <div class="ui-day__card">
+                      <p class="ui-day__title">Two ways to tell it</p>
+                      <p class="ui-day__sum">Two openings for the pitch. The everyday problem got more questions.</p>
+                      <p class="ui-meta"><span>7 conversations · 2h 10m<span class="ui-meta__more"> · 3 insights</span></span><svg><use href="#i-chev"/></svg></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="watch" data-watch>
+            <div class="watch__screen">
+              <img class="watch__still" src="/media/watch-record-still-520.webp" alt="" width="520" height="620" loading="lazy" decoding="async">
+              <video class="watch__video" data-src="/media/watch-record-520.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+            </div>
+            <img class="watch__bezel" src="/media/watch-bezel-560.webp" alt="" width="560" height="880" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it compares -->
+  <section class="section compare-sec" id="compare">
+    <div class="shell">
+      <header class="sec-head sec-head--center rv">
+        <div class="sec-rule"><span class="eyebrow">How it compares</span></div>
+        <h2 class="h2">Nothing to open. Nothing to press.</h2>
+      </header>
+      <p class="compare-hint">Scroll the table sideways to see every column.</p>
+      <div class="compare-scroll rv" tabindex="0" role="region" aria-label="Comparison table">
+        <table class="compare">
+          <thead>
+            <tr>
+              <th scope="col"><span class="sr-only">Capability</span></th>
+              <th scope="col" class="col-us">
+                <span class="col-name">Larkin</span>
+                <span class="col-note">Worn on your wrist, always on</span>
+              </th>
+              <th scope="col">
+                <span class="col-name">Phone app</span>
+                <span class="col-note">In your pocket, you open it and press record</span>
+              </th>
+              <th scope="col">
+                <span class="col-name">Apple Watch app</span>
+                <span class="col-note">On your wrist, but you tap a screen to start it</span>
+              </th>
+              <th scope="col">
+                <span class="col-name">Hardware recorder</span>
+                <span class="col-note">Clipped on, you press to record</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Nothing to open or press</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Worn on your body all day</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+            </tr>
+            <tr>
+              <th scope="row">No screen</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Records both people talking</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="qual">Only if out</span></td>
+              <td><span class="qual">Partly</span></td>
+              <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Picks out what matters instead of a transcript</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="qual">Partly</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Makes reminders from what you said</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="qual">If you type them</span></td>
+              <td><span class="qual">If you dictate</span></td>
+              <td><span class="qual">Partly</span></td>
+            </tr>
+            <tr>
+              <th scope="row">A light shows when it’s on</th>
+              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
+              <td><span class="qual">Partly</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="compare__foot">Based on published specifications and everyday use, July 2026. Apple Watch and Plaud are trademarks of their respective owners.</p>
+    </div>
+  </section>
+
+  <!-- Specs — the numbers that matter, large, counting up as they arrive
+       (v5.js), the rest of the sheet on hairlines, the band on a desk beside
+       them. -->
+  <section class="section specs-sec" id="specs">
+    <div class="shell">
+      <header class="sec-head rv">
+        <div class="sec-rule"><span class="eyebrow">Specifications</span></div>
+        <h2 class="h2">Simple, screen-free.</h2>
+      </header>
+      <div class="specs">
+        <div class="specs__media rv">
+          <div class="specs__photo" data-parallax="50">
+            <picture>
+              <source type="image/webp" srcset="/media/band-desk-v2-700.webp 700w, /media/band-desk-v2-1200.webp 1200w" sizes="(min-width: 900px) 40vw, 92vw">
+              <img src="/media/band-desk-v2-700.jpg" alt="The black Larkin band on a white desk beside sticky notes and a pencil" loading="lazy" decoding="async" width="700" height="938">
+            </picture>
+          </div>
+        </div>
+        <div class="specs__sheet">
+          <ol class="nums">
+            <li class="num rv"><b class="num__v"><span data-count="7">7</span></b><span class="num__u">days of battery</span><p>About 160 hours of listening on one charge.</p></li>
+            <li class="num rv"><b class="num__v"><span data-count="11">11</span><small>g</small></b><span class="num__u">module and band</span><p>Light enough to forget on your wrist.</p></li>
+            <li class="num rv"><b class="num__v"><span data-count="2">2</span></b><span class="num__u">microphones</span><p>With noise filtering, for both sides of a conversation.</p></li>
+            <li class="num rv"><b class="num__v"><span data-count="3">3</span></b><span class="num__u">days on its own</span><p>Stored on the band until your phone is nearby.</p></li>
+            <li class="num rv"><b class="num__v"><span data-count="40">40</span><small>+</small></b><span class="num__u">languages</span><p>Spoken, heard and read back in yours.</p></li>
+            <li class="num rv"><b class="num__v"><span data-count="90">90</span><small>min</small></b><span class="num__u">to a full charge</span><p>On the magnetic USB-C charger.</p></li>
+          </ol>
+          <dl class="spec-list rv">
+            <div class="spec-row"><dt>Controls</dt><dd>One press. No screen</dd></div>
+            <div class="spec-row"><dt>Band</dt><dd>Silicone, 140–200 mm</dd></div>
+            <div class="spec-row"><dt>Water resistance</dt><dd>IPX5</dd></div>
+            <div class="spec-row"><dt>Works with</dt><dd>iPhone &amp; Android, Bluetooth LE</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq-sec" id="faq">
+    <div class="shell">
+      <header class="sec-head sec-head--center rv">
+        <div class="sec-rule"><span class="eyebrow">Questions</span></div>
+        <h2 class="h2">Good to know.</h2>
+      </header>
+      <div class="faq rv">
+        <details class="faq__item">
+          <summary>Does it record everything I say?</summary>
+          <div class="faq__body"><p>The current Watch beta records while it is running. Audio is removed after delivery and phone import, with delays possible while offline or if cleanup fails. <a href="/how-it-works/#audio">See what happens to the audio.</a></p></div>
+        </details>
+        <details class="faq__item">
+          <summary>How do I stop it listening?</summary>
+          <div class="faq__body"><p>In the current beta, use Stop on the Watch. This stops new capture; pieces already recorded may still finish processing.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary>What about recording laws where I live?</summary>
+          <div class="faq__body"><p>Tell the people around you before recording, respect their requests to stop, and follow the rules where you are. The app does not determine everyone’s consent or the law for you.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary>Do I need my phone with me?</summary>
+          <div class="faq__body"><p>No. The band holds about three days on its own and syncs when your phone is nearby.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary>How long does the battery last?</summary>
+          <div class="faq__body"><p>Seven days of normal wear, around 160 hours of listening. Ninety minutes on the magnetic charger takes it back to full.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary>Can I try Larkin before the bracelet ships?</summary>
+          <div class="faq__body"><p>Yes. The Larkin app is in beta on Apple Watch and iPhone, free for everyone. <a href="#beta">Get your invite</a> and your watch does the listening until your bracelet arrives.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary>What does the lifetime membership include?</summary>
+          <div class="faq__body"><p>The app is free for everyone during the beta. When it becomes a paid membership, everyone who reserved a Founder Edition keeps it free, for life. If you cancel your reservation and take back your $10, the membership goes with it.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary>What does it cost, and when does it ship?</summary>
+          <div class="faq__body"><p>$129 when it ships in Q1 2027. A $10 reservation holds one from the first run of 1,000, refundable any time.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing — answers the hero: one line, one action, on the deepest
+       ink, a slow lime light breathing behind it. -->
+  <section class="section closing grain" aria-labelledby="closing-title">
+    <div class="closing__glow" aria-hidden="true"></div>
+    <div class="shell closing__inner rv">
+      <h2 class="closing__title" id="closing-title">Think more.</h2>
+      <p class="closing__body">Most AI is built to think for you. Larkin is built to make you think.</p>
+      <div class="closing__actions">
+        <a class="btn btn--lime" data-reserve data-magnet href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=v5">
+          <span>Rese<span class="kern">r</span>ve yours for $10</span>
+        </a>
+      </div>
+      <p class="closing__fine">Fully refundable · Ships Q1 2027</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer grain">
+  <div class="shell site-footer__inner">
+    <svg class="site-footer__mark logo rv" viewBox="189 333 431.8 129.2" role="img" aria-label="Larkin" focusable="false"><path d="M189 460V336H212.91V460ZM250.69 462.13Q240.24 462.13 233.42 458.58Q226.6 455.04 223.41 449.02Q220.22 442.99 220.22 435.73Q220.22 427.58 224.38 421.38Q228.55 415.18 237.05 411.73Q245.55 408.27 258.48 408.27H280.63Q280.63 401.72 278.77 397.47Q276.91 393.22 273.1 391.09Q269.29 388.97 263.44 388.97Q256.54 388.97 251.66 392.07Q246.79 395.17 245.55 401.72H222.35Q223.41 391.98 228.81 384.89Q234.22 377.81 243.16 373.91Q252.11 370.01 263.44 370.01Q276.2 370.01 285.41 374.17Q294.62 378.34 299.58 386.4Q304.54 394.46 304.54 405.97V460H284.7L282.22 446.36H281.51Q278.68 450.26 275.4 453.27Q272.12 456.28 268.23 458.23Q264.33 460.18 259.9 461.15Q255.47 462.13 250.69 462.13ZM258.48 443.7Q263.44 443.7 267.08 442.02Q270.71 440.34 273.36 437.5Q276.02 434.67 277.53 430.86Q279.03 427.05 279.56 422.98H261.14Q255.65 422.98 252.2 424.31Q248.74 425.63 247.15 428.03Q245.55 430.42 245.55 433.61Q245.55 436.79 247.15 439.1Q248.74 441.4 251.75 442.55Q254.76 443.7 258.48 443.7ZM311.85 460V372.14H332.22L334.35 391.45H335.05Q338.95 382.06 343.56 377.54Q348.16 373.02 354.1 371.52Q360.03 370.01 367.47 370.01V395.34H360.92Q354.89 395.34 350.2 396.67Q345.51 398 342.32 400.92Q339.13 403.85 337.45 408.63Q335.76 413.41 335.76 420.14V460ZM431.15 460 392.71 411.64 426.55 372.14H454.89L411.14 421.56L410.96 402.61L460.74 460ZM372.34 460V336H396.26V460ZM465.12 460V372.14H489.04V460ZM496.83 460V372.14H517.2L519.33 386.49H520.04Q524.29 378.69 531.55 374.35Q538.81 370.01 549.8 370.01Q560.78 370.01 568.4 374.71Q576.01 379.4 580 388.43Q583.98 397.47 583.98 410.75V460H560.07V412.88Q560.07 401.9 555.64 396.05Q551.21 390.21 541.65 390.21Q535.62 390.21 530.84 393.13Q526.06 396.05 523.4 401.45Q520.74 406.86 520.74 414.65V460Z"/><circle cx="477.08" cy="348" r="15"/><circle class="logo__dot" cx="605.8" cy="446.5" r="15"/></svg>
+    <div class="site-footer__row">
+      <nav class="site-footer__links" aria-label="Footer">
+        <a href="/how-it-works/">How it works</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#faq">FAQ</a>
+        <a href="#reserve">Reserve</a>
+        <a href="/privacy/">Privacy policy</a>
+        <a href="/terms/">Terms</a>
+      </nav>
+      <span class="site-footer__copy">© 2026 Larkin. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="v5.js?v=20261007c" defer></script>
+</body>
+</html>
