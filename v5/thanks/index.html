@@ -20,8 +20,8 @@
   .ty-header { padding: clamp(20px, 3vw, 32px) 0 0; }
   .ty-header .brand { display: inline-block; color: var(--ink); }
 
-  .ty { padding-block: clamp(56px, 9vw, 120px) var(--section); }
-  .ty__intro { display: grid; gap: 18px; max-width: 46rem; }
+  .ty { padding-block: clamp(40px, 7vw, 96px) var(--section); }
+  .ty__intro { display: grid; justify-items: center; gap: 18px; max-width: 52rem; margin-inline: auto; text-align: center; }
   .ty__title {
     font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 700;
@@ -29,7 +29,32 @@
     letter-spacing: -0.025em;
   }
   .ty__title > span { display: block; color: var(--ink-3); }
-  .ty__lead { max-width: 40ch; color: var(--ink-2); font-size: clamp(1.0625rem, 1.4vw, 1.25rem); text-wrap: pretty; }
+  .ty__lead { max-width: 44ch; color: var(--ink-2); font-size: clamp(1.0625rem, 1.4vw, 1.25rem); text-wrap: pretty; }
+
+  /* The monogram, "l.", plays the app's logo moment once: the bar rises,
+     the full stop drops in beside it, then hops twice and settles, the way
+     the dot rises on the watch while Larkin listens. The title follows it
+     in. Under reduced motion it's simply there. */
+  .ty__mark { width: clamp(56px, 7vw, 76px); height: auto; margin-bottom: clamp(8px, 2vw, 20px); overflow: visible; }
+  .ty__mark .bar { fill: var(--ink); }
+  .ty__mark .dot { fill: var(--lime); }
+  @media (prefers-reduced-motion: no-preference) {
+    .ty__mark .bar { transform-box: fill-box; transform-origin: 50% 100%; animation: ty-bar 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both; }
+    .ty__mark .dot { transform-box: fill-box; transform-origin: 50% 100%; animation: ty-drop 0.6s cubic-bezier(0.3, 1.5, 0.5, 1) 0.65s both, ty-hop 1.5s cubic-bezier(0.45, 0, 0.3, 1) 1.45s 2 both; }
+    .ty__intro > :not(.ty__mark) { animation: ty-rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+    .ty__intro > .eyebrow { animation-delay: 0.7s; }
+    .ty__title { animation-delay: 0.8s !important; }
+    .ty__lead { animation-delay: 1s !important; }
+  }
+  @keyframes ty-bar { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @keyframes ty-drop { from { opacity: 0; transform: translateY(-260%) scale(0.6); } to { opacity: 1; transform: none; } }
+  @keyframes ty-hop {
+    0%, 100% { transform: none; }
+    35% { transform: translateY(-150%); }
+    60% { transform: translateY(8%) scaleY(0.88) scaleX(1.08); }
+    75% { transform: none; }
+  }
+  @keyframes ty-rise { from { opacity: 0; translate: 0 14px; filter: blur(6px); } to { opacity: 1; translate: none; filter: none; } }
 
   /* The app beta: copy and the lime button on the left, the watch playing
      the app's own animation on the right. */
@@ -57,13 +82,13 @@
 
   /* What happens next: three rows, hairline above each. */
   .ty-next { display: grid; gap: 28px; margin-top: clamp(56px, 8vw, 104px); }
-  .ty-next li { display: grid; gap: 8px; padding-top: 20px; border-top: 1px solid var(--hair); }
+  .ty-next li { display: grid; justify-items: center; gap: 8px; padding-top: 20px; border-top: 1px solid var(--hair); text-align: center; }
   .ty-next b { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
   .ty-next h2 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; }
   .ty-next p { max-width: 34ch; color: var(--ink-2); font-size: 1rem; }
   @media (min-width: 900px) { .ty-next { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
 
-  .ty-foot { display: grid; gap: 20px; justify-items: start; margin-top: clamp(48px, 7vw, 88px); }
+  .ty-foot { display: grid; gap: 20px; justify-items: center; margin-top: clamp(48px, 7vw, 88px); text-align: center; }
   .ty-foot p { max-width: 46ch; color: var(--ink-2); }
 </style>
 <!-- ==================== FACEBOOK PIXEL ==================== -->
@@ -110,6 +135,7 @@
 <main class="ty" id="main">
   <div class="shell">
     <div class="ty__intro">
+      <svg class="ty__mark" viewBox="185 300 76 164" aria-hidden="true" focusable="false"><rect class="bar" x="189" y="336" width="23.91" height="124"/><circle class="dot" cx="241.5" cy="446.5" r="15"/></svg>
       <p class="eyebrow">Founder Edition</p>
       <h1 class="ty__title">You’re in. <span>Your Larkin is rese<span class="kern">r</span>ved.</span></h1>
       <p class="ty__lead">A receipt is on its way to your inbox. Your Larkin is held from the first run of 1,000, numbered, and ships before anyone else’s.</p>
