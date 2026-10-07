@@ -1144,19 +1144,18 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
 @container daycard (max-width: 248px) { .ui-meta__more { display: none; } }
 @container daycard (max-width: 199px) { .ui-meta { white-space: normal; } }
 
-.ui-insights { display: grid; gap: 10px; }
+.ui-insights { display: grid; gap: 8px; }
 .ui-insight {
   display: grid;
-  gap: 8px;
-  padding: 18px 18px 20px;
+  gap: 6px;
+  padding: 14px 16px 16px;
   border-radius: 22px;
   background: #fff;
   box-shadow: inset 0 0 0 1px var(--ui-line), var(--ui-shadow);
 }
 .ui-insight__name { display: flex; align-items: center; gap: 10px; font-size: 16.5px; line-height: 22px; font-weight: 600; }
 .ui-insight__name::before { content: ""; width: 4px; height: 17px; border-radius: 2px; background: var(--c); }
-.ui-point { position: relative; padding-left: 16px; font-size: 15px; line-height: 22px; }
-.ui-point::before { content: ""; position: absolute; left: 1px; top: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--ui-3); }
+.ui-insight__text { font-size: 14.5px; line-height: 21px; }
 
 .mphone .ui-screen { display: grid; grid-template-columns: minmax(0, 1fr); }
 .mpanel { min-height: 100%; background: #fff; color: var(--ui-ink); }
@@ -1823,7 +1822,7 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
 :is(.ui-day, .ui-insight):nth-child(1) { transition-delay: 0.3s; }
 :is(.ui-day, .ui-insight):nth-child(2) { transition-delay: 0.42s; }
 :is(.ui-day, .ui-insight):nth-child(3) { transition-delay: 0.54s; }
-.ui-day:nth-child(4) { transition-delay: 0.66s; }
+:is(.ui-day, .ui-insight):nth-child(4) { transition-delay: 0.66s; }
 .ui-area:nth-child(2) .ui-track__dot { transition-delay: 0.4s; }
 .ui-area:nth-child(3) .ui-track__dot { transition-delay: 0.5s; }
 .ui-area:nth-child(4) .ui-track__dot { transition-delay: 0.6s; }
