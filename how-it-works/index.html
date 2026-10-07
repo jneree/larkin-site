@@ -106,7 +106,7 @@
           <li><span class="eyebrow">A proposed fact</span><p>You run a small design studio.</p><span class="memory-caption">You review whether it’s about you</span></li>
           <li><span class="eyebrow">Context you confirm</span><p>A little more understanding, next time.</p><span class="memory-caption">Relevant confirmed facts can inform later replies</span></li>
         </ol>
-        <p class="section-footnote">This example is fictional. Personal facts and chat history currently live on your phone. Full memory restore across devices is still being developed.</p>
+        <p class="section-footnote">This example is fictional. Personal facts, insights and chats live on your phone, with a backup in your account that comes back if you reinstall or change phones.</p>
       </div>
     </section>
 
@@ -142,19 +142,19 @@
         <article><span aria-hidden="true">Ⅱ</span><h3>Stop recording.</h3><p>Use Stop on the Watch to stop new capture. Previously recorded pieces may still finish processing.</p></article>
         <article><span aria-hidden="true">✓</span><h3>Review memory.</h3><p>Confirm or reject suggested facts. Check the source when a suggestion feels off.</p></article>
         <article><span aria-hidden="true">↗</span><h3>Choose what to share.</h3><p>Preview selected notes before creating a link. Revoke that link with Stop sharing.</p></article>
-        <article><span aria-hidden="true">×</span><h3>Delete your account.</h3><p>The account deletion flow removes Larkin’s stored audio and account records. The app then clears its local account data.</p></article>
+        <article><span aria-hidden="true">×</span><h3>Delete your account.</h3><p>The account deletion flow removes Larkin’s stored audio, transcripts, memory backup and account records. The app then clears its local account data.</p></article>
       </div>
     </section>
 
     <section class="questions-section" id="questions" aria-labelledby="questions-title">
       <div class="shell section questions-layout">
-        <header class="section-head"><p class="eyebrow">A few useful details</p><h2 class="h2" id="questions-title">Good questions.<br>Clear answers.</h2><p class="lead">Current beta behavior, reviewed on <time datetime="2026-10-04">4 October 2026</time>.</p></header>
+        <header class="section-head"><p class="eyebrow">A few useful details</p><h2 class="h2" id="questions-title">Good questions.<br>Clear answers.</h2><p class="lead">Current beta behavior, reviewed on <time datetime="2026-10-07">7 October 2026</time>.</p></header>
         <div class="faq">
           <details class="faq__item"><summary>Is audio deleted immediately?</summary><p>No. The Watch waits for confirmed delivery before removing its copy. The phone removes cloud audio after it imports completed text, then removes its local source audio. Offline periods and cleanup failures can delay that process. Independent server cleanup with a fixed deadline is still pending.</p></details>
           <details class="faq__item"><summary>Who can access my transcripts?</summary><p>Other app users cannot browse your account’s transcripts. Larkin’s backend services and processing providers handle content to run the app. Selected shared notes are readable by anyone who has their active link. Raw transcripts are not included in those shared pages.</p></details>
           <details class="faq__item"><summary>Is my content used to train AI?</summary><p>Larkin’s Deepgram transcription requests explicitly opt out of model improvement. OpenAI states that API inputs and outputs are not used for model training by default, unless the customer opts in. Larkin sends requests with response storage disabled. That setting is separate from provider safety logs, which can retain content under the provider’s policy.</p></details>
           <details class="faq__item"><summary>What if I’m offline?</summary><p>Undelivered audio waits locally for a connection. Notes and insights arrive after cloud processing and phone import. Audio deletion may also wait for the phone to complete its part.</p></details>
-          <details class="faq__item"><summary>What stays on my phone, and what’s in the cloud?</summary><p>The cloud holds transcripts in your account and temporary audio for processing. Your phone stores the journal you read, personal facts and chat history. Restoring cloud transcripts is supported; full personal-memory and chat restore across devices is still pending.</p></details>
+          <details class="faq__item"><summary>What stays on my phone, and what’s in the cloud?</summary><p>The cloud holds transcripts in your account and temporary audio for processing. Your phone keeps the journal you read, your insights, personal facts and chats, and saves a backup copy of them to your account. If you delete the app or change phones, signing in brings back your transcripts and that backup.</p></details>
           <details class="faq__item"><summary>Does removing a conversation erase its transcript?</summary><p>In the current beta, removing a conversation hides that note from your journal. It does not erase the underlying cloud transcript or revoke an existing share link. Use Stop sharing to revoke a link. Account deletion removes Larkin’s account records and stored audio; it does not change providers’ separate retention rules.</p></details>
           <details class="faq__item"><summary>Does Larkin record other people too?</summary><p>Yes, the microphone can hear the people around you. Tell them before recording, respect requests to stop, and follow the rules that apply where you are. The app does not identify every speaker or determine everyone’s consent for you.</p></details>
         </div>
