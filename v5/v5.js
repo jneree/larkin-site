@@ -600,7 +600,7 @@
       if (asRow.matches) {
         tour.tabIndex = 0;
         tour.setAttribute('role', 'region');
-        tour.setAttribute('aria-label', 'The app, in three parts');
+        tour.setAttribute('aria-label', 'The app, in two parts');
       } else {
         tour.removeAttribute('tabindex');
         tour.removeAttribute('role');
@@ -683,233 +683,44 @@
     else if (held.addListener) held.addListener(setHeld);
   }
 
-  /* ---- Mirror: one screen at a time ------------------------------------- */
-  document.querySelectorAll('[data-mtabs]').forEach(function (list) {
-    var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
-    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
-    if (!tabs.length || panels.indexOf(null) > -1) return;
-    var phones = panels.map(function (p) { return p.closest('.mphone'); });
-    if (phones.indexOf(null) > -1) phones = [];
-    var stage = panels[0].closest('[data-mstage]');
-    var DWELL = 4500;
-    var at = 0, auto = !reduceMotion, inView = false, timer = 0;
-    list.style.setProperty('--dwell', DWELL / 1000 + 's');
-
-    var chap = stage && stage.closest('.chap');
-    var shown = function () { return !chap || !tour || !tour.classList.contains('is-held') || chap.classList.contains('is-at'); };
-    var isHeld = function () { return !!(chap && tour && tour.classList.contains('is-held')); };
-    var running = function () { return auto && inView && shown() && !isHeld() && !document.hidden; };
-    var schedule = function () {
-      clearTimeout(timer);
-      list.classList.toggle('is-playing', auto);
-      list.classList.remove('is-auto');
-      if (!running()) return;
-      void list.offsetWidth;
-      list.classList.add('is-auto');
-      timer = setTimeout(function () { show((at + 1) % tabs.length); }, DWELL);
+  /* ---- Mirror, over time --------------------------------------------------- */
+  /* The pin holds the stage while its scroll plays three months: --gp runs 0
+     to 1, data-stage marks week 1, month 1 and month 3, the counters climb,
+     "That's me" is pressed halfway, and --g moves the goal through month 3.
+     A little stillness at each end so the first and last states are seen.
+     Never under reduced motion: the markup already shows month 3. */
+  var grow = document.querySelector('[data-grow]');
+  if (grow && !reduceMotion) {
+    grow.classList.add('is-scrub');
+    var gpin = grow.querySelector('.grow__pin');
+    var gDay = grow.querySelector('[data-grow-day]');
+    var gConv = grow.querySelector('[data-grow-convos]');
+    var gKnows = grow.querySelector('[data-grow-knows]');
+    var gLast = -1, gStage = 0;
+    // Piecewise over the three stages: [value at 0, at 1/3, at 2/3, at 1].
+    var along = function (t, v) {
+      var seg = Math.min(2, Math.floor(t * 3)), f = t * 3 - seg;
+      return Math.round(v[seg] + (v[seg + 1] - v[seg]) * f);
     };
-    var show = function (i, focus) {
-      var n = tabs.length;
-      at = i;
-      tabs.forEach(function (t, j) {
-        var on = j === i;
-        t.classList.toggle('is-on', on);
-        t.setAttribute('aria-selected', String(on));
-        t.tabIndex = on ? 0 : -1;
-        panels[j].classList.toggle('is-on', on);
-        panels[j].inert = !on;
-        if (phones[j]) {
-          var ph = phones[j], next = j === (i + 1) % n, prev = j === (i - 1 + n) % n;
-          var wrap = (next && ph.classList.contains('is-prev')) || (prev && ph.classList.contains('is-next'));
-          ph.classList.remove('is-wrap');
-          if (wrap) { void ph.offsetWidth; ph.classList.add('is-wrap'); }
-          ph.classList.toggle('is-on', on);
-          ph.classList.toggle('is-next', next);
-          ph.classList.toggle('is-prev', prev);
-        }
-      });
-      if (focus) tabs[i].focus();
-      panels[i].dispatchEvent(new CustomEvent('mirror:show'));
-      schedule();
-    };
-    var stop = function () {
-      if (!auto) return;
-      auto = false;
-      schedule();
-    };
-
-    var copy = chap && chap.querySelector('.feat__copy');
-    var prevCopy = chap && chap.previousElementSibling && chap.previousElementSibling.querySelector('.feat__copy');
-    var span = function () {
-      var start = prevCopy ? prevCopy.getBoundingClientRect().bottom : copy.getBoundingClientRect().top;
-      var top = parseFloat(getComputedStyle(copy).top) || 0;
-      var travel = tour.getBoundingClientRect().bottom - start - copy.offsetHeight;
-      return { start: start, top: top, travel: Math.max(travel, 1) };
-    };
-    var scrollRaf = 0;
-    var follow = function () {
-      scrollRaf = 0;
-      if (!isHeld() || !copy) {
-        if (list.classList.contains('is-scrolled')) { list.classList.remove('is-scrolled'); schedule(); }
-        return;
-      }
-      list.classList.add('is-scrolled');
-      var g = span(), n = tabs.length;
-      var p = clamp((g.top - g.start) / g.travel, 0, 1);
-      var i = Math.min(n - 1, Math.floor(p * n));
-      if (i !== at) show(i);
-      list.style.setProperty('--fill', String(Math.min(p * n - i, 1)));
-    };
-    var onScroll = function () { if (!scrollRaf) scrollRaf = requestAnimationFrame(follow); };
-    var go = function (i) {
-      var g = span();
-      window.scrollBy({ top: g.start - g.top + (i / tabs.length) * g.travel + 2, behavior: reduceMotion ? 'auto' : 'smooth' });
-    };
-    var pick = function (i, focus) {
-      stop();
-      if (isHeld()) {
-        go(i);
-        if (focus) tabs[i].focus({ preventScroll: true });
-      } else {
-        show(i, focus);
-      }
-    };
-
-    tabs.forEach(function (t, i) {
-      t.addEventListener('click', function () { pick(i); });
+    link(function (vh) {
+      var r = gpin.getBoundingClientRect();
+      if (r.bottom < -vh || r.top > vh * 2) return false;
+      var span = gpin.offsetHeight - vh;
+      var p = span > 0 ? clamp(-r.top / span, 0, 1) : 1;
+      var gp = clamp((p - 0.05) / 0.88, 0, 1);
+      if (Math.abs(gp - gLast) < 0.0005) return false;
+      gLast = gp;
+      var stage = gp < 0.34 ? 1 : gp < 0.67 ? 2 : 3;
+      grow.style.setProperty('--gp', gp.toFixed(4));
+      grow.style.setProperty('--g', clamp((gp - 0.7) / 0.22, 0, 1).toFixed(3));
+      if (stage !== gStage) { gStage = stage; grow.setAttribute('data-stage', stage); }
+      grow.classList.toggle('is-yes', gp >= 0.5);
+      gDay.textContent = 'Day ' + along(gp, [3, 7, 30, 90]);
+      gConv.textContent = along(gp, [12, 31, 96, 268]);
+      gKnows.textContent = gp >= 0.5 ? 12 : 11;
+      return false;
     });
-    phones.forEach(function (ph, i) {
-      ph.addEventListener('click', function () { if (i !== at) pick(i); });
-    });
-    list.addEventListener('keydown', function (e) {
-      var n = tabs.length, to = -1;
-      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') to = (at + 1) % n;
-      else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') to = (at - 1 + n) % n;
-      else if (e.key === 'Home') to = 0;
-      else if (e.key === 'End') to = n - 1;
-      if (to < 0) return;
-      e.preventDefault();
-      pick(to, true);
-    });
-    if (stage) {
-      stage.addEventListener('pointerdown', stop);
-      stage.addEventListener('focusin', stop);
-      stage.addEventListener('chapter:toggle', schedule);
-    }
-    if (chap && tour && copy) {
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll, { passive: true });
-      follow();
-    }
-    if (auto && stage && 'IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        inView = entries[0].isIntersecting;
-        schedule();
-      }, { threshold: 0.5 }).observe(stage);
-      document.addEventListener('visibilitychange', schedule);
-    }
-  });
-
-  /* ---- "Is this you?" ------------------------------------------------------ */
-  document.querySelectorAll('[data-learn]').forEach(function (demo) {
-    var card = demo.querySelector('[data-learn-card]');
-    var q = card && card.querySelector('.ui-ask__q');
-    var kicker = demo.querySelector('[data-learn-kicker]');
-    var fact = demo.querySelector('[data-learn-fact]');
-    var quote = demo.querySelector('[data-learn-quote]');
-    var actions = card && card.querySelector('.ui-ask__actions');
-    var list = demo.querySelector('[data-learn-list]');
-    var total = demo.querySelector('[data-learn-total]');
-    var status = demo.querySelector('[data-learn-status]');
-    var tpl = demo.querySelector('template[data-learn-next]');
-    var yes = demo.querySelector('[data-answer="yes"]');
-    if (!card || !q || !fact || !list || !actions || !yes) return;
-
-    var facts = [{ kicker: kicker.textContent, fact: fact.textContent, quote: quote.textContent }];
-    if (tpl && tpl.content) {
-      [].slice.call(tpl.content.querySelectorAll('[data-fact]')).forEach(function (p) {
-        facts.push({ kicker: p.getAttribute('data-kicker'), fact: p.getAttribute('data-fact'), quote: p.getAttribute('data-quote') });
-      });
-    }
-    var start = {
-      list: list.innerHTML,
-      all: parseInt(total ? total.textContent.replace(/\D+/g, '') : '0', 10) || 0
-    };
-    var chev = list.querySelector('svg');
-    var max = list.querySelectorAll('li').length;
-    var at = 0, all = start.all, busy = false, answered = false, ended = null;
-
-    var counts = function () {
-      if (total) total.textContent = 'See all ' + all;
-    };
-    var show = function (i) {
-      kicker.textContent = facts[i].kicker;
-      fact.textContent = facts[i].fact;
-      quote.textContent = facts[i].quote;
-    };
-    var finish = function () {
-      actions.hidden = true;
-      q.hidden = true;
-      ended = document.createElement('div');
-      ended.className = 'ui-ask__q';
-      ended.innerHTML = '<p class="ui-ask__fact">You’re all caught up.</p>' +
-        '<p class="ui-ask__note">Larkin asks again when it hears something new.</p>' +
-        '<button type="button" class="ui-ask__again">Start over</button>';
-      card.appendChild(ended);
-      ended.querySelector('button').addEventListener('click', reset);
-      ended.querySelector('button').focus({ preventScroll: true });
-    };
-    var reset = function () {
-      if (ended) { ended.remove(); ended = null; }
-      list.innerHTML = start.list;
-      all = start.all; at = 0;
-      counts(); show(0);
-      q.hidden = false; actions.hidden = false;
-      yes.focus({ preventScroll: true });
-      if (status) status.textContent = 'Started over.';
-    };
-    var answer = function (keep) {
-      if (busy) return;
-      busy = true; answered = true;
-      yes.classList.remove('is-hint');
-      var said = facts[at].fact;
-      if (keep) {
-        var li = document.createElement('li');
-        li.className = 'is-new';
-        var text = document.createElement('span');
-        text.textContent = said;
-        li.appendChild(text);
-        var tag = document.createElement('span');
-        tag.className = 'ui-chip';
-        tag.textContent = 'New';
-        li.appendChild(tag);
-        if (chev) li.appendChild(chev.cloneNode(true));
-        list.insertBefore(li, list.firstChild);
-        var items = list.querySelectorAll('li');
-        if (items.length > max) items[items.length - 1].remove();
-        all += 1;
-        counts();
-      }
-      if (status) status.textContent = keep ? 'Added to what Larkin knows: ' + said : 'Dropped. Larkin won’t use it.';
-      at += 1;
-      card.classList.add('is-swapping');
-      setTimeout(function () {
-        if (at < facts.length) show(at); else finish();
-        card.classList.remove('is-swapping');
-        busy = false;
-      }, reduceMotion ? 0 : 320);
-    };
-
-    demo.classList.add('is-live');
-    [].slice.call(demo.querySelectorAll('[data-answer]')).forEach(function (btn) {
-      btn.addEventListener('click', function () { answer(btn.getAttribute('data-answer') === 'yes'); });
-    });
-    demo.addEventListener('mirror:show', function () {
-      if (answered || reduceMotion) return;
-      yes.classList.remove('is-hint');
-      setTimeout(function () { if (!answered) yes.classList.add('is-hint'); }, 700);
-    });
-  });
+  }
 
   /* ---- Numbers that count themselves in ----------------------------------- */
   var counters = [].slice.call(document.querySelectorAll('[data-count]'));
