@@ -336,6 +336,7 @@
   var segment = document.documentElement.getAttribute('data-theme') || 'general';
   document.querySelectorAll('a[data-reserve]').forEach(function (link) {
     link.addEventListener('click', function () {
+      if (window.posthog && window.posthog.capture) window.posthog.capture('reserve_clicked', { segment: segment });
       if (typeof window.fbq === 'function') {
         window.fbq('track', 'InitiateCheckout', {
           value: 10,

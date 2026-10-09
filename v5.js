@@ -826,6 +826,7 @@
       form.classList.add('is-done');
       say('You’re on the list. Your invite will come to ' + input.value.trim() + '.');
       if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: 'App beta', content_category: segment });
+      if (window.posthog && window.posthog.capture) window.posthog.capture('beta_signup', { segment: segment });
     };
     input.addEventListener('input', function () {
       if (input.getAttribute('aria-invalid')) { input.removeAttribute('aria-invalid'); say(''); }
@@ -878,6 +879,7 @@
   /* ---- Checkout attribution -------------------------------------------- */
   document.querySelectorAll('a[data-reserve]').forEach(function (a) {
     a.addEventListener('click', function () {
+      if (window.posthog && window.posthog.capture) window.posthog.capture('reserve_clicked', { segment: segment });
       if (typeof window.fbq === 'function') {
         window.fbq('track', 'InitiateCheckout', {
           value: 10,

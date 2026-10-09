@@ -120,7 +120,19 @@
       currency: 'USD',
       content_name: 'Larkin Wristband (Reservation)'
     }, { eventID: id });
+    /* analytics.js is deferred, so PostHog exists once the document has parsed. */
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.posthog && window.posthog.capture) window.posthog.capture('reservation_completed', { value: 10, currency: 'USD' });
+    });
   })();
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('a[data-testflight]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        if (window.posthog && window.posthog.capture) window.posthog.capture('testflight_clicked', { page: 'thanks' });
+      });
+    });
+  });
 </script>
 <noscript>
   <img height="1" width="1" style="display:none"
@@ -150,7 +162,7 @@
         <p class="eyebrow">Start today</p>
         <h2 class="ty-beta__title" id="ty-beta">Try Larkin now on your Apple Watch.</h2>
         <p class="ty-beta__text">The Larkin app is in beta on Apple Watch and iPhone. As a founder, it stays free for you, for life.</p>
-        <a class="btn btn--lime" href="https://testflight.apple.com/join/z2xAFY9x" rel="noopener"><span>Join the beta on TestFlight</span></a>
+        <a class="btn btn--lime" href="https://testflight.apple.com/join/z2xAFY9x" rel="noopener" data-testflight><span>Join the beta on TestFlight</span></a>
         <p class="ty-beta__note">Open this on your iPhone. Needs an Apple Watch.</p>
       </div>
       <div class="ty-beta__watch" aria-hidden="true">
