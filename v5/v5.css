@@ -567,16 +567,15 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .how-film__line { display: block; }
 .how-film__lead { margin-inline: auto; text-wrap: balance; }
 .how-film__media {
-  --tag-x: 24%;
-  --tag-bottom: 69%;
+  --tag-x: 41%;
   position: relative;
   width: 100%;
   margin: 8px auto 0;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: #c4ced4; /* the photo's wall, so nothing flashes white before it loads */
+  background: #fff;
 }
-.how-film__media img {
+.how-film__media :is(img, video) {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -584,6 +583,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   object-fit: cover;
   object-position: 30% 50%;
 }
+.how-film__video { opacity: 0; transition: opacity 0.3s linear; }
+.how-film.is-playing .how-film__video { opacity: 1; }
 .how-film__tag {
   position: absolute;
   left: var(--tag-x);
@@ -615,12 +616,12 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 @media (min-width: 700px) {
   .how-film__media {
-    --tag-x: 25.5%;
-    --tag-bottom: 70%;
+    --tag-x: 37%;
+    --tag-bottom: 74%;
     aspect-ratio: 16 / 5.94;
     margin-top: 0;
   }
-  .how-film__media img { object-position: 50% 50%; }
+  .how-film__media :is(img, video) { object-position: 50% 50%; }
 }
 
 /* The day: a dark card, the copy beside a line from morning to night. */
@@ -1867,8 +1868,8 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
   .nums > .rv:nth-child(3n + 2) { --rv-d: 90ms; }
   .nums > .rv:nth-child(3n) { --rv-d: 180ms; }
 }
-/* How it works: the headline rises as the photo fades in, the pill follows,
-   and the day plays out along its line. */
+/* How it works: the headline rises with the arm, the pill appears once the
+   arm has settled, and the day plays out along its line. */
 @media (prefers-reduced-motion: no-preference) {
   .js-anim .how-film :is(.how-film__line, .how-film__lead) {
     opacity: 0;

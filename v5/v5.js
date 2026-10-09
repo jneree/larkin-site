@@ -447,20 +447,52 @@
     scrub.closest('.device').classList.add('is-on', 'is-lit');
   }
 
-  /* ---- How it works: the still and the day -------------------------------- */
+  /* ---- How it works: the arm film and the day ------------------------------- */
   var howFilm = document.querySelector('[data-how-film]');
   if (howFilm) {
+    var howVideo = howFilm.querySelector('video');
+    var settleAt = parseFloat(howFilm.getAttribute('data-settle')) || 3.5;
     var still = function () { howFilm.classList.add('is-on', 'is-still', 'is-settled'); };
-    if (reduceMotion || !('IntersectionObserver' in window) || howFilm.getBoundingClientRect().bottom < 0) {
+
+    if (reduceMotion || !('IntersectionObserver' in window) || !howVideo) {
       still();
     } else {
-      // The photo fades in with the headline; the pill follows once both have landed.
-      new IntersectionObserver(function (entries, obs) {
-        if (!entries[0].isIntersecting) return;
-        obs.disconnect();
-        howFilm.classList.add('is-on', 'is-still');
-        setTimeout(function () { howFilm.classList.add('is-settled'); }, 1400);
-      }, { threshold: 0.4 }).observe(howFilm.querySelector('.how-film__media'));
+      var howAttach = function () {
+        if (howVideo.getAttribute('src')) return;
+        var c = navigator.connection || {};
+        var slow = c.saveData || /(^|-)2g$|^3g$/.test(c.effectiveType || '');
+        howVideo.preload = 'auto';
+        var d = howVideo.dataset;
+        var need = howFilm.offsetWidth * (window.matchMedia('(max-width: 699px)').matches ? 1.34 : 1) * (window.devicePixelRatio || 1);
+        var fast = !slow && !(c.downlink && c.downlink < 10);
+        howVideo.src = slow ? d.srcSm : need > 2800 && fast ? d.srcXxl : need > 2100 ? d.srcXl : need > 1400 ? d.srcLg : d.srcSm;
+        howVideo.load();
+      };
+      howVideo.addEventListener('playing', function () { howFilm.classList.add('is-playing'); });
+      howVideo.addEventListener('timeupdate', function () {
+        if (howVideo.currentTime >= settleAt) howFilm.classList.add('is-settled');
+      });
+      howVideo.addEventListener('ended', function () { howFilm.classList.add('is-settled'); });
+      howVideo.addEventListener('error', still);
+
+      if (howFilm.getBoundingClientRect().bottom < 0) {
+        still();
+      } else {
+        new IntersectionObserver(function (entries, obs) {
+          if (!entries[0].isIntersecting) return;
+          obs.disconnect();
+          howAttach();
+        }, { rootMargin: '100% 0px' }).observe(howFilm);
+
+        new IntersectionObserver(function (entries, obs) {
+          if (!entries[0].isIntersecting) return;
+          obs.disconnect();
+          howFilm.classList.add('is-on');
+          howAttach();
+          var p = howVideo.play();
+          if (p && p.catch) p.catch(still);
+        }, { threshold: 0.4 }).observe(howFilm.querySelector('.how-film__media'));
+      }
     }
   }
 
