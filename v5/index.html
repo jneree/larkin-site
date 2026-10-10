@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v5.css?v=20261011d">
+<link rel="stylesheet" href="v5.css?v=20261011e">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -224,8 +224,8 @@
 
   <!-- The app — on ink, full bleed. Two chapters, Chronicles (your day) and
        Conversations. Chronicles is one phone beside its copy: the app's own
-       UI rebuilt in HTML, so it stays sharp at any width. Conversations is
-       one coffee with Sam played out as you scroll. Then Mirror, told over
+       UI rebuilt in HTML, so it stays sharp at any width. Conversations shows
+       how it works as you scroll: two voices in, an insight out. Then Mirror, told over
        time: one phone that sharpens from week 1 to month 3 (v5.js).
        Sample data is one persona, Alex. -->
   <section class="section app grain" id="app">
@@ -309,40 +309,52 @@
 
       </div>
 
-      <!-- 02 · Conversations, told as one. The tall .cv__pin holds a single
-           column in view while scroll plays a coffee with Sam: the moment,
-           a few lines of it, Larkin noticing, the insight, "Is this you?"
-           answered, then the phone draws itself around it all and the day
-           becomes tonight's chapter. The headline lands last. v5.js marks
-           each [data-b] beat .is-on as the pin passes it. Without it, or
-           with reduced motion, nothing pins and every beat shows. -->
-      <article class="cv is-yes" id="app-conversations" data-cv aria-labelledby="chap-conversations">
+      <!-- 02 · Conversations, told as how it works. The tall .cv__pin holds
+           one scene in view while scroll plays it: two voices, yours and
+           Sam's, flow in from either side and stop at the band, whose light
+           comes on; what reaches the band turns into words (audio is never
+           kept); then the insight rises, a next step under it, and the
+           headline lands last. v5.js draws the voices (moving, while on
+           screen) and marks each [data-b] beat .is-on as the pin passes.
+           Without it, or with reduced motion, nothing pins: the scene is
+           still and every beat shows. -->
+      <article class="cv" id="app-conversations" data-cv aria-labelledby="chap-conversations">
         <div class="cv__pin">
           <div class="cv__stick">
-            <div class="cv__stage">
-              <i class="cv__island" aria-hidden="true"></i>
-              <div class="cv__feed" role="img" aria-label="A coffee with Sam at 10:42. Sam asks: could you take the launch on? You answer: not this month, I’d rather do it well. Sam: fair, November then? Larkin notices something: you said no clearly, and kept the door open. It asks “Is this you?” and you answer yes. That evening it becomes the day’s chapter, “Saying no, kindly”.">
-                <p class="cv__moment" data-b="1"><span class="cv__dot"></span>Coffee with Sam<span class="cv__time">10:42</span></p>
-                <p class="cv__line" data-b="2"><b>Sam</b>Could you take the launch on?</p>
-                <p class="cv__line cv__line--you" data-b="3"><b>You</b>Not this month. I’d rather do it well.</p>
-                <p class="cv__line" data-b="4"><b>Sam</b>Fair. November, then?</p>
-                <p class="cv__status is-done" data-b="5"><i class="cv__spin"></i><span class="cv__status-a">Reading the moment</span><span class="cv__status-b">Larkin noticed something</span></p>
-                <div class="cv__insight" data-b="7">
-                  <p class="cv__skill">Assertiveness</p>
-                  <p class="cv__note">You said no clearly, and kept the door open.</p>
-                </div>
-                <div class="cv__ask" data-b="8">
-                  <p>Is this you?</p>
-                  <span class="cv__yes">Yes</span><span class="cv__no">Not quite</span>
-                </div>
-                <div class="cv__chapter" data-b="10">
-                  <p class="cv__chapter-when">Tonight’s chapter</p>
-                  <p class="cv__chapter-title">Saying no, kindly</p>
-                  <p class="cv__chapter-meta">4 conversations · 52m</p>
-                </div>
+            <div class="cv__scene" role="img" aria-label="Two voices, yours and Sam’s, flow into the Larkin band from either side and stop there. Only the words go on: audio is never kept.">
+              <svg class="cv__svg" viewBox="0 0 960 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+                <defs>
+                  <linearGradient id="cv-cord" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A3A3A" stop-opacity="0"/><stop offset="0.35" stop-color="#3A3A3A"/><stop offset="0.65" stop-color="#3A3A3A"/><stop offset="1" stop-color="#3A3A3A" stop-opacity="0"/></linearGradient>
+                  <linearGradient id="cv-mod" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3C3C3C"/><stop offset="1" stop-color="#141414"/></linearGradient>
+                  <filter id="cv-glow" x="-200%" y="-50%" width="500%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+                </defs>
+                <path class="cv__wave cv__wave--you cv__wave--soft" data-wave="you" data-soft d="M0 180H432" pathLength="1"/>
+                <path class="cv__wave cv__wave--you" data-wave="you" d="M0 180H432" pathLength="1"/>
+                <path class="cv__wave cv__wave--sam cv__wave--soft" data-wave="sam" data-soft d="M960 180H528" pathLength="1"/>
+                <path class="cv__wave cv__wave--sam" data-wave="sam" d="M960 180H528" pathLength="1"/>
+                <g class="cv__band">
+                  <path d="M466 30C458 90 458 270 466 330M494 30C502 90 502 270 494 330" fill="none" stroke="url(#cv-cord)" stroke-width="7" stroke-linecap="round"/>
+                  <rect x="432" y="156" width="96" height="48" rx="13" fill="url(#cv-mod)" stroke="#4A4A4A" stroke-width="1"/>
+                  <rect class="cv__ring-glow" x="500" y="156" width="5" height="48" fill="#D2ED28" filter="url(#cv-glow)"/>
+                  <rect class="cv__ring" x="500" y="156" width="5" height="48" fill="#D2ED28"/>
+                </g>
+              </svg>
+              <p class="cv__who cv__who--you" data-b="1"><i></i>You</p>
+              <p class="cv__who cv__who--sam" data-b="1"><i></i>Sam</p>
+            </div>
+            <div class="cv__words" data-b="3">
+              <p><b>Sam</b> Could you take the launch on?</p>
+              <p><b>You</b> Not this month. I’d rather do it well.</p>
+              <p class="cv__kept">Audio is never kept. Only the words.</p>
+            </div>
+            <div class="cv__out">
+              <div class="cv__insight" data-b="4">
+                <p class="cv__skill">Assertiveness</p>
+                <p class="cv__note">You said no clearly, and kept the door open.</p>
+                <p class="cv__next" data-b="5"><span>Next time</span> Name when you can start.</p>
               </div>
             </div>
-            <div class="cv__head" data-b="11">
+            <div class="cv__head" data-b="6">
               <p class="feat__label"><span>02</span> Conversations</p>
               <h3 class="feat__title" id="chap-conversations">See how you came across.</h3>
             </div>
@@ -894,6 +906,6 @@
   </div>
 </footer>
 
-<script src="v5.js?v=20261011b" defer></script>
+<script src="v5.js?v=20261011e" defer></script>
 </body>
 </html>

@@ -716,32 +716,67 @@
     });
   }
 
-  /* ---- Conversations, told as one -------------------------------------- */
-  // Eleven beats across the pin: each [data-b] lights once the scroll passes
-  // it; the status settles at beat 6, the answer at 9, the phone at 10.
+  /* ---- Conversations: two voices into the band, an insight out ---------- */
   var cv = document.querySelector('[data-cv]');
-  if (cv && !reduceMotion) {
-    cv.classList.add('is-scrub');
-    var cvPin = cv.querySelector('.cv__pin');
-    var cvBeats = [].slice.call(cv.querySelectorAll('[data-b]'));
-    var cvStatus = cv.querySelector('.cv__status');
-    var cvAt = -1;
-    var cvSet = function (b) {
-      cvBeats.forEach(function (el) { el.classList.toggle('is-on', b >= +el.getAttribute('data-b')); });
-      if (cvStatus) cvStatus.classList.toggle('is-done', b >= 6);
-      cv.classList.toggle('is-yes', b >= 9);
-      cv.classList.toggle('is-framed', b >= 10);
-    };
-    cvSet(1);
-    link(function (vh) {
-      var r = cvPin.getBoundingClientRect();
-      if (r.bottom < -vh || r.top > vh * 2) return false;
-      var span = cvPin.offsetHeight - vh;
-      var p = span > 0 ? clamp(-r.top / span, 0, 1) : 1;
-      var b = Math.min(11, 1 + Math.floor(p / 0.08));
-      if (b !== cvAt) { cvAt = b; cvSet(b); }
-      return false;
+  if (cv) {
+    var cvSvg = cv.querySelector('.cv__svg');
+    var cvWaves = [].slice.call(cv.querySelectorAll('[data-wave]')).map(function (el) {
+      var you = el.getAttribute('data-wave') === 'you';
+      return { el: el, from: you ? 0 : 960, to: you ? 432 : 528, you: you, soft: el.hasAttribute('data-soft') };
     });
+    var smooth = function (a, b, x) { var t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+    // Each voice travels from its edge to the band and flattens as it gets
+    // there; the two take turns, one fuller while the other is quieter.
+    var cvDraw = function (t) {
+      var turn = Math.sin(t * 0.9);
+      cvWaves.forEach(function (w) {
+        var amp = 46 * (0.5 + 0.5 * Math.max(0, w.you ? turn : -turn)) * (w.soft ? 0.7 : 1);
+        var ph = w.soft ? 1.7 : 0, d = '', n = 72;
+        for (var i = 0; i <= n; i++) {
+          var u = i / n;
+          var env = Math.sin(Math.min(u / 0.08, 1) * Math.PI / 2) * (1 - smooth(0.58, 1, u));
+          var y = 180 + amp * env * Math.sin(u * 26 - t * 3.2 + ph) * (0.65 + 0.35 * Math.sin(u * 7 - t * 1.3 + ph));
+          d += (i ? 'L' : 'M') + (w.from + (w.to - w.from) * u).toFixed(1) + ' ' + y.toFixed(1);
+        }
+        w.el.setAttribute('d', d);
+      });
+    };
+    var cvFit = function () {
+      cvSvg.setAttribute('viewBox', window.matchMedia('(max-width: 699px)').matches ? '210 30 540 300' : '0 0 960 360');
+    };
+    cvFit();
+    window.addEventListener('resize', cvFit, { passive: true });
+    cvDraw(1.2);
+
+    if (!reduceMotion) {
+      cv.classList.add('is-scrub');
+      var cvPin = cv.querySelector('.cv__pin');
+      var cvBeats = [].slice.call(cv.querySelectorAll('[data-b]'));
+      var cvMarks = [0, 0, 0.36, 0.52, 0.66, 0.8]; // beat 1 is on from the start
+      var cvLast = -1, cvOn = false, cvT0 = 0, cvRaf = 0;
+      var cvLoop = function (now) {
+        cvRaf = cvOn ? requestAnimationFrame(cvLoop) : 0;
+        cvDraw(1.2 + (now - cvT0) / 1000);
+      };
+      link(function (vh) {
+        var r = cvPin.getBoundingClientRect();
+        var near = r.bottom > -vh * 0.2 && r.top < vh * 1.2;
+        if (near !== cvOn) {
+          cvOn = near;
+          if (near && !cvRaf) { cvT0 = performance.now(); cvRaf = requestAnimationFrame(cvLoop); }
+        }
+        if (!near) return false;
+        var span = cvPin.offsetHeight - vh;
+        var p = span > 0 ? clamp(-r.top / span, 0, 1) : 1;
+        if (Math.abs(p - cvLast) < 0.001) return false;
+        cvLast = p;
+        var reach = clamp(p / 0.3, 0, 1);
+        cvWaves.forEach(function (w) { w.el.setAttribute('stroke-dashoffset', (1 - reach).toFixed(4)); });
+        cv.style.setProperty('--glow', smooth(0.24, 0.32, p).toFixed(3));
+        cvBeats.forEach(function (el) { el.classList.toggle('is-on', p >= cvMarks[+el.getAttribute('data-b') - 1]); });
+        return false;
+      });
+    }
   }
 
   /* ---- Numbers that count themselves in ----------------------------------- */
