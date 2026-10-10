@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v5.css?v=20261010e">
+<link rel="stylesheet" href="v5.css?v=20261011d">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -223,10 +223,10 @@
   </section>
 
   <!-- The app — on ink, full bleed. Two chapters, Chronicles (your day) and
-       Conversations, each one phone beside its copy: the app's own UI
-       rebuilt in HTML, so it stays sharp at any width. On phones they're a
-       swipeable row of tiles, dots below. Then Mirror, told over time: one
-       phone that sharpens from week 1 to month 3 as you scroll (v5.js).
+       Conversations. Chronicles is one phone beside its copy: the app's own
+       UI rebuilt in HTML, so it stays sharp at any width. Conversations is
+       one coffee with Sam played out as you scroll. Then Mirror, told over
+       time: one phone that sharpens from week 1 to month 3 (v5.js).
        Sample data is one persona, Alex. -->
   <section class="section app grain" id="app">
     <svg class="sprite" aria-hidden="true" focusable="false">
@@ -307,52 +307,48 @@
           </div>
         </article>
 
-        <!-- 02 · Conversations — one conversation and its insights, skill by
-             skill. -->
-        <article class="chap" id="app-conversations" aria-labelledby="chap-conversations">
-          <div class="feat feat--flip">
-            <div class="feat__copy rv">
-              <p class="feat__label"><span>02</span> Conversations</p>
-              <h3 class="feat__title" id="chap-conversations">See how you came across.</h3>
-            </div>
-            <div class="stage rv" role="img" aria-label="A conversation page, “Agency pricing call”, with a short note for each skill. Clarity and concision: you laid out the plan in three steps before they asked. Persuasion and framing: on price, you explained costs at length; lead with the one reason it’s worth it. Listening and inquiry: you asked how they price a launch before giving your number. Assertiveness: you named your fee plainly and held it through the pause.">
-              <div class="ui-phone">
-                <div class="ui-screen">
-                  <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
-                  <div class="ui-bar ui-bar--split"><span class="ui-round"><svg><use href="#i-back"/></svg></span><span class="ui-capsule"><svg><use href="#i-share"/></svg><span class="ui-capsule__sep"></span><svg><use href="#i-trash"/></svg></span></div>
-                  <div class="ui-body">
-                    <div class="ui-group">
-                      <p class="ui-sub">Oct 6 · 11:20–11:58 AM · 38 min</p>
-                      <p class="ui-h1">Agency pricing call</p>
-                    </div>
-                    <p class="ui-h2 ui-h2--section">Insights</p>
-                    <div class="ui-insights">
-                      <div class="ui-insight">
-                        <p class="ui-insight__name" style="--c: var(--clarity)">Clarity &amp; concision</p>
-                        <p class="ui-insight__text">You laid out the plan in three steps before they asked.</p>
-                      </div>
-                      <div class="ui-insight">
-                        <p class="ui-insight__name" style="--c: var(--framing)">Persuasion &amp; framing</p>
-                        <p class="ui-insight__text">On price, you explained costs at length. Lead with the one reason it’s worth it.</p>
-                      </div>
-                      <div class="ui-insight">
-                        <p class="ui-insight__name" style="--c: var(--listening)">Listening &amp; inquiry</p>
-                        <p class="ui-insight__text">You asked how they price a launch before giving your number.</p>
-                      </div>
-                      <div class="ui-insight">
-                        <p class="ui-insight__name" style="--c: var(--assert)">Assertiveness</p>
-                        <p class="ui-insight__text">You named your fee plainly and held it through the pause.</p>
-                      </div>
-                    </div>
-                  </div>
+      </div>
+
+      <!-- 02 · Conversations, told as one. The tall .cv__pin holds a single
+           column in view while scroll plays a coffee with Sam: the moment,
+           a few lines of it, Larkin noticing, the insight, "Is this you?"
+           answered, then the phone draws itself around it all and the day
+           becomes tonight's chapter. The headline lands last. v5.js marks
+           each [data-b] beat .is-on as the pin passes it. Without it, or
+           with reduced motion, nothing pins and every beat shows. -->
+      <article class="cv is-yes" id="app-conversations" data-cv aria-labelledby="chap-conversations">
+        <div class="cv__pin">
+          <div class="cv__stick">
+            <div class="cv__stage">
+              <i class="cv__island" aria-hidden="true"></i>
+              <div class="cv__feed" role="img" aria-label="A coffee with Sam at 10:42. Sam asks: could you take the launch on? You answer: not this month, I’d rather do it well. Sam: fair, November then? Larkin notices something: you said no clearly, and kept the door open. It asks “Is this you?” and you answer yes. That evening it becomes the day’s chapter, “Saying no, kindly”.">
+                <p class="cv__moment" data-b="1"><span class="cv__dot"></span>Coffee with Sam<span class="cv__time">10:42</span></p>
+                <p class="cv__line" data-b="2"><b>Sam</b>Could you take the launch on?</p>
+                <p class="cv__line cv__line--you" data-b="3"><b>You</b>Not this month. I’d rather do it well.</p>
+                <p class="cv__line" data-b="4"><b>Sam</b>Fair. November, then?</p>
+                <p class="cv__status is-done" data-b="5"><i class="cv__spin"></i><span class="cv__status-a">Reading the moment</span><span class="cv__status-b">Larkin noticed something</span></p>
+                <div class="cv__insight" data-b="7">
+                  <p class="cv__skill">Assertiveness</p>
+                  <p class="cv__note">You said no clearly, and kept the door open.</p>
+                </div>
+                <div class="cv__ask" data-b="8">
+                  <p>Is this you?</p>
+                  <span class="cv__yes">Yes</span><span class="cv__no">Not quite</span>
+                </div>
+                <div class="cv__chapter" data-b="10">
+                  <p class="cv__chapter-when">Tonight’s chapter</p>
+                  <p class="cv__chapter-title">Saying no, kindly</p>
+                  <p class="cv__chapter-meta">4 conversations · 52m</p>
                 </div>
               </div>
             </div>
+            <div class="cv__head" data-b="11">
+              <p class="feat__label"><span>02</span> Conversations</p>
+              <h3 class="feat__title" id="chap-conversations">See how you came across.</h3>
+            </div>
           </div>
-        </article>
-
-      </div>
-      <div class="tour-dots" aria-hidden="true"><i class="is-on"></i><i></i></div>
+        </div>
+      </article>
 
       <!-- Mirror, over time. The tall .grow__pin holds the stage in view
            while scroll plays three months: the steps light in turn, the
@@ -898,6 +894,6 @@
   </div>
 </footer>
 
-<script src="v5.js?v=20261010c" defer></script>
+<script src="v5.js?v=20261011b" defer></script>
 </body>
 </html>

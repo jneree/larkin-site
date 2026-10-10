@@ -716,6 +716,34 @@
     });
   }
 
+  /* ---- Conversations, told as one -------------------------------------- */
+  // Eleven beats across the pin: each [data-b] lights once the scroll passes
+  // it; the status settles at beat 6, the answer at 9, the phone at 10.
+  var cv = document.querySelector('[data-cv]');
+  if (cv && !reduceMotion) {
+    cv.classList.add('is-scrub');
+    var cvPin = cv.querySelector('.cv__pin');
+    var cvBeats = [].slice.call(cv.querySelectorAll('[data-b]'));
+    var cvStatus = cv.querySelector('.cv__status');
+    var cvAt = -1;
+    var cvSet = function (b) {
+      cvBeats.forEach(function (el) { el.classList.toggle('is-on', b >= +el.getAttribute('data-b')); });
+      if (cvStatus) cvStatus.classList.toggle('is-done', b >= 6);
+      cv.classList.toggle('is-yes', b >= 9);
+      cv.classList.toggle('is-framed', b >= 10);
+    };
+    cvSet(1);
+    link(function (vh) {
+      var r = cvPin.getBoundingClientRect();
+      if (r.bottom < -vh || r.top > vh * 2) return false;
+      var span = cvPin.offsetHeight - vh;
+      var p = span > 0 ? clamp(-r.top / span, 0, 1) : 1;
+      var b = Math.min(11, 1 + Math.floor(p / 0.08));
+      if (b !== cvAt) { cvAt = b; cvSet(b); }
+      return false;
+    });
+  }
+
   /* ---- Numbers that count themselves in ----------------------------------- */
   var counters = [].slice.call(document.querySelectorAll('[data-count]'));
   if (counters.length && !reduceMotion && 'IntersectionObserver' in window) {

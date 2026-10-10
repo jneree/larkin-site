@@ -832,6 +832,7 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
     scrollbar-width: none;
   }
   .tour::-webkit-scrollbar { display: none; }
+  .tour > .chap:only-child { flex-basis: 100%; }
   .chap {
     flex: 0 0 min(calc(100vw - 2 * var(--gutter) - 16px), 400px);
     display: flex;
@@ -1105,6 +1106,136 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
 .ui-facts svg { margin-left: auto; }
 
 /* --- Mirror, over time ---------------------------------------------------- */
+/* Conversations, told as one. A single column: the moment, a few lines,
+   Larkin noticing, the insight, "Is this you?", then the phone draws itself
+   around it and the day becomes tonight's chapter; the headline lands last.
+   v5.js adds .is-scrub and marks each [data-b] beat .is-on while the pin
+   passes. Without it every beat shows, unpinned. */
+.cv { margin-top: clamp(112px, 14vw, 200px); }
+.cv__stick { display: grid; justify-items: center; gap: clamp(24px, 3vh, 36px); }
+.cv__stage {
+  --cv-h: clamp(520px, calc(100vh - 230px), 660px);
+  position: relative;
+  width: min(400px, 100%);
+  padding: 22px 20px;
+  border-radius: 46px;
+}
+.cv__stage::before { /* the phone, drawn last */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, #1F1F1F, #191919);
+  box-shadow: inset 0 0 0 1.5px #343434, inset 0 0 0 4px #0F0F0F, 0 40px 80px -30px rgba(0, 0, 0, 0.7);
+}
+.cv__island { position: absolute; top: 12px; left: 50%; width: 86px; height: 24px; margin-left: -43px; border-radius: 999px; background: #050505; }
+.cv__feed { position: relative; display: flex; flex-direction: column; gap: 12px; padding-top: 26px; }
+.cv__feed > * { flex: none; }
+.cv__moment, .cv__status {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px 9px 13px;
+  border-radius: 999px;
+  background: #262626;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.cv__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 4px rgba(210, 237, 40, 0.18); animation: dot-breathe 2.6s var(--ease-io) infinite; }
+.cv__time { color: var(--on-feature-2); font-weight: 500; font-variant-numeric: tabular-nums; }
+.cv__line {
+  display: grid;
+  gap: 2px;
+  max-width: 82%;
+  padding: 11px 15px 12px;
+  border-radius: 20px 20px 20px 6px;
+  background: #2A2A2A;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+.cv__line b { font-size: 0.75rem; font-weight: 600; color: var(--on-feature-2); }
+.cv__line--you { align-self: flex-end; border-radius: 20px 20px 6px 20px; background: #F4F4F0; color: var(--ink); }
+.cv__line--you b { color: #6E6E68; }
+.cv__status { margin-top: 6px; color: var(--on-feature-2); }
+.cv__spin { position: relative; width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 2px #444; }
+.cv__spin::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: #fff;
+  animation: cv-spin 0.8s linear infinite;
+}
+@keyframes cv-spin { to { rotate: 1turn; } }
+.cv__status-b { display: none; }
+.cv__status.is-done { color: #fff; }
+.cv__status.is-done .cv__status-a { display: none; }
+.cv__status.is-done .cv__status-b { display: inline; }
+.cv__status.is-done .cv__spin { box-shadow: none; background: var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.5 12.5l3.5 3.5 7.5-8' fill='none' stroke='%23151515' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat; }
+.cv__status.is-done .cv__spin::after { display: none; }
+.cv__insight { display: grid; gap: 6px; padding: 2px 4px; }
+.cv__skill { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-feature-2); }
+.cv__skill::before { content: ""; width: 3px; height: 12px; border-radius: 2px; background: var(--assert); }
+.cv__note { font-size: clamp(1.25rem, 1.6vw, 1.4375rem); font-weight: 600; line-height: 1.3; letter-spacing: -0.005em; text-wrap: balance; }
+.cv__ask { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 14px; border-radius: 20px; background: #232323; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06); }
+.cv__ask p { flex-basis: 100%; margin-bottom: 4px; font-weight: 600; }
+.cv__yes, .cv__no { padding: 8px 16px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px #4A4A4A; font-size: 0.875rem; font-weight: 600; transition: background-color 0.35s var(--ease), color 0.35s var(--ease), box-shadow 0.35s var(--ease), opacity 0.35s var(--ease), scale 0.35s var(--ease); }
+.cv.is-yes .cv__yes { background: var(--lime); color: var(--ink); box-shadow: none; scale: 0.97; }
+.cv.is-yes .cv__no { opacity: 0.35; }
+.cv__chapter { display: grid; gap: 3px; padding: 14px 16px 15px; border-radius: 18px; background: #fff; color: var(--ui-ink); box-shadow: var(--ui-shadow); }
+.cv__chapter-when { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ui-3); }
+.cv__chapter-title { font-size: 1.0625rem; font-weight: 700; }
+.cv__chapter-meta { font-size: 0.8125rem; color: var(--ui-2); }
+.cv__head { display: grid; justify-items: center; gap: 12px; text-align: center; }
+
+/* Pinned: the column holds the screen while a few tall screens of scroll
+   play the coffee. Beats arrive at the foot of the feed and push the
+   older ones up and out under a soft fade, like a chat. */
+.cv.is-scrub .cv__pin { height: 380vh; height: 380svh; }
+.cv.is-scrub .cv__stick {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  align-content: center;
+  padding-top: calc(var(--header-h) * 0.5);
+}
+.cv.is-scrub .cv__stage { height: var(--cv-h); overflow: hidden; }
+.cv.is-scrub .cv__feed {
+  height: 100%;
+  justify-content: flex-end;
+  padding-top: 0;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, transparent 30px, #000 96px);
+  mask-image: linear-gradient(180deg, transparent 0, transparent 30px, #000 96px);
+}
+.cv.is-scrub .cv__stage::before, .cv.is-scrub .cv__island { opacity: 0; scale: 1.04; transition: opacity 0.7s var(--ease), scale 0.9s var(--ease); }
+.cv.is-scrub.is-framed .cv__stage::before, .cv.is-scrub.is-framed .cv__island { opacity: 1; scale: 1; }
+.cv.is-scrub [data-b] {
+  opacity: 0;
+  translate: 0 14px;
+  filter: blur(6px);
+  transition: opacity 0.5s var(--ease), translate 0.6s var(--ease), filter 0.5s var(--ease), max-height 0.6s var(--ease), margin 0.6s var(--ease), padding 0.6s var(--ease);
+}
+.cv.is-scrub .cv__feed [data-b] { max-height: 0; margin-top: -12px; overflow: hidden; }
+.cv.is-scrub .cv__feed [data-b]:not(.is-on) { padding-block: 0; }
+.cv.is-scrub .cv__feed [data-b].is-on { max-height: 220px; margin-top: 0; overflow: visible; }
+.cv.is-scrub [data-b].is-on { opacity: 1; translate: none; filter: none; }
+@media (min-width: 960px) {
+  .cv__stage { width: 440px; padding: 24px 22px; }
+  .cv__line { font-size: 1rem; }
+  .cv__moment, .cv__status { font-size: 0.9375rem; }
+}
+@media (max-width: 699px) {
+  .cv__stage { --cv-h: min(600px, calc(100svh - 190px)); padding: 18px 16px; border-radius: 40px; }
+  .cv__note { font-size: 1.1875rem; }
+  .cv__head .feat__title { font-size: 1.625rem; }
+  .cv.is-scrub .cv__pin { height: 340vh; height: 340svh; }
+  .cv.is-scrub .cv__stick { padding-top: 12px; gap: 18px; }
+}
+
 /* One phone, three months. v5.js sets --gp (0 to 1) and data-stage (1-3) as
    the pin scrolls past; everything here follows those two. Without them the
    section shows month 3 and the steps as a list. */
@@ -1271,17 +1402,17 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
 .gcard--goal .ui-track--move .ui-track__dot { left: calc((100% - 16px) * (var(--from) + (var(--to) - var(--from)) * var(--g, 1))); }
 
 /* Wide screens: the steps on the left, the tile on the right. Pinned, the
-   pair holds the screen while three tall screens of scroll play the months. */
+   pair holds the screen while two tall screens of scroll play the months. */
 @media (min-width: 960px) {
   .grow__stick { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(48px, 6vw, 104px); align-items: center; }
   .grow .ui-phone { --pw: 360px; --ph: clamp(460px, calc(100vh - 260px), 620px); }
-  .grow.is-scrub .grow__pin { height: 360vh; }
+  .grow.is-scrub .grow__pin { height: 300vh; }
   .grow.is-scrub .grow__stick { position: sticky; top: 0; height: 100vh; margin-top: 0; padding-top: calc(var(--header-h) + 8px); }
 }
 /* Narrower: a bar of the three stops, the current step's words, the phone.
    Pinned the same way, a little shorter. */
 @media (max-width: 959px) {
-  .grow.is-scrub .grow__pin { height: 320vh; height: 320svh; }
+  .grow.is-scrub .grow__pin { height: 280vh; height: 280svh; }
   .grow.is-scrub .grow__stick {
     position: sticky;
     top: 0;
