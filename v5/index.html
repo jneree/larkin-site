@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v5.css?v=20261011e">
+<link rel="stylesheet" href="v5.css?v=20261010e">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -223,10 +223,10 @@
   </section>
 
   <!-- The app — on ink, full bleed. Two chapters, Chronicles (your day) and
-       Conversations. Chronicles is one phone beside its copy: the app's own
-       UI rebuilt in HTML, so it stays sharp at any width. Conversations shows
-       how it works as you scroll: two voices in, an insight out. Then Mirror, told over
-       time: one phone that sharpens from week 1 to month 3 (v5.js).
+       Conversations, each one phone beside its copy: the app's own UI
+       rebuilt in HTML, so it stays sharp at any width. On phones they're a
+       swipeable row of tiles, dots below. Then Mirror, told over time: one
+       phone that sharpens from week 1 to month 3 as you scroll (v5.js).
        Sample data is one persona, Alex. -->
   <section class="section app grain" id="app">
     <svg class="sprite" aria-hidden="true" focusable="false">
@@ -307,60 +307,52 @@
           </div>
         </article>
 
-      </div>
-
-      <!-- 02 · Conversations, told as how it works. The tall .cv__pin holds
-           one scene in view while scroll plays it: two voices, yours and
-           Sam's, flow in from either side and stop at the band, whose light
-           comes on; what reaches the band turns into words (audio is never
-           kept); then the insight rises, a next step under it, and the
-           headline lands last. v5.js draws the voices (moving, while on
-           screen) and marks each [data-b] beat .is-on as the pin passes.
-           Without it, or with reduced motion, nothing pins: the scene is
-           still and every beat shows. -->
-      <article class="cv" id="app-conversations" data-cv aria-labelledby="chap-conversations">
-        <div class="cv__pin">
-          <div class="cv__stick">
-            <div class="cv__scene" role="img" aria-label="Two voices, yours and Sam’s, flow into the Larkin band from either side and stop there. Only the words go on: audio is never kept.">
-              <svg class="cv__svg" viewBox="0 0 960 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
-                <defs>
-                  <linearGradient id="cv-cord" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A3A3A" stop-opacity="0"/><stop offset="0.35" stop-color="#3A3A3A"/><stop offset="0.65" stop-color="#3A3A3A"/><stop offset="1" stop-color="#3A3A3A" stop-opacity="0"/></linearGradient>
-                  <linearGradient id="cv-mod" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3C3C3C"/><stop offset="1" stop-color="#141414"/></linearGradient>
-                  <filter id="cv-glow" x="-200%" y="-50%" width="500%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
-                </defs>
-                <path class="cv__wave cv__wave--you cv__wave--soft" data-wave="you" data-soft d="M0 180H432" pathLength="1"/>
-                <path class="cv__wave cv__wave--you" data-wave="you" d="M0 180H432" pathLength="1"/>
-                <path class="cv__wave cv__wave--sam cv__wave--soft" data-wave="sam" data-soft d="M960 180H528" pathLength="1"/>
-                <path class="cv__wave cv__wave--sam" data-wave="sam" d="M960 180H528" pathLength="1"/>
-                <g class="cv__band">
-                  <path d="M466 30C458 90 458 270 466 330M494 30C502 90 502 270 494 330" fill="none" stroke="url(#cv-cord)" stroke-width="7" stroke-linecap="round"/>
-                  <rect x="432" y="156" width="96" height="48" rx="13" fill="url(#cv-mod)" stroke="#4A4A4A" stroke-width="1"/>
-                  <rect class="cv__ring-glow" x="500" y="156" width="5" height="48" fill="#D2ED28" filter="url(#cv-glow)"/>
-                  <rect class="cv__ring" x="500" y="156" width="5" height="48" fill="#D2ED28"/>
-                </g>
-              </svg>
-              <p class="cv__who cv__who--you" data-b="1"><i></i>You</p>
-              <p class="cv__who cv__who--sam" data-b="1"><i></i>Sam</p>
-            </div>
-            <div class="cv__words" data-b="3">
-              <p><b>Sam</b> Could you take the launch on?</p>
-              <p><b>You</b> Not this month. I’d rather do it well.</p>
-              <p class="cv__kept">Audio is never kept. Only the words.</p>
-            </div>
-            <div class="cv__out">
-              <div class="cv__insight" data-b="4">
-                <p class="cv__skill">Assertiveness</p>
-                <p class="cv__note">You said no clearly, and kept the door open.</p>
-                <p class="cv__next" data-b="5"><span>Next time</span> Name when you can start.</p>
-              </div>
-            </div>
-            <div class="cv__head" data-b="6">
+        <!-- 02 · Conversations — one conversation and its insights, skill by
+             skill. -->
+        <article class="chap" id="app-conversations" aria-labelledby="chap-conversations">
+          <div class="feat feat--flip">
+            <div class="feat__copy rv">
               <p class="feat__label"><span>02</span> Conversations</p>
               <h3 class="feat__title" id="chap-conversations">See how you came across.</h3>
             </div>
+            <div class="stage rv" role="img" aria-label="A conversation page, “Agency pricing call”, with a short note for each skill. Clarity and concision: you laid out the plan in three steps before they asked. Persuasion and framing: on price, you explained costs at length; lead with the one reason it’s worth it. Listening and inquiry: you asked how they price a launch before giving your number. Assertiveness: you named your fee plainly and held it through the pause.">
+              <div class="ui-phone">
+                <div class="ui-screen">
+                  <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+                  <div class="ui-bar ui-bar--split"><span class="ui-round"><svg><use href="#i-back"/></svg></span><span class="ui-capsule"><svg><use href="#i-share"/></svg><span class="ui-capsule__sep"></span><svg><use href="#i-trash"/></svg></span></div>
+                  <div class="ui-body">
+                    <div class="ui-group">
+                      <p class="ui-sub">Oct 6 · 11:20–11:58 AM · 38 min</p>
+                      <p class="ui-h1">Agency pricing call</p>
+                    </div>
+                    <p class="ui-h2 ui-h2--section">Insights</p>
+                    <div class="ui-insights">
+                      <div class="ui-insight">
+                        <p class="ui-insight__name" style="--c: var(--clarity)">Clarity &amp; concision</p>
+                        <p class="ui-insight__text">You laid out the plan in three steps before they asked.</p>
+                      </div>
+                      <div class="ui-insight">
+                        <p class="ui-insight__name" style="--c: var(--framing)">Persuasion &amp; framing</p>
+                        <p class="ui-insight__text">On price, you explained costs at length. Lead with the one reason it’s worth it.</p>
+                      </div>
+                      <div class="ui-insight">
+                        <p class="ui-insight__name" style="--c: var(--listening)">Listening &amp; inquiry</p>
+                        <p class="ui-insight__text">You asked how they price a launch before giving your number.</p>
+                      </div>
+                      <div class="ui-insight">
+                        <p class="ui-insight__name" style="--c: var(--assert)">Assertiveness</p>
+                        <p class="ui-insight__text">You named your fee plainly and held it through the pause.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
+
+      </div>
+      <div class="tour-dots" aria-hidden="true"><i class="is-on"></i><i></i></div>
 
       <!-- Mirror, over time. The tall .grow__pin holds the stage in view
            while scroll plays three months: the steps light in turn, the
@@ -906,6 +898,6 @@
   </div>
 </footer>
 
-<script src="v5.js?v=20261011e" defer></script>
+<script src="v5.js?v=20261010c" defer></script>
 </body>
 </html>

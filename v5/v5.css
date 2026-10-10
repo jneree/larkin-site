@@ -832,7 +832,6 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
     scrollbar-width: none;
   }
   .tour::-webkit-scrollbar { display: none; }
-  .tour > .chap:only-child { flex-basis: 100%; }
   .chap {
     flex: 0 0 min(calc(100vw - 2 * var(--gutter) - 16px), 400px);
     display: flex;
@@ -1106,88 +1105,6 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
 .ui-facts svg { margin-left: auto; }
 
 /* --- Mirror, over time ---------------------------------------------------- */
-/* Conversations, told as how it works. Two voices, yours and Sam's, flow in
-   and stop at the band; its light comes on; what got through is words, not
-   audio; the insight rises with a next step; the headline lands last. v5.js
-   draws the voices (their reach set on stroke-dashoffset) and adds
-   .is-scrub, --glow and .is-on on each [data-b] beat. Without it every beat shows,
-   the voices drawn and still. */
-.cv { --glow: 1; margin-top: clamp(112px, 14vw, 200px); }
-.cv__stick { display: grid; justify-items: center; gap: clamp(18px, 2.6vh, 30px); text-align: center; }
-.cv__scene { position: relative; width: min(960px, 100%); }
-.cv__svg { display: block; width: 100%; height: auto; overflow: visible; }
-.cv__wave { fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 1 1; }
-.cv__wave--you { stroke: #fff; }
-.cv__wave--sam { stroke: #8A8A84; }
-.cv__wave--soft { stroke-width: 1.4; opacity: 0.35; }
-.cv__ring-glow { opacity: calc(var(--glow) * 0.9); }
-.cv__ring { opacity: calc(0.35 + var(--glow) * 0.65); }
-.cv__who {
-  position: absolute;
-  top: 18%;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--on-feature-2);
-}
-.cv__who i { width: 14px; height: 2px; border-radius: 1px; background: #fff; }
-.cv__who--you { left: 2%; }
-.cv__who--sam { right: 2%; }
-.cv__who--sam i { background: #8A8A84; }
-.cv__words { display: grid; justify-items: center; gap: 6px; font-size: 1rem; color: #fff; }
-.cv__words b { margin-right: 6px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-feature-2); }
-.cv__kept { margin-top: 4px; font-size: 0.8125rem; color: var(--on-feature-2); }
-.cv__out { width: min(460px, 100%); }
-.cv__insight {
-  display: grid;
-  gap: 8px;
-  padding: 20px 22px 22px;
-  border-radius: 24px;
-  background: #222222;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
-  text-align: left;
-}
-.cv__skill { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-feature-2); }
-.cv__skill::before { content: ""; width: 3px; height: 12px; border-radius: 2px; background: var(--assert); }
-.cv__note { font-size: clamp(1.25rem, 1.7vw, 1.5rem); font-weight: 600; line-height: 1.3; letter-spacing: -0.005em; text-wrap: balance; }
-.cv__next { margin-top: 6px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.08); color: var(--on-feature-2); }
-.cv__next span { margin-right: 8px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lime); }
-.cv__head { display: grid; justify-items: center; gap: 12px; }
-
-/* Pinned: the scene holds the screen while a few tall screens of scroll
-   play it, each beat rising into place in turn. */
-.cv.is-scrub .cv__pin { height: 360vh; height: 360svh; }
-.cv.is-scrub .cv__stick {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100svh;
-  align-content: center;
-  padding-top: calc(var(--header-h) * 0.4);
-}
-.cv.is-scrub [data-b] {
-  opacity: 0;
-  translate: 0 14px;
-  filter: blur(6px);
-  transition: opacity 0.5s var(--ease), translate 0.6s var(--ease), filter 0.5s var(--ease);
-}
-.cv.is-scrub [data-b].is-on { opacity: 1; translate: none; filter: none; }
-@media (max-width: 699px) {
-  .cv__scene { width: calc(100% + 2 * var(--gutter)); margin-inline: calc(var(--gutter) * -1); }
-  .cv__who { top: 8%; }
-  .cv__who--you { left: var(--gutter); }
-  .cv__who--sam { right: var(--gutter); }
-  .cv__words { font-size: 0.9375rem; }
-  .cv__note { font-size: 1.1875rem; }
-  .cv__head .feat__title { font-size: 1.625rem; }
-  .cv.is-scrub .cv__pin { height: 320vh; height: 320svh; }
-  .cv.is-scrub .cv__stick { padding-top: 8px; }
-}
-
 /* One phone, three months. v5.js sets --gp (0 to 1) and data-stage (1-3) as
    the pin scrolls past; everything here follows those two. Without them the
    section shows month 3 and the steps as a list. */
@@ -1354,17 +1271,17 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
 .gcard--goal .ui-track--move .ui-track__dot { left: calc((100% - 16px) * (var(--from) + (var(--to) - var(--from)) * var(--g, 1))); }
 
 /* Wide screens: the steps on the left, the tile on the right. Pinned, the
-   pair holds the screen while two tall screens of scroll play the months. */
+   pair holds the screen while three tall screens of scroll play the months. */
 @media (min-width: 960px) {
   .grow__stick { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(48px, 6vw, 104px); align-items: center; }
   .grow .ui-phone { --pw: 360px; --ph: clamp(460px, calc(100vh - 260px), 620px); }
-  .grow.is-scrub .grow__pin { height: 300vh; }
+  .grow.is-scrub .grow__pin { height: 360vh; }
   .grow.is-scrub .grow__stick { position: sticky; top: 0; height: 100vh; margin-top: 0; padding-top: calc(var(--header-h) + 8px); }
 }
 /* Narrower: a bar of the three stops, the current step's words, the phone.
    Pinned the same way, a little shorter. */
 @media (max-width: 959px) {
-  .grow.is-scrub .grow__pin { height: 280vh; height: 280svh; }
+  .grow.is-scrub .grow__pin { height: 320vh; height: 320svh; }
   .grow.is-scrub .grow__stick {
     position: sticky;
     top: 0;
