@@ -68,9 +68,16 @@
       return h && h.charAt(0) === '#' ? document.querySelector(h) : null;
     });
     var lit = -2;
+    // Only one Reserve on screen: the header's steps aside while one in the page is in view.
+    var pageCtas = [].slice.call(document.querySelectorAll('main [data-reserve]'));
     var place = function () {
       pending = false;
       var y = window.scrollY;
+      var vh = window.innerHeight;
+      header.classList.toggle('cta-off', pageCtas.some(function (c) {
+        var r = c.getBoundingClientRect();
+        return r.width > 0 && r.bottom > 0 && r.top < vh;
+      }));
       var atTop = y < 10;
       header.classList.toggle('is-floating', !atTop);
       header.classList.toggle('over-hero', atTop && !!hero);
@@ -494,6 +501,14 @@
         }, { threshold: 0.4 }).observe(howFilm.querySelector('.how-film__media'));
       }
     }
+  }
+
+  /* ---- Compare: a fade on the sticky column once the table is scrolled ---- */
+  var cmpScroll = document.querySelector('.compare-scroll');
+  if (cmpScroll) {
+    var cmpMark = function () { cmpScroll.classList.toggle('is-scrolled', cmpScroll.scrollLeft > 4); };
+    cmpScroll.addEventListener('scroll', cmpMark, { passive: true });
+    cmpMark();
   }
 
   var day = document.querySelector('[data-day]');
