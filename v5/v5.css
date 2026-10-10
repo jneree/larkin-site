@@ -795,7 +795,6 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
   letter-spacing: -0.015em;
   text-wrap: balance;
 }
-.feat__text { max-width: 36ch; color: var(--on-feature-2); font-size: clamp(1.0625rem, 1.3vw, 1.1875rem); line-height: 1.55; }
 @media (min-width: 1280px) {
   .feat { grid-template-columns: minmax(0, 9fr) minmax(0, 15fr); gap: clamp(48px, 5vw, 80px); }
   .feat--flip { grid-template-columns: minmax(0, 15fr) minmax(0, 9fr); }
@@ -845,7 +844,6 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
   .feat { display: flex; flex-direction: column; align-items: stretch; gap: 22px; width: 100%; }
   .feat__copy { gap: 10px; padding: 26px 20px 0; }
   .feat__title { font-size: 1.625rem; }
-  .feat__text { font-size: 1rem; }
   .chap .stage {
     flex: 1 0 min(46vh, 400px);
     flex: 1 0 min(46svh, 400px);
