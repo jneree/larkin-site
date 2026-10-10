@@ -352,6 +352,8 @@ html:not(.js) .intro, .intro[hidden] { display: none; }
 .nav a:hover { opacity: 1; }
 .nav a.is-active { opacity: 1; background: rgba(21, 21, 21, 0.06); }
 .header-actions { grid-column: 3; justify-self: end; display: flex; align-items: center; gap: 10px; }
+.header-actions .btn { transition: transform 0.6s var(--ease), background-color 0.3s var(--ease), color 0.3s var(--ease), box-shadow 0.6s var(--ease), opacity 0.3s var(--ease), scale 0.3s var(--ease), visibility 0s linear 0s; }
+.site-header.cta-off .header-actions .btn { opacity: 0; scale: 0.94; visibility: hidden; pointer-events: none; transition: transform 0.6s var(--ease), opacity 0.25s var(--ease), scale 0.25s var(--ease), visibility 0s linear 0.25s; }
 @media (min-width: 900px) { .nav { display: flex; } }
 
 html.js .site-header:not(.is-floating) .site-header__inner {
