@@ -143,7 +143,6 @@
      until 5.1 s (a sleeve, then close-ups of the module), then bright again. */
   var DARK_FROM = 0.7, DARK_TO = 5.1;
   var video = hero && hero.querySelector('.hero__video');
-  var filmBtn = hero && hero.querySelector('.hero__toggle');
   if (hero && video) {
     var raf = 0;
 
@@ -229,13 +228,6 @@
       if (!perFrame) readTones(false);
       if (!video.paused && !video.ended) raf = requestAnimationFrame(sync);
     };
-    var setBtn = function (state) {
-      if (!filmBtn) return;
-      filmBtn.hidden = false;
-      filmBtn.setAttribute('data-state', state);
-      filmBtn.setAttribute('aria-label',
-        state === 'playing' ? 'Pause the film' : state === 'ended' ? 'Play the film again' : 'Play the film');
-    };
     var pickSource = function () {
       var d = video.dataset;
       if (window.matchMedia('(max-aspect-ratio: 4/5)').matches) return d.srcPhone;
@@ -254,7 +246,6 @@
     };
     video.addEventListener('playing', function () {
       hero.classList.add('is-playing');
-      setBtn('playing');
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(sync);
       watchFrames();
@@ -262,13 +253,11 @@
     video.addEventListener('pause', function () {
       cancelAnimationFrame(raf);
       readTones(true);
-      if (!video.ended) setBtn('paused');
     });
     video.addEventListener('ended', function () {
       cancelAnimationFrame(raf);
       setDark(false);
       readTones(true);
-      setBtn('ended');
     });
     video.addEventListener('seeked', function () { readTones(true); });
     window.addEventListener('resize', function () { readTones(true); }, { passive: true });
@@ -281,19 +270,9 @@
     var play = function () {
       video.muted = true;
       var p = video.play();
-      if (p && p.catch) p.catch(function () { setBtn('paused'); });
+      if (p && p.catch) p.catch(function () {});
     };
-    if (filmBtn) {
-      filmBtn.addEventListener('click', function () {
-        if (!video.getAttribute('src')) { attach(); play(); return; }
-        if (video.ended) { video.currentTime = 0; play(); }
-        else if (video.paused) play();
-        else video.pause();
-      });
-    }
-    if (reduceMotion) {
-      setBtn('paused');
-    } else {
+    if (!reduceMotion) {
       attach();
       onReady(function () {
         if (video.readyState >= 3) play();
