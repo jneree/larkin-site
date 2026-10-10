@@ -496,6 +496,14 @@
     }
   }
 
+  /* ---- Compare: a fade on the sticky column once the table is scrolled ---- */
+  var cmpScroll = document.querySelector('.compare-scroll');
+  if (cmpScroll) {
+    var cmpMark = function () { cmpScroll.classList.toggle('is-scrolled', cmpScroll.scrollLeft > 4); };
+    cmpScroll.addEventListener('scroll', cmpMark, { passive: true });
+    cmpMark();
+  }
+
   var day = document.querySelector('[data-day]');
   if (day) {
     if (reduceMotion || !('IntersectionObserver' in window) || day.getBoundingClientRect().bottom < 0) {

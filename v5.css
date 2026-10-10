@@ -1211,6 +1211,10 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
 .grow__count b { color: #fff; font-weight: 700; }
 .grow__count i { width: 4px; height: 4px; border-radius: 50%; background: #4A4A4A; }
 .grow .ui-phone { --pw: 330px; --ph: 560px; }
+/* The blur below spills past its own box, and Safari won't clip a filtered
+   layer with overflow + border-radius alone: clip-path keeps it inside the
+   rounded screen, and the dark backing stops a white halo at the edges. */
+.grow .ui-screen { background: #151515; clip-path: inset(0 round 41px 41px 0 0); }
 
 /* The screen: Mirror's dark top and white sheet. Its focus pulls in over
    the first weeks. */
@@ -1654,6 +1658,38 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
 .qual { font-size: 0.875rem; color: var(--ink-2); font-weight: 500; }
 .compare__foot { margin-top: 20px; font-size: 0.8125rem; color: var(--ink-3); text-align: center; }
 @media (min-width: 840px) { .compare-hint { display: none; } }
+/* Phones: the capability column stays put, narrow, while the rest scrolls
+   under it; once scrolled, a soft fade on its right edge shows there's more
+   beneath (v5.js sets is-scrolled). */
+@media (max-width: 839px) {
+  .compare-scroll { padding-inline: 0; }
+  .compare { min-width: 700px; }
+  .compare tbody th, .compare thead th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    width: 140px;
+    min-width: 140px;
+    padding-left: var(--gutter);
+    padding-right: 12px;
+    background: var(--bg);
+  }
+  .compare tbody th { font-size: 0.875rem; line-height: 1.3; }
+  .compare tbody th::after, .compare thead th:first-child::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: -1px;
+    left: 100%;
+    width: 18px;
+    background: linear-gradient(90deg, var(--bg), transparent);
+    opacity: 0;
+    transition: opacity 0.2s linear;
+    pointer-events: none;
+  }
+  .compare-scroll.is-scrolled :is(tbody th, thead th:first-child)::after { opacity: 1; }
+  .compare td:last-child, .compare thead th:last-child { padding-right: var(--gutter); }
+}
 
 /* --------------------------------------------------------------------------
    17. Specs — the numbers, large
