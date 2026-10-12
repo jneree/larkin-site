@@ -348,16 +348,18 @@
     });
   }
 
-  /* ---- How it works: one stage, four chapters ----------------------------- */
-  /* The pin holds the band on its desk while its scroll plays the story.
-     The photo is the camera: it drifts closer and back with the scroll,
-     eased so a flick never jumps. First only sound goes in: two voices,
-     drawn as thin waves on a canvas, travel from the edges into the
-     module (the scroll brings them in and lets the last of them enter; in
-     between they keep flowing on their own). Then the insights: cards with
-     a place for each beat; when the scroll crosses into a beat every card
-     is sent to its place and eases there (CSS transitions). The places
-     come from the screen (geo), so the same story fits a phone. */
+  /* ---- How it works: one stage, told step by step -------------------------- */
+  /* The pin holds a framed scene while its scroll plays it, slowly, one
+     step at a time: a coffee with a friend; you speak; your friend answers;
+     the frame closes in on your wrist and becomes the band at rest, where
+     only the sound goes in; then insight about you comes out. One eased
+     progress value drives two cameras (the scene and the band at rest, each
+     a photo moved and scaled inside the frame), the sound drawn on the
+     canvas (each voice a wave from a mouth to the band, morphing into waves
+     from the frame's edges into the module as the band takes over), the
+     speakers' labels, the insights (cards sent to a place per beat, easing
+     there by CSS) and which step's words show. Places come from the screen
+     (geo), so the same story fits a phone. */
   var story = document.querySelector('[data-story]');
   var sSound = story && story.querySelector('.story__sound');
   var sx = sSound && sSound.getContext && sSound.getContext('2d');
@@ -365,26 +367,33 @@
     story.classList.add('is-live');
     var sPin = story.querySelector('.story__pin');
     var sStage = story.querySelector('.story__stage');
-    var sView = story.querySelector('.story__view');
+    var sFrame = story.querySelector('.story__frame');
+    var sScene = story.querySelector('.story__layer--scene');
+    var sDesk = story.querySelector('.story__layer--desk');
     var sCopy = story.querySelector('.story__copy');
     var sChaps = [].slice.call(story.querySelectorAll('.story__chap'));
+    var sWho = { you: story.querySelector('[data-who="you"]'), friend: story.querySelector('[data-who="friend"]') };
     var sCards = {};
     [].forEach.call(story.querySelectorAll('[data-card]'), function (el) { sCards[el.getAttribute('data-card')] = el; });
 
-    // Where the band sits in the photo, as fractions of its width and
-    // height: the module's middle, and the box around the whole loop.
-    var IMG_W = 1493, IMG_H = 2000;
-    var BAND = { x: 0.442, y: 0.615, l: 0.265, r: 0.69, t: 0.5375, b: 0.645 };
-    // The beats, as points of the pin's progress (0 to 1): an insight, a
-    // next step, every area. The sound plays before the first.
-    var BEATS = [0.29, 0.50, 0.72];
-    var CHAPTERS = [0, 0.27, 0.50, 0.72];
-    var CAMERA = [[0, 1], [0.27, 1.06], [0.5, 1.1], [0.72, 1.1], [0.86, 1], [1, 1]];
+    // The two photos and where things are in them, as fractions of their
+    // width and height. The scene: each mouth (a little in front of it),
+    // the band on your wrist, and where each label goes. The band at rest:
+    // the module's middle, the loop's box, and where the sound goes in.
+    var SCENE = { w: 2000, h: 1130, look: [0.48, 0.5], band: [0.6675, 0.7416],
+      you: { from: [0.583, 0.312], ctl: [0.555, 0.53], to: [0.664, 0.728], tag: [0.668, 0.235] },
+      friend: { from: [0.338, 0.385], ctl: [0.5, 0.4], to: [0.656, 0.735], tag: [0.24, 0.235] } };
+    var DESK = { w: 1493, h: 2000, mod: [0.442, 0.615], l: 0.265, r: 0.69, t: 0.5375, b: 0.645,
+      you: [0.478, 0.638], friend: [0.41, 0.638] };
+    // The steps, as points of the pin's progress (0 to 1).
+    var CHAPTERS = [0, 0.12, 0.26, 0.40, 0.60, 0.80];
+    var BEATS = [0.61, 0.70, 0.81];
     var sP = 0, sTgt = 0, sChap = -1, sBeat = -1, sOn = false, G = null;
     var span = function (v, a, b) { return clamp((v - a) / (b - a), 0, 1); };
     var smooth = function (a, b, v) { var t = span(v, a, b); return t * t * (3 - 2 * t); };
     var easeIO = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
     var px = function (v) { return v.toFixed(1) + 'px'; };
+    var mix = function (a, b, t) { return [lerp(a[0], b[0], t), lerp(a[1], b[1], t)]; };
 
     var put = function (el, st) {
       el.style.setProperty('--x', px(st.x));
@@ -394,80 +403,102 @@
       el.style.setProperty('--d', (st.d || 0) + 's');
     };
 
+    // A camera over a photo inside the frame: the point `f` of the photo
+    // sits at `c` in the frame, at scale `s` over the photo's cover size,
+    // kept covering the frame. Returns the offset and a mapper to frame px.
+    var cam = function (lw, lh, f, c, s) {
+      var X = clamp(c[0] - s * f[0] * lw, G.FW - s * lw, 0);
+      var Y = clamp(c[1] - s * f[1] * lh, G.FH - s * lh, 0);
+      return { X: X, Y: Y, s: s, at: function (q) { return [X + s * q[0] * lw, Y + s * q[1] * lh]; } };
+    };
+    var aim = function (el, k) { el.style.transform = 'translate3d(' + px(k.X) + ',' + px(k.Y) + ',0) scale(' + k.s.toFixed(4) + ')'; };
+    var keyed = function (keys, p) {
+      for (var i = 1; i < keys.length; i++) {
+        if (p <= keys[i][0]) {
+          var a = keys[i - 1][1], b = keys[i][1], t = easeIO(span(p, keys[i - 1][0], keys[i][0]));
+          return { f: mix(a.f, b.f, t), c: mix(a.c, b.c, t), s: lerp(a.s, b.s, t) };
+        }
+      }
+      return keys[keys.length - 1][1];
+    };
+
     // ---- The sound ----
-    // Two voices, one from each side, taking turns. Each comes up from the
-    // desk in a gentle curve and goes into the front of the module: a wave
-    // and a fainter echo of it (relative size, relative pitch, width,
-    // opacity). Crests and the louder bursts travel towards the band; near
-    // it the wave narrows into the module and takes the light's colour.
-    // Entry points are on the module's front edge, as fractions of the photo.
-    var VOICES = [
-      { side: -1, from: 0.2, ctl: [-0.27, 0.2], to: [0.41, 0.638], turn: 0, strands: [[1, 1, 2, 0.78], [0.7, 1.35, 1.2, 0.34]] },
-      { side: 1, from: 0.15, ctl: [0.27, 0.17], to: [0.478, 0.638], turn: Math.PI, strands: [[1, 0.92, 2, 0.78], [0.7, 1.25, 1.2, 0.34]] }
-    ];
+    // Each voice is a wave and a fainter echo of it (relative size, pitch,
+    // width, opacity), travelling along a curve into the band: white over
+    // the scene, ink over the white desk, the light's lime as it goes in.
+    var STRANDS = [[1, 1, 2, 0.85], [0.68, 1.35, 1.2, 0.38]];
     var SPEED = 90;
     var soundRaf = 0, soundDrawn = false;
-    var soundLive = function () { return G && sOn && sP > 0.004 && sP < 0.285; };
-    var drawSound = function (now) {
-      var W = G.W, H = G.H;
-      sx.setTransform(G.dpr, 0, 0, G.dpr, 0, 0);
-      sx.clearRect(0, 0, W, H);
-      soundDrawn = true;
-      var head = 1 - Math.pow(1 - span(sP, 0.01, 0.12), 2);
-      var tail = Math.pow(span(sP, 0.19, 0.28), 1.6);
-      if (head <= tail) return;
-      var t = now / 1000, amp0 = Math.min(H * 0.05, 42);
-      VOICES.forEach(function (v) {
-        var T = { x: G.camX + G.camS * v.to[0] * G.fw, y: G.camY + G.camS * v.to[1] * G.fh };
-        var S = { x: v.side < 0 ? -24 : W + 24, y: Math.min(G.mod.y + v.from * H, G.floor) };
-        var C = { x: G.mod.x + v.ctl[0] * W, y: Math.min(G.mod.y + v.ctl[1] * H, G.floor) };
-        // The curve, sampled: points, the distance along it, and its normal.
-        var steps = 160, pts = [], len = 0, prev = null;
-        for (var j = 0; j <= steps; j++) {
-          var u = j / steps, iu = 1 - u;
-          var p = { x: iu * iu * S.x + 2 * iu * u * C.x + u * u * T.x, y: iu * iu * S.y + 2 * iu * u * C.y + u * u * T.y, u: u };
-          var tx = 2 * iu * (C.x - S.x) + 2 * u * (T.x - C.x), ty = 2 * iu * (C.y - S.y) + 2 * u * (T.y - C.y);
-          var tl = Math.sqrt(tx * tx + ty * ty) || 1;
-          p.nx = -ty / tl; p.ny = tx / tl;
-          if (prev) len += Math.sqrt((p.x - prev.x) * (p.x - prev.x) + (p.y - prev.y) * (p.y - prev.y));
-          p.s = len; pts.push(p); prev = p;
-        }
-        var turn = 0.5 + 0.5 * Math.sin(t * 0.8 + v.turn);
-        var grad = sx.createLinearGradient(S.x, S.y, T.x, T.y);
-        grad.addColorStop(0, 'rgba(21, 21, 21, 0)');
-        grad.addColorStop(0.16, 'rgba(21, 21, 21, 1)');
-        grad.addColorStop(0.74, 'rgba(21, 21, 21, 1)');
-        grad.addColorStop(0.93, 'rgba(210, 237, 40, 1)');
-        grad.addColorStop(1, 'rgba(210, 237, 40, 0.4)');
-        sx.strokeStyle = grad;
-        sx.lineCap = 'round';
-        sx.lineJoin = 'round';
-        v.strands.forEach(function (st, i) {
-          var k = (Math.PI * 2) / (86 / st[1]);
-          sx.lineWidth = st[2];
-          sx.globalAlpha = st[3];
-          sx.beginPath();
-          var started = false;
-          for (var j = 0; j < pts.length; j++) {
-            var q = pts[j], u = q.u;
-            if (u < tail || u > head) continue;
-            var x = q.s;
-            var env = smooth(0, 0.12, u) * (1 - smooth(0.62, 1, u)) * (head < 1 ? 1 - smooth(head - 0.1, head, u) : 1);
-            var burst = 0.3 + 0.7 * Math.pow(Math.max(0, Math.sin(((x - SPEED * t) / 340) * Math.PI * 2 + v.turn)), 2);
-            var d = amp0 * st[0] * env * burst * (0.3 + 0.7 * turn) * Math.sin(k * (x - SPEED * t) + i * 0.9);
-            var px2 = q.x + q.nx * d, py2 = q.y + q.ny * d;
-            if (!started) { sx.moveTo(px2, py2); started = true; } else sx.lineTo(px2, py2);
-          }
-          sx.stroke();
-        });
-        sx.globalAlpha = 1;
-      });
+    var soundLive = function () { return G && sOn && sP > 0.12 && sP < 0.61; };
+    var curve = function (S, C, T) {
+      var steps = 150, pts = [], len = 0, prev = null;
+      for (var j = 0; j <= steps; j++) {
+        var u = j / steps, iu = 1 - u;
+        var q = { x: iu * iu * S[0] + 2 * iu * u * C[0] + u * u * T[0], y: iu * iu * S[1] + 2 * iu * u * C[1] + u * u * T[1], u: u };
+        var tx = 2 * iu * (C[0] - S[0]) + 2 * u * (T[0] - C[0]), ty = 2 * iu * (C[1] - S[1]) + 2 * u * (T[1] - C[1]);
+        var tl = Math.sqrt(tx * tx + ty * ty) || 1;
+        q.nx = -ty / tl; q.ny = tx / tl;
+        if (prev) len += Math.sqrt((q.x - prev.x) * (q.x - prev.x) + (q.y - prev.y) * (q.y - prev.y));
+        q.s = len; pts.push(q); prev = q;
+      }
+      return pts;
     };
-    var soundLoop = function (now) {
-      soundRaf = 0;
-      if (!soundLive()) return clearSound();
-      drawSound(now);
-      soundRaf = requestAnimationFrame(soundLoop);
+    var drawVoice = function (v, t, m, head, tail, loud) {
+      if (head <= tail || loud <= 0.01) return;
+      var pts = curve(v.S, v.C, v.T);
+      var r = Math.round(lerp(255, 21, m)), g = Math.round(lerp(255, 21, m)), b = Math.round(lerp(255, 21, m));
+      var ink = 'rgba(' + r + ',' + g + ',' + b + ',';
+      var grad = sx.createLinearGradient(v.S[0], v.S[1], v.T[0], v.T[1]);
+      grad.addColorStop(0, ink + '0)');
+      grad.addColorStop(0.12, ink + '1)');
+      grad.addColorStop(0.74, ink + '1)');
+      grad.addColorStop(0.93, 'rgba(210, 237, 40, 1)');
+      grad.addColorStop(1, 'rgba(210, 237, 40, 0.4)');
+      sx.strokeStyle = grad;
+      sx.shadowColor = 'rgba(0, 0, 0, ' + (0.5 * (1 - m)).toFixed(3) + ')';
+      sx.shadowBlur = 8 * (1 - m);
+      var amp0 = Math.min(G.FH * 0.045, 40);
+      STRANDS.forEach(function (st, i) {
+        var k = (Math.PI * 2) / (86 / st[1]);
+        sx.lineWidth = st[2] * (1.35 - 0.35 * m);
+        sx.globalAlpha = st[3];
+        sx.beginPath();
+        var started = false;
+        for (var j = 0; j < pts.length; j++) {
+          var q = pts[j], u = q.u;
+          if (u < tail || u > head) continue;
+          var x = q.s;
+          var env = smooth(0, 0.12, u) * (1 - smooth(0.62, 1, u)) * (head < 1 ? 1 - smooth(head - 0.1, head, u) : 1);
+          var burst = 0.3 + 0.7 * Math.pow(Math.max(0, Math.sin(((x - SPEED * t) / 340) * Math.PI * 2 + v.phase)), 2);
+          var d = amp0 * st[0] * env * burst * loud * Math.sin(k * (x - SPEED * t) + i * 0.9);
+          var x2 = q.x + q.nx * d, y2 = q.y + q.ny * d;
+          if (!started) { sx.moveTo(x2, y2); started = true; } else sx.lineTo(x2, y2);
+        }
+        sx.stroke();
+      });
+      sx.globalAlpha = 1;
+      sx.shadowBlur = 0;
+    };
+    var drawSound = function (now) {
+      sx.setTransform(G.dpr, 0, 0, G.dpr, 0, 0);
+      sx.clearRect(0, 0, G.FW, G.FH);
+      soundDrawn = true;
+      // The waves turn from white to ink as the frame goes white, and move
+      // from the scene to the band at rest while it is white.
+      var p = sP, t = now / 1000, m = smooth(0.44, 0.49, p), mg = smooth(0.47, 0.53, p);
+      var tail = Math.pow(span(p, 0.54, 0.6), 1.6);
+      var both = smooth(0.4, 0.43, p);
+      var turn = 0.5 + 0.5 * Math.sin(t * 0.8);
+      // You speak first; while your friend answers you go quiet; then both,
+      // taking turns, as a conversation does.
+      var youLoud = lerp(lerp(1, 0.25, smooth(0.26, 0.29, p)), 0.3 + 0.7 * turn, both);
+      var friendLoud = lerp(1, 0.3 + 0.7 * (1 - turn), both);
+      ['friend', 'you'].forEach(function (who) {
+        var sc = G.voices[who].scene(), dk = G.voices[who].desk();
+        var v = { S: mix(sc.S, dk.S, mg), C: mix(sc.C, dk.C, mg), T: mix(sc.T, dk.T, mg), phase: who === 'you' ? 0 : 2 };
+        var head = who === 'you' ? span(p, 0.13, 0.21) : span(p, 0.27, 0.35);
+        drawVoice(v, t, m, 1 - Math.pow(1 - head, 2), tail, who === 'you' ? youLoud : friendLoud);
+      });
     };
     var clearSound = function () {
       if (!soundDrawn) return;
@@ -475,38 +506,81 @@
       sx.clearRect(0, 0, sSound.width, sSound.height);
       soundDrawn = false;
     };
+    var soundLoop = function (now) {
+      soundRaf = 0;
+      if (!soundLive()) return clearSound();
+      drawSound(now);
+      soundRaf = requestAnimationFrame(soundLoop);
+    };
 
-    // The layout for this screen: the photo's size, where the band rests,
-    // and every card's place at every beat.
+    // The layout for this screen: the frame, both cameras' keyframes, the
+    // voices' curves and every insight's place at every beat.
     var geo = function () {
       var W = sStage.clientWidth, H = sStage.clientHeight;
       if (!W || !H) return;
       var narrow = W < 700;
       var headH = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 64;
-      var top = headH + (narrow ? 8 : 16);
-      var bottom = sCopy.offsetTop - (narrow ? 16 : 28);
-      var aH = Math.max(160, bottom - top);
       var gut = parseFloat(getComputedStyle(sCopy).paddingLeft) || 16;
-
-      // The photo covers the screen; the band rests in the middle, low in
-      // the space above the words, as near as the photo's edges allow.
-      var c0 = Math.max(W / IMG_W, H / IMG_H);
-      var fw = IMG_W * c0, fh = IMG_H * c0;
-      var X1 = clamp(W / 2 - BAND.x * fw, W - fw, 0);
-      var Y1 = clamp(top + aH * (narrow ? 0.74 : 0.66) - BAND.y * fh, H - fh, 0);
-      var bx = X1 + BAND.x * fw, by = Y1 + BAND.y * fh;
-      var bl = X1 + BAND.l * fw, br = X1 + BAND.r * fw, bt = Y1 + BAND.t * fh;
-      sView.style.setProperty('--fw', px(fw));
-      sView.style.setProperty('--fh', px(fh));
-      sStage.style.setProperty('--veil', px(H - sCopy.offsetTop + 96));
+      var FW = Math.min(W - gut * 2, 1360), FL = (W - FW) / 2;
+      var FT = headH + (narrow ? 8 : 12);
+      var room = Math.max(200, sCopy.offsetTop - (narrow ? 22 : 32) - FT);
+      // On a phone the frame stays near square, so the whole conversation
+      // fits across it; it sits in the middle of the room it has.
+      var FH = narrow ? Math.min(room, FW * 1.25) : room;
+      FT += (room - FH) / 2;
+      sStage.style.setProperty('--fl', px(FL));
+      sStage.style.setProperty('--ft', px(FT));
+      sStage.style.setProperty('--fwid', px(FW));
+      sStage.style.setProperty('--fht', px(FH));
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      sSound.width = Math.round(W * dpr);
-      sSound.height = Math.round(H * dpr);
+      sSound.width = Math.round(FW * dpr);
+      sSound.height = Math.round(FH * dpr);
       soundDrawn = true;
 
-      // Card widths, then their heights at those widths (with where each
-      // insight came from showing, as it does once they gather).
-      var noteW = narrow ? (W - gut * 2 - 10) / 2 : 290;
+      var cs = Math.max(FW / SCENE.w, FH / SCENE.h), sw = SCENE.w * cs, sh = SCENE.h * cs;
+      var cd = Math.max(FW / DESK.w, FH / DESK.h), dw = DESK.w * cd, dh = DESK.h * cd;
+      sScene.style.setProperty('--lw', px(sw)); sScene.style.setProperty('--lh', px(sh));
+      sDesk.style.setProperty('--lw', px(dw)); sDesk.style.setProperty('--lh', px(dh));
+
+      var look = narrow ? [0.47, 0.48] : SCENE.look;
+      var sceneKeys = [
+        [0, { f: look, c: [FW / 2, FH / 2], s: 1 }],
+        [0.4, { f: look, c: [FW / 2, FH / 2], s: 1.08 }],
+        [0.53, { f: SCENE.band, c: [FW / 2, FH / 2], s: narrow ? 3 : 3.4 }],
+        [1, { f: SCENE.band, c: [FW / 2, FH / 2], s: narrow ? 3 : 3.4 }]
+      ];
+      var deskC = [FW / 2, FH * (narrow ? 0.66 : 0.62)];
+      var deskKeys = [
+        [0, { f: DESK.mod, c: deskC, s: 1.3 }],
+        [0.5, { f: DESK.mod, c: deskC, s: 1.3 }],
+        [0.58, { f: DESK.mod, c: deskC, s: 1 }],
+        [1, { f: DESK.mod, c: deskC, s: 1 }]
+      ];
+
+      G = { W: W, H: H, FW: FW, FH: FH, FL: FL, FT: FT, dpr: dpr, sw: sw, sh: sh, dw: dw, dh: dh,
+        sceneKeys: sceneKeys, deskKeys: deskKeys, scene: null, desk: null };
+
+      // The voices: over the scene, from each mouth to the band on your
+      // wrist; over the desk, from the frame's edge (your side, theirs) up
+      // into the module's front.
+      var deskVoice = function (who) {
+        return function () {
+          var T = G.desk.at(DESK[who]), side = who === 'you' ? 1 : -1;
+          var low = Math.min(T[1] + FH * 0.22, FH - 6);
+          return { S: [side > 0 ? FW + 24 : -24, low], C: [T[0] + side * FW * 0.27, Math.min(T[1] + FH * 0.2, FH - 4)], T: T };
+        };
+      };
+      var sceneVoice = function (who) {
+        return function () { var v = SCENE[who]; return { S: G.scene.at(v.from), C: G.scene.at(v.ctl), T: G.scene.at(v.to) }; };
+      };
+      G.voices = { you: { scene: sceneVoice('you'), desk: deskVoice('you') }, friend: { scene: sceneVoice('friend'), desk: deskVoice('friend') } };
+
+      // The insights, placed around the band at rest (its final camera),
+      // kept inside the frame.
+      var rest = cam(dw, dh, DESK.mod, deskC, 1);
+      var bx = FL + rest.at(DESK.mod)[0], by = FT + rest.at(DESK.mod)[1];
+      var bl = FL + rest.at([DESK.l, 0])[0], br = FL + rest.at([DESK.r, 0])[0], bt = FT + rest.at([0, DESK.t])[1];
+      var noteW = narrow ? (FW - 32 - 10) / 2 : 290;
       var hOf = {};
       story.classList.add('is-areas');
       Object.keys(sCards).forEach(function (k) {
@@ -514,55 +588,48 @@
         hOf[k] = sCards[k].offsetHeight;
       });
       story.classList.toggle('is-areas', sBeat >= 3);
-
       var fit = function (k, x, y, more) {
-        var st = { x: clamp(x, gut, W - gut - noteW), y: clamp(y, top, bottom - hOf[k]), k: 1, o: 1 };
+        var st = { x: clamp(x, FL + 16, FL + FW - 16 - noteW), y: clamp(y, FT + 16, FT + FH - 16 - hOf[k]), k: 1, o: 1 };
         for (var m in more) st[m] = more[m];
         return st;
       };
-      // Inside the band: where an insight comes out of.
       var inBand = function (k) { return { x: bx - noteW / 2, y: by - hOf[k] / 2, k: 0.3, o: 0 }; };
-
       var one, pairL, pairR, areas;
       if (narrow) {
-        one = fit('clarity', bx - noteW / 2, bt - 36 - hOf.clarity);
+        one = fit('clarity', bx - noteW / 2, bt - 30 - hOf.clarity);
         var rowH = Math.max(hOf.clarity, hOf.next);
-        pairL = fit('clarity', gut, bt - 36 - rowH);
-        pairR = fit('next', W - gut - noteW, bt - 36 - rowH);
+        pairL = fit('clarity', FL + 16, bt - 30 - rowH);
+        pairR = fit('next', FL + FW - 16 - noteW, bt - 30 - rowH);
         var r2 = Math.max(hOf.framing, hOf.assert), r1 = Math.max(hOf.clarity, hOf.listening);
-        var y2 = bt - 32 - r2, y1 = y2 - 10 - r1;
+        var y2 = bt - 24 - r2, y1 = y2 - 10 - r1;
         areas = {
-          clarity: fit('clarity', gut, y1),
-          listening: fit('listening', W - gut - noteW, y1, { d: 0.08 }),
-          framing: fit('framing', gut, y2, { d: 0.16 }),
-          assert: fit('assert', W - gut - noteW, y2, { d: 0.24 })
+          clarity: fit('clarity', FL + 16, y1),
+          listening: fit('listening', FL + FW - 16 - noteW, y1, { d: 0.08 }),
+          framing: fit('framing', FL + 16, y2, { d: 0.16 }),
+          assert: fit('assert', FL + FW - 16 - noteW, y2, { d: 0.24 })
         };
       } else {
-        one = fit('clarity', bx - noteW / 2, bt - 56 - hOf.clarity);
-        pairL = fit('clarity', bx - noteW - 12, bt - 56 - hOf.clarity);
-        pairR = fit('next', bx + 12, bt - 56 - hOf.next);
-        // Around the band, a loose ring: two above, one each side.
-        var cy = function (k, y) { return y - hOf[k] / 2; };
+        one = fit('clarity', bx - noteW / 2, bt - 44 - hOf.clarity);
+        pairL = fit('clarity', bx - noteW - 12, bt - 44 - hOf.clarity);
+        pairR = fit('next', bx + 12, bt - 44 - hOf.next);
+        var mid = function (k, y) { return y - hOf[k] / 2; };
         areas = {
-          clarity: fit('clarity', bx - W * 0.25 - noteW / 2, cy('clarity', bt - aH * 0.3)),
-          listening: fit('listening', bx + W * 0.21 - noteW / 2, cy('listening', bt - aH * 0.38), { d: 0.08 }),
-          framing: fit('framing', bl - noteW + 24, cy('framing', by + aH * 0.16), { d: 0.16 }),
-          assert: fit('assert', br - 24, cy('assert', by + aH * 0.12), { d: 0.24 })
+          clarity: fit('clarity', bx - FW * 0.25 - noteW / 2, mid('clarity', bt - FH * 0.2)),
+          listening: fit('listening', bx + FW * 0.21 - noteW / 2, mid('listening', bt - FH * 0.26), { d: 0.08 }),
+          framing: fit('framing', bl - noteW + 24, mid('framing', by + FH * 0.12), { d: 0.16 }),
+          assert: fit('assert', br - 24, mid('assert', by + FH * 0.08), { d: 0.24 })
         };
       }
-
       var states = [
         {},
         { clarity: one },
         { clarity: pairL, next: pairR },
         { clarity: areas.clarity, listening: areas.listening, framing: areas.framing, assert: areas.assert }
       ];
-      // Every card not named at a beat waits inside the band.
       states.forEach(function (s) {
         Object.keys(sCards).forEach(function (k) { if (!s[k]) s[k] = inBand(k); });
       });
-
-      G = { W: W, H: H, dpr: dpr, fw: fw, fh: fh, bx: bx, by: by, floor: bottom + 12, mod: { x: bx, y: by }, camX: X1, camY: Y1, camS: 1, states: states };
+      G.states = states;
       if (sBeat >= 0) Object.keys(sCards).forEach(function (k) { put(sCards[k], states[sBeat][k]); });
     };
 
@@ -570,17 +637,26 @@
       if (!G) return;
       var p = sP;
 
-      // The camera: closer through the insights, back out for every area.
-      var s = 1;
-      for (var i = 1; i < CAMERA.length; i++) {
-        if (p <= CAMERA[i][0]) { s = lerp(CAMERA[i - 1][1], CAMERA[i][1], easeIO(span(p, CAMERA[i - 1][0], CAMERA[i][0]))); break; }
-      }
-      var X = G.bx - s * BAND.x * G.fw, Y = G.by - s * BAND.y * G.fh;
-      sView.style.transform = 'translate3d(' + px(X) + ',' + px(Y) + ',0) scale(' + s.toFixed(4) + ')';
-      G.mod = { x: X + s * BAND.x * G.fw, y: Y + s * BAND.y * G.fh };
-      G.camX = X; G.camY = Y; G.camS = s;
+      // The cameras, and the band at rest fading in as the frame closes in.
+      var a = keyed(G.sceneKeys, p), b = keyed(G.deskKeys, p);
+      G.scene = cam(G.sw, G.sh, a.f, a.c, a.s);
+      G.desk = cam(G.dw, G.dh, b.f, b.c, b.s);
+      aim(sScene, G.scene);
+      aim(sDesk, G.desk);
+      sDesk.style.setProperty('--desk', smooth(0.494, 0.506, p).toFixed(3));
+      sFrame.style.setProperty('--flash', (smooth(0.455, 0.495, p) * (1 - smooth(0.505, 0.55, p))).toFixed(3));
 
-      // The chapter's words.
+      // Who's speaking.
+      [['you', 0.12], ['friend', 0.26]].forEach(function (w) {
+        var el = sWho[w[0]], q = G.scene.at(SCENE[w[0]].tag);
+        var on = p >= w[1] && p < 0.43;
+        el.classList.toggle('is-on', on);
+        var ew = el.offsetWidth, eh = el.offsetHeight;
+        el.style.setProperty('--x', px(clamp(w[0] === 'friend' ? q[0] - ew : q[0], 10, G.FW - ew - 10)));
+        el.style.setProperty('--y', px(clamp(q[1] - eh / 2, 10, G.FH - eh - 10)));
+      });
+
+      // The step's words.
       var ch = 0;
       for (var c = 0; c < CHAPTERS.length; c++) if (p >= CHAPTERS[c]) ch = c;
       if (ch !== sChap) {
@@ -592,13 +668,13 @@
       }
 
       // The sound, while it plays.
-      story.classList.toggle('is-listening', p > 0.03 && p < 0.29);
+      story.classList.toggle('is-listening', p > 0.49 && p < 0.61);
       if (soundLive()) { if (!soundRaf) soundRaf = requestAnimationFrame(soundLoop); }
       else clearSound();
 
-      // The beat: every card to its place.
+      // The beat: every insight to its place.
       var beat = 0;
-      for (var b = 0; b < BEATS.length; b++) if (p >= BEATS[b]) beat = b + 1;
+      for (var i = 0; i < BEATS.length; i++) if (p >= BEATS[i]) beat = i + 1;
       if (beat !== sBeat) {
         sBeat = beat;
         story.classList.toggle('is-areas', beat >= 3);

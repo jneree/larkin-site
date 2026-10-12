@@ -2,9 +2,9 @@
    Larkin — V6: the V5 premium cut with how it works told as one story.
    The same system as the homepage (DM Sans, white canvas, #151515 ink,
    #F0F0F0 cards, lime #D2ED28 for the one thing to press). Where V5 had
-   the arm film, the day card and the module close-up, one screen pins on
-   the band at rest on a desk and scroll plays four chapters around it:
-   it listens, it gives you insights, you learn, you grow (section 9).
+   the arm film, the day card and the module close-up, one screen pins and
+   scroll plays how it works step by step: a coffee with a friend, the
+   sound going into the band, insight about you coming out (section 9).
    Shares /media and /fonts with the homepage; nothing here touches it.
    ========================================================================== */
 
@@ -520,15 +520,15 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 /* --------------------------------------------------------------------------
-   9. How it works: one stage, four chapters
+   9. How it works: one stage, told step by step
    -------------------------------------------------------------------------- */
 /* Without the script (or with reduced motion) this is a plain section: the
-   chapters as a list, the band on its desk, then the insights as tiles.
-   v6.js adds .is-live and the section becomes a tall track with one screen
-   pinned inside it: the photo fills it and drifts with the scroll, and the
-   sound of two voices travels into the band on a canvas, then the insights
-   move between places v6.js computes for the screen (custom properties in
-   px), easing there on their own. */
+   steps as a list, the scene, then the insights as tiles. v6.js adds
+   .is-live and the section becomes a tall track with one white screen
+   pinned inside it: a large rounded frame holds the scene (and then the
+   band at rest), the sound is drawn over it on a canvas, the insights move
+   between places v6.js computes for the screen (custom properties in px),
+   and one step's words sit centred under the frame. */
 .story { position: relative; background: var(--bg); }
 
 /* --- Static: the story as a list ----------------------------------------- */
@@ -541,25 +541,26 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .story__copy { order: -1; display: grid; gap: clamp(20px, 3vw, 32px); }
 .story__chaps { display: grid; gap: clamp(28px, 4vw, 44px); list-style: none; margin: 0; padding: 0; }
 .story__chap { display: grid; gap: 10px; }
-.story__title span { display: inline; }
 .story:not(.is-live) .story__title { font-size: clamp(1.75rem, 3vw, 2.5rem); }
 .story__line {
-  max-width: 34ch;
+  max-width: 36ch;
   font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
   line-height: 1.5;
   color: var(--ink-2);
   text-wrap: balance;
 }
-.story__view {
+.story__frame {
   position: relative;
   width: min(100% - 2 * var(--gutter), var(--shell));
   margin-inline: auto;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: var(--r-xl);
+  background: #1F1F1C;
 }
-.story__photo { width: 100%; height: 100%; object-fit: cover; object-position: 44% 62%; }
-.story__glow, .story__sound { display: none; }
+.story__layer { position: absolute; inset: 0; }
+.story__photo { width: 100%; height: 100%; object-fit: cover; }
+.story__layer--desk, .story__glow, .story__flash, .story__sound, .story__who { display: none; }
 
 .story__notes {
   display: grid;
@@ -579,14 +580,15 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(21, 21, 21, 0.06);
 }
 .story__note p { font-size: 0.9375rem; line-height: 1.4; text-wrap: pretty; }
-.story__area { display: flex; align-items: center; gap: 9px; font-weight: 600; }
-.story__area { align-items: flex-start; }
+.story__area { display: flex; align-items: flex-start; gap: 9px; font-weight: 600; }
 .story__area::before { content: ""; flex: none; width: 4px; height: 16px; margin-top: 0.15em; border-radius: 2px; background: var(--c); }
+.story__area > span { min-width: 0; }
+.story__where { color: var(--ink-3); font-weight: 500; }
 .story__note--next p:last-child { color: var(--ink-2); }
 .story:not(.is-live) .story__note { box-shadow: inset 0 0 0 1px var(--hair); }
 
 /* --- Live: one pinned screen --------------------------------------------- */
-.story.is-live .story__pin { height: 560vh; }
+.story.is-live .story__pin { height: 900vh; }
 .story.is-live .story__stage {
   position: sticky;
   top: 0;
@@ -595,25 +597,42 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   height: 100svh;
   padding: 0;
   overflow: hidden;
-  background: #F4F4F2;
 }
 
-/* The camera: the photo at its cover size, moved and scaled by v6.js. */
-.story.is-live .story__view {
+/* The frame, sized by v6.js to the space above the words. */
+.story.is-live .story__frame {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: var(--fw, 100%);
-  height: var(--fh, 100%);
+  left: var(--fl, 16px);
+  top: var(--ft, 80px);
+  width: var(--fwid, 90%);
+  height: var(--fht, 60%);
   margin: 0;
   aspect-ratio: auto;
-  border-radius: 0;
-  overflow: visible;
+}
+/* Between the scene and the band at rest the frame dips to white. */
+.story.is-live .story__flash { display: block; position: absolute; inset: 0; background: #fff; opacity: var(--flash, 0); pointer-events: none; }
+/* Each layer is a camera: the photo at its cover size, moved and scaled by
+   v6.js. The band at rest takes over under the white. */
+.story.is-live .story__layer {
+  inset: auto;
+  left: 0;
+  top: 0;
+  width: var(--lw, 100%);
+  height: var(--lh, 100%);
   transform-origin: 0 0;
   will-change: transform;
 }
+.story.is-live .story__layer--desk { display: block; opacity: var(--desk, 0); }
+.story.is-live .story__sound {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
 
-/* The light glows softly while it listens. */
+/* The light glows softly while the sound goes in. */
 .story.is-live .story__glow {
   display: block;
   position: absolute;
@@ -625,26 +644,37 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   border-radius: 50%;
   background: radial-gradient(closest-side, rgba(210, 237, 40, 0.55), rgba(210, 237, 40, 0));
   opacity: 0;
-  transition: opacity 0.8s var(--ease);
   pointer-events: none;
 }
 .story.is-listening .story__glow { animation: story-breathe 2.6s var(--ease-io) infinite; }
 @keyframes story-breathe { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.85; } }
 
-/* The sound: two voices drawn as thin waves travelling into the module. */
-.story.is-live .story__sound {
+/* Who's speaking: a small pill by each face. */
+.story.is-live .story__who {
   display: block;
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  left: 0;
+  top: 0;
+  padding: 6px 12px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 10px 24px -12px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  translate: var(--x, 0) calc(var(--y, 0) + 8px);
+  transition: opacity 0.5s var(--ease), translate 0.6s var(--ease);
   pointer-events: none;
 }
+.story.is-live .story__who.is-on { opacity: 1; translate: var(--x, 0) var(--y, 0); }
 
 /* The insights: each sits where v6.js last put it and eases to the next
    place, so the moves play out whatever the scroll speed. */
+.story.is-live .story__notes { position: static; display: block; width: auto; }
 .story.is-live .story__note {
-  display: grid;
   position: absolute;
   left: 0;
   top: 0;
@@ -657,54 +687,37 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   transition-delay: var(--d, 0s);
   pointer-events: none;
 }
-.story.is-live .story__notes { position: static; display: block; width: auto; }
-/* Where each insight came from shows once they gather from your whole day. */
 .story.is-live .story__where { display: none; }
 .story.is-live.is-areas .story__where { display: inline; }
-.story__area > span { min-width: 0; }
-.story__where { color: var(--ink-3); font-weight: 500; }
 
-/* Under the words the photo fades towards the page, so they always read. */
-.story.is-live .story__stage::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  height: var(--veil, 30%);
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.94) 96px);
-  pointer-events: none;
-}
-
-/* The chapter's words, low on the screen: a hairline with the eyebrow, the
-   headline on the left, its one line on the right. One chapter at a time. */
+/* One step's words at a time, centred under the frame. */
 .story.is-live .story__copy {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: clamp(24px, 6vh, 72px);
+  bottom: clamp(24px, 5.5vh, 64px);
   z-index: 2;
-  gap: clamp(16px, 2.2vw, 24px);
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
 }
-.story.is-live .story__chaps { display: grid; }
+.story.is-live .story__chaps { display: grid; width: 100%; }
 .story.is-live .story__chap {
   grid-area: 1 / 1;
-  align-items: end;
+  align-content: start;
+  justify-items: center;
+  gap: 12px;
   opacity: 0;
-  translate: 0 18px;
-  transition: opacity 0.45s var(--ease), translate 0.6s var(--ease);
+  translate: 0 16px;
+  transition: opacity 0.5s var(--ease), translate 0.7s var(--ease);
   pointer-events: none;
 }
-.story.is-live .story__chap.is-on { opacity: 1; translate: none; transition-delay: 0.12s; pointer-events: auto; }
-.story.is-live .story__chap.is-past { translate: 0 -14px; }
-.story.is-live .story__title span { display: block; }
-@media (min-width: 700px) {
-  .story.is-live .story__chap { grid-template-columns: minmax(0, 1fr) auto; column-gap: 48px; }
-  .story.is-live .story__line { max-width: 30ch; text-align: right; }
-}
+.story.is-live .story__chap.is-on { opacity: 1; translate: none; transition-delay: 0.15s; pointer-events: auto; }
+.story.is-live .story__chap.is-past { translate: 0 -12px; }
+.story.is-live .story__title { max-width: 18ch; font-size: clamp(2rem, 4vw, 3.5rem); text-wrap: balance; }
+.story.is-live .story__line { margin-inline: auto; }
 @media (max-width: 699px) {
-  .story.is-live .story__title { font-size: 2.125rem; }
+  .story.is-live .story__title { font-size: 1.875rem; }
   .story.is-live .story__line { font-size: 1rem; }
   .story.is-live .story__note { padding: 12px 13px 13px; gap: 5px; border-radius: 16px; }
   .story.is-live .story__note p { font-size: 0.8125rem; }
