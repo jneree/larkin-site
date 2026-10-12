@@ -704,16 +704,16 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .flow__card.is-s2 { z-index: 1; transform: translateY(calc(var(--dir) * 2 * (var(--ch) + var(--cgap)))); opacity: 0.42; }
 .flow__card.is-gone { z-index: 0; transform: translateY(calc(var(--dir) * 3 * (var(--ch) + var(--cgap)))); opacity: 0; }
 .flow__card.is-off { opacity: 0; pointer-events: none; }
-/* A card unfolds where the light lands (its top on phones, its left edge
-   on wide screens) and ignites, a lime glow fading to its shadow. One
-   taken back (scrolling up) folds away. */
+/* A card unfolds where the link reaches it (its top on phones, its left
+   edge on wide screens) and lights up, a lime glow fading to its shadow.
+   One taken back (scrolling up) folds away. */
 .flow__card { transform-origin: var(--ox, 50%) var(--oy, 0%); }
 .flow__card.is-born { z-index: 4; transform: scale(0.55); opacity: 0; transition: none; }
 .flow__card.is-back { z-index: 4; transform: scale(0.55); opacity: 0; }
 .flow.is-live .flow__card.is-s0 { animation: flow-ignite 1.2s var(--ease) both; }
 @keyframes flow-ignite {
-  0% { box-shadow: 0 0 0 1.5px rgba(210, 237, 40, 0.9), 0 0 40px 8px rgba(210, 237, 40, 0.5), 0 18px 40px -20px rgba(0, 0, 0, 0), inset 0 0 0 1px rgba(21, 21, 21, 0.06); }
-  100% { box-shadow: 0 0 0 1.5px rgba(210, 237, 40, 0), 0 0 40px 8px rgba(210, 237, 40, 0), 0 18px 40px -20px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(21, 21, 21, 0.06); }
+  0% { box-shadow: 0 0 0 1.5px rgba(210, 237, 40, 0.85), 0 0 30px 5px rgba(210, 237, 40, 0.4), 0 18px 40px -20px rgba(0, 0, 0, 0), inset 0 0 0 1px rgba(21, 21, 21, 0.06); }
+  100% { box-shadow: 0 0 0 1.5px rgba(210, 237, 40, 0), 0 0 30px 5px rgba(210, 237, 40, 0), 0 18px 40px -20px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(21, 21, 21, 0.06); }
 }
 .flow:not(.is-live) .flow__card { box-shadow: inset 0 0 0 1px var(--hair); }
 
@@ -721,7 +721,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    ride the sound itself, as small pills over it. */
 @media (max-width: 899px) {
   .flow__stage { --dir: 1; --ch: 92px; }
-  /* No captions under the band on phones: the light says it. */
+  /* No captions under the band on phones: the link says it. */
   .flow__label--dev, .flow__label--out { display: none; }
   .flow__out { margin-top: 44px; }
   .flow__word {
