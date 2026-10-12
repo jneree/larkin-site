@@ -371,7 +371,7 @@
     var fCards = [].slice.call(flow.querySelectorAll('.flow__card'));
     // The module's middle and half-width in the band's picture, as
     // fractions of its width and height.
-    var F_MOD = [0.45, 0.558], F_HALF = 0.132;
+    var F_MOD = [0.45, 0.558];
     // In time (phones): the first card, then one every PERIOD, the pulse
     // running TRAVEL ahead of it. On the scroll: the first card at T0 of
     // the pin's progress, then one every STEP, the pulse running ahead.
@@ -431,24 +431,30 @@
       var rel = function (r) { return { l: r.left - sr.left, t: r.top - sr.top, w: r.width, h: r.height }; };
       var narrow = window.innerWidth < 900;
       var c = rel(fCtx.getBoundingClientRect()), d = rel(fDevice.getBoundingClientRect()), o = rel(fOut.getBoundingClientRect());
-      var mod = [d.l + F_MOD[0] * d.w, d.t + F_MOD[1] * d.h], half = F_HALF * d.w;
-      var inEnd = [mod[0] - half * 0.9, mod[1]], outStart = [mod[0] + half * 0.9, mod[1]];
+      var mod = [d.l + F_MOD[0] * d.w, d.t + F_MOD[1] * d.h];
+      // The band's picture has air around the ring: where the ring itself
+      // is, as fractions of the picture. The sound and the line stop short
+      // of it, with air of their own.
+      var ringL = d.l + 0.209 * d.w, ringR = d.l + 0.786 * d.w, ringT = d.t + 0.25 * d.h;
       var S, Cc, T, sound, line = null;
       if (narrow) {
-        // Out of the picture's bottom, straight down into the module's top.
-        S = [mod[0], c.t + c.h - 2];
-        T = [mod[0], mod[1] - d.h * 0.06];
+        // Out of the picture's bottom, straight down towards the band, with
+        // air before the ring.
+        S = [mod[0], c.t + c.h + 14];
+        T = [mod[0], ringT - 16];
         Cc = [S[0], (S[1] + T[1]) / 2];
         sound = fPath(S, Cc, T, 220);
       } else {
-        S = [c.l + c.w - 2, c.t + c.h / 2];
-        T = inEnd;
-        Cc = [(S[0] + T[0]) / 2, (S[1] + T[1]) / 2];
+        // Level with the module, from a little after the picture to a
+        // little before the ring.
+        S = [c.l + c.w + 18, mod[1]];
+        T = [ringL - 22, mod[1]];
+        Cc = [(S[0] + T[0]) / 2, mod[1]];
         sound = fPath(S, Cc, T, 220);
-        // A clean line from the band to the newest slot's edge.
+        // A clean line from a little after the ring to the newest slot's edge.
         var cardTop = fCards[0].offsetTop, cardH = fCards[0].offsetHeight;
-        var e = [o.l - 10, o.t + cardTop + cardH / 2];
-        line = fPath(outStart, [(outStart[0] + e[0]) / 2, (outStart[1] + e[1]) / 2], e, 60);
+        var ls = [ringR + 20, mod[1]], e = [o.l - 10, o.t + cardTop + cardH / 2];
+        line = fPath(ls, [(ls[0] + e[0]) / 2, (ls[1] + e[1]) / 2], e, 60);
       }
       // Where a card is born: the module, relative to the newest slot.
       var c0 = fCards[0];
@@ -459,7 +465,7 @@
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
       fCanvas.width = Math.round(sr.width * dpr);
       fCanvas.height = Math.round(sr.height * dpr);
-      F = { W: sr.width, H: sr.height, dpr: dpr, sound: sound, line: line, narrow: narrow, amp: narrow ? 16 : Math.min(sr.width * 0.028, 30) };
+      F = { W: sr.width, H: sr.height, dpr: dpr, sound: sound, line: line, narrow: narrow, amp: narrow ? 12 : Math.min(sr.width * 0.016, 18) };
       // The words on the sound: one every so many pixels along it.
       F.wgap = Math.max(96, sound.len / 2.4);
       F.ww = fWords.map(function (el) { return el.offsetWidth || 100; });
@@ -487,18 +493,18 @@
       var wrd = 0.5 + 0.5 * Math.sin(u / 54 + 1.3);
       var fine = 0.5 + 0.5 * Math.sin(u / 3.7);
       var r = 0.5 + 0.5 * fHash(Math.floor(u / 110));
-      return 0.08 + 0.92 * (0.55 * syl + 0.3 * wrd + 0.15 * fine) * r;
+      return 0.08 + 0.92 * (0.6 * syl + 0.3 * wrd + 0.1 * fine) * r;
     };
     var fDrawSound = function (t, amp) {
       if (amp <= 0.01) return;
-      var pts = F.sound, L = pts.len, step = F.narrow ? 5 : 6, A = F.amp * amp;
+      var pts = F.sound, L = pts.len, step = 4, A = F.amp * amp;
       fx.lineCap = 'round';
-      fx.lineWidth = F.narrow ? 2.5 : 3;
-      for (var sPos = 4; sPos <= L - 3; sPos += step) {
+      fx.lineWidth = 1.5;
+      for (var sPos = 2; sPos <= L - 2; sPos += step) {
         var v = sPos / L, q = fAt(pts, v);
-        var h = A * fEnv(sPos - F_SPEED * t) * fSmooth(0, 0.1, v) * (1 - fSmooth(0.8, 1, v));
-        if (h < 0.7) h = 0.7;
-        var g = fSpan(v, 0.95, 1), o = 0.92 - 0.3 * fSmooth(0.85, 1, v);
+        var h = A * fEnv(sPos - F_SPEED * t) * fSmooth(0, 0.12, v) * (1 - fSmooth(0.78, 1, v));
+        if (h < 0.5) h = 0.5;
+        var g = fSpan(v, 0.94, 1), o = 0.72 - 0.25 * fSmooth(0.85, 1, v);
         fx.strokeStyle = 'rgba(' + Math.round(21 + (160 - 21) * g) + ',' + Math.round(21 + (190 - 21) * g) + ',' + Math.round(21 + (40 - 21) * g) + ',' + o.toFixed(2) + ')';
         fx.beginPath();
         fx.moveTo(q.x - q.nx * h, q.y - q.ny * h);
@@ -515,7 +521,7 @@
       var kmax = Math.floor(head / gap), kmin = Math.max(0, Math.ceil((head - L) / gap));
       for (var i = 0; i < N; i++) fWords[i].style.opacity = '0';
       if (amp < 0.3) return;
-      var off = F.amp + 12;
+      var off = F.amp + 10;
       for (var k = kmin; k <= kmax; k++) {
         var sPos = head - k * gap;
         if (sPos < 0 || sPos > L) continue;

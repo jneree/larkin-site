@@ -591,11 +591,11 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   position: absolute;
   left: 0;
   top: 0;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 500;
   line-height: 1.2;
   white-space: nowrap;
-  color: var(--ink);
+  color: var(--ink-2);
   opacity: 0;
   will-change: transform, opacity;
 }
@@ -729,9 +729,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    stack sits with its newest slot level with the band; older insights rise. */
 @media (min-width: 900px) {
   .flow__stage {
-    grid-template-columns: minmax(240px, min(320px, 36vh)) minmax(0, 1fr) minmax(240px, min(320px, 36vh));
+    grid-template-columns: minmax(240px, min(280px, 32vh)) minmax(0, 1fr) minmax(260px, min(320px, 36vh));
     grid-template-areas: "ctx dev out" "lctx ldev lout";
-    column-gap: clamp(32px, 4vw, 56px);
+    column-gap: clamp(40px, 5vw, 64px);
     row-gap: 20px;
     align-items: center;
     padding-top: 96px;
@@ -739,8 +739,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .flow__context { aspect-ratio: 1 / 1; }
   .flow__label { text-align: center; }
   .flow__label--out { margin-top: 0; }
-  /* The band sits at the right of its column: the sound gets the room. */
-  .flow__device { margin: 0 0 0 auto; }
+  /* The band sits at the right of its column: the sound gets the room,
+     and air on both sides of the band. */
+  .flow__device { width: min(100%, 420px); margin: 0 0 0 auto; }
   /* The newest slot is the bottom one, moved up to the band's height. */
   .flow__out { translate: 0 calc(-1 * (var(--ch) + var(--cgap))); }
   .flow__card { top: calc(2 * (var(--ch) + var(--cgap))); }
