@@ -542,41 +542,29 @@
         el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) translate(-50%, -50%) scale(' + sc.toFixed(3) + ')';
       }
     };
-    // The link from the band to the insight: a thread of the brand's lime
-    // that floats, drifting a little along its length with time, its ends
-    // held; a soft glow under it. Before each new card a deeper, slightly
-    // thicker stretch of it slides along to where the card appears (u from
-    // 0 to 1, or less than 0 for none).
+    // The link from the band to the insight: three fine lines of the
+    // brand's lime, close together as they leave the band and opening a
+    // little towards the card, each drifting slightly with time, their
+    // ends held. Nothing else.
+    var F_LINES = [-1, 0, 1];
     var fDrawLink = function (t, a, u) {
       var pts = F.out;
       if (!pts || a <= 0.01) return;
-      var A1 = F.narrow ? 4 : 5, A2 = F.narrow ? 2 : 2.5, xs = [], ys = [];
-      for (var i = 0; i < pts.length; i++) {
-        var q = pts[i], w = (A1 * Math.sin(q.s / 120 - t * 1.4) + A2 * Math.sin(q.s / 57 + t * 0.9)) * Math.sin(Math.PI * q.u);
-        xs.push(q.x + q.nx * w);
-        ys.push(q.y + q.ny * w);
-      }
-      var trace = function (from, to) {
-        fx.beginPath();
-        fx.moveTo(xs[from], ys[from]);
-        for (var j = from + 1; j <= to; j++) fx.lineTo(xs[j], ys[j]);
-        fx.stroke();
-      };
+      var gap = F.narrow ? 5 : 6, A = F.narrow ? 2.5 : 3;
       fx.lineCap = 'round';
       fx.lineJoin = 'round';
-      fx.strokeStyle = 'rgba(210, 237, 40, ' + (0.22 * a).toFixed(3) + ')';
-      fx.lineWidth = 9;
-      trace(0, pts.length - 1);
-      fx.strokeStyle = 'rgba(210, 237, 40, ' + a.toFixed(3) + ')';
-      fx.lineWidth = 2.5;
-      trace(0, pts.length - 1);
-      if (u < 0 || u > 1) return;
-      var e = fEaseIO(u), n = pts.length - 1;
-      var to = Math.round(e * n), from = Math.max(0, Math.round((e - 0.14) * n));
-      if (to <= from) return;
-      fx.strokeStyle = 'rgba(176, 204, 0, ' + (0.9 * a).toFixed(3) + ')';
-      fx.lineWidth = 3.5;
-      trace(from, to);
+      fx.lineWidth = 1.5;
+      fx.strokeStyle = 'rgba(210, 237, 40, ' + (0.95 * a).toFixed(3) + ')';
+      F_LINES.forEach(function (n, li) {
+        fx.beginPath();
+        for (var i = 0; i < pts.length; i++) {
+          var q = pts[i], spread = 0.45 + 0.55 * q.u;
+          var w = n * gap * spread + A * Math.sin(q.s / 110 - t * (1.1 + 0.25 * li) + li * 2.1) * Math.sin(Math.PI * q.u);
+          var x = q.x + q.nx * w, y = q.y + q.ny * w;
+          if (i) fx.lineTo(x, y); else fx.moveTo(x, y);
+        }
+        fx.stroke();
+      });
     };
 
     // How many insights are out. The newest takes the first slot, the
