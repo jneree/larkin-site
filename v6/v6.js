@@ -624,7 +624,7 @@
     var dStage = devSec.querySelector('.dev__stage');
     var dBand = devSec.querySelector('.dev__band');
     var dCopy = devSec.querySelector('.dev__copy');
-    var dChaps = [].slice.call(devSec.querySelectorAll('.dev__chap'));
+    var dParts = [].slice.call(devSec.querySelectorAll('.dev__part'));
     var dCalls = [].slice.call(devSec.querySelectorAll('.dev__call'));
     var dRides = [].slice.call(devSec.querySelectorAll('.dev__ride'));
     var srcBand = document.querySelector('.flow__device');
@@ -839,10 +839,7 @@
       for (var i = 0; i < D_POINTS.length; i++) if (p >= D_POINTS[i]) pt = i;
       if (pt !== dPoint) {
         dPoint = pt;
-        dChaps.forEach(function (el, j) {
-          el.classList.toggle('is-on', j === pt);
-          el.classList.toggle('is-past', j < pt);
-        });
+        dParts.forEach(function (el, j) { el.classList.toggle('is-on', j <= pt); });
       }
       var callO = dSmooth(0.04, 0.12, p) * (1 - dSmooth(0.33, 0.37, p));
       dCalls.forEach(function (el) { el.style.setProperty('--call', callO.toFixed(3)); });

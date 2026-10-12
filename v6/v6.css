@@ -739,17 +739,16 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .dev.is-lit .dev__glow { animation: dev-breathe 2.6s var(--ease-io) infinite; }
 @keyframes dev-breathe { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.85; } }
 .dev__canvas, .dev__calls, .dev__rides, .dev__travel { display: none; }
-.dev__copy { display: grid; gap: clamp(20px, 3vw, 32px); }
-.dev__chaps { display: grid; gap: clamp(28px, 4vw, 44px); list-style: none; margin: 0; padding: 0; }
-.dev__chap { display: grid; gap: 10px; }
-.dev:not(.is-live) .dev__title { font-size: clamp(1.75rem, 3vw, 2.5rem); }
-.dev__line {
-  max-width: 36ch;
-  font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
-  line-height: 1.5;
-  color: var(--ink-2);
+.dev__copy { display: grid; gap: clamp(16px, 2.4vw, 24px); }
+/* One sentence, told a part at a time (the parts come on as the scroll
+   reaches each point). */
+.dev__title {
+  max-width: 24ch;
+  font-size: clamp(1.875rem, 3.6vw, 3.25rem);
+  line-height: 1.06;
   text-wrap: balance;
 }
+.dev__part { transition: opacity 0.7s var(--ease), filter 0.7s var(--ease); }
 
 /* --- Live: the journey, then one pinned screen --------------------------- */
 .dev.is-live .dev__pin { height: 340vh; }
@@ -808,7 +807,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   will-change: transform, opacity;
 }
 
-/* One point's words at a time, centred above the band. */
+/* The sentence, centred above the band; each part arrives in its place,
+   so the words never move. It all waits until the band has arrived. */
 .dev.is-live .dev__copy {
   position: absolute;
   left: 0;
@@ -816,31 +816,15 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   top: calc(var(--header-h) + clamp(8px, 2vh, 24px));
   z-index: 3;
   justify-items: center;
-  gap: 14px;
   text-align: center;
 }
-.dev.is-live .dev__chaps { display: grid; width: 100%; }
-.dev.is-live .dev__chap {
-  grid-area: 1 / 1;
-  align-content: start;
-  justify-items: center;
-  gap: 12px;
-  opacity: 0;
-  translate: 0 16px;
-  transition: opacity 0.5s var(--ease), translate 0.7s var(--ease);
-  pointer-events: none;
-}
-.dev.is-live .dev__chap.is-on { opacity: 1; translate: none; transition-delay: 0.15s; pointer-events: auto; }
-/* The words wait until the band has arrived. */
+.dev.is-live .dev__part { opacity: 0; filter: blur(6px); }
+.dev.is-live .dev__part.is-on { opacity: 1; filter: none; }
 .dev.is-live .dev__eyebrow { transition: opacity 0.5s var(--ease); }
 .dev.is-live:not(.is-arrived) .dev__eyebrow { opacity: 0; }
-.dev.is-live:not(.is-arrived) .dev__chap { opacity: 0; translate: 0 16px; transition-delay: 0s; }
-.dev.is-live .dev__chap.is-past { translate: 0 -12px; }
-.dev.is-live .dev__title { max-width: 18ch; font-size: clamp(2rem, 4vw, 3.5rem); text-wrap: balance; }
-.dev.is-live .dev__line { margin-inline: auto; }
+.dev.is-live:not(.is-arrived) .dev__part { opacity: 0; filter: blur(6px); }
 @media (max-width: 699px) {
-  .dev.is-live .dev__title { font-size: 1.875rem; }
-  .dev.is-live .dev__line { font-size: 1rem; }
+  .dev.is-live .dev__title { font-size: 1.75rem; }
   .dev__ride { font-size: 0.75rem; padding: 6px 11px 7px; }
 }
 
