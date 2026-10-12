@@ -2,9 +2,9 @@
    Larkin — V6: the V5 premium cut with how it works told as one story.
    The same system as the homepage (DM Sans, white canvas, #151515 ink,
    #F0F0F0 cards, lime #D2ED28 for the one thing to press). Where V5 had
-   the arm film, the day card and the module close-up, one screen pins and
-   scroll plays how it works step by step: a coffee with a friend, the
-   sound going into the band, insight about you coming out (section 9).
+   the arm film, the day card and the module close-up, how it works is one
+   continuous flow: a conversation, its sound streaming into the band, and
+   insight about you coming out the other side (section 9).
    Shares /media and /fonts with the homepage; nothing here touches it.
    ========================================================================== */
 
@@ -520,137 +520,83 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 /* --------------------------------------------------------------------------
-   9. How it works: one stage, told step by step
+   9. How it works: one continuous flow
    -------------------------------------------------------------------------- */
-/* Without the script (or with reduced motion) this is a plain section: the
-   steps as a list, the scene, then the insights as tiles. v6.js adds
-   .is-live and the section becomes a tall track with one white screen
-   pinned inside it: a large rounded frame holds the scene (and then only
-   the device, on a soft white ground), the sound is drawn on a canvas, the insights move
-   between places v6.js computes for the screen (custom properties in px),
-   and one step's words sit centred under the frame. */
-.story { position: relative; background: var(--bg); }
-
-/* --- Static: the story as a list ----------------------------------------- */
-.story__stage {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(40px, 6vw, 72px);
-  padding-block: var(--section);
-}
-.story__copy { order: -1; display: grid; gap: clamp(20px, 3vw, 32px); }
-.story__chaps { display: grid; gap: clamp(28px, 4vw, 44px); list-style: none; margin: 0; padding: 0; }
-.story__chap { display: grid; gap: 10px; }
-.story:not(.is-live) .story__title { font-size: clamp(1.75rem, 3vw, 2.5rem); }
-.story__line {
-  max-width: 36ch;
-  font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
-  line-height: 1.5;
-  color: var(--ink-2);
-  text-wrap: balance;
-}
-.story__frame {
+/* Three parts in a row (a column on phones): the conversation, the band,
+   the insights. v6.js draws the sound streaming from the picture into
+   the band on the canvas over the stage, and sends each new insight out of
+   the band into the stack (the cards all sit in the newest slot and move
+   by class: born at the band, then slot 0, 1, 2, gone). Without it the
+   parts stand still with three insights in their slots. */
+.flow { background: var(--bg); }
+.flow .lead { text-wrap: balance; }
+.flow__stage {
+  --ch: 96px;
+  --cgap: 12px;
+  --dir: -1;
   position: relative;
-  width: min(100% - 2 * var(--gutter), var(--shell));
-  margin-inline: auto;
-  aspect-ratio: 16 / 9;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "lctx" "ctx" "dev" "ldev" "lout" "out";
+  row-gap: 14px;
+  margin-top: clamp(40px, 6vw, 72px);
+}
+.flow__canvas { display: none; position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
+.flow.is-live .flow__canvas { display: block; }
+
+.flow__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.flow__label--ctx { grid-area: lctx; }
+.flow__label--dev { grid-area: ldev; }
+.flow__label--out { grid-area: lout; margin-top: 28px; }
+
+/* The conversation: a picture with a name on it; the bars move while the
+   flow runs. */
+.flow__context {
+  grid-area: ctx;
+  position: relative;
+  margin: 0;
   overflow: hidden;
-  border-radius: var(--r-xl);
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-lg);
   background: #1F1F1C;
 }
-.story__layer { position: absolute; inset: 0; }
-.story__photo { width: 100%; height: 100%; object-fit: cover; }
-.story__device, .story__sound, .story__who, .story__photo--soft { display: none; }
-
-.story__notes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
-  width: min(100% - 2 * var(--gutter), var(--shell));
-  margin: 0 auto;
-  padding: 0;
-  list-style: none;
-}
-.story__note {
-  display: grid;
-  gap: 6px;
-  padding: 14px 16px 15px;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(21, 21, 21, 0.06);
-}
-.story__note p { font-size: 0.9375rem; line-height: 1.4; text-wrap: pretty; }
-.story__area { display: flex; align-items: flex-start; gap: 9px; font-weight: 600; }
-.story__area::before { content: ""; flex: none; width: 4px; height: 16px; margin-top: 0.15em; border-radius: 2px; background: var(--c); }
-.story__area > span { min-width: 0; }
-.story__where { color: var(--ink-3); font-weight: 500; }
-.story__note--next p:last-child { color: var(--ink-2); }
-.story:not(.is-live) .story__note { box-shadow: inset 0 0 0 1px var(--hair); }
-
-/* --- Live: one pinned screen --------------------------------------------- */
-.story.is-live .story__pin { height: 900vh; }
-.story.is-live .story__stage {
-  position: sticky;
-  top: 0;
-  display: block;
-  height: 100vh;
-  height: 100svh;
-  padding: 0;
-  overflow: hidden;
-}
-
-/* The frame, sized by v6.js to the space above the words. */
-.story.is-live .story__frame {
+.flow__context img { width: 100%; height: 100%; object-fit: cover; object-position: 48% 45%; }
+.flow__context figcaption {
   position: absolute;
-  left: var(--fl, 16px);
-  top: var(--ft, 80px);
-  width: var(--fwid, 90%);
-  height: var(--fht, 60%);
-  margin: 0;
-  aspect-ratio: auto;
+  left: 14px;
+  bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  box-shadow: 0 10px 24px -12px rgba(0, 0, 0, 0.45);
 }
-/* The scene is a camera: the photo at its cover size, moved and scaled by
-   v6.js, with a soft copy over it that fades in as the focus moves to the
-   device. As the camera closes in on the wrist the café falls away to the
-   frame's ground, and only the device is left. */
-.story.is-live .story__frame { background: radial-gradient(110% 85% at 50% 42%, #FFFFFF 0%, #F4F4F2 100%); }
-.story.is-live .story__photo { position: absolute; inset: 0; }
-.story.is-live .story__photo--soft { display: block; opacity: var(--soft, 0); }
-.story.is-live .story__layer {
-  inset: auto;
-  left: 0;
-  top: 0;
-  width: var(--lw, 100%);
-  height: var(--lh, 100%);
-  transform-origin: 0 0;
-  will-change: transform;
-}
-.story.is-live .story__layer--scene { opacity: var(--scene, 1); }
-/* The device, cut out with its shadow, over the sound: the waveform runs
-   in behind the module's ends. */
-.story.is-live .story__device {
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: var(--dw, 600px);
-  transform-origin: 0 0;
-  opacity: var(--dev, 0);
-  will-change: transform, opacity, filter;
-}
-.story__device img { display: block; width: 100%; height: auto; }
-.story.is-live .story__sound {
-  display: block;
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
+.flow__bars { display: inline-flex; align-items: center; gap: 2px; height: 12px; }
+.flow__bars b { width: 2.5px; height: 100%; border-radius: 2px; background: var(--ink); transform: scaleY(0.25); transform-origin: center; }
+.flow.is-in .flow__bars b { animation: flow-talk 0.72s var(--ease-io) infinite alternate; }
+.flow__bars b:nth-child(1) { animation-delay: -0.1s; }
+.flow__bars b:nth-child(2) { animation-delay: -0.45s; }
+.flow__bars b:nth-child(3) { animation-delay: -0.25s; }
+.flow__bars b:nth-child(4) { animation-delay: -0.6s; }
+@keyframes flow-talk { from { transform: scaleY(0.25); } to { transform: scaleY(1); } }
 
-/* The light glows softly while the sound goes in. */
-.story.is-live .story__glow {
-  display: block;
+/* The band, cut out with its shadow, over the sound: the waveform runs in
+   behind the module's end. Its light breathes while the flow runs. */
+.flow__device { grid-area: dev; position: relative; z-index: 2; width: min(100%, 460px); margin: 96px auto 0; }
+.flow__device img { display: block; width: 100%; height: auto; }
+.flow__glow {
   position: absolute;
   left: 52.45%;
   top: 56.7%;
@@ -662,109 +608,75 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   opacity: 0;
   pointer-events: none;
 }
-.story.is-lit .story__glow { animation: story-breathe 2.6s var(--ease-io) infinite; }
-@keyframes story-breathe { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.85; } }
-/* Once, as the device arrives, its light blooms. */
-.story.is-live .story__bloom {
-  display: block;
-  position: absolute;
-  left: 52.45%;
-  top: 56.7%;
-  width: 9%;
-  height: 38%;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(210, 237, 40, 0.7), rgba(210, 237, 40, 0));
-  opacity: 0;
-  pointer-events: none;
-}
-.story.is-lit .story__bloom { animation: story-bloom 1.1s var(--ease) both; }
-@keyframes story-bloom { from { opacity: 0.9; scale: 0.4; } to { opacity: 0; scale: 1.6; } }
+.flow.is-lit .flow__glow { animation: flow-breathe 2.6s var(--ease-io) infinite; }
+@keyframes flow-breathe { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.85; } }
 
-/* Who's speaking: a small pill by each face, its bars moving while they
-   talk. */
-.story.is-live .story__who {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: 6px 12px 7px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.94);
-  color: var(--ink);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1.2;
-  white-space: nowrap;
-  box-shadow: 0 10px 24px -12px rgba(0, 0, 0, 0.45);
-  opacity: 0;
-  translate: var(--x, 0) calc(var(--y, 0) + 8px);
-  transition: opacity 0.5s var(--ease), translate 0.6s var(--ease);
-  pointer-events: none;
-}
-.story.is-live .story__who.is-on { opacity: 1; translate: var(--x, 0) var(--y, 0); }
-.story__bars { display: inline-flex; align-items: center; gap: 2px; height: 12px; }
-.story__bars b { width: 2.5px; height: 100%; border-radius: 2px; background: var(--ink); transform: scaleY(0.25); transform-origin: center; }
-.story__who.is-talking .story__bars b { animation: story-talk 0.72s var(--ease-io) infinite alternate; }
-.story__bars b:nth-child(1) { animation-delay: -0.1s; }
-.story__bars b:nth-child(2) { animation-delay: -0.45s; }
-.story__bars b:nth-child(3) { animation-delay: -0.25s; }
-.story__bars b:nth-child(4) { animation-delay: -0.6s; }
-@keyframes story-talk { from { transform: scaleY(0.25); } to { transform: scaleY(1); } }
-
-/* The insights: each sits where v6.js last put it and eases to the next
-   place, so the moves play out whatever the scroll speed. */
-.story.is-live .story__notes { position: static; display: block; width: auto; }
-.story.is-live .story__note {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 1;
-  width: var(--cw, 280px);
-  opacity: var(--o, 0);
-  translate: var(--x, 0) var(--y, 0);
-  scale: var(--k, 0.9);
-  transition: translate 0.9s var(--ease), scale 0.9s var(--ease), opacity 0.6s var(--ease);
-  transition-delay: var(--d, 0s);
-  pointer-events: none;
-}
-.story.is-live .story__where { display: none; }
-.story.is-live.is-areas .story__where { display: inline; }
-
-/* One step's words at a time, centred under the frame. */
-.story.is-live .story__copy {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: clamp(24px, 5.5vh, 64px);
+/* The insights: a stack of three slots. Every card sits in the newest slot
+   and is moved by its class. */
+.flow__out {
+  grid-area: out;
+  position: relative;
   z-index: 2;
-  justify-items: center;
-  gap: 14px;
-  text-align: center;
+  height: calc(3 * var(--ch) + 2 * var(--cgap));
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
-.story.is-live .story__chaps { display: grid; width: 100%; }
-.story.is-live .story__chap {
-  grid-area: 1 / 1;
+.flow__card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: var(--ch);
+  display: grid;
+  gap: 5px;
   align-content: start;
-  justify-items: center;
-  gap: 12px;
-  opacity: 0;
-  translate: 0 16px;
-  transition: opacity 0.5s var(--ease), translate 0.7s var(--ease);
-  pointer-events: none;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(21, 21, 21, 0.06);
+  transition: transform 1s var(--ease), opacity 0.8s var(--ease);
+  will-change: transform, opacity;
 }
-.story.is-live .story__chap.is-on { opacity: 1; translate: none; transition-delay: 0.15s; pointer-events: auto; }
-.story.is-live .story__chap.is-past { translate: 0 -12px; }
-.story.is-live .story__title { max-width: 18ch; font-size: clamp(2rem, 4vw, 3.5rem); text-wrap: balance; }
-.story.is-live .story__line { margin-inline: auto; }
-@media (max-width: 699px) {
-  .story.is-live .story__title { font-size: 1.875rem; }
-  .story.is-live .story__line { font-size: 1rem; }
-  .story.is-live .story__note { padding: 12px 13px 13px; gap: 5px; border-radius: 16px; }
-  .story.is-live .story__note p { font-size: 0.8125rem; }
-  .story.is-live .story__area::before { height: 14px; }
+.flow__card p { font-size: 0.9375rem; line-height: 1.4; text-wrap: pretty; }
+.flow__area { display: flex; align-items: flex-start; gap: 9px; font-weight: 600; }
+.flow__area::before { content: ""; flex: none; width: 4px; height: 16px; margin-top: 0.15em; border-radius: 2px; background: var(--c); }
+.flow__area > span { min-width: 0; }
+.flow__where { color: var(--ink-3); font-weight: 500; }
+.flow__card.is-s0 { z-index: 3; transform: none; opacity: 1; }
+.flow__card.is-s1 { z-index: 2; transform: translateY(calc(var(--dir) * (var(--ch) + var(--cgap)))); opacity: 0.72; }
+.flow__card.is-s2 { z-index: 1; transform: translateY(calc(var(--dir) * 2 * (var(--ch) + var(--cgap)))); opacity: 0.42; }
+.flow__card.is-gone { z-index: 0; transform: translateY(calc(var(--dir) * 3 * (var(--ch) + var(--cgap)))); opacity: 0; }
+.flow__card.is-off { opacity: 0; pointer-events: none; }
+/* A card is born at the band: v6.js sets where that is (--ex, --ey). */
+.flow__card.is-born { z-index: 4; transform: translate(var(--ex, 0), var(--ey, 0)) scale(0.35); opacity: 0; transition: none; }
+.flow:not(.is-live) .flow__card { box-shadow: inset 0 0 0 1px var(--hair); }
+
+/* On phones the stack grows downwards from the newest slot. */
+@media (max-width: 899px) {
+  .flow__stage { --dir: 1; --ch: 92px; }
+  .flow__card p { font-size: 0.875rem; }
+  .flow__card { padding: 12px 14px; }
+}
+
+/* Wide screens: the three parts in a row, the flow left to right. The
+   stack sits with its newest slot level with the band; older insights rise. */
+@media (min-width: 900px) {
+  .flow__stage {
+    grid-template-columns: minmax(300px, 360px) minmax(0, 1fr) minmax(300px, 360px);
+    grid-template-areas: "ctx dev out" "lctx ldev lout";
+    column-gap: clamp(32px, 4vw, 56px);
+    row-gap: 20px;
+    align-items: center;
+    padding-top: 96px;
+  }
+  .flow__context { aspect-ratio: 1 / 1; }
+  .flow__label { text-align: center; }
+  .flow__label--out { margin-top: 0; }
+  .flow__device { margin: 0 auto; }
+  /* The newest slot is the bottom one, moved up to the band's height. */
+  .flow__out { translate: 0 calc(-1 * (var(--ch) + var(--cgap))); }
+  .flow__card { top: calc(2 * (var(--ch) + var(--cgap))); }
 }
 
 /* --------------------------------------------------------------------------
