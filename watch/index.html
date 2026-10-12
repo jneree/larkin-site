@@ -24,7 +24,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" href="/media/watch-bezel-560.webp">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
 <link rel="stylesheet" href="/v5.css?v=20261012a">
-<link rel="stylesheet" href="/watch/page.css?v=20261012a">
+<link rel="stylesheet" href="/watch/page.css?v=20261012d">
 <script>document.documentElement.classList.add('js')</script>
 
 <!-- ==================== FACEBOOK PIXEL ==================== -->
@@ -71,8 +71,10 @@
 
 <main id="main">
 
-  <!-- Hero — the watch, large, playing the app's own hold-to-record render
-       inside Apple's bezel; the invite form sits beside it. -->
+  <!-- Hero — the watch records (the app's own hold-to-record render inside
+       Apple's bezel) in front of the iPhone's conversation page, where the
+       insights land one by one on a loop (page.css); the invite form sits
+       beside them. -->
   <section class="whero" id="invite" aria-labelledby="whero-title">
     <div class="shell whero__inner">
       <div class="whero__copy">
@@ -87,8 +89,40 @@
         </form>
         <p class="whero__fine">Free while it’s in beta. Needs an iPhone on iOS 18 and an Apple Watch on watchOS 11.</p>
       </div>
-      <div class="whero__stage rv" role="img" aria-label="The Larkin app on an Apple Watch, recording in lime with the words “Larkin is with you”.">
+      <div class="whero__stage rv" role="img" aria-label="The Larkin app on an Apple Watch, recording in lime with the words “Larkin is with you”, in front of an iPhone showing a conversation page, “Agency pricing call”, where four insights arrive one after another: clarity and concision, persuasion and framing, listening and inquiry, assertiveness.">
+        <div class="ui-phone">
+          <div class="ui-screen">
+            <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
+            <div class="ui-bar ui-bar--split"><span class="ui-round"><svg><use href="#i-back"/></svg></span><span class="ui-capsule"><svg><use href="#i-share"/></svg><span class="ui-capsule__sep"></span><svg><use href="#i-trash"/></svg></span></div>
+            <div class="ui-body">
+              <div class="ui-group">
+                <p class="ui-sub">Today · 11:20–11:58 AM · 38 min</p>
+                <p class="ui-h1">Agency pricing call</p>
+              </div>
+              <p class="ui-h2 ui-h2--section">Insights</p>
+              <div class="ui-insights">
+                <div class="ui-insight">
+                  <p class="ui-insight__name" style="--c: var(--clarity)">Clarity &amp; concision</p>
+                  <p class="ui-insight__text">You laid out the plan in three steps before they asked.</p>
+                </div>
+                <div class="ui-insight">
+                  <p class="ui-insight__name" style="--c: var(--framing)">Persuasion &amp; framing</p>
+                  <p class="ui-insight__text">On price, you explained costs at length. Lead with the one reason it’s worth it.</p>
+                </div>
+                <div class="ui-insight">
+                  <p class="ui-insight__name" style="--c: var(--listening)">Listening &amp; inquiry</p>
+                  <p class="ui-insight__text">You asked how they price a launch before giving your number.</p>
+                </div>
+                <div class="ui-insight">
+                  <p class="ui-insight__name" style="--c: var(--assert)">Assertiveness</p>
+                  <p class="ui-insight__text">You named your fee plainly and held it through the pause.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="watch" data-watch>
+          <i class="whero__ping" aria-hidden="true"></i>
           <div class="watch__screen">
             <img class="watch__still" src="/media/watch-record-still-520.webp" alt="" width="520" height="620" fetchpriority="high" decoding="async">
             <video class="watch__video" data-src="/media/watch-record-520.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>

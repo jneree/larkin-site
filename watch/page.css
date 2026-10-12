@@ -10,23 +10,78 @@
 .whero .beta__form { margin-top: 4px; }
 .whero__fine { max-width: 46ch; font-size: 0.9375rem; color: var(--ink-2); text-wrap: pretty; }
 .whero__stage {
-  --ww: clamp(220px, 30vw, 380px);
+  --ww: clamp(150px, 16vw, 210px);
+  --ui-ink: #151515;
+  --ui-2: #61615C;
+  --ui-3: #A3A39D;
+  --ui-line: rgba(21, 21, 21, 0.07);
+  --ui-track: #E8E8E6;
+  --ui-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: clamp(32px, 5vw, 64px) 24px;
+  align-items: flex-end;
+  overflow: hidden;
+  padding: clamp(40px, 5vw, 64px) 24px 0;
   border-radius: var(--r-xl);
   background: radial-gradient(120% 80% at 50% -10%, #2E2E2E 0%, #222222 55%, #1C1C1C 100%);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
-.whero .watch { order: 0; margin: 0; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.45)); }
+.whero__stage .ui-phone { --pw: 320px; --ph: 540px; flex: none; }
+.whero .watch { margin: 0 calc(var(--ww) * -0.16) calc(var(--ww) * -0.22) 0; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.5)); }
+/* A soft lime ring leaves the watch each time an insight lands on the phone. */
+.whero__ping {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  width: 96%;
+  aspect-ratio: 1;
+  margin: -48% 0 0 -48%;
+  border-radius: 50%;
+  border: 2px solid var(--lime);
+  opacity: 0;
+  pointer-events: none;
+}
 @media (min-width: 900px) {
   .whero__inner { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
   .whero__stage { min-height: 560px; }
 }
 @media (max-width: 599px) {
   .whero .beta__form .btn { width: 100%; }
-  .whero__stage { --ww: min(200px, 52vw); }
+  .whero__stage { --ww: min(124px, 32vw); padding: 32px 8px 0; }
+  .whero__stage .ui-phone { --pw: min(252px, 66vw); --ph: 480px; }
+  .whero__stage .ui-island { width: 64px; margin-left: -32px; }
+}
+
+/* The loop: 14 s. The insights rise in one by one from 2 s, hold, then
+   leave together and the cycle starts over. Reduced motion shows them all. */
+@media (prefers-reduced-motion: no-preference) {
+  .whero__stage .ui-insight { opacity: 0; translate: 0 14px; animation: 14s var(--ease) infinite both; }
+  .whero__stage .ui-insight:nth-child(1) { animation-name: ins-1; }
+  .whero__stage .ui-insight:nth-child(2) { animation-name: ins-2; }
+  .whero__stage .ui-insight:nth-child(3) { animation-name: ins-3; }
+  .whero__stage .ui-insight:nth-child(4) { animation-name: ins-4; }
+  .whero__ping { animation: ping 14s var(--ease-soft) infinite; }
+}
+@keyframes ins-1 { 0%, 14% { opacity: 0; translate: 0 14px; } 19%, 88% { opacity: 1; translate: none; } 93%, 100% { opacity: 0; translate: 0 -8px; } }
+@keyframes ins-2 { 0%, 24% { opacity: 0; translate: 0 14px; } 29%, 88% { opacity: 1; translate: none; } 93%, 100% { opacity: 0; translate: 0 -8px; } }
+@keyframes ins-3 { 0%, 34% { opacity: 0; translate: 0 14px; } 39%, 88% { opacity: 1; translate: none; } 93%, 100% { opacity: 0; translate: 0 -8px; } }
+@keyframes ins-4 { 0%, 44% { opacity: 0; translate: 0 14px; } 49%, 88% { opacity: 1; translate: none; } 93%, 100% { opacity: 0; translate: 0 -8px; } }
+@keyframes ping {
+  0%, 11% { transform: scale(0.7); opacity: 0; }
+  12% { transform: scale(0.7); opacity: 0.45; }
+  19% { transform: scale(1.55); opacity: 0; }
+  21% { transform: scale(0.7); opacity: 0; }
+  22% { transform: scale(0.7); opacity: 0.45; }
+  29% { transform: scale(1.55); opacity: 0; }
+  31% { transform: scale(0.7); opacity: 0; }
+  32% { transform: scale(0.7); opacity: 0.45; }
+  39% { transform: scale(1.55); opacity: 0; }
+  41% { transform: scale(0.7); opacity: 0; }
+  42% { transform: scale(0.7); opacity: 0.45; }
+  49% { transform: scale(1.55); opacity: 0; }
+  51%, 100% { transform: scale(0.7); opacity: 0; }
 }
 
 /* --- Three steps --------------------------------------------------------- */
