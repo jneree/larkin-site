@@ -552,7 +552,7 @@
   /* Two movements. The journey: while the section's top crosses the
      screen, a fixed canvas carries the band from where it sits in the
      flow (wherever that is on screen right now) to the centre, and scroll
-     turns it: 62 frames of the band turning towards a three-quarter view
+     turns it: 42 frames of the band turning towards a three-quarter view
      (cut out, with their shadows), the first of which is the flow's own
      picture; the flow recedes as it goes, and the section's own band (the
      last frame) takes over at the end. Then the pin: one eased progress
@@ -583,7 +583,7 @@
     // the first one scaled to its width with 72 of 900 above it. In the
     // last frame: the box the band fills, the module's two ends and its
     // light, as fractions of the frame.
-    var D_N = parseInt(devSec.getAttribute('data-frames'), 10) || 62;
+    var D_N = parseInt(devSec.getAttribute('data-frames'), 10) || 42;
     var D_SRC = devSec.getAttribute('data-src');
     var D_FW = 1600, D_FH = 900, D_PAD = 72 / 900;
     var D_BOX = { l: 0.11, r: 0.885, t: 0.08, b: 0.8 };
