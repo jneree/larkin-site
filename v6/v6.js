@@ -348,92 +348,49 @@
     });
   }
 
-  /* ---- How it works: one stage, five chapters ----------------------------- */
-  /* The pin holds a white screen while its scroll plays the story. One
-     progress value, eased so a flick never jumps, drives all of it: the
-     roll film's frame on the canvas, the camera over the band (keyframes
-     of its scale and of where the module sits on screen), the labels and
-     their lines, the voice and its words, the day, the phone, and which
-     chapter's words show. Sizes come from the screen (geo), so the same
-     story fits a phone. The frames load when the section is a screen and a
-     half away; until the first is drawn the band's photo stands in. */
+  /* ---- How it works: one stage, four chapters ----------------------------- */
+  /* The pin holds the band on its desk while its scroll plays the story.
+     The photo is the camera: it drifts closer and back with the scroll,
+     eased so a flick never jumps. The voices and the insights are cards
+     with a place for each beat; when the scroll crosses into a beat every
+     card is sent to its place and eases there on its own (CSS
+     transitions). The places come from the screen (geo), so the same story
+     fits a phone. */
   var story = document.querySelector('[data-story]');
-  var sCanvas = story && story.querySelector('.story__canvas');
-  var sCtx = sCanvas && sCanvas.getContext && sCanvas.getContext('2d');
-  if (story && sCtx && !reduceMotion && 'IntersectionObserver' in window) {
+  if (story && !reduceMotion && 'IntersectionObserver' in window) {
     story.classList.add('is-live');
     var sPin = story.querySelector('.story__pin');
     var sStage = story.querySelector('.story__stage');
     var sView = story.querySelector('.story__view');
-    var sHi = story.querySelector('.story__hi');
     var sCopy = story.querySelector('.story__copy');
     var sChaps = [].slice.call(story.querySelectorAll('.story__chap'));
-    var sCalls = [].slice.call(story.querySelectorAll('.story__call'));
-    var sPaths = [].slice.call(story.querySelectorAll('.story__path'));
-    var sPips = [].slice.call(story.querySelectorAll('.story__pip'));
-    var sWave = story.querySelector('.story__wave');
-    var sWords = story.querySelector('.story__words');
-    var sWordEls = [].slice.call(sWords.querySelectorAll('blockquote span'));
-    var sDay = story.querySelector('.story__day');
-    var sMoments = [].slice.call(story.querySelectorAll('.story__moments li')).map(function (li) {
-      return { el: li, at: parseFloat(li.style.getPropertyValue('--s')) || 0 };
-    });
-    var sPhone = story.querySelector('.story__phone');
-    var sInsights = [].slice.call(sPhone.querySelectorAll('.ui-insight'));
+    var sCards = {};
+    [].forEach.call(story.querySelectorAll('[data-card]'), function (el) { sCards[el.getAttribute('data-card')] = el; });
 
-    // Where things sit in the film's frame, as fractions of its width and
-    // height: the module, its light, and how far the arm reaches above and
-    // below the module across the roll. The arm's middle (counting from
-    // where its fade ends) is used to centre it when it steps back.
-    var MOD = { x: 0.374, y: 0.448, w: 0.04, h: 0.146 };
-    var LIGHT_Y = 0.49, ARM_UP = 0.21, ARM_DOWN = 0.31, ARM_MID = 0.59, ARM_LOW = 0.64;
-    var SN = parseInt(story.getAttribute('data-frames'), 10) || 59;
-    var sTpl = story.getAttribute('data-src');
-    var sFrames = new Array(SN), sStarted = false, sLast = null, sDrawn = false;
-    var sP = 0, sTgt = 0, sChap = -1, sFi = 0, G = null;
+    // Where the band sits in the photo, as fractions of its width and
+    // height: its middle, and the box around the whole loop.
+    var IMG_W = 1493, IMG_H = 2000;
+    var BAND = { x: 0.442, y: 0.615, l: 0.265, r: 0.69, t: 0.5375, b: 0.645 };
+    // The beats, as points of the pin's progress (0 to 1): the first voice,
+    // the second, both taken in, an insight, a next step, every area.
+    var BEATS = [0.05, 0.13, 0.22, 0.29, 0.50, 0.72];
+    var CHAPTERS = [0, 0.27, 0.50, 0.72];
+    var CAMERA = [[0, 1], [0.27, 1.06], [0.5, 1.1], [0.72, 1.1], [0.86, 1], [1, 1]];
+    var sP = 0, sTgt = 0, sChap = -1, sBeat = -1, G = null;
     var span = function (v, a, b) { return clamp((v - a) / (b - a), 0, 1); };
     var easeIO = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
     var px = function (v) { return v.toFixed(1) + 'px'; };
 
-    // The beats, as points of the pin's progress (0 to 1).
-    var CHAPTERS = [0, 0.19, 0.40, 0.59, 0.79];
-
-    var sNearest = function (i) {
-      if (sFrames[i]) return sFrames[i];
-      for (var d = 1; d < SN; d++) {
-        if (sFrames[i - d]) return sFrames[i - d];
-        if (sFrames[i + d]) return sFrames[i + d];
-      }
-      return null;
-    };
-    var drawFrame = function (force) {
-      var im = sNearest(sFi);
-      if (!im || (!force && im === sLast)) return;
-      sLast = im;
-      sCtx.drawImage(im, 0, 0, sCanvas.width, sCanvas.height);
-      if (!sDrawn) { sDrawn = true; story.classList.add('is-drawn'); }
-    };
-    var sLoad = function () {
-      if (sStarted) return;
-      sStarted = true;
-      for (var i = 0; i < SN; i++) {
-        (function (i) {
-          var im = new Image();
-          im.decoding = 'async';
-          im.onload = function () {
-            sFrames[i] = im;
-            if (!sLast || i === sFi) drawFrame(true);
-          };
-          var n = String(i + 1);
-          im.src = sTpl.replace('{n}', n.length < 2 ? '0' + n : n);
-        })(i);
-      }
-      sHi.addEventListener('load', function () { sHi.classList.add('is-loaded'); }, { once: true });
-      sHi.src = sHi.getAttribute('data-src');
+    var put = function (el, st) {
+      el.style.setProperty('--x', px(st.x));
+      el.style.setProperty('--y', px(st.y));
+      el.style.setProperty('--k', String(st.k));
+      el.style.setProperty('--o', String(st.o));
+      el.style.setProperty('--d', (st.d || 0) + 's');
     };
 
-    // The layout for this screen: the film's size, the camera's keyframes,
-    // and where the labels, the voice, the words, the day and the phone go.
+    // The layout for this screen: the photo's size, where the band rests,
+    // and every card's place at every beat.
     var geo = function () {
       var W = sStage.clientWidth, H = sStage.clientHeight;
       if (!W || !H) return;
@@ -444,136 +401,110 @@
       var aH = Math.max(160, bottom - top);
       var gut = parseFloat(getComputedStyle(sCopy).paddingLeft) || 16;
 
-      // At rest the film is as wide as the screen (wider on a phone), the
-      // whole arm in the space above the words.
-      var fw = Math.min(narrow ? W * 1.55 : W, aH / ((ARM_UP + ARM_DOWN) * 0.5625) * 0.94);
-      var fh = fw * 0.5625;
-      var rest = {
-        s: 1,
-        x: narrow ? Math.min(W * 0.47, MOD.x * fw) : fw >= W ? MOD.x * fw : (W - fw) / 2 + MOD.x * fw,
-        y: top + (aH - (ARM_UP + ARM_DOWN) * fh) / 2 + ARM_UP * fh,
-        o: 1
-      };
-      // Close in until the module is a third of the space tall (a fifth on
-      // a phone, high up, so the labels fit on the white under the arm).
-      var z = (aH * (narrow ? 0.21 : 0.36)) / (MOD.h * fh);
-      var close = { s: z, x: W / 2, y: top + aH * (narrow ? 0.28 : 0.45), o: 1 };
-      var underArm = close.y + (ARM_LOW - MOD.y) * fh * z;
-      var closer = { s: z * 1.05, x: close.x, y: close.y, o: 1 };
-      // Step back: the arm small and centred at the top, the day under it.
-      var s4 = narrow ? W / fw : Math.min(0.36 * aH / ((ARM_UP + ARM_DOWN) * fh), 0.6 * W / fw);
-      var armH = (ARM_UP + ARM_DOWN) * fh * s4;
-      var dayH = sDay.offsetHeight;
-      var gap = aH * 0.07;
-      var groupTop = top + Math.max(0, (aH - armH - gap - dayH) / 2);
-      var back = { s: s4, x: W / 2 + (MOD.x - ARM_MID) * fw * s4, y: groupTop + ARM_UP * fh * s4, o: 1 };
-      var gone = { s: s4 * 0.9, x: back.x, y: back.y - aH * 0.05, o: 0 };
-      var keys = [
-        [0, rest], [0.17, rest], [0.30, close], [0.56, closer],
-        [0.66, back], [0.79, back], [0.86, gone], [1, gone]
-      ];
-
-      sStage.style.setProperty('--veil', px(H - sCopy.offsetTop + 64));
+      // The photo covers the screen; the band rests in the middle, low in
+      // the space above the words, as near as the photo's edges allow.
+      var c0 = Math.max(W / IMG_W, H / IMG_H);
+      var fw = IMG_W * c0, fh = IMG_H * c0;
+      var X1 = clamp(W / 2 - BAND.x * fw, W - fw, 0);
+      var Y1 = clamp(top + aH * (narrow ? 0.74 : 0.66) - BAND.y * fh, H - fh, 0);
+      var bx = X1 + BAND.x * fw, by = Y1 + BAND.y * fh;
+      var bl = X1 + BAND.l * fw, br = X1 + BAND.r * fw, bt = Y1 + BAND.t * fh;
       sView.style.setProperty('--fw', px(fw));
       sView.style.setProperty('--fh', px(fh));
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      sCanvas.width = Math.round(fw * dpr);
-      sCanvas.height = Math.round(fh * dpr);
+      sStage.style.setProperty('--veil', px(H - sCopy.offsetTop + 96));
 
-      // 02 · The labels, placed around the module at its closest.
-      var mw = MOD.w * fw * z, mh = MOD.h * fh * z;
-      var anchors;
+      // Card widths, then their heights at those widths (with where each
+      // insight came from showing, as it does once they gather).
+      var noteW = narrow ? (W - gut * 2 - 10) / 2 : 290;
+      var bubbleW = narrow ? W * 0.74 : 300;
+      var hOf = {};
+      story.classList.add('is-areas');
+      Object.keys(sCards).forEach(function (k) {
+        sCards[k].style.setProperty('--cw', px(k === 'a' || k === 'b' ? bubbleW : noteW));
+        hOf[k] = sCards[k].offsetHeight;
+      });
+      story.classList.toggle('is-areas', sBeat >= 6);
+
+      var fit = function (k, x, y, more) {
+        var w = k === 'a' || k === 'b' ? bubbleW : noteW;
+        var st = { x: clamp(x, gut, W - gut - w), y: clamp(y, top, bottom - hOf[k]), k: 1, o: 1 };
+        for (var m in more) st[m] = more[m];
+        return st;
+      };
+      // Inside the band: where an insight comes out of, and voices go into.
+      var inBand = function (k) {
+        var w = k === 'a' || k === 'b' ? bubbleW : noteW;
+        return { x: bx - w / 2, y: by - hOf[k] / 2, k: 0.3, o: 0 };
+      };
+
+      var a, b, aOut, bOut, one, pairL, pairR, areas;
       if (narrow) {
-        // On a phone the labels sit side by side under the arm, their lines
-        // rising to the module.
-        var below = underArm + 28;
-        anchors = [
-          { a: [W * 0.27, below], t: [MOD.x - MOD.w * 0.42, MOD.y - MOD.h * 0.1] },
-          { a: [W * 0.73, below + 22], t: [MOD.x + MOD.w * 0.45, LIGHT_Y] }
-        ];
-        sCalls.forEach(function (el, i) {
-          var A = anchors[i].a, w = el.offsetWidth;
-          var x = clamp(A[0] - w / 2, gut, W - gut - w);
-          A[0] = x + w / 2;
-          el.style.setProperty('--x', px(x));
-          el.style.setProperty('--y', px(A[1]));
-        });
+        b = fit('b', W - gut - bubbleW, bt - 48 - hOf.b);
+        a = fit('a', gut, b.y - 12 - hOf.a);
+        one = fit('clarity', bx - noteW / 2, bt - 36 - hOf.clarity);
+        var rowH = Math.max(hOf.clarity, hOf.next);
+        pairL = fit('clarity', gut, bt - 36 - rowH);
+        pairR = fit('next', W - gut - noteW, bt - 36 - rowH);
+        var r2 = Math.max(hOf.framing, hOf.assert), r1 = Math.max(hOf.clarity, hOf.listening);
+        var y2 = bt - 32 - r2, y1 = y2 - 10 - r1;
+        areas = {
+          clarity: fit('clarity', gut, y1),
+          listening: fit('listening', W - gut - noteW, y1, { d: 0.08 }),
+          framing: fit('framing', gut, y2, { d: 0.16 }),
+          assert: fit('assert', W - gut - noteW, y2, { d: 0.24 })
+        };
       } else {
-        // Wider screens: one label each side, a line from its edge.
-        var reach = Math.min(W * 0.13, 190);
-        anchors = [
-          { a: [close.x - mw / 2 - reach, close.y - mh * 0.28], t: [MOD.x - MOD.w * 0.42, MOD.y - MOD.h * 0.2], end: true },
-          { a: [close.x + mw / 2 + reach, close.y + mh * 0.34], t: [MOD.x + MOD.w * 0.45, LIGHT_Y] }
-        ];
-        sCalls.forEach(function (el, i) {
-          var A = anchors[i].a;
-          el.style.setProperty('--x', px(anchors[i].end ? A[0] - el.offsetWidth : A[0]));
-          el.style.setProperty('--y', px(A[1] - el.offsetHeight / 2));
-        });
+        a = fit('a', bx - bubbleW - 20, bt - 150 - hOf.a);
+        b = fit('b', bx + 20, bt - 60 - hOf.b);
+        one = fit('clarity', bx - noteW / 2, bt - 56 - hOf.clarity);
+        pairL = fit('clarity', bx - noteW - 12, bt - 56 - hOf.clarity);
+        pairR = fit('next', bx + 12, bt - 56 - hOf.next);
+        // Around the band, a loose ring: two above, one each side.
+        var cy = function (k, y) { return y - hOf[k] / 2; };
+        areas = {
+          clarity: fit('clarity', bx - W * 0.25 - noteW / 2, cy('clarity', bt - aH * 0.3)),
+          listening: fit('listening', bx + W * 0.21 - noteW / 2, cy('listening', bt - aH * 0.38), { d: 0.08 }),
+          framing: fit('framing', bl - noteW + 24, cy('framing', by + aH * 0.16), { d: 0.16 }),
+          assert: fit('assert', br - 24, cy('assert', by + aH * 0.12), { d: 0.24 })
+        };
       }
+      aOut = { x: a.x - 40, y: a.y + 10, k: 0.96, o: 0 };
+      bOut = { x: b.x + 40, y: b.y + 10, k: 0.96, o: 0 };
 
-      // 03 · The voice to the left of the module, its words to the right
-      // (under it on a phone).
-      var ww = narrow ? 168 : 200;
-      sWave.style.setProperty('--ww', px(ww));
-      if (narrow) {
-        // On a phone both sit under the arm: the voice, then its words.
-        sWave.style.setProperty('--x', px(gut));
-        sWave.style.setProperty('--y', px(underArm + 20));
-        sWords.style.setProperty('--tw', px(W - gut * 2));
-        sWords.style.setProperty('--x', px(gut));
-        sWords.style.setProperty('--y', px(underArm + 84));
-      } else {
-        sWave.style.setProperty('--x', px(close.x - mw / 2 - W * 0.05 - ww));
-        sWave.style.setProperty('--y', px(close.y - 26));
-        var wx = close.x + mw / 2 + W * 0.05;
-        sWords.style.setProperty('--tw', px(Math.min(380, W - gut - wx)));
-        sWords.style.setProperty('--x', px(wx));
-        sWords.style.setProperty('--y', px(close.y - sWords.offsetHeight / 2));
-      }
+      var still = function (k) { return inBand(k); };
+      var states = [
+        { a: aOut, b: bOut },
+        { a: a, b: bOut },
+        { a: a, b: b },
+        { a: inBand('a'), b: inBand('b') },
+        { clarity: one },
+        { clarity: pairL, next: pairR },
+        { clarity: areas.clarity, listening: areas.listening, framing: areas.framing, assert: areas.assert }
+      ];
+      // Every card not named at a beat waits inside the band.
+      states.forEach(function (s) {
+        Object.keys(sCards).forEach(function (k) { if (!s[k]) s[k] = still(k); });
+      });
 
-      // 04 · The day, under the band.
-      sDay.style.setProperty('--day-y', px(back.y + ARM_DOWN * fh * s4 + gap));
-
-      // 05 · The phone, as tall as the space allows.
-      var phS = Math.min(1, (aH - 8) / 600);
-      sPhone.style.setProperty('--ph-top', px(top + 4 + Math.max(0, (aH - 8 - 600 * phS) / 2)));
-      sPhone.style.setProperty('--ph-s', phS.toFixed(4));
-
-      G = { fw: fw, fh: fh, keys: keys, anchors: anchors, narrow: narrow };
-      drawFrame(true);
-    };
-
-    var camAt = function (p) {
-      var k = G.keys;
-      for (var i = 1; i < k.length; i++) {
-        if (p <= k[i][0]) {
-          var a = k[i - 1][1], b = k[i][1], t = easeIO(span(p, k[i - 1][0], k[i][0]));
-          return { s: lerp(a.s, b.s, t), x: lerp(a.x, b.x, t), y: lerp(a.y, b.y, t), o: lerp(a.o, b.o, t) };
-        }
-      }
-      return k[k.length - 1][1];
+      G = { fw: fw, fh: fh, bx: bx, by: by, states: states };
+      if (sBeat >= 0) Object.keys(sCards).forEach(function (k) { put(sCards[k], states[sBeat][k]); });
     };
 
     var render = function () {
       if (!G) return;
       var p = sP;
 
-      // 01 · The roll: the film's frame follows the scroll.
-      var fi = Math.round(easeIO(span(p, 0.01, 0.16)) * (SN - 1));
-      if (fi !== sFi) { sFi = fi; drawFrame(false); }
-      story.classList.toggle('is-close', fi === SN - 1);
-
-      // The camera.
-      var c = camAt(p);
-      var X = c.x - c.s * MOD.x * G.fw, Y = c.y - c.s * MOD.y * G.fh;
-      sView.style.transform = 'translate3d(' + px(X) + ',' + px(Y) + ',0) scale(' + c.s.toFixed(4) + ')';
-      sView.style.opacity = c.o.toFixed(3);
-      var at = function (f) { return [X + c.s * f[0] * G.fw, Y + c.s * f[1] * G.fh]; };
+      // The camera: closer through the insights, back out for every area.
+      var s = 1;
+      for (var i = 1; i < CAMERA.length; i++) {
+        if (p <= CAMERA[i][0]) { s = lerp(CAMERA[i - 1][1], CAMERA[i][1], easeIO(span(p, CAMERA[i - 1][0], CAMERA[i][0]))); break; }
+      }
+      var X = G.bx - s * BAND.x * G.fw, Y = G.by - s * BAND.y * G.fh;
+      sView.style.transform = 'translate3d(' + px(X) + ',' + px(Y) + ',0) scale(' + s.toFixed(4) + ')';
 
       // The chapter's words.
       var ch = 0;
-      for (var i = 0; i < CHAPTERS.length; i++) if (p >= CHAPTERS[i]) ch = i;
+      for (var c = 0; c < CHAPTERS.length; c++) if (p >= CHAPTERS[c]) ch = c;
       if (ch !== sChap) {
         sChap = ch;
         sChaps.forEach(function (el, j) {
@@ -581,62 +512,22 @@
           el.classList.toggle('is-past', j < ch);
         });
       }
-      story.classList.toggle('is-listening', p > 0.24 && p < 0.58);
 
-      // 02 · Lines draw from the labels to the module, then all of it fades.
-      var draw = easeIO(span(p, 0.26, 0.34));
-      var fade = 1 - span(p, 0.39, 0.42);
-      var callO = span(p, 0.29, 0.35) * fade;
-      sCalls.forEach(function (el) { el.style.setProperty('--call', callO.toFixed(3)); });
-      G.anchors.forEach(function (an, i) {
-        var A = an.a, T = at(an.t), d;
-        if (G.narrow) {
-          var my = (A[1] + T[1]) / 2;
-          d = 'M' + px(A[0]) + ' ' + px(A[1]) + 'C' + px(A[0]) + ' ' + px(my) + ',' + px(T[0]) + ' ' + px(my) + ',' + px(T[0]) + ' ' + px(T[1]);
-        } else {
-          var mx = (A[0] + T[0]) / 2;
-          d = 'M' + px(A[0]) + ' ' + px(A[1]) + 'C' + px(mx) + ' ' + px(A[1]) + ',' + px(mx) + ' ' + px(T[1]) + ',' + px(T[0]) + ' ' + px(T[1]);
-        }
-        d = d.replace(/px/g, '');
-        sPaths[i].setAttribute('d', d);
-        sPaths[i].style.strokeDashoffset = (1 - draw).toFixed(4);
-        sPaths[i].style.opacity = fade.toFixed(3);
-        sPips[i].setAttribute('cx', T[0].toFixed(1));
-        sPips[i].setAttribute('cy', T[1].toFixed(1));
-        sPips[i].style.opacity = (span(p, 0.32, 0.34) * fade).toFixed(3);
-      });
-
-      // 03 · The voice shrinks to nothing as its words line up.
-      var talk = span(p, 0.41, 0.44) * (1 - span(p, 0.57, 0.6));
-      var level = 1 - span(p, 0.47, 0.55);
-      sWave.style.setProperty('--talk', talk.toFixed(3));
-      sWave.style.setProperty('--level', level.toFixed(3));
-      sWords.style.setProperty('--talk', talk.toFixed(3));
-      story.classList.toggle('is-talking', talk > 0 && level > 0.02);
-      var wn = span(p, 0.44, 0.53) * sWordEls.length;
-      sWordEls.forEach(function (el, j) { el.classList.toggle('is-in', j < wn); });
-
-      // 04 · The day draws itself; each moment arrives as the line reaches it.
-      var dayO = span(p, 0.61, 0.65) * (1 - span(p, 0.80, 0.84));
-      var dayP = span(p, 0.64, 0.77);
-      sDay.style.setProperty('--day-o', dayO.toFixed(3));
-      sDay.style.setProperty('--day', dayP.toFixed(4));
-      sMoments.forEach(function (m) { m.el.classList.toggle('is-in', dayP >= m.at - 0.02); });
-
-      // 05 · The phone rises; its insights come in one by one.
-      sPhone.style.setProperty('--rise', easeIO(span(p, 0.81, 0.89)).toFixed(3));
-      sInsights.forEach(function (el, j) { el.classList.toggle('is-in', p > 0.86 + j * 0.03); });
+      // The beat: every card to its place.
+      var beat = 0;
+      for (var b = 0; b < BEATS.length; b++) if (p >= BEATS[b]) beat = b + 1;
+      if (beat !== sBeat) {
+        sBeat = beat;
+        story.classList.toggle('is-listening', beat >= 1 && beat <= 3);
+        story.classList.toggle('is-areas', beat >= 6);
+        Object.keys(sCards).forEach(function (k) { put(sCards[k], G.states[beat][k]); });
+      }
     };
 
     geo();
     render();
     window.addEventListener('resize', function () { geo(); render(); }, { passive: true });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { geo(); render(); });
-    new IntersectionObserver(function (entries, obs) {
-      if (!entries[0].isIntersecting) return;
-      obs.disconnect();
-      sLoad();
-    }, { rootMargin: '150% 0px' }).observe(sPin);
 
     link(function () {
       var r = sPin.getBoundingClientRect();

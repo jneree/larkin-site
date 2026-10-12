@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v6.css?v=20261012a">
+<link rel="stylesheet" href="v6.css?v=20261012b">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -147,115 +147,56 @@
     </section>
   </div>
 
-  <!-- How it works, told on one stage. The tall .story__pin holds a white
-       screen in view while scroll plays five chapters around the band:
-       the arm rolls to show it (59 frames of the roll film on a canvas),
-       the view closes in on the module and its parts are pointed out, a
-       voice turns into words while the audio fades, the band steps back
-       above a day with three moments on it, then the phone rises with
-       what one of them showed. The chapter's words sit low: headline on
-       the left, one line on the right. v6.js sets the frame, the camera
-       and the beats from the pin's scroll. Without it, or with reduced
-       motion, nothing pins: the band's photo, then the five chapters as a
-       list, the day and the phone. -->
-  <section class="story" id="how" aria-labelledby="story-title" data-story data-frames="59" data-src="/media/roll/{n}.webp">
+  <!-- How it works, told on one stage. The tall .story__pin holds the band
+       on its desk in view while scroll plays four chapters: two voices
+       float in and the band takes them in; an insight rises out of it; a
+       next step joins it; then insights from the rest of your life gather
+       around the band. The photo drifts closer and back as you go. The
+       chapter's words sit low: headline on the left, one line on the
+       right. v6.js sets the camera and the beats from the pin's scroll.
+       Without it, or with reduced motion, nothing pins: the chapters as a
+       list, the photo, then the insights. -->
+  <section class="story" id="how" aria-labelledby="story-title" data-story>
     <div class="story__pin">
       <div class="story__stage">
 
         <div class="story__view" aria-hidden="true">
-          <div class="story__film">
-            <picture class="story__poster">
-              <source type="image/webp" srcset="/media/how-roll-poster-1000.webp 1000w, /media/how-roll-poster-1920.webp 1920w, /media/how-roll-poster-2560.webp 2560w" sizes="100vw">
-              <img src="/media/how-roll-poster-1920.jpg" alt="" width="1920" height="1080" loading="lazy" decoding="async">
-            </picture>
-            <canvas class="story__canvas"></canvas>
-            <img class="story__hi" data-src="/media/how-roll-poster-3840.webp" alt="" width="3840" height="2160" decoding="async">
-            <i class="story__glow"></i>
-          </div>
+          <img class="story__photo" src="/media/story-desk-1500.webp" srcset="/media/story-desk-1000.webp 1000w, /media/story-desk-1500.webp 1500w" sizes="(max-aspect-ratio: 3/4) 100vh, 100vw" alt="" width="1493" height="2000" loading="lazy" decoding="async">
+          <i class="story__glow"></i>
         </div>
 
-        <!-- 02 · The parts, pointed out: a line from each label to the module. -->
-        <svg class="story__lines" aria-hidden="true" focusable="false">
-          <path class="story__path" data-line="0" pathLength="1"/>
-          <path class="story__path" data-line="1" pathLength="1"/>
-          <circle class="story__pip" data-pip="0" r="4"/>
-          <circle class="story__pip" data-pip="1" r="4"/>
-        </svg>
-        <div class="story__calls">
-          <p class="story__call" data-call="0"><b>2 microphones</b><span>Both sides of the conversation.</span></p>
-          <p class="story__call" data-call="1"><b>One light</b><span>Only on while it listens.</span></p>
-        </div>
+        <!-- 01 · Two voices, taken in. -->
+        <div class="story__bubble" data-card="a" aria-hidden="true"><b>Jordan</b><p>So, how did the pitch go?</p></div>
+        <div class="story__bubble" data-card="b" aria-hidden="true"><b>You</b><p>Better than I thought. I kept it to one sentence.</p></div>
 
-        <!-- 03 · The voice fades on one side, its words line up on the other. -->
-        <div class="story__wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>Audio deleted</span></div>
-        <figure class="story__words">
-          <figcaption>Jordan, 8:52 AM</figcaption>
-          <blockquote><p><span>“Tell</span> <span>it</span> <span>the</span> <span>way</span> <span>you</span> <span>just</span> <span>told</span> <span>me.”</span></p></blockquote>
-        </figure>
-
-        <!-- 04 · One day on a line, three moments nobody planned. -->
-        <div class="story__day" role="img" aria-label="One day from morning to night with three moments on it. Morning: an unplanned coffee with a friend. Afternoon: a quick chat after a meeting. Night: dinner with an old friend.">
-          <div class="story__track" aria-hidden="true"><i class="story__dot"></i></div>
-          <ol class="story__moments" aria-hidden="true">
-            <li style="--s: 0.12"><em>Morning</em><p>An unplanned coffee with a friend.</p></li>
-            <li style="--s: 0.5"><em>Afternoon</em><p>A quick chat after a meeting.</p></li>
-            <li style="--s: 0.86"><em>Night</em><p>Dinner with an old friend.</p></li>
-          </ol>
-        </div>
-
-        <!-- 05 · The morning's coffee, read back. -->
-        <div class="story__phone" role="img" aria-label="The conversation page for “Coffee with Jordan”, this morning, 35 minutes, with three insights. Clarity: you explained the idea in one sentence and it landed. Framing: the everyday example made it click, so lead with it. Listening: you asked about Jordan’s week before sharing your news.">
-          <div class="ui-phone">
-            <div class="ui-screen">
-              <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
-              <div class="ui-bar ui-bar--split"><span class="ui-round"><svg><use href="#i-back"/></svg></span><span class="ui-capsule"><svg><use href="#i-share"/></svg><span class="ui-capsule__sep"></span><svg><use href="#i-trash"/></svg></span></div>
-              <div class="ui-body">
-                <div class="ui-group">
-                  <p class="ui-sub">Today · 8:40–9:15 AM · 35 min</p>
-                  <p class="ui-h1">Coffee with Jordan</p>
-                </div>
-                <p class="ui-h2 ui-h2--section">Insights</p>
-                <div class="ui-insights">
-                  <div class="ui-insight">
-                    <p class="ui-insight__name" style="--c: var(--clarity)">Clarity &amp; concision</p>
-                    <p class="ui-insight__text">You explained the idea in one sentence. It landed.</p>
-                  </div>
-                  <div class="ui-insight">
-                    <p class="ui-insight__name" style="--c: var(--framing)">Persuasion &amp; framing</p>
-                    <p class="ui-insight__text">The everyday example made it click. Lead with it.</p>
-                  </div>
-                  <div class="ui-insight">
-                    <p class="ui-insight__name" style="--c: var(--listening)">Listening &amp; inquiry</p>
-                    <p class="ui-insight__text">You asked about Jordan’s week before sharing your news.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- 02–04 · What comes back: an insight, a next step, then your
+             insights from every part of your day. -->
+        <ul class="story__notes" aria-label="Examples of insights">
+          <li class="story__note" data-card="clarity"><p class="story__area" style="--c: var(--clarity)"><span><span class="story__where">At work · </span>Clarity</span></p><p>You kept the pitch to one sentence. It landed.</p></li>
+          <li class="story__note story__note--next" data-card="next"><p class="story__area" style="--c: var(--ink-3)"><span>Try next time</span></p><p>Pause after your main point. Let it land.</p></li>
+          <li class="story__note" data-card="listening"><p class="story__area" style="--c: var(--listening)"><span><span class="story__where">At home · </span>Listening</span></p><p>You asked about their day before sharing yours.</p></li>
+          <li class="story__note" data-card="framing"><p class="story__area" style="--c: var(--framing)"><span><span class="story__where">With friends · </span>Framing</span></p><p>Your everyday example made the idea click.</p></li>
+          <li class="story__note" data-card="assert"><p class="story__area" style="--c: var(--assert)"><span><span class="story__where">With your team · </span>Assertiveness</span></p><p>You said no to the extra project, kindly and clearly.</p></li>
+        </ul>
 
         <div class="shell story__copy">
           <div class="sec-rule"><span class="eyebrow">How it works</span></div>
           <ol class="story__chaps">
             <li class="story__chap is-on" data-chap="0">
-              <h2 class="h2 story__title" id="story-title"><span>Put it on.</span> <span>Forget it’s there.</span></h2>
-              <p class="story__line">It stays on all day, because nobody schedules a good conversation.</p>
+              <h2 class="h2 story__title" id="story-title">It listens.</h2>
+              <p class="story__line">All day, to the conversations you’d never think to record.</p>
             </li>
             <li class="story__chap" data-chap="1">
-              <h3 class="h2 story__title">It listens.</h3>
-              <p class="story__line">No screen to check. One thin light, and it only glows while Larkin is listening.</p>
+              <h3 class="h2 story__title"><span>It gives you</span> <span>insights.</span></h3>
+              <p class="story__line">A few clear notes after each conversation.</p>
             </li>
             <li class="story__chap" data-chap="2">
-              <h3 class="h2 story__title"><span>Words,</span> <span>not recordings.</span></h3>
-              <p class="story__line">Your voice becomes text. Then the audio is deleted.</p>
+              <h3 class="h2 story__title"><span>You learn</span> <span>about yourself.</span></h3>
+              <p class="story__line">What you do well, and what to try next time.</p>
             </li>
             <li class="story__chap" data-chap="3">
-              <h3 class="h2 story__title"><span>It finds</span> <span>the moments.</span></h3>
-              <p class="story__line">The ones you’d never have pressed record for.</p>
-            </li>
-            <li class="story__chap" data-chap="4">
-              <h3 class="h2 story__title"><span>Read it back</span> <span>tonight.</span></h3>
-              <p class="story__line">See how you came across, one conversation at a time.</p>
+              <h3 class="h2 story__title"><span>You grow,</span> <span>in every area.</span></h3>
+              <p class="story__line">At work, at home, with the people you love.</p>
             </li>
           </ol>
         </div>
@@ -940,6 +881,6 @@
   </div>
 </footer>
 
-<script src="v6.js?v=20261012a" defer></script>
+<script src="v6.js?v=20261012b" defer></script>
 </body>
 </html>

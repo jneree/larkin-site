@@ -2,8 +2,9 @@
    Larkin — V6: the V5 premium cut with how it works told as one story.
    The same system as the homepage (DM Sans, white canvas, #151515 ink,
    #F0F0F0 cards, lime #D2ED28 for the one thing to press). Where V5 had
-   the arm film, the day card and the module close-up, one white screen
-   pins and scroll plays five chapters around the band (section 9).
+   the arm film, the day card and the module close-up, one screen pins on
+   the band at rest on a desk and scroll plays four chapters around it:
+   it listens, it gives you insights, you learn, you grow (section 9).
    Shares /media and /fonts with the homepage; nothing here touches it.
    ========================================================================== */
 
@@ -519,24 +520,15 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 /* --------------------------------------------------------------------------
-   9. How it works: one stage, five chapters
+   9. How it works: one stage, four chapters
    -------------------------------------------------------------------------- */
 /* Without the script (or with reduced motion) this is a plain section: the
-   chapters as a list, the band's photo, the day and the phone. v6.js adds
-   .is-live and the section becomes a tall track with one white screen
-   pinned inside it; scroll moves the camera over the band and plays the
-   beats (sizes and positions come from v6.js, in px, as custom
-   properties). */
-.story {
-  --ui-ink: #151515;
-  --ui-2: #61615C;
-  --ui-3: #A3A39D;
-  --ui-line: rgba(21, 21, 21, 0.07);
-  --ui-track: #E8E8E6;
-  --ui-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  position: relative;
-  background: var(--bg);
-}
+   chapters as a list, the band on its desk, then the insights as tiles.
+   v6.js adds .is-live and the section becomes a tall track with one screen
+   pinned inside it: the photo fills it and drifts with the scroll, and the
+   voices and insights move between places v6.js computes for the screen
+   (custom properties in px), easing there on their own. */
+.story { position: relative; background: var(--bg); }
 
 /* --- Static: the story as a list ----------------------------------------- */
 .story__stage {
@@ -557,85 +549,44 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   color: var(--ink-2);
   text-wrap: balance;
 }
-.story__view { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
-.story__film { position: absolute; inset: 0; }
-.story__poster img, .story__canvas, .story__hi {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+.story__view {
+  position: relative;
+  width: min(100% - 2 * var(--gutter), var(--shell));
+  margin-inline: auto;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--r-xl);
 }
-.story__poster img { object-fit: cover; }
-.story__canvas, .story__hi, .story__glow, .story__lines, .story__calls, .story__wave, .story__words { display: none; }
+.story__photo { width: 100%; height: 100%; object-fit: cover; object-position: 44% 62%; }
+.story__glow, .story__bubble { display: none; }
 
-.story__day { position: relative; width: min(100% - 2 * var(--gutter), 1040px); margin-inline: auto; }
-.story__track { position: relative; height: 1px; margin-block: 8px; background: var(--hair); }
-.story__track::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--ink);
-  transform-origin: left;
-  transform: scaleX(var(--day, 1));
-}
-.story__dot {
-  position: absolute;
-  top: 50%;
-  left: calc(var(--day, 1) * 100%);
-  width: 11px;
-  height: 11px;
-  margin: -5.5px 0 0 -5.5px;
-  border-radius: 50%;
-  background: var(--ink);
-  box-shadow: 0 0 0 4px #fff;
-}
-.story__moments { position: relative; height: 112px; list-style: none; margin: 0; padding: 0; }
-.story__moments li {
-  position: absolute;
-  top: 18px;
-  left: calc(var(--s) * 100%);
-  width: min(210px, 30vw);
-  translate: -50% 0;
+.story__notes {
   display: grid;
-  gap: 4px;
-  padding: 12px 14px 13px;
-  border-radius: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  width: min(100% - 2 * var(--gutter), var(--shell));
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.story__note, .story__bubble {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px 15px;
+  border-radius: 18px;
   background: #fff;
-  box-shadow: inset 0 0 0 1px var(--hair), 0 10px 28px -14px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(21, 21, 21, 0.06);
 }
-.story__moments li::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: -25px;
-  width: 9px;
-  height: 9px;
-  margin-left: -4.5px;
-  border-radius: 50%;
-  background: var(--ink);
-  box-shadow: 0 0 0 3px #fff;
-}
-.story__moments li:first-child { translate: -24px 0; }
-.story__moments li:first-child::before { left: 24px; }
-.story__moments li:last-child { translate: calc(-100% + 24px) 0; }
-.story__moments li:last-child::before { left: calc(100% - 24px); }
-.story__moments em { font-style: normal; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
-.story__moments p { font-size: 0.9375rem; line-height: 1.35; font-weight: 500; text-wrap: balance; }
-
-.story__phone { display: flex; justify-content: center; }
-.story .ui-phone {
-  --pw: 360px;
-  --ph: 600px;
-  margin-bottom: 0;
-  padding-bottom: 9px;
-  border-radius: 50px;
-  box-shadow: inset 0 0 0 1.5px #343434, inset 0 0 0 3px #0B0B0B, 0 50px 90px -40px rgba(0, 0, 0, 0.45);
-}
-.story .ui-screen { border-radius: 41px; }
-.js-anim .story:not(.is-live) .ui-insight { opacity: 1; translate: none; }
+.story__note p { font-size: 0.9375rem; line-height: 1.4; text-wrap: pretty; }
+.story__area { display: flex; align-items: center; gap: 9px; font-weight: 600; }
+.story__area { align-items: flex-start; }
+.story__area::before { content: ""; flex: none; width: 4px; height: 16px; margin-top: 0.15em; border-radius: 2px; background: var(--c); }
+.story__note--next p:last-child { color: var(--ink-2); }
+.story:not(.is-live) .story__note { box-shadow: inset 0 0 0 1px var(--hair); }
+.story:not(.is-live) .story__bubble { display: none; }
 
 /* --- Live: one pinned screen --------------------------------------------- */
-.story.is-live .story__pin { height: 660vh; }
+.story.is-live .story__pin { height: 560vh; }
 .story.is-live .story__stage {
   position: sticky;
   top: 0;
@@ -644,206 +595,71 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   height: 100svh;
   padding: 0;
   overflow: hidden;
+  background: #F4F4F2;
 }
 
-/* The camera: the film at its own size, moved and scaled by v6.js. Its left
-   edge fades out, so the cut forearm never shows when the band steps back. */
+/* The camera: the photo at its cover size, moved and scaled by v6.js. */
 .story.is-live .story__view {
   position: absolute;
   left: 0;
   top: 0;
   width: var(--fw, 100%);
-  height: var(--fh, 56.25vw);
+  height: var(--fh, 100%);
+  margin: 0;
   aspect-ratio: auto;
+  border-radius: 0;
   overflow: visible;
   transform-origin: 0 0;
-  will-change: transform, opacity;
+  will-change: transform;
 }
-.story.is-live .story__film {
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 26%);
-  mask-image: linear-gradient(90deg, transparent 0%, #000 26%);
-}
-.story.is-live :is(.story__canvas, .story__hi) { display: block; opacity: 0; }
-.story.is-drawn .story__canvas { opacity: 1; }
-.story.is-drawn .story__poster { visibility: hidden; }
-.story.is-close .story__hi.is-loaded { opacity: 1; }
 
-/* The light breathes while Larkin is listening. */
+/* The light glows softly while it listens. */
 .story.is-live .story__glow {
   display: block;
   position: absolute;
-  left: 37.45%;
-  top: 49.1%;
-  width: 4.2%;
-  height: 2.6%;
+  left: 49.75%;
+  top: 62.2%;
+  width: 3.4%;
+  height: 7%;
   translate: -50% -50%;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(210, 237, 40, 0.85), rgba(210, 237, 40, 0));
-  mix-blend-mode: multiply;
+  background: radial-gradient(closest-side, rgba(210, 237, 40, 0.55), rgba(210, 237, 40, 0));
   opacity: 0;
-  transition: opacity 0.6s var(--ease);
+  transition: opacity 0.8s var(--ease);
   pointer-events: none;
 }
-.story.is-listening .story__glow { animation: story-breathe 2.4s var(--ease-io) infinite; }
-@keyframes story-breathe { 0%, 100% { opacity: 0.25; } 50% { opacity: 0.9; } }
+.story.is-listening .story__glow { animation: story-breathe 2.6s var(--ease-io) infinite; }
+@keyframes story-breathe { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.85; } }
 
-/* 02 · The labels and their lines. */
-.story.is-live :is(.story__lines, .story__calls) { display: block; position: absolute; inset: 0; pointer-events: none; }
-.story.is-live .story__lines { width: 100%; height: 100%; overflow: visible; }
-.story__path {
-  fill: none;
-  stroke: rgba(21, 21, 21, 0.5);
-  stroke-width: 1.25;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-}
-.story__pip { fill: #fff; stroke: rgba(21, 21, 21, 0.5); stroke-width: 1.25; opacity: 0; }
-.story__call {
-  position: absolute;
-  left: 0;
-  top: 0;
+/* The voices and the insights: each sits where v6.js last put it and eases
+   to the next place, so the moves play out whatever the scroll speed. */
+.story.is-live :is(.story__bubble, .story__note) {
   display: grid;
-  gap: 2px;
-  width: max-content;
-  max-width: min(250px, 42vw);
-  padding: 11px 15px 12px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 14px 34px -16px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(21, 21, 21, 0.05);
-  opacity: var(--call, 0);
-  translate: var(--x, 0) calc(var(--y, 0) + (1 - var(--call, 0)) * 10px);
-}
-.story__call b { font-size: clamp(0.9375rem, 1.15vw, 1.0625rem); font-weight: 600; line-height: 1.3; }
-.story__call span { font-size: clamp(0.8125rem, 0.95vw, 0.875rem); line-height: 1.4; color: var(--ink-2); }
-
-/* 03 · The voice, fading; its words, lining up. */
-.story.is-live .story__wave {
-  display: flex;
   position: absolute;
   left: 0;
   top: 0;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  width: var(--ww, 200px);
-  height: 52px;
-  padding: 13px 20px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 14px 34px -16px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(21, 21, 21, 0.05);
+  z-index: 1;
+  width: var(--cw, 280px);
+  opacity: var(--o, 0);
   translate: var(--x, 0) var(--y, 0);
-  opacity: var(--talk, 0);
+  scale: var(--k, 0.9);
+  transition: translate 0.9s var(--ease), scale 0.9s var(--ease), opacity 0.6s var(--ease);
+  transition-delay: var(--d, 0s);
   pointer-events: none;
 }
-.story__wave i {
-  flex: none;
-  width: 3px;
-  height: calc(var(--h, 0.5) * 100%);
-  border-radius: 2px;
-  background: var(--ink);
-  opacity: calc(var(--level, 1) * 0.8);
-  transform: scaleY(calc(0.08 + var(--level, 1) * 0.92));
-  transition: transform 0.4s var(--ease), opacity 0.4s var(--ease);
-}
-.story.is-talking .story__wave i { animation: story-talk 0.9s var(--ease-io) infinite alternate; }
-@keyframes story-talk { from { height: calc(var(--h, 0.5) * 100%); } to { height: calc(var(--h, 0.5) * 45%); } }
-.story__wave i:nth-child(1)  { --h: 0.22; animation-delay: -0.1s; }
-.story__wave i:nth-child(2)  { --h: 0.4;  animation-delay: -0.5s; }
-.story__wave i:nth-child(3)  { --h: 0.3;  animation-delay: -0.2s; }
-.story__wave i:nth-child(4)  { --h: 0.62; animation-delay: -0.7s; }
-.story__wave i:nth-child(5)  { --h: 0.48; animation-delay: -0.3s; }
-.story__wave i:nth-child(6)  { --h: 0.8;  animation-delay: -0.6s; }
-.story__wave i:nth-child(7)  { --h: 0.56; animation-delay: -0.15s; }
-.story__wave i:nth-child(8)  { --h: 0.95; animation-delay: -0.45s; }
-.story__wave i:nth-child(9)  { --h: 0.7;  animation-delay: -0.8s; }
-.story__wave i:nth-child(10) { --h: 0.42; animation-delay: -0.25s; }
-.story__wave i:nth-child(11) { --h: 0.85; animation-delay: -0.55s; }
-.story__wave i:nth-child(12) { --h: 1;    animation-delay: -0.05s; }
-.story__wave i:nth-child(13) { --h: 0.66; animation-delay: -0.65s; }
-.story__wave i:nth-child(14) { --h: 0.5;  animation-delay: -0.35s; }
-.story__wave i:nth-child(15) { --h: 0.78; animation-delay: -0.75s; }
-.story__wave i:nth-child(16) { --h: 0.36; animation-delay: -0.2s; }
-.story__wave i:nth-child(17) { --h: 0.58; animation-delay: -0.5s; }
-.story__wave i:nth-child(18) { --h: 0.3;  animation-delay: -0.1s; }
-.story__wave i:nth-child(19) { --h: 0.46; animation-delay: -0.6s; }
-.story__wave i:nth-child(20) { --h: 0.24; animation-delay: -0.4s; }
-.story__wave i:nth-child(21) { --h: 0.32; animation-delay: -0.3s; }
-.story__wave i:nth-child(22) { --h: 0.16; animation-delay: -0.7s; }
-.story__wave span {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: var(--ink-3);
-  opacity: clamp(0, calc((0.35 - var(--level, 1)) * 4), 1);
-}
-.story.is-live .story__words {
-  display: grid;
-  position: absolute;
-  left: 0;
-  top: 0;
-  gap: 8px;
-  width: var(--tw, 380px);
-  margin: 0;
-  padding: 18px 22px 20px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.42), inset 0 0 0 1px rgba(21, 21, 21, 0.05);
-  translate: var(--x, 0) var(--y, 0);
-  opacity: var(--talk, 0);
-  pointer-events: none;
-}
-.story__words figcaption { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
-.story__words blockquote { margin: 0; }
-.story__words p {
-  font-size: clamp(1.25rem, 1.8vw, 1.75rem);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.015em;
-  text-wrap: balance;
-}
-.story__words span { display: inline-block; opacity: 0.12; translate: 0 0.25em; filter: blur(4px); transition: opacity 0.5s var(--ease), translate 0.6s var(--ease), filter 0.5s var(--ease); }
-.story__words span.is-in { opacity: 1; translate: none; filter: none; }
+.story.is-live .story__notes { position: static; display: block; width: auto; }
+.story__bubble { gap: 4px; padding: 12px 16px 13px; border-bottom-left-radius: 6px; }
+.story__bubble b { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+.story__bubble p { font-size: clamp(1rem, 1.25vw, 1.125rem); line-height: 1.35; font-weight: 500; text-wrap: balance; }
+.story__bubble[data-card="b"] { border-radius: 18px 18px 6px 18px; background: var(--ink); color: #fff; box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.5); }
+.story__bubble[data-card="b"] b { color: rgba(255, 255, 255, 0.6); }
+/* Where each insight came from shows once they gather from your whole day. */
+.story.is-live .story__where { display: none; }
+.story.is-live.is-areas .story__where { display: inline; }
+.story__area > span { min-width: 0; }
+.story__where { color: var(--ink-3); font-weight: 500; }
 
-/* 04 · The day, under the band. */
-.story.is-live .story__day {
-  position: absolute;
-  left: 50%;
-  top: var(--day-y, 60%);
-  margin: 0;
-  translate: -50% calc((1 - var(--day-o, 0)) * 16px);
-  opacity: var(--day-o, 0);
-  pointer-events: none;
-}
-.story.is-live .story__moments li { opacity: 0; translate: -50% 10px; transition: opacity 0.5s var(--ease), translate 0.6s var(--ease); }
-.story.is-live .story__moments li:first-child { translate: -24px 10px; }
-.story.is-live .story__moments li:last-child { translate: calc(-100% + 24px) 10px; }
-.story.is-live .story__moments li.is-in { opacity: 1; translate: -50% 0; }
-.story.is-live .story__moments li:first-child.is-in { translate: -24px 0; }
-.story.is-live .story__moments li:last-child.is-in { translate: calc(-100% + 24px) 0; }
-
-/* 05 · The phone, risen. */
-.story.is-live .story__phone {
-  position: absolute;
-  left: 50%;
-  top: var(--ph-top, 96px);
-  width: 360px;
-  margin-left: -180px;
-  transform-origin: 50% 0;
-  transform: translateY(calc((1 - var(--rise, 0)) * 80px)) scale(var(--ph-s, 1));
-  opacity: var(--rise, 0);
-  pointer-events: none;
-}
-.js-anim .story.is-live .story__phone .ui-insight { opacity: 0; translate: 0 14px; transition: opacity 0.5s var(--ease), translate 0.6s var(--ease); transition-delay: 0s; }
-.js-anim .story.is-live .story__phone .ui-insight.is-in { opacity: 1; translate: none; }
-
-/* Under the words the picture fades to white, so the arm never runs into
-   them when the camera is close. */
+/* Under the words the photo fades towards the page, so they always read. */
 .story.is-live .story__stage::after {
   content: "";
   position: absolute;
@@ -852,7 +668,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   bottom: 0;
   z-index: 1;
   height: var(--veil, 30%);
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff 56px);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.94) 96px);
   pointer-events: none;
 }
 
@@ -885,14 +701,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 @media (max-width: 699px) {
   .story.is-live .story__title { font-size: 2.125rem; }
   .story.is-live .story__line { font-size: 1rem; }
-  .story__day { padding-top: 104px; }
-  .story__moments { height: 196px; }
-  .story__moments li { width: min(148px, 40vw); padding: 11px 12px 12px; }
-  .story__moments p { font-size: 0.875rem; }
-  .story__moments li:nth-child(2) { top: auto; bottom: calc(100% + 26px); }
-  .story__moments li:nth-child(2)::before { top: auto; bottom: -24px; }
-  .story.is-live .story__moments li:nth-child(2) { translate: -50% -10px; }
-  .story.is-live .story__moments li:nth-child(2).is-in { translate: -50% 0; }
+  .story.is-live .story__note { padding: 12px 13px 13px; gap: 5px; border-radius: 16px; }
+  .story.is-live .story__note p { font-size: 0.8125rem; }
+  .story.is-live .story__area::before { height: 14px; }
 }
 
 /* --------------------------------------------------------------------------
