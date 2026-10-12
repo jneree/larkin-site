@@ -436,7 +436,7 @@
       // is, as fractions of the picture. The sound and the line stop short
       // of it, with air of their own.
       var ringL = d.l + 0.209 * d.w, ringR = d.l + 0.786 * d.w, ringT = d.t + 0.25 * d.h;
-      var S, Cc, T, sound, line = null;
+      var S, Cc, T, sound;
       if (narrow) {
         // Out of the picture's bottom, straight down towards the band, with
         // air before the ring.
@@ -451,21 +451,26 @@
         T = [ringL - 22, mod[1]];
         Cc = [(S[0] + T[0]) / 2, mod[1]];
         sound = fPath(S, Cc, T, 220);
-        // A clean line from a little after the ring to the newest slot's edge.
-        var cardTop = fCards[0].offsetTop, cardH = fCards[0].offsetHeight;
-        var ls = [ringR + 20, mod[1]], e = [o.l - 10, o.t + cardTop + cardH / 2];
-        line = fPath(ls, [(ls[0] + e[0]) / 2, (ls[1] + e[1]) / 2], e, 60);
       }
-      // Where a card is born: the module, relative to the newest slot.
-      var c0 = fCards[0];
-      var slotX = o.l + c0.offsetLeft, slotY = o.t + c0.offsetTop;
-      fOut.style.setProperty('--ex', fPx(mod[0] - slotX - c0.offsetWidth / 2));
-      fOut.style.setProperty('--ey', fPx(mod[1] - slotY - c0.offsetHeight / 2));
+      // The insight's path: the band's light leaves the module and flies to
+      // where the next card appears (its top on phones, its left edge on
+      // wide screens), passing under the band's ring on the way.
+      var c0 = fCards[0], led = [d.l + 0.5245 * d.w, d.t + 0.567 * d.h], out, oEnd;
+      if (narrow) {
+        oEnd = [o.l + c0.offsetLeft + c0.offsetWidth / 2, o.t + c0.offsetTop - 6];
+        out = fPath(led, [led[0] + 70, (led[1] + oEnd[1]) / 2 + 24], oEnd, 120);
+      } else {
+        // On wide screens most of the way from the light to the ring's edge
+        // would be hidden, so it sets out from just inside the ring's edge.
+        var ledW = [ringR - 8, led[1]];
+        oEnd = [o.l + c0.offsetLeft - 10, o.t + c0.offsetTop + c0.offsetHeight / 2];
+        out = fPath(ledW, [(ledW[0] + oEnd[0]) / 2, led[1] - 24], oEnd, 120);
+      }
 
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
       fCanvas.width = Math.round(sr.width * dpr);
       fCanvas.height = Math.round(sr.height * dpr);
-      F = { W: sr.width, H: sr.height, dpr: dpr, sound: sound, line: line, narrow: narrow, amp: narrow ? 12 : Math.min(sr.width * 0.016, 18) };
+      F = { W: sr.width, H: sr.height, dpr: dpr, sound: sound, out: out, narrow: narrow, amp: narrow ? 12 : Math.min(sr.width * 0.016, 18) };
       // The words on the sound: one every so many pixels along it.
       F.wgap = Math.max(96, sound.len / 2.4);
       F.ww = fWords.map(function (el) { return el.offsetWidth || 100; });
@@ -537,31 +542,67 @@
         el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) translate(-50%, -50%) scale(' + sc.toFixed(3) + ')';
       }
     };
-    // The insight's path: a thin line, and a pulse running along it ahead
-    // of each new card (u from 0 to 1, or less than 0 for none).
-    var fDrawLine = function (amp, u) {
-      var pts = F.line;
-      if (!pts || amp <= 0.01) return;
-      fx.strokeStyle = 'rgba(21, 21, 21, ' + (0.28 * amp).toFixed(3) + ')';
-      fx.lineWidth = 1;
-      fx.beginPath();
-      fx.moveTo(pts[0].x, pts[0].y);
-      fx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
-      fx.stroke();
-      if (u < 0 || u > 1) return;
-      var e = fEaseIO(u);
-      for (var i = 5; i >= 0; i--) {
-        var q = fAt(pts, Math.max(0, e - i * 0.035));
-        fx.fillStyle = 'rgba(21, 21, 21, ' + (amp * (1 - i / 6) * (i ? 0.35 : 1)).toFixed(3) + ')';
+    // The insight on its way: a comet of the band's light, a bright core
+    // in a lime halo with a trail and a few sparks, flying along the path
+    // (u from 0 to 1, or less than 0 for none); then, where it lands, a
+    // burst (b from 0 to 1) as the card ignites and unfolds.
+    var fEaseOut = function (t) { return 1 - Math.pow(1 - t, 3); };
+    var fDrawOut = function (u, b) {
+      var pts = F.out;
+      if (!pts) return;
+      if (u >= 0 && u <= 1) {
+        var e = fEaseIO(u);
+        for (var i = 16; i >= 1; i--) {
+          var q = fAt(pts, Math.max(0, e - i * 0.02));
+          var a = (1 - i / 17);
+          fx.fillStyle = 'rgba(176, 204, 24, ' + (a * 0.7).toFixed(3) + ')';
+          fx.beginPath();
+          fx.arc(q.x, q.y, 0.8 + a * 2.6, 0, Math.PI * 2);
+          fx.fill();
+        }
+        var h = fAt(pts, e);
+        var halo = fx.createRadialGradient(h.x, h.y, 0, h.x, h.y, 26);
+        halo.addColorStop(0, 'rgba(210, 237, 40, 0.7)');
+        halo.addColorStop(1, 'rgba(210, 237, 40, 0)');
+        fx.fillStyle = halo;
         fx.beginPath();
-        fx.arc(q.x, q.y, i ? 2 : 3.2, 0, Math.PI * 2);
+        fx.arc(h.x, h.y, 26, 0, Math.PI * 2);
         fx.fill();
+        for (var j = 0; j < 4; j++) {
+          var ang = u * 16 + j * 1.57, rr = 8 + 4 * Math.sin(u * 27 + j * 2);
+          fx.fillStyle = 'rgba(160, 190, 20, ' + (0.45 + 0.35 * Math.sin(u * 40 + j)).toFixed(3) + ')';
+          fx.beginPath();
+          fx.arc(h.x + Math.cos(ang) * rr, h.y + Math.sin(ang) * rr, 1.1, 0, Math.PI * 2);
+          fx.fill();
+        }
+        var core = fx.createRadialGradient(h.x, h.y, 0, h.x, h.y, 6);
+        core.addColorStop(0, '#FCFFE0');
+        core.addColorStop(0.45, '#D2ED28');
+        core.addColorStop(1, '#8EA410');
+        fx.fillStyle = core;
+        fx.beginPath();
+        fx.arc(h.x, h.y, 6, 0, Math.PI * 2);
+        fx.fill();
+      }
+      if (b > 0 && b < 1) {
+        var end = pts[pts.length - 1], eb = fEaseOut(b);
+        fx.strokeStyle = 'rgba(210, 237, 40, ' + (0.75 * (1 - b)).toFixed(3) + ')';
+        fx.lineWidth = 0.6 + 2 * (1 - b);
+        fx.beginPath();
+        fx.arc(end.x, end.y, 6 + 44 * eb, 0, Math.PI * 2);
+        fx.stroke();
+        for (var m = 0; m < 7; m++) {
+          var an = m * 0.898 + 0.4, d = 8 + 40 * eb;
+          fx.fillStyle = 'rgba(160, 190, 20, ' + (0.8 * (1 - b)).toFixed(3) + ')';
+          fx.beginPath();
+          fx.arc(end.x + Math.cos(an) * d, end.y + Math.sin(an) * d, 0.5 + 1.6 * (1 - b), 0, Math.PI * 2);
+          fx.fill();
+        }
       }
     };
 
     // How many insights are out. The newest takes the first slot, the
-    // older ones move on; one taken back (scrolling up) eases back into
-    // the band.
+    // older ones move on; one taken back (scrolling up) folds away.
     var fSet = function (k) {
       if (k === fCount) return;
       var was = fCount;
@@ -587,16 +628,16 @@
       var t = (now - t0) / 1000;
       fx.setTransform(F.dpr, 0, 0, F.dpr, 0, 0);
       fx.clearRect(0, 0, F.W, F.H);
-      var amp, lineA, k, u;
+      var amp, k, u, b = 0;
       if (fPinned) {
         var p = fP;
         fStep(p < F_S1 ? 0 : p < F_S2 ? 1 : 2);
         amp = fSmooth(F_S1 + 0.04, F_S1 + 0.12, p);
-        lineA = fSmooth(T0 - 0.08, T0 - 0.02, p);
         k = clamp(Math.floor((p - T0) / STEP) + 1, 0, fCards.length);
         var next = T0 + k * STEP;
         u = k < fCards.length ? fSpan(p, next - STEP * 0.6, next) : -1;
         if (u >= 1) u = -1;
+        b = k > 0 ? fSpan(p, next - STEP, next - STEP * 0.7) : 0;
         // The title's pieces, each staying once said: always with you (the
         // conversation), it recalls every conversation (the band and the
         // sound), insight about you (the cards come out). Then the exit.
@@ -605,17 +646,17 @@
         flow.style.setProperty('--exit', fSmooth(0.9, 1, p).toFixed(3));
       } else {
         amp = fSmooth(0.4, 1.6, t);
-        lineA = fSmooth(1.2, 2, t);
         // Six cards, a pause, then again.
         var kk = Math.floor((t - FIRST) / PERIOD) + 1, cyc = ((kk % 9) + 9) % 9;
         k = clamp(cyc, 0, fCards.length);
         var tn = FIRST + kk * PERIOD;
         u = k < fCards.length && t > FIRST - TRAVEL ? fSpan(t, tn - TRAVEL, tn) : -1;
         if (u >= 1) u = -1;
+        b = k > 0 && cyc === k ? fSpan(t, tn - PERIOD, tn - PERIOD + 0.55) : 0;
       }
       fDrawSound(t, amp);
       fPlaceWords(t, amp);
-      fDrawLine(lineA, u);
+      fDrawOut(u, b);
       fSet(k);
       if (t > 1.3 && !flow.classList.contains('is-lit')) flow.classList.add('is-lit');
       fRaf = requestAnimationFrame(fFrame);
