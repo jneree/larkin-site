@@ -27,7 +27,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v5.css?v=20261010e">
+<link rel="stylesheet" href="v6.css?v=20261012p">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -146,80 +146,95 @@
     </section>
   </div>
 
-  <!-- How it works — a resting arm rolls to show the band, then a day plays
-       out on a line. The film loads near the viewport and plays once,
-       resting on its last frame, which is also the poster; the headline
-       rises with it. The day card draws its line once it's in view (v5.js). -->
-  <section class="section how" id="how">
-    <div class="how-film" data-how-film data-settle="5.2">
-      <header class="shell how-film__head">
-        <div class="sec-rule rv"><span class="eyebrow">How it works</span></div>
-        <h2 class="h2 how-film__title"><span class="how-film__line">Put it on.</span> <span class="how-film__line">Forget it’s there.</span></h2>
-        <p class="lead how-film__lead">Other AI recorders wait for you to press something. Larkin stays on all day, because nobody schedules a good conversation.</p>
-      </header>
-      <div class="how-film__media">
-        <picture>
-          <source type="image/webp" srcset="/media/how-roll-poster-1000.webp 1000w, /media/how-roll-poster-1920.webp 1920w, /media/how-roll-poster-2560.webp 2560w, /media/how-roll-poster-3840.webp 3840w" sizes="(max-width: 699px) 134vw, 100vw">
-          <img class="how-film__poster" src="/media/how-roll-poster-1920.jpg" alt="A forearm resting on white, the hand on its side, the white Larkin band on the wrist with a thin lime light on its module" width="1920" height="1080" loading="lazy" decoding="async">
-        </picture>
-        <video class="how-film__video" data-src-sm="/media/how-roll-720.mp4" data-src-lg="/media/how-roll-1080.mp4" data-src-xl="/media/how-roll-1440.mp4" data-src-xxl="/media/how-roll-2160.mp4"
-               muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-        <p class="how-film__tag"><span class="how-film__dot" aria-hidden="true"></span>Listening all day</p>
-      </div>
-    </div>
-
+  <!-- How it works: one continuous flow. A conversation on the left; the
+       sound of it streams out of the picture and into the band in the
+       middle, a waveform that never stops; out of the band's other side,
+       insight about you comes out, one card at a time, rising into a stack
+       on the right. On wide screens the section pins and the scroll plays
+       it: first only the sound going in, then one insight out with each
+       step (v6.js draws the sound on the canvas and sends each card out
+       of the band). On phones nothing pins: the three parts stack, the
+       flow runs down the page on its own. Without the script, or with reduced
+       motion, the parts simply stand: the picture, the band, three
+       insights. -->
+  <section class="section flow" id="how" aria-labelledby="flow-title" data-flow>
+    <div class="flow__pin"><div class="flow__stick">
     <div class="shell">
-      <div class="day rv grain" data-day>
-        <div class="day__copy">
-          <p class="eyebrow eyebrow--lime">Always on</p>
-          <h3 class="day__title">The best conversations happen when you least expect them.</h3>
-          <p>You’d never press record for them. With Larkin, you don’t have to.</p>
+      <header class="sec-head sec-head--center rv">
+        <div class="sec-rule"><span class="eyebrow">How it works</span></div>
+        <h2 class="h2" id="flow-title">Sound goes in. Insight comes out.</h2>
+      </header>
+
+      <div class="flow__stage">
+        <canvas class="flow__canvas" aria-hidden="true"></canvas>
+
+        <p class="flow__label flow__label--ctx">A conversation</p>
+        <figure class="flow__context">
+          <img src="/media/story-cafe-1400.webp" srcset="/media/story-cafe-800.webp 800w, /media/story-cafe-1400.webp 1400w" sizes="(min-width: 900px) 340px, 92vw" alt="Two friends talking over coffee at a table, the black Larkin band on one woman’s wrist" width="1400" height="791" loading="lazy" decoding="async">
+          <figcaption><i class="flow__bars" aria-hidden="true"><b></b><b></b><b></b><b></b></i>Coffee with a friend</figcaption>
+        </figure>
+
+        <p class="flow__label flow__label--dev">Only the sound goes in</p>
+        <div class="flow__device" aria-hidden="true">
+          <img src="/media/story-band-1100.webp" alt="" width="1100" height="520" loading="lazy" decoding="async">
+          <i class="flow__glow"></i>
         </div>
 
-        <div class="day__line" role="img" aria-label="One day on a line from morning to night, with three conversations nobody planned. Morning: an unplanned coffee with a friend. Afternoon: a quick chat after a meeting. Night: dinner with an old friend.">
-          <ol class="day__marks" aria-hidden="true">
-            <li style="--s: 0.08">Morning</li>
-            <li style="--s: 0.42">Afternoon</li>
-            <li style="--s: 0.76">Night</li>
-          </ol>
-          <div class="day__track" aria-hidden="true">
-            <span class="day__seg" style="--s: 0.08; --e: 0.17"></span>
-            <span class="day__seg" style="--s: 0.42; --e: 0.48"></span>
-            <span class="day__seg" style="--s: 0.76; --e: 0.86"></span>
-            <span class="day__dot"></span>
-          </div>
-          <ol class="day__convos" aria-hidden="true">
-            <li style="--s: 0.08"><em class="day__when">Morning</em><p>An unplanned coffee with a friend.</p></li>
-            <li style="--s: 0.42"><em class="day__when">Afternoon</em><p>A quick chat after a meeting.</p></li>
-            <li style="--s: 0.76"><em class="day__when">Night</em><p>Dinner with an old friend.</p></li>
-          </ol>
+        <p class="flow__label flow__label--out">Insight about you comes out</p>
+        <ul class="flow__out" aria-label="Examples of insights">
+          <li class="flow__card is-s2"><p class="flow__area" style="--c: var(--clarity)"><span><span class="flow__where">At work · </span>Clarity</span></p><p>You explained your idea in one sentence. It landed.</p></li>
+          <li class="flow__card is-s1"><p class="flow__area" style="--c: var(--listening)"><span><span class="flow__where">At home · </span>Listening</span></p><p>You asked about their day before sharing yours.</p></li>
+          <li class="flow__card is-s0"><p class="flow__area" style="--c: var(--framing)"><span><span class="flow__where">With friends · </span>Framing</span></p><p>Your everyday example made the idea click.</p></li>
+          <li class="flow__card is-off"><p class="flow__area" style="--c: var(--assert)"><span><span class="flow__where">With your team · </span>Assertiveness</span></p><p>You said no to the extra project, kindly and clearly.</p></li>
+          <li class="flow__card is-off"><p class="flow__area" style="--c: var(--listening)"><span><span class="flow__where">Over lunch · </span>Listening</span></p><p>You let them finish before you answered.</p></li>
+          <li class="flow__card is-off"><p class="flow__area" style="--c: var(--ink-3)"><span>Try next time</span></p><p>Pause after your main point. Let it land.</p></li>
+        </ul>
+      </div>
+    </div>
+    </div></div>
+  </section>
+
+  <!-- The device. As you scroll on from the flow, the band travels from its
+       place there to its place under the words, lifting off and turning
+       to a three-quarter view (42 cut-out frames of it turning, scrubbed
+       by the scroll on a fixed canvas, .dev__travel; v6.js hands over at
+       each end), then holds while three things are said about it: two
+       microphones, lines drawn to each; listening all day, the sound
+       streaming in from both sides with moments of the day riding the
+       waves into the band; and the best conversations are never planned.
+       The three are one sentence, above the band, shown a piece at a
+       time, each in place of the last. At the end the band and the words
+       fade and the app's ink rises over them. Without the script, or with reduced motion, nothing travels
+       or pins: the sentence, then the band. -->
+  <section class="dev" id="device" aria-labelledby="dev-title" data-dev data-frames="42" data-src="/media/turn/{n}.webp">
+    <div class="dev__pin">
+      <div class="dev__stage">
+        <canvas class="dev__canvas" aria-hidden="true"></canvas>
+        <div class="dev__band" aria-hidden="true">
+          <img src="/media/turn/42.webp" alt="" width="1600" height="900" loading="lazy" decoding="async">
+          <canvas class="dev__bandc"></canvas>
+          <i class="dev__glow"></i>
+        </div>
+        <div class="dev__calls" aria-hidden="true">
+          <p class="dev__call" data-call="0"><b>Microphone</b><span>Your side of the table.</span></p>
+          <p class="dev__call" data-call="1"><b>Microphone</b><span>Theirs.</span></p>
+        </div>
+        <ul class="dev__rides" aria-hidden="true">
+          <li class="dev__ride" data-side="left">Morning coffee</li>
+          <li class="dev__ride" data-side="right">The team meeting</li>
+          <li class="dev__ride" data-side="left">Lunch with friends</li>
+          <li class="dev__ride" data-side="right">A call with your mum</li>
+          <li class="dev__ride" data-side="left">A walk after work</li>
+          <li class="dev__ride" data-side="right">Dinner with family</li>
+        </ul>
+        <div class="shell dev__copy">
+          <p class="eyebrow dev__eyebrow">The device</p>
+          <h2 class="h2 dev__title" id="dev-title"><span class="dev__part">Two microphones</span><span class="dev__part">that listen to your entire day</span><span class="dev__part">because the best conversations are never planned.</span></h2>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- The device — a pinned close-up of the module, scrubbed by scroll:
-       the light comes on as you move through it (39 frames of the hero
-       film's close-up shot, drawn on a canvas by v5.js). The copy sits on
-       the frame; the second line arrives with the light. Without JS, or
-       with reduced motion, the lit frame simply shows. -->
-  <section class="device" id="device" aria-labelledby="device-title">
-    <div class="device__pin" data-scrub data-frames="39" data-src-l="/media/ring/l-{n}.webp" data-src-p="/media/ring/p-{n}.webp">
-      <div class="device__stage">
-        <picture class="device__poster">
-          <source media="(max-aspect-ratio: 4/5)" srcset="/media/ring/p-39.webp">
-          <img src="/media/ring/l-39.webp" alt="The Larkin module close up on a wrist, its thin lime light on" width="1600" height="900" loading="lazy" decoding="async">
-        </picture>
-        <canvas class="device__canvas" aria-hidden="true"></canvas>
-        <div class="device__shade" aria-hidden="true"></div>
-        <div class="shell device__copy">
-          <div class="sec-rule sec-rule--light"><span class="eyebrow">The device</span></div>
-          <h2 class="h2 device__title" id="device-title">Designed to disappear.</h2>
-          <p class="device__lead">No screen to check. One thin light, and it only glows while Larkin is listening.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <div class="dev__travel" aria-hidden="true"><canvas></canvas></div>
 
   <!-- The app — on ink, full bleed. Two chapters, Chronicles (your day) and
        Conversations, each one phone beside its copy: the app's own UI
@@ -897,6 +912,6 @@
   </div>
 </footer>
 
-<script src="v5.js?v=20261010c" defer></script>
+<script src="v6.js?v=20261012p" defer></script>
 </body>
 </html>
