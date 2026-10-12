@@ -5,7 +5,10 @@
 .whero { padding: calc(var(--header-h) + clamp(40px, 6vw, 80px)) 0 clamp(24px, 4vw, 48px); background: var(--bg); }
 .whero__inner { display: grid; gap: clamp(32px, 5vw, 64px); align-items: center; }
 .whero__copy { display: grid; gap: 22px; align-content: center; }
-.whero__title { font-size: clamp(2.75rem, 6vw, 5.5rem); font-weight: 700; line-height: 0.98; letter-spacing: -0.025em; text-wrap: balance; }
+/* Two lines, always: "Start today on" / "your Apple Watch." The size is
+   capped so the second line fits the copy column at every width. */
+.whero__title { font-size: clamp(2.5rem, 4.8vw, 4.25rem); font-weight: 700; line-height: 1; letter-spacing: -0.025em; }
+.whero__title > span { display: block; white-space: nowrap; }
 .whero__lead { max-width: 36ch; font-size: clamp(1.0625rem, 1.35vw, 1.25rem); line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
 .whero .beta__form { margin-top: 4px; }
 .whero__fine { max-width: 46ch; font-size: 0.9375rem; color: var(--ink-2); text-wrap: pretty; }
