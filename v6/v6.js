@@ -349,19 +349,21 @@
   }
 
   /* ---- How it works: one continuous flow ---------------------------------- */
-  /* Nothing here is tied to the scroll. Once the section is on screen the
-     flow starts and keeps running: the sound of the conversation streams
-     out of the picture and into the band as a waveform (drawn on the
-     canvas over the stage, along a path from the picture to the module's
-     end), a clean line carries pulses out of the band's other side, and
-     with each pulse a new insight is born at the band and takes the newest
-     slot while the older ones move on. The paths come from where the parts
-     are on this screen (geo), so the same flow runs down a phone. */
+  /* On wide screens the section pins and the scroll plays it: first only
+     the sound streams out of the picture and into the band; then, step by
+     step, insight comes out of the band's other side, a new card with
+     each step, the older ones rising; then the pin ends and the band goes
+     on its journey to the next section. The sound itself always moves in
+     time, so it never freezes between steps. On phones nothing pins: the
+     flow runs on its own while the section is on screen, a card every
+     few seconds. The paths come from where the parts are on this screen
+     (geo), so the same flow runs down a phone. */
   var flow = document.querySelector('[data-flow]');
   var fCanvas = flow && flow.querySelector('.flow__canvas');
   var fx = fCanvas && fCanvas.getContext && fCanvas.getContext('2d');
   if (flow && fx && !reduceMotion && 'IntersectionObserver' in window) {
     flow.classList.add('is-live');
+    var fPin = flow.querySelector('.flow__pin');
     var fStage = flow.querySelector('.flow__stage');
     var fCtx = flow.querySelector('.flow__context');
     var fDevice = flow.querySelector('.flow__device');
@@ -369,17 +371,20 @@
     var fCards = [].slice.call(flow.querySelectorAll('.flow__card'));
     // The module's middle and half-width in the band's picture, as
     // fractions of its width and height.
-    var MOD = [0.45, 0.558], HALF = 0.132;
-    var PERIOD = 3.0, TRAVEL = 0.8, FIRST = 1.6;
-    var F = null, fOn = false, fRaf = 0, t0 = 0, born = -1, slots = [];
-    var span = function (v, a, b) { return clamp((v - a) / (b - a), 0, 1); };
-    var smooth = function (a, b, v) { var t = span(v, a, b); return t * t * (3 - 2 * t); };
-    var easeIO = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
-    var px = function (v) { return v.toFixed(1) + 'px'; };
+    var F_MOD = [0.45, 0.558], F_HALF = 0.132;
+    // In time (phones): the first card, then one every PERIOD, the pulse
+    // running TRAVEL ahead of it. On the scroll: the first card at T0 of
+    // the pin's progress, then one every STEP, the pulse running ahead.
+    var PERIOD = 3.0, TRAVEL = 0.8, FIRST = 1.6, T0 = 0.3, STEP = 0.11;
+    var F = null, fOn = false, fRaf = 0, t0 = 0, fCount = -1, fP = 0, fTgt = 0, fPinned = false;
+    var fSpan = function (v, a, b) { return clamp((v - a) / (b - a), 0, 1); };
+    var fSmooth = function (a, b, v) { var t = fSpan(v, a, b); return t * t * (3 - 2 * t); };
+    var fEaseIO = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+    var fPx = function (v) { return v.toFixed(1) + 'px'; };
 
     // A quadratic path, sampled: points with the distance along it and
     // its normal, so a wave can ride on it.
-    var path = function (S, C, T, N) {
+    var fPath = function (S, C, T, N) {
       var pts = [], len = 0, prev = null;
       for (var j = 0; j <= N; j++) {
         var u = j / N, iu = 1 - u;
@@ -398,15 +403,26 @@
       return pts[i];
     };
 
+    // Pinned on wide screens with room for it; in time otherwise.
+    var fMode = function () {
+      var pinned = window.innerWidth >= 900 && window.innerHeight >= 640;
+      if (pinned !== fPinned) {
+        fPinned = pinned;
+        flow.classList.toggle('is-pinned', pinned);
+        fCount = -1;
+      }
+    };
+
     // Where the parts are on this screen: the picture's exit, the module's
     // ends, the newest slot; the sound's path and the insight's path.
-    var geo = function () {
+    var fGeo = function () {
+      fMode();
       var sr = fStage.getBoundingClientRect();
       if (!sr.width) return;
       var rel = function (r) { return { l: r.left - sr.left, t: r.top - sr.top, w: r.width, h: r.height }; };
       var narrow = window.innerWidth < 900;
       var c = rel(fCtx.getBoundingClientRect()), d = rel(fDevice.getBoundingClientRect()), o = rel(fOut.getBoundingClientRect());
-      var mod = [d.l + MOD[0] * d.w, d.t + MOD[1] * d.h], half = HALF * d.w;
+      var mod = [d.l + F_MOD[0] * d.w, d.t + F_MOD[1] * d.h], half = F_HALF * d.w;
       var inEnd = [mod[0] - half * 0.9, mod[1]], outStart = [mod[0] + half * 0.9, mod[1]];
       var S, Cc, T, sound, line = null;
       if (narrow) {
@@ -414,22 +430,22 @@
         S = [mod[0], c.t + c.h - 2];
         T = [mod[0], mod[1] - d.h * 0.06];
         Cc = [S[0], (S[1] + T[1]) / 2];
-        sound = path(S, Cc, T, 220);
+        sound = fPath(S, Cc, T, 220);
       } else {
         S = [c.l + c.w - 2, c.t + c.h / 2];
         T = inEnd;
         Cc = [(S[0] + T[0]) / 2, (S[1] + T[1]) / 2];
-        sound = path(S, Cc, T, 220);
+        sound = fPath(S, Cc, T, 220);
         // A clean line from the band to the newest slot's edge.
         var cardTop = fCards[0].offsetTop, cardH = fCards[0].offsetHeight;
         var e = [o.l - 10, o.t + cardTop + cardH / 2];
-        line = path(outStart, [(outStart[0] + e[0]) / 2, (outStart[1] + e[1]) / 2], e, 60);
+        line = fPath(outStart, [(outStart[0] + e[0]) / 2, (outStart[1] + e[1]) / 2], e, 60);
       }
       // Where a card is born: the module, relative to the newest slot.
       var c0 = fCards[0];
       var slotX = o.l + c0.offsetLeft, slotY = o.t + c0.offsetTop;
-      fOut.style.setProperty('--ex', px(mod[0] - slotX - c0.offsetWidth / 2));
-      fOut.style.setProperty('--ey', px(mod[1] - slotY - c0.offsetHeight / 2));
+      fOut.style.setProperty('--ex', fPx(mod[0] - slotX - c0.offsetWidth / 2));
+      fOut.style.setProperty('--ey', fPx(mod[1] - slotY - c0.offsetHeight / 2));
 
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
       fCanvas.width = Math.round(sr.width * dpr);
@@ -440,9 +456,10 @@
     // The sound: a line and a fainter echo of it, crests and speech-like
     // bursts travelling along the path into the band, narrowing to nothing
     // at the module.
-    var STRANDS = [[1, 0, 1.5, 0.9], [0.6, 2.1, 1, 0.28]];
-    var SPEED = 110;
-    var drawSound = function (t, amp) {
+    var F_STRANDS = [[1, 0, 1.5, 0.9], [0.6, 2.1, 1, 0.28]];
+    var F_SPEED = 110;
+    var fDrawSound = function (t, amp) {
+      if (amp <= 0.01) return;
       var pts = F.sound;
       var grad = fx.createLinearGradient(pts[0].x, pts[0].y, pts[pts.length - 1].x, pts[pts.length - 1].y);
       grad.addColorStop(0, 'rgba(21, 21, 21, 0)');
@@ -452,14 +469,14 @@
       fx.strokeStyle = grad;
       fx.lineCap = 'round';
       fx.lineJoin = 'round';
-      STRANDS.forEach(function (st) {
+      F_STRANDS.forEach(function (st) {
         fx.lineWidth = st[2];
         fx.globalAlpha = st[3];
         fx.beginPath();
         for (var j = 0; j < pts.length; j++) {
           var q = pts[j], u = q.u;
-          var env = smooth(0, 0.08, u) * (1 - smooth(0.8, 1, u));
-          var ph = q.s - SPEED * t;
+          var env = fSmooth(0, 0.08, u) * (1 - fSmooth(0.8, 1, u));
+          var ph = q.s - F_SPEED * t;
           var burst = 0.25 + 0.75 * Math.pow(Math.max(0, Math.sin(ph / 300 * Math.PI * 2 + st[1])), 2);
           var d = F.amp * amp * st[0] * env * burst * (0.6 * Math.sin(ph / 16 + st[1]) + 0.3 * Math.sin(ph / 7.4 + st[1] * 1.7) + 0.1 * Math.sin(ph / 3.6));
           var x = q.x + q.nx * d, y = q.y + q.ny * d;
@@ -470,20 +487,18 @@
       fx.globalAlpha = 1;
     };
     // The insight's path: a thin line, and a pulse running along it ahead
-    // of each new card.
-    var drawLine = function (t, amp) {
+    // of each new card (u from 0 to 1, or less than 0 for none).
+    var fDrawLine = function (amp, u) {
       var pts = F.line;
-      if (!pts) return;
+      if (!pts || amp <= 0.01) return;
       fx.strokeStyle = 'rgba(21, 21, 21, ' + (0.28 * amp).toFixed(3) + ')';
       fx.lineWidth = 1;
       fx.beginPath();
       fx.moveTo(pts[0].x, pts[0].y);
       fx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
       fx.stroke();
-      var k = Math.floor((t - FIRST + TRAVEL) / PERIOD);
-      var u = (t - (FIRST - TRAVEL + k * PERIOD)) / TRAVEL;
-      if (k < 0 || u < 0 || u > 1) return;
-      var e = easeIO(u);
+      if (u < 0 || u > 1) return;
+      var e = fEaseIO(u);
       for (var i = 5; i >= 0; i--) {
         var q = fAt(pts, Math.max(0, e - i * 0.035));
         fx.fillStyle = 'rgba(21, 21, 21, ' + (amp * (1 - i / 6) * (i ? 0.35 : 1)).toFixed(3) + ')';
@@ -493,19 +508,26 @@
       }
     };
 
-    // A new insight: born at the band, then into the newest slot; the
-    // others move on. The cards cycle.
-    var birth = function (k) {
-      var card = fCards[k % fCards.length];
-      card.className = 'flow__card is-born';
-      void card.offsetWidth;
-      slots.unshift(card);
-      if (slots.length > 4) { var old = slots.pop(); if (old !== card) old.className = 'flow__card is-off'; }
-      slots.forEach(function (el, i) {
-        if (el === card) return;
-        el.className = 'flow__card ' + (i < 3 ? 'is-s' + i : 'is-gone');
+    // How many insights are out. The newest takes the first slot, the
+    // older ones move on; one taken back (scrolling up) eases back into
+    // the band.
+    var fSet = function (k) {
+      if (k === fCount) return;
+      var was = fCount;
+      fCount = k;
+      fCards.forEach(function (card, i) {
+        var age = k - 1 - i;
+        if (age < 0) {
+          card.className = 'flow__card ' + (i === k && was > k ? 'is-back' : 'is-born');
+        } else if (age === 0 && k > was) {
+          card.className = 'flow__card is-born';
+          void card.offsetWidth;
+          requestAnimationFrame(function () { if (fCount === k) card.className = 'flow__card is-s0'; });
+        } else {
+          card.className = 'flow__card ' + (age < 3 ? 'is-s' + age : 'is-gone');
+        }
       });
-      requestAnimationFrame(function () { card.className = 'flow__card is-s0'; });
+      flow.classList.toggle('is-out', k > 0);
     };
 
     var fFrame = function (now) {
@@ -514,12 +536,29 @@
       var t = (now - t0) / 1000;
       fx.setTransform(F.dpr, 0, 0, F.dpr, 0, 0);
       fx.clearRect(0, 0, F.W, F.H);
-      var amp = smooth(0.4, 1.6, t);
-      drawSound(t, amp);
-      drawLine(t, smooth(1.2, 2, t));
+      var amp, lineA, k, u;
+      if (fPinned) {
+        var p = fP;
+        amp = fSmooth(0.02, 0.14, p);
+        lineA = fSmooth(T0 - 0.08, T0 - 0.02, p);
+        k = clamp(Math.floor((p - T0) / STEP) + 1, 0, fCards.length);
+        var next = T0 + k * STEP;
+        u = k < fCards.length ? fSpan(p, next - STEP * 0.6, next) : -1;
+        if (u >= 1) u = -1;
+      } else {
+        amp = fSmooth(0.4, 1.6, t);
+        lineA = fSmooth(1.2, 2, t);
+        // Six cards, a pause, then again.
+        var kk = Math.floor((t - FIRST) / PERIOD) + 1, cyc = ((kk % 9) + 9) % 9;
+        k = clamp(cyc, 0, fCards.length);
+        var tn = FIRST + kk * PERIOD;
+        u = k < fCards.length && t > FIRST - TRAVEL ? fSpan(t, tn - TRAVEL, tn) : -1;
+        if (u >= 1) u = -1;
+      }
+      fDrawSound(t, amp);
+      fDrawLine(lineA, u);
+      fSet(k);
       if (t > 1.3 && !flow.classList.contains('is-lit')) flow.classList.add('is-lit');
-      var k = Math.floor((t - FIRST) / PERIOD);
-      if (k > born) { born = k; birth(k); }
       fRaf = requestAnimationFrame(fFrame);
     };
 
@@ -528,9 +567,9 @@
       fOn = true;
       flow.classList.add('is-in');
       t0 = performance.now();
-      born = -1; slots = [];
-      fCards.forEach(function (el) { el.className = 'flow__card is-off'; });
-      geo();
+      fCount = -1;
+      fCards.forEach(function (el) { el.className = 'flow__card is-born'; });
+      fGeo();
       if (!fRaf) fRaf = requestAnimationFrame(fFrame);
     };
     var fStop = function () {
@@ -540,26 +579,39 @@
       fx.clearRect(0, 0, fCanvas.width, fCanvas.height);
     };
 
-    geo();
-    window.addEventListener('resize', geo, { passive: true });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(geo);
+    fGeo();
+    window.addEventListener('resize', fGeo, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fGeo);
     new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) fStart(); else fStop(); });
     }, { threshold: 0.3 }).observe(fStage);
+
+    // The pin's progress, eased so a flick never jumps.
+    link(function (vh) {
+      if (!fPinned) return false;
+      var r = fPin.getBoundingClientRect();
+      if (r.bottom < -vh || r.top > vh * 2) return false;
+      fTgt = clamp(-r.top / Math.max(1, fPin.offsetHeight - vh), 0, 1);
+      if (Math.abs(fTgt - fP) < 0.0004) { fP = fTgt; return false; }
+      fP = lerp(fP, fTgt, 0.16);
+      return true;
+    });
   }
 
   /* ---- The device: from the flow to the centre of the screen ------------- */
   /* Two movements. The journey: while the section's top crosses the
      screen, a fixed canvas carries the band from where it sits in the
-     flow (wherever that is on screen right now) to the centre, and scroll
-     turns it: 42 frames of the band turning towards a three-quarter view
-     (cut out, with their shadows), the first of which is the flow's own
-     picture; the flow recedes as it goes, and the section's own band (the
-     last frame) takes over at the end. Then the pin: one eased progress
-     value picks the point being made, draws the lines to the two
-     microphones, streams the sound in from both sides while it listens
-     (time-animated on the canvas), and brings the three moments in.
-     Places come from the screen (geo), so it fits a phone. */
+     flow (wherever that is on screen right now) to its place under the
+     words, and scroll turns it: 42 frames of the band lifting off and
+     turning to a three-quarter view (cut out, with their shadows), the
+     first of which is the flow's own picture; the flow recedes as it
+     goes, and the section's own band (the last frame) takes over at the
+     end. Then the pin: one eased progress value picks the point being
+     made (its words above the band), draws the lines to the two
+     microphones, and, while it listens, streams the sound in from both
+     sides with moments of the day riding the waves into the band
+     (time-animated). Places come from the screen (geo), so it fits a
+     phone. */
   var devSec = document.querySelector('[data-dev]');
   var dCanvas = devSec && devSec.querySelector('.dev__canvas');
   var dx = dCanvas && dCanvas.getContext && dCanvas.getContext('2d');
@@ -574,7 +626,7 @@
     var dCopy = devSec.querySelector('.dev__copy');
     var dChaps = [].slice.call(devSec.querySelectorAll('.dev__chap'));
     var dCalls = [].slice.call(devSec.querySelectorAll('.dev__call'));
-    var dMoments = [].slice.call(devSec.querySelectorAll('.dev__moments li'));
+    var dRides = [].slice.call(devSec.querySelectorAll('.dev__ride'));
     var srcBand = document.querySelector('.flow__device');
     var srcCanvas = document.querySelector('.flow__canvas');
     var srcStage = document.querySelector('.flow__stage');
@@ -631,9 +683,9 @@
       dBandDrawn = true;
     };
 
-    // The layout for this screen: the frame's place at rest (its band box
-    // centred where the band should be), the labels', the moments', and
-    // the lines' ends.
+    // The layout for this screen: the words at the top, the frame under
+    // them (its band box centred in the room that is left), the labels
+    // and the lines' ends.
     var dGeo = function () {
       var W = dStage.clientWidth, H = dStage.clientHeight;
       if (!W || !H) return;
@@ -641,9 +693,9 @@
       var gut = parseFloat(getComputedStyle(dCopy).paddingLeft) || 16;
       var BW = Math.min(W * (narrow ? 0.94 : 0.72), 760);
       var FWd = BW / (D_BOX.r - D_BOX.l), FHd = FWd * D_FH / D_FW;
-      var headH = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 64;
-      var room = dCopy.offsetTop - headH;
-      var cx = W / 2, cy = headH + room * (narrow ? 0.5 : 0.52);
+      var roomTop = dCopy.offsetTop + dCopy.offsetHeight + (narrow ? 8 : 12);
+      var room = H - roomTop - (narrow ? 16 : 28);
+      var cx = W / 2, cy = roomTop + room * (narrow ? 0.46 : 0.5);
       var left = cx - (D_BOX.l + D_BOX.r) / 2 * FWd, top = cy - (D_BOX.t + D_BOX.b) / 2 * FHd;
       dBand.style.width = dPx(FWd);
       dBand.style.left = dPx(left);
@@ -663,41 +715,29 @@
       dCalls.forEach(function (el, i) {
         var w = el.offsetWidth, h = el.offsetHeight, x, y, A;
         if (narrow) {
-          if (i === 0) { x = gut; y = bt - h - 18; A = [x + w - 24, y + h]; }
+          if (i === 0) { x = gut; y = bt - h - 14; A = [x + w - 24, y + h]; }
           else { x = W - gut - w; y = bb + 4; A = [x + 24, y]; }
         } else {
-          if (i === 0) { x = bl - w + 40; y = bt - h - 26; A = [x + w - 16, y + h]; }
+          if (i === 0) { x = bl - w + 40; y = bt - h - 22; A = [x + w - 16, y + h]; }
           else { x = br - 40; y = bb - 20; A = [x + 16, y]; }
         }
         x = clamp(x, gut, W - gut - w);
+        y = clamp(y, roomTop - 8, H - h - 8);
         el.style.setProperty('--x', dPx(x));
         el.style.setProperty('--y', dPx(y));
         lines.push([A, ends[i]]);
       });
-
-      // The moments, around the band: one to its left, one above, one below.
-      dMoments.forEach(function (el, i) {
-        var w = el.offsetWidth, h = el.offsetHeight, x, y;
-        if (narrow) {
-          x = [gut, W * 0.36, W * 0.18][i];
-          y = [bt - 90, bt - 46, bb + 8][i];
-        } else {
-          x = [bl - w - 28, cx + BW * 0.12, cx + BW * 0.22][i];
-          y = [cy - BW * 0.1 - h / 2, bt - 60, bb - 4][i];
-        }
-        el.style.setProperty('--x', dPx(clamp(x, gut, W - gut - w)));
-        el.style.setProperty('--y', dPx(clamp(y, headH + 8, H - h - 8)));
-      });
+      dRides.forEach(function (el) { el.style.setProperty('--w', dPx(el.offsetWidth)); });
 
       dCanvas.width = Math.round(W * dpr);
       dCanvas.height = Math.round(H * dpr);
-      D = { W: W, H: H, dpr: dpr, narrow: narrow, FWd: FWd, FHd: FHd, left: left, top: top, cx: cx, cy: cy, lines: lines, ends: ends };
+      D = { W: W, H: H, dpr: dpr, narrow: narrow, FWd: FWd, FHd: FHd, left: left, top: top, cx: cx, cy: cy, lines: lines, ends: ends, bl: bl, br: br };
       dDrawBand();
     };
 
     // ---- On the canvas: the lines to the microphones, and the sound ----
     var D_STRANDS = [[1, 0, 1.5, 0.9], [0.6, 2.1, 1, 0.28]];
-    var D_SPEED = 110;
+    var D_SPEED = 110, D_RIDE = 64;
     var dWave = function (side, t, amp, voice) {
       if (amp <= 0.01) return;
       var T = side < 0 ? D.ends[0] : D.ends[1];
@@ -728,6 +768,22 @@
         dx.stroke();
       });
       dx.globalAlpha = 1;
+    };
+    // Moments of the day ride the waves into the band: three on each side,
+    // spaced along the way, each fading in at the edge and into the module.
+    var dRide = function (t, amp) {
+      dRides.forEach(function (el, i) {
+        var side = el.getAttribute('data-side') === 'right' ? 1 : -1, lane = Math.floor(i / 2);
+        var T = side < 0 ? D.ends[0] : D.ends[1];
+        var x0 = side < 0 ? -40 : D.W + 40, L = Math.abs(T[0] - x0);
+        var u = ((t * D_RIDE + lane * (L / 3)) % L) / L;
+        var x = x0 + (T[0] - x0) * u, y = T[1] - 36 + Math.sin(t * 1.4 + i * 1.1) * 3;
+        // Gone before the band's edge, so no label ever sits on the band.
+        var edge = ((side < 0 ? D.bl : D.br) - x0) / (T[0] - x0);
+        var o = amp * dSmooth(0.04, 0.16, u) * (1 - dSmooth(edge - 0.16, edge - 0.04, u));
+        el.style.opacity = o.toFixed(3);
+        el.style.transform = 'translate3d(' + dPx(x - parseFloat(el.style.getPropertyValue('--w') || el.offsetWidth) / 2) + ',' + dPx(y) + ',0)';
+      });
     };
     var dPaint = function (now) {
       if (!D) return;
@@ -761,13 +817,14 @@
           }
         });
       }
-      // Listening: the sound streams in from both sides.
-      var amp = dSmooth(0.4, 0.46, p) * (1 - dSmooth(0.64, 0.69, p));
+      // Listening: the sound streams in from both sides, the day riding it.
+      var amp = dSmooth(0.4, 0.46, p) * (1 - dSmooth(0.93, 0.97, p));
       var turn = 0.5 + 0.5 * Math.sin(t * 0.7);
       dWave(1, t, amp * (0.35 + 0.65 * turn), 0);
       dWave(-1, t, amp * (0.35 + 0.65 * (1 - turn)), 1);
+      dRide(t, amp);
     };
-    var dSoundLive = function () { return D && dOn && dP > 0.38 && dP < 0.7; };
+    var dSoundLive = function () { return D && dOn && dP > 0.38 && dP < 0.98; };
     var dLoop = function (now) {
       dRaf = 0;
       if (!dSoundLive()) return;
@@ -789,9 +846,8 @@
       }
       var callO = dSmooth(0.04, 0.12, p) * (1 - dSmooth(0.33, 0.37, p));
       dCalls.forEach(function (el) { el.style.setProperty('--call', callO.toFixed(3)); });
-      var lit = p > 0.37 && p < 0.69;
+      var lit = p > 0.37 && p < 0.97;
       if (lit !== dLit) { dLit = lit; devSec.classList.toggle('is-lit', lit); }
-      dMoments.forEach(function (el, i) { el.classList.toggle('is-in', p > 0.72 + i * 0.05 && p < 0.98); });
       if (dSoundLive()) { if (!dRaf) dRaf = requestAnimationFrame(dLoop); }
       else dPaint(performance.now());
     };
@@ -831,6 +887,7 @@
         dTravel.style.width = dPx(lerp(a.width, D.FWd, e));
         dTravel.classList.add('is-on');
         dTravelDraw(Math.round(e * (D_N - 1)));
+        devSec.classList.remove('is-arrived');
         srcBand.style.visibility = 'hidden';
         dBand.style.visibility = 'hidden';
         if (srcCanvas) srcCanvas.style.opacity = (1 - dSmooth(0, 0.3, q)).toFixed(3);
@@ -840,6 +897,7 @@
         if (srcBand) srcBand.style.visibility = q >= 1 ? 'hidden' : '';
         if (q >= 1 && !dBandDrawn) dDrawBand();
         dBand.style.visibility = q >= 1 ? '' : 'hidden';
+        devSec.classList.toggle('is-arrived', q >= 1);
         if (srcCanvas) srcCanvas.style.opacity = q >= 1 ? '0' : '';
         if (srcStage) srcStage.style.opacity = q >= 1 ? '0.1' : '';
       }

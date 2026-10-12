@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v6.css?v=20261012m">
+<link rel="stylesheet" href="v6.css?v=20261012n">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -151,13 +151,15 @@
        sound of it streams out of the picture and into the band in the
        middle, a waveform that never stops; out of the band's other side,
        insight about you comes out, one card at a time, rising into a stack
-       on the right. Nothing is pinned: the flow runs on its own while the
-       section is on screen (v6.js draws the sound on the canvas and sends
-       each new card out of the band). On phones the three parts stack and
-       the flow runs down the page. Without the script, or with reduced
+       on the right. On wide screens the section pins and the scroll plays
+       it: first only the sound going in, then one insight out with each
+       step (v6.js draws the sound on the canvas and sends each card out
+       of the band). On phones nothing pins: the three parts stack, the
+       flow runs down the page on its own. Without the script, or with reduced
        motion, the parts simply stand: the picture, the band, three
        insights. -->
   <section class="section flow" id="how" aria-labelledby="flow-title" data-flow>
+    <div class="flow__pin"><div class="flow__stick">
     <div class="shell">
       <header class="sec-head sec-head--center rv">
         <div class="sec-rule"><span class="eyebrow">How it works</span></div>
@@ -191,19 +193,20 @@
         </ul>
       </div>
     </div>
+    </div></div>
   </section>
 
   <!-- The device. As you scroll on from the flow, the band travels from its
-       place there to the centre of the screen, growing and turning towards
-       a three-quarter view (42 cut-out frames of it turning, scrubbed by
-       the scroll on a fixed canvas, .dev__travel; v6.js hands over at each
-       end), then
-       holds while three things are said around it: two microphones, lines
-       drawn to each; listening all day, the sound streaming in from both
-       sides; and the best conversations are never planned, three unplanned
-       moments appearing around it. The words sit centred under the band,
-       one point at a time. Without the script, or with reduced motion,
-       nothing travels or pins: the band, then the three points as a list. -->
+       place there to its place under the words, lifting off and turning
+       to a three-quarter view (42 cut-out frames of it turning, scrubbed
+       by the scroll on a fixed canvas, .dev__travel; v6.js hands over at
+       each end), then holds while three things are said about it: two
+       microphones, lines drawn to each; listening all day, the sound
+       streaming in from both sides with moments of the day riding the
+       waves into the band; and the best conversations are never planned.
+       The words sit centred above the band, one point at a time. Without
+       the script, or with reduced motion, nothing travels or pins: the
+       band, then the three points as a list. -->
   <section class="dev" id="device" aria-labelledby="dev-title" data-dev data-frames="42" data-src="/media/turn/{n}.webp">
     <div class="dev__pin">
       <div class="dev__stage">
@@ -217,10 +220,13 @@
           <p class="dev__call" data-call="0"><b>Microphone</b><span>Your side of the table.</span></p>
           <p class="dev__call" data-call="1"><b>Microphone</b><span>Theirs.</span></p>
         </div>
-        <ul class="dev__moments" aria-hidden="true">
-          <li>8:52 AM · Coffee with a friend</li>
-          <li>2:15 PM · A quick chat after a meeting</li>
-          <li>8:40 PM · Dinner with an old friend</li>
+        <ul class="dev__rides" aria-hidden="true">
+          <li class="dev__ride" data-side="left">Morning coffee</li>
+          <li class="dev__ride" data-side="right">The team meeting</li>
+          <li class="dev__ride" data-side="left">Lunch with friends</li>
+          <li class="dev__ride" data-side="right">A call with your mum</li>
+          <li class="dev__ride" data-side="left">A walk after work</li>
+          <li class="dev__ride" data-side="right">Dinner with family</li>
         </ul>
         <div class="shell dev__copy">
           <p class="eyebrow dev__eyebrow">The device</p>
@@ -920,6 +926,6 @@
   </div>
 </footer>
 
-<script src="v6.js?v=20261012m" defer></script>
+<script src="v6.js?v=20261012n" defer></script>
 </body>
 </html>
