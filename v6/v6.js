@@ -375,7 +375,11 @@
     // In time (phones): the first card, then one every PERIOD, the pulse
     // running TRAVEL ahead of it. On the scroll: the first card at T0 of
     // the pin's progress, then one every STEP, the pulse running ahead.
-    var PERIOD = 3.0, TRAVEL = 0.8, FIRST = 1.6, T0 = 0.3, STEP = 0.11;
+    // On the scroll, three parts in turn: the conversation alone, the band
+    // from F_S1 (the sound soon after), the insights' side from F_S2, the
+    // first card at T0 and one every STEP after it.
+    var PERIOD = 3.0, TRAVEL = 0.8, FIRST = 1.6, T0 = 0.34, STEP = 0.095, F_S1 = 0.14, F_S2 = 0.26;
+    var fStepIdx = -1;
     var F = null, fOn = false, fRaf = 0, t0 = 0, fCount = -1, fP = 0, fTgt = 0, fPinned = false;
     var fParts = flow.querySelectorAll('.flow__part');
     var fSpan = function (v, a, b) { return clamp((v - a) / (b - a), 0, 1); };
@@ -411,6 +415,9 @@
         fPinned = pinned;
         flow.classList.toggle('is-pinned', pinned);
         fCount = -1;
+        fStepIdx = -1;
+        fStage.style.removeProperty('--shift');
+        flow.classList.remove('is-dev');
       }
     };
 
@@ -452,6 +459,17 @@
       fCanvas.width = Math.round(sr.width * dpr);
       fCanvas.height = Math.round(sr.height * dpr);
       F = { W: sr.width, H: sr.height, dpr: dpr, sound: sound, line: line, narrow: narrow, amp: Math.min(sr.width * 0.028, 30) };
+      // How far the stage moves to centre the parts shown so far: the
+      // picture alone, the picture and the band, the whole row.
+      F.shift = [sr.width / 2 - (c.l + c.w / 2), sr.width / 2 - (c.l + d.l + d.w) / 2, sr.width / 2 - (c.l + o.l + o.w) / 2];
+      if (fStepIdx >= 0) fStage.style.setProperty('--shift', fPx(F.shift[fStepIdx]));
+    };
+    var fStep = function (i) {
+      if (i === fStepIdx) return;
+      fStepIdx = i;
+      fStage.style.setProperty('--shift', fPx(F.shift[i]));
+      flow.classList.toggle('is-dev', i >= 1);
+      flow.classList.toggle('is-out', i >= 2);
     };
 
     // The sound: a line and a fainter echo of it, crests and speech-like
@@ -528,7 +546,7 @@
           card.className = 'flow__card ' + (age < 3 ? 'is-s' + age : 'is-gone');
         }
       });
-      flow.classList.toggle('is-out', k > 0);
+      if (!fPinned) flow.classList.toggle('is-out', k > 0);
     };
 
     var fFrame = function (now) {
@@ -540,17 +558,18 @@
       var amp, lineA, k, u;
       if (fPinned) {
         var p = fP;
-        amp = fSmooth(0.02, 0.14, p);
+        fStep(p < F_S1 ? 0 : p < F_S2 ? 1 : 2);
+        amp = fSmooth(F_S1 + 0.04, F_S1 + 0.12, p);
         lineA = fSmooth(T0 - 0.08, T0 - 0.02, p);
         k = clamp(Math.floor((p - T0) / STEP) + 1, 0, fCards.length);
         var next = T0 + k * STEP;
         u = k < fCards.length ? fSpan(p, next - STEP * 0.6, next) : -1;
         if (u >= 1) u = -1;
-        // The title's piece for the step: always with you (the sound sets
-        // out), it recalls every conversation (the sound enters the band),
-        // insight about you (the cards come out). Then the exit.
-        var pt = p < 0.12 ? 0 : p < T0 ? 1 : 2;
-        fParts.forEach(function (el, j) { el.classList.toggle('is-on', j === pt); });
+        // The title's pieces, each staying once said: always with you (the
+        // conversation), it recalls every conversation (the band and the
+        // sound), insight about you (the cards come out). Then the exit.
+        var pt = p < F_S1 ? 0 : p < T0 ? 1 : 2;
+        fParts.forEach(function (el, j) { el.classList.toggle('is-on', j <= pt); });
         flow.style.setProperty('--exit', fSmooth(0.9, 1, p).toFixed(3));
       } else {
         amp = fSmooth(0.4, 1.6, t);
