@@ -695,14 +695,18 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   gap: clamp(40px, 6vw, 72px);
   padding-block: var(--section);
 }
-.dev__band { position: relative; width: min(100%, 520px); margin-inline: auto; }
+.dev__band { position: relative; width: min(100%, 720px); margin-inline: auto; }
 .dev__band img { display: block; width: 100%; height: auto; }
+.dev__bandc { display: none; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+.dev.is-live .dev__band img { display: none; }
+.dev.is-live .dev__bandc { display: block; }
+/* The light, on the last frame. */
 .dev__glow {
   position: absolute;
-  left: 52.45%;
-  top: 56.7%;
-  width: 2.6%;
-  height: 11%;
+  left: 42%;
+  top: 68%;
+  width: 2.4%;
+  height: 17%;
   translate: -50% -50%;
   border-radius: 50%;
   background: radial-gradient(closest-side, rgba(210, 237, 40, 0.55), rgba(210, 237, 40, 0));
@@ -740,7 +744,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 /* The fixed copy that carries the band from the flow to the centre. */
 .dev__travel { position: fixed; left: 0; top: 0; z-index: 4; pointer-events: none; }
 .dev__travel.is-on { display: block; }
-.dev__travel img { display: block; width: 100%; height: auto; }
+.dev__travel canvas { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
 
 /* The two microphones: a label for each, placed by v6.js, its line drawn
    on the canvas. */

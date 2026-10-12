@@ -550,23 +550,27 @@
 
   /* ---- The device: from the flow to the centre of the screen ------------- */
   /* Two movements. The journey: while the section's top crosses the
-     screen, a fixed copy of the band carries it from where it sits in the
-     flow (wherever that is on screen right now) to the centre, growing;
-     the flow's band and its sound give way at the start, the section's
-     own band takes over at the end. Then the pin: one eased progress value
-     picks the point being made, draws the lines to the two microphones,
-     streams the sound in from both sides while it listens (time-animated
-     on the canvas), and brings the three moments in. Places come from the
-     screen (geo), so it fits a phone. */
+     screen, a fixed canvas carries the band from where it sits in the
+     flow (wherever that is on screen right now) to the centre, and scroll
+     turns it: 62 frames of the band turning towards a three-quarter view
+     (cut out, with their shadows), the first of which is the flow's own
+     picture; the flow recedes as it goes, and the section's own band (the
+     last frame) takes over at the end. Then the pin: one eased progress
+     value picks the point being made, draws the lines to the two
+     microphones, streams the sound in from both sides while it listens
+     (time-animated on the canvas), and brings the three moments in.
+     Places come from the screen (geo), so it fits a phone. */
   var devSec = document.querySelector('[data-dev]');
   var dCanvas = devSec && devSec.querySelector('.dev__canvas');
   var dx = dCanvas && dCanvas.getContext && dCanvas.getContext('2d');
-  if (devSec && dx && !reduceMotion && 'IntersectionObserver' in window) {
+  var dBandC = devSec && devSec.querySelector('.dev__bandc');
+  var dTravel = document.querySelector('.dev__travel');
+  var dTravelC = dTravel && dTravel.querySelector('canvas');
+  if (devSec && dx && dBandC && dTravelC && !reduceMotion && 'IntersectionObserver' in window) {
     devSec.classList.add('is-live');
     var dPin = devSec.querySelector('.dev__pin');
     var dStage = devSec.querySelector('.dev__stage');
     var dBand = devSec.querySelector('.dev__band');
-    var dTravel = document.querySelector('.dev__travel');
     var dCopy = devSec.querySelector('.dev__copy');
     var dChaps = [].slice.call(devSec.querySelectorAll('.dev__chap'));
     var dCalls = [].slice.call(devSec.querySelectorAll('.dev__call'));
@@ -574,32 +578,83 @@
     var srcBand = document.querySelector('.flow__device');
     var srcCanvas = document.querySelector('.flow__canvas');
     var srcStage = document.querySelector('.flow__stage');
-    // The module's middle and half-width in the band's picture, as
-    // fractions of its width and height, and the picture's shape.
-    var D_MOD = [0.45, 0.558], D_HALF = 0.132, D_RATIO = 520 / 1100;
+    var bx2 = dBandC.getContext('2d'), tx2 = dTravelC.getContext('2d');
+    // The frames: 16:9, the flow's picture (1100 wide, 520 tall) sits in
+    // the first one scaled to its width with 72 of 900 above it. In the
+    // last frame: the box the band fills, the module's two ends and its
+    // light, as fractions of the frame.
+    var D_N = parseInt(devSec.getAttribute('data-frames'), 10) || 62;
+    var D_SRC = devSec.getAttribute('data-src');
+    var D_FW = 1600, D_FH = 900, D_PAD = 72 / 900;
+    var D_BOX = { l: 0.11, r: 0.885, t: 0.08, b: 0.8 };
+    var D_ENDS = [[0.165, 0.515], [0.495, 0.635]];
     var D_POINTS = [0, 0.37, 0.69];
+    var dFrames = new Array(D_N), dLoading = false, dLastK = -1, dBandDrawn = false;
     var D = null, dP = 0, dTgt = 0, dPoint = -1, dRaf = 0, dOn = false, dLit = false;
     var dSpan = function (v, a, b) { return clamp((v - a) / (b - a), 0, 1); };
     var dSmooth = function (a, b, v) { var t = dSpan(v, a, b); return t * t * (3 - 2 * t); };
     var dEaseIO = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
     var dPx = function (v) { return v.toFixed(1) + 'px'; };
 
-    // The layout for this screen: the band's place, the labels', the
-    // moments', and the lines' ends.
+    var dNearest = function (i) {
+      if (dFrames[i]) return dFrames[i];
+      for (var d = 1; d < D_N; d++) {
+        if (dFrames[i - d]) return dFrames[i - d];
+        if (dFrames[i + d]) return dFrames[i + d];
+      }
+      return null;
+    };
+    var dLoad = function () {
+      if (dLoading) return;
+      dLoading = true;
+      for (var i = 0; i < D_N; i++) {
+        (function (i) {
+          var im = new Image();
+          im.decoding = 'async';
+          im.onload = function () {
+            dFrames[i] = im;
+            if (i === D_N - 1) dDrawBand();
+          };
+          var n = String(i + 1);
+          im.src = D_SRC.replace('{n}', n.length < 2 ? '0' + n : n);
+        })(i);
+      }
+    };
+    // The band at rest: the last frame, on its own canvas in the stage.
+    var dDrawBand = function () {
+      if (!D) return;
+      var im = dNearest(D_N - 1);
+      if (!im) return;
+      bx2.clearRect(0, 0, dBandC.width, dBandC.height);
+      bx2.drawImage(im, 0, 0, dBandC.width, dBandC.height);
+      dBandDrawn = true;
+    };
+
+    // The layout for this screen: the frame's place at rest (its band box
+    // centred where the band should be), the labels', the moments', and
+    // the lines' ends.
     var dGeo = function () {
       var W = dStage.clientWidth, H = dStage.clientHeight;
       if (!W || !H) return;
       var narrow = W < 700;
       var gut = parseFloat(getComputedStyle(dCopy).paddingLeft) || 16;
-      var BW = Math.min(W * (narrow ? 0.92 : 0.72), 720), BH = BW * D_RATIO;
+      var BW = Math.min(W * (narrow ? 0.94 : 0.72), 760);
+      var FWd = BW / (D_BOX.r - D_BOX.l), FHd = FWd * D_FH / D_FW;
       var headH = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 64;
       var room = dCopy.offsetTop - headH;
       var cx = W / 2, cy = headH + room * (narrow ? 0.5 : 0.52);
-      var left = cx - D_MOD[0] * BW, top = cy - D_MOD[1] * BH;
-      dBand.style.width = dPx(BW);
+      var left = cx - (D_BOX.l + D_BOX.r) / 2 * FWd, top = cy - (D_BOX.t + D_BOX.b) / 2 * FHd;
+      dBand.style.width = dPx(FWd);
       dBand.style.left = dPx(left);
       dBand.style.top = dPx(top);
-      var modL = [cx - D_HALF * 0.95 * BW, cy], modR = [cx + D_HALF * 0.95 * BW, cy];
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dBandC.width = Math.min(D_FW, Math.round(FWd * dpr));
+      dBandC.height = Math.round(dBandC.width * D_FH / D_FW);
+      dTravelC.width = Math.min(D_FW, Math.round(FWd * dpr));
+      dTravelC.height = Math.round(dTravelC.width * D_FH / D_FW);
+      dLastK = -1;
+      var bl = left + D_BOX.l * FWd, br = left + D_BOX.r * FWd, bt = top + D_BOX.t * FHd, bb = top + D_BOX.b * FHd;
+      var ends = D_ENDS.map(function (e) { return [left + e[0] * FWd, top + e[1] * FHd]; });
 
       // The labels: one up and to the left, one down and to the right, each
       // line from the label's near corner to its microphone.
@@ -607,16 +662,16 @@
       dCalls.forEach(function (el, i) {
         var w = el.offsetWidth, h = el.offsetHeight, x, y, A;
         if (narrow) {
-          if (i === 0) { x = gut; y = top - h - 22; A = [x + w - 24, y + h]; }
-          else { x = W - gut - w; y = top + BH + 22; A = [x + 24, y]; }
+          if (i === 0) { x = gut; y = bt - h - 18; A = [x + w - 24, y + h]; }
+          else { x = W - gut - w; y = bb + 4; A = [x + 24, y]; }
         } else {
-          if (i === 0) { x = cx - BW * 0.42 - w; y = cy - BH * 0.5 - h - 20; A = [x + w - 16, y + h]; }
-          else { x = cx + BW * 0.42; y = cy + BH * 0.5 + 20; A = [x + 16, y]; }
+          if (i === 0) { x = bl - w + 40; y = bt - h - 26; A = [x + w - 16, y + h]; }
+          else { x = br - 40; y = bb - 20; A = [x + 16, y]; }
         }
         x = clamp(x, gut, W - gut - w);
         el.style.setProperty('--x', dPx(x));
         el.style.setProperty('--y', dPx(y));
-        lines.push([A, i === 0 ? modL : modR]);
+        lines.push([A, ends[i]]);
       });
 
       // The moments, around the band: one to its left, one above, one below.
@@ -624,19 +679,19 @@
         var w = el.offsetWidth, h = el.offsetHeight, x, y;
         if (narrow) {
           x = [gut, W * 0.36, W * 0.18][i];
-          y = [top - 96, top - 52, top + BH + 24][i];
+          y = [bt - 90, bt - 46, bb + 8][i];
         } else {
-          x = [cx - BW * 0.5 - w - 28, cx + BW * 0.12, cx + BW * 0.24][i];
-          y = [cy - BH * 0.4 - h / 2, top - 76, top + BH + 24][i];
+          x = [bl - w - 28, cx + BW * 0.12, cx + BW * 0.22][i];
+          y = [cy - BW * 0.1 - h / 2, bt - 60, bb - 4][i];
         }
         el.style.setProperty('--x', dPx(clamp(x, gut, W - gut - w)));
         el.style.setProperty('--y', dPx(clamp(y, headH + 8, H - h - 8)));
       });
 
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
       dCanvas.width = Math.round(W * dpr);
       dCanvas.height = Math.round(H * dpr);
-      D = { W: W, H: H, dpr: dpr, narrow: narrow, BW: BW, BH: BH, cx: cx, cy: cy, left: left, top: top, lines: lines, modL: modL, modR: modR };
+      D = { W: W, H: H, dpr: dpr, narrow: narrow, FWd: FWd, FHd: FHd, left: left, top: top, cx: cx, cy: cy, lines: lines, ends: ends };
+      dDrawBand();
     };
 
     // ---- On the canvas: the lines to the microphones, and the sound ----
@@ -644,8 +699,9 @@
     var D_SPEED = 110;
     var dWave = function (side, t, amp, voice) {
       if (amp <= 0.01) return;
-      var xT = side < 0 ? D.modL[0] : D.modR[0], x0 = side < 0 ? -8 : D.W + 8;
-      var L = Math.abs(xT - x0), y0 = D.cy;
+      var T = side < 0 ? D.ends[0] : D.ends[1];
+      var xT = T[0], x0 = side < 0 ? -8 : D.W + 8;
+      var L = Math.abs(xT - x0), y0 = T[1];
       var A = Math.min(D.H * 0.05, 30) * amp;
       var grad = dx.createLinearGradient(x0, 0, xT, 0);
       grad.addColorStop(0, 'rgba(21, 21, 21, 0)');
@@ -688,7 +744,6 @@
           var mx = (A[0] + T[0]) / 2;
           dx.beginPath();
           dx.moveTo(A[0], A[1]);
-          // A gentle curve, drawn along its length.
           var N = 40;
           for (var j = 1; j <= Math.round(N * e); j++) {
             var u = j / N, iu = 1 - u;
@@ -740,30 +795,49 @@
       else dPaint(performance.now());
     };
 
+    // The journey's frame: the band turning as it travels.
+    var dTravelDraw = function (k) {
+      if (k === dLastK) return;
+      var im = dNearest(k);
+      if (!im) return;
+      dLastK = k;
+      tx2.clearRect(0, 0, dTravelC.width, dTravelC.height);
+      tx2.drawImage(im, 0, 0, dTravelC.width, dTravelC.height);
+    };
+
     dGeo();
     dRender();
     window.addEventListener('resize', function () { dGeo(); dRender(); }, { passive: true });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { dGeo(); dRender(); });
+    // The frames load once the flow is a screen away.
+    new IntersectionObserver(function (entries, obs) {
+      if (!entries[0].isIntersecting) return;
+      obs.disconnect();
+      dLoad();
+    }, { rootMargin: '100% 0px' }).observe(srcStage || dPin);
 
     link(function (vh) {
       if (!D) return false;
       var r = dPin.getBoundingClientRect();
-      // The journey, while the section's top crosses the screen.
+      // The journey, while the section's top crosses the screen: the frame
+      // rides from over the flow's band to its place in the stage, turning.
       var q = clamp(1 - r.top / vh, 0, 1);
       if (q > 0 && q < 1 && srcBand) {
         var a = srcBand.getBoundingClientRect(), e = dEaseIO(q);
+        var f0 = a.width / D_FW;
         dTravel.style.left = dPx(lerp(a.left, D.left, e));
-        dTravel.style.top = dPx(lerp(a.top, D.top, e));
-        dTravel.style.width = dPx(lerp(a.width, D.BW, e));
+        dTravel.style.top = dPx(lerp(a.top - D_PAD * D_FH * f0, D.top, e));
+        dTravel.style.width = dPx(lerp(a.width, D.FWd, e));
         dTravel.classList.add('is-on');
+        dTravelDraw(Math.round(e * (D_N - 1)));
         srcBand.style.visibility = 'hidden';
         dBand.style.visibility = 'hidden';
         if (srcCanvas) srcCanvas.style.opacity = (1 - dSmooth(0, 0.3, q)).toFixed(3);
-        // The rest of the flow recedes as the band leaves it.
         if (srcStage) srcStage.style.opacity = (1 - 0.9 * dSmooth(0.1, 0.7, q)).toFixed(3);
       } else {
         dTravel.classList.remove('is-on');
         if (srcBand) srcBand.style.visibility = q >= 1 ? 'hidden' : '';
+        if (q >= 1 && !dBandDrawn) dDrawBand();
         dBand.style.visibility = q >= 1 ? '' : 'hidden';
         if (srcCanvas) srcCanvas.style.opacity = q >= 1 ? '0' : '';
         if (srcStage) srcStage.style.opacity = q >= 1 ? '0.1' : '';
