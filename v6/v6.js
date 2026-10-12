@@ -436,7 +436,7 @@
       // is, as fractions of the picture. The sound and the line stop short
       // of it, with air of their own.
       var ringL = d.l + 0.209 * d.w, ringR = d.l + 0.786 * d.w, ringT = d.t + 0.25 * d.h;
-      var S, Cc, T, sound, line = null;
+      var S, Cc, T, sound;
       if (narrow) {
         // Out of the picture's bottom, straight down towards the band, with
         // air before the ring.
@@ -451,21 +451,26 @@
         T = [ringL - 22, mod[1]];
         Cc = [(S[0] + T[0]) / 2, mod[1]];
         sound = fPath(S, Cc, T, 220);
-        // A clean line from a little after the ring to the newest slot's edge.
-        var cardTop = fCards[0].offsetTop, cardH = fCards[0].offsetHeight;
-        var ls = [ringR + 20, mod[1]], e = [o.l - 10, o.t + cardTop + cardH / 2];
-        line = fPath(ls, [(ls[0] + e[0]) / 2, (ls[1] + e[1]) / 2], e, 60);
       }
-      // Where a card is born: the module, relative to the newest slot.
-      var c0 = fCards[0];
-      var slotX = o.l + c0.offsetLeft, slotY = o.t + c0.offsetTop;
-      fOut.style.setProperty('--ex', fPx(mod[0] - slotX - c0.offsetWidth / 2));
-      fOut.style.setProperty('--ey', fPx(mod[1] - slotY - c0.offsetHeight / 2));
+      // The link: a lime thread from the band to where the next card
+      // appears (from under the ring to the card's top on phones; from the
+      // ring's edge, level with the module, to the card's left edge on wide
+      // screens). v6.js floats it each frame.
+      var c0 = fCards[0], ledX = d.l + 0.5245 * d.w, ringB = d.t + 0.663 * d.h, out, oS, oEnd;
+      if (narrow) {
+        oS = [ledX, ringB + 6];
+        oEnd = [o.l + c0.offsetLeft + c0.offsetWidth / 2, o.t + c0.offsetTop - 6];
+        out = fPath(oS, [ledX + 22, (oS[1] + oEnd[1]) / 2], oEnd, 120);
+      } else {
+        oS = [ringR + 4, mod[1]];
+        oEnd = [o.l + c0.offsetLeft - 6, o.t + c0.offsetTop + c0.offsetHeight / 2];
+        out = fPath(oS, [(oS[0] + oEnd[0]) / 2, mod[1] - 18], oEnd, 120);
+      }
 
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
       fCanvas.width = Math.round(sr.width * dpr);
       fCanvas.height = Math.round(sr.height * dpr);
-      F = { W: sr.width, H: sr.height, dpr: dpr, sound: sound, line: line, narrow: narrow, amp: narrow ? 12 : Math.min(sr.width * 0.016, 18) };
+      F = { W: sr.width, H: sr.height, dpr: dpr, sound: sound, out: out, narrow: narrow, amp: narrow ? 12 : Math.min(sr.width * 0.016, 18) };
       // The words on the sound: one every so many pixels along it.
       F.wgap = Math.max(96, sound.len / 2.4);
       F.ww = fWords.map(function (el) { return el.offsetWidth || 100; });
@@ -537,31 +542,33 @@
         el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) translate(-50%, -50%) scale(' + sc.toFixed(3) + ')';
       }
     };
-    // The insight's path: a thin line, and a pulse running along it ahead
-    // of each new card (u from 0 to 1, or less than 0 for none).
-    var fDrawLine = function (amp, u) {
-      var pts = F.line;
-      if (!pts || amp <= 0.01) return;
-      fx.strokeStyle = 'rgba(21, 21, 21, ' + (0.28 * amp).toFixed(3) + ')';
-      fx.lineWidth = 1;
-      fx.beginPath();
-      fx.moveTo(pts[0].x, pts[0].y);
-      fx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
-      fx.stroke();
-      if (u < 0 || u > 1) return;
-      var e = fEaseIO(u);
-      for (var i = 5; i >= 0; i--) {
-        var q = fAt(pts, Math.max(0, e - i * 0.035));
-        fx.fillStyle = 'rgba(21, 21, 21, ' + (amp * (1 - i / 6) * (i ? 0.35 : 1)).toFixed(3) + ')';
+    // The link from the band to the insight: three fine lines of the
+    // brand's lime, close together as they leave the band and opening a
+    // little towards the card, each drifting slightly with time, their
+    // ends held. Nothing else.
+    var F_LINES = [-1, 0, 1];
+    var fDrawLink = function (t, a, u) {
+      var pts = F.out;
+      if (!pts || a <= 0.01) return;
+      var gap = F.narrow ? 5 : 6, A = F.narrow ? 2.5 : 3;
+      fx.lineCap = 'round';
+      fx.lineJoin = 'round';
+      fx.lineWidth = 1.5;
+      fx.strokeStyle = 'rgba(210, 237, 40, ' + (0.95 * a).toFixed(3) + ')';
+      F_LINES.forEach(function (n, li) {
         fx.beginPath();
-        fx.arc(q.x, q.y, i ? 2 : 3.2, 0, Math.PI * 2);
-        fx.fill();
-      }
+        for (var i = 0; i < pts.length; i++) {
+          var q = pts[i], spread = 0.45 + 0.55 * q.u;
+          var w = n * gap * spread + A * Math.sin(q.s / 110 - t * (1.1 + 0.25 * li) + li * 2.1) * Math.sin(Math.PI * q.u);
+          var x = q.x + q.nx * w, y = q.y + q.ny * w;
+          if (i) fx.lineTo(x, y); else fx.moveTo(x, y);
+        }
+        fx.stroke();
+      });
     };
 
     // How many insights are out. The newest takes the first slot, the
-    // older ones move on; one taken back (scrolling up) eases back into
-    // the band.
+    // older ones move on; one taken back (scrolling up) folds away.
     var fSet = function (k) {
       if (k === fCount) return;
       var was = fCount;
@@ -615,7 +622,7 @@
       }
       fDrawSound(t, amp);
       fPlaceWords(t, amp);
-      fDrawLine(lineA, u);
+      fDrawLink(t, lineA, u);
       fSet(k);
       if (t > 1.3 && !flow.classList.contains('is-lit')) flow.classList.add('is-lit');
       fRaf = requestAnimationFrame(fFrame);
