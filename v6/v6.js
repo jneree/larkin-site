@@ -382,6 +382,7 @@
     var fStepIdx = -1;
     var F = null, fOn = false, fRaf = 0, t0 = 0, fCount = -1, fP = 0, fTgt = 0, fPinned = false;
     var fParts = flow.querySelectorAll('.flow__part');
+    var fWords = [].slice.call(flow.querySelectorAll('.flow__word'));
     var fSpan = function (v, a, b) { return clamp((v - a) / (b - a), 0, 1); };
     var fSmooth = function (a, b, v) { var t = fSpan(v, a, b); return t * t * (3 - 2 * t); };
     var fEaseIO = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
@@ -458,7 +459,10 @@
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
       fCanvas.width = Math.round(sr.width * dpr);
       fCanvas.height = Math.round(sr.height * dpr);
-      F = { W: sr.width, H: sr.height, dpr: dpr, sound: sound, line: line, narrow: narrow, amp: Math.min(sr.width * 0.028, 30) };
+      F = { W: sr.width, H: sr.height, dpr: dpr, sound: sound, line: line, narrow: narrow, amp: narrow ? 16 : Math.min(sr.width * 0.028, 30) };
+      // The words on the sound: one every so many pixels along it.
+      F.wgap = Math.max(96, sound.len / 2.4);
+      F.ww = fWords.map(function (el) { return el.offsetWidth || 100; });
       // How far the stage moves to centre the parts shown so far: the
       // picture alone, the picture and the band, the whole row.
       F.shift = [sr.width / 2 - (c.l + c.w / 2), sr.width / 2 - (c.l + d.l + d.w) / 2, sr.width / 2 - (c.l + o.l + o.w) / 2];
@@ -472,38 +476,60 @@
       flow.classList.toggle('is-out', i >= 2);
     };
 
-    // The sound: a line and a fainter echo of it, crests and speech-like
-    // bursts travelling along the path into the band, narrowing to nothing
-    // at the module.
-    var F_STRANDS = [[1, 0, 1.5, 0.9], [0.6, 2.1, 1, 0.28]];
+    // The sound: a waveform, bars across the path mirrored about it, their
+    // heights a speech-like envelope that travels along it into the
+    // module, swelling in from the picture and narrowing to nothing at the
+    // module's end, ink turning lime as it enters.
     var F_SPEED = 110;
+    var fHash = function (k) { var x = Math.sin(k * 12.9898) * 43758.5453; return x - Math.floor(x); };
+    var fEnv = function (u) {
+      var syl = 0.5 + 0.5 * Math.sin(u / 17.5);
+      var wrd = 0.5 + 0.5 * Math.sin(u / 54 + 1.3);
+      var fine = 0.5 + 0.5 * Math.sin(u / 3.7);
+      var r = 0.5 + 0.5 * fHash(Math.floor(u / 110));
+      return 0.08 + 0.92 * (0.55 * syl + 0.3 * wrd + 0.15 * fine) * r;
+    };
     var fDrawSound = function (t, amp) {
       if (amp <= 0.01) return;
-      var pts = F.sound;
-      var grad = fx.createLinearGradient(pts[0].x, pts[0].y, pts[pts.length - 1].x, pts[pts.length - 1].y);
-      grad.addColorStop(0, 'rgba(21, 21, 21, 0)');
-      grad.addColorStop(0.08, 'rgba(21, 21, 21, 1)');
-      grad.addColorStop(0.9, 'rgba(21, 21, 21, 1)');
-      grad.addColorStop(1, 'rgba(160, 190, 40, 1)');
-      fx.strokeStyle = grad;
+      var pts = F.sound, L = pts.len, step = F.narrow ? 5 : 6, A = F.amp * amp;
       fx.lineCap = 'round';
-      fx.lineJoin = 'round';
-      F_STRANDS.forEach(function (st) {
-        fx.lineWidth = st[2];
-        fx.globalAlpha = st[3];
+      fx.lineWidth = F.narrow ? 2.5 : 3;
+      for (var sPos = 4; sPos <= L - 3; sPos += step) {
+        var v = sPos / L, q = fAt(pts, v);
+        var h = A * fEnv(sPos - F_SPEED * t) * fSmooth(0, 0.1, v) * (1 - fSmooth(0.8, 1, v));
+        if (h < 0.7) h = 0.7;
+        var g = fSpan(v, 0.95, 1), o = 0.92 - 0.3 * fSmooth(0.85, 1, v);
+        fx.strokeStyle = 'rgba(' + Math.round(21 + (160 - 21) * g) + ',' + Math.round(21 + (190 - 21) * g) + ',' + Math.round(21 + (40 - 21) * g) + ',' + o.toFixed(2) + ')';
         fx.beginPath();
-        for (var j = 0; j < pts.length; j++) {
-          var q = pts[j], u = q.u;
-          var env = fSmooth(0, 0.08, u) * (1 - fSmooth(0.8, 1, u));
-          var ph = q.s - F_SPEED * t;
-          var burst = 0.25 + 0.75 * Math.pow(Math.max(0, Math.sin(ph / 300 * Math.PI * 2 + st[1])), 2);
-          var d = F.amp * amp * st[0] * env * burst * (0.6 * Math.sin(ph / 16 + st[1]) + 0.3 * Math.sin(ph / 7.4 + st[1] * 1.7) + 0.1 * Math.sin(ph / 3.6));
-          var x = q.x + q.nx * d, y = q.y + q.ny * d;
-          if (j) fx.lineTo(x, y); else fx.moveTo(x, y);
-        }
+        fx.moveTo(q.x - q.nx * h, q.y - q.ny * h);
+        fx.lineTo(q.x + q.nx * h, q.y + q.ny * h);
         fx.stroke();
-      });
-      fx.globalAlpha = 1;
+      }
+    };
+    // The words: pieces of the conversation set out from the picture one
+    // after another and ride the sound at its speed, above and below it
+    // in turn (left and right of it on phones), fading as they enter the
+    // module.
+    var fPlaceWords = function (t, amp) {
+      var N = fWords.length, L = F.sound.len, gap = F.wgap, head = F_SPEED * t;
+      var kmax = Math.floor(head / gap), kmin = Math.max(0, Math.ceil((head - L) / gap));
+      for (var i = 0; i < N; i++) fWords[i].style.opacity = '0';
+      if (amp < 0.3) return;
+      var off = F.amp + 12;
+      for (var k = kmin; k <= kmax; k++) {
+        var sPos = head - k * gap;
+        if (sPos < 0 || sPos > L) continue;
+        var el = fWords[k % N], v = sPos / L, q = fAt(F.sound, v), side = k % 2 ? 1 : -1;
+        // A word fades in once it has cleared the picture and out before it
+        // reaches the module: by its own half-width along the sound (its
+        // half-height on phones, where it rides the sound itself).
+        var half = F.narrow ? 12 : F.ww[k % N] / 2;
+        var o = fSmooth(0, 36, sPos - half) * (1 - fSmooth(L - half - 56, L - half - 4, sPos)) * amp;
+        var sc = 1 - 0.25 * fSmooth(L - half - 70, L - half, sPos);
+        var x = F.narrow ? q.x : q.x + q.nx * off * side, y = F.narrow ? q.y : q.y + q.ny * off * side;
+        el.style.opacity = o.toFixed(3);
+        el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) translate(-50%, -50%) scale(' + sc.toFixed(3) + ')';
+      }
     };
     // The insight's path: a thin line, and a pulse running along it ahead
     // of each new card (u from 0 to 1, or less than 0 for none).
@@ -582,6 +608,7 @@
         if (u >= 1) u = -1;
       }
       fDrawSound(t, amp);
+      fPlaceWords(t, amp);
       fDrawLine(lineA, u);
       fSet(k);
       if (t > 1.3 && !flow.classList.contains('is-lit')) flow.classList.add('is-lit');
@@ -603,6 +630,7 @@
       flow.classList.remove('is-in', 'is-lit');
       fx.setTransform(1, 0, 0, 1, 0, 0);
       fx.clearRect(0, 0, fCanvas.width, fCanvas.height);
+      fWords.forEach(function (el) { el.style.opacity = '0'; });
     };
 
     fGeo();

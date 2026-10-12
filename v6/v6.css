@@ -583,6 +583,22 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .flow__canvas { display: none; position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
 .flow.is-live .flow__canvas { display: block; }
+/* The words on the sound: short pieces of the conversation that travel
+   with it into the module, placed every frame by v6.js. */
+.flow__words { display: none; position: absolute; inset: 0; z-index: 3; margin: 0; padding: 0; list-style: none; pointer-events: none; }
+.flow.is-live .flow__words { display: block; }
+.flow__word {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: var(--ink);
+  opacity: 0;
+  will-change: transform, opacity;
+}
 
 .flow__label {
   font-size: 0.75rem;
@@ -634,7 +650,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 
 /* The band, cut out with its shadow, over the sound: the waveform runs in
    behind the module's end. Its light breathes while the flow runs. */
-.flow__device { grid-area: dev; position: relative; z-index: 2; width: min(100%, 460px); margin: 96px auto 0; }
+.flow__device { grid-area: dev; position: relative; z-index: 2; width: min(100%, 460px); margin: 150px auto 0; }
 .flow__device img { display: block; width: 100%; height: auto; }
 .flow__glow {
   position: absolute;
@@ -694,9 +710,17 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .flow__card.is-back { z-index: 4; transform: translate(var(--ex, 0), var(--ey, 0)) scale(0.35); opacity: 0; }
 .flow:not(.is-live) .flow__card { box-shadow: inset 0 0 0 1px var(--hair); }
 
-/* On phones the stack grows downwards from the newest slot. */
+/* On phones the stack grows downwards from the newest slot, and the words
+   ride the sound itself, as small pills over it. */
 @media (max-width: 899px) {
   .flow__stage { --dir: 1; --ch: 92px; }
+  .flow__word {
+    padding: 4px 10px 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(21, 21, 21, 0.06);
+    font-size: 0.75rem;
+  }
   .flow__card p { font-size: 0.875rem; }
   .flow__card { padding: 12px 14px; }
 }
@@ -705,7 +729,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    stack sits with its newest slot level with the band; older insights rise. */
 @media (min-width: 900px) {
   .flow__stage {
-    grid-template-columns: minmax(260px, min(360px, 40vh)) minmax(0, 1fr) minmax(260px, min(360px, 40vh));
+    grid-template-columns: minmax(240px, min(320px, 36vh)) minmax(0, 1fr) minmax(240px, min(320px, 36vh));
     grid-template-areas: "ctx dev out" "lctx ldev lout";
     column-gap: clamp(32px, 4vw, 56px);
     row-gap: 20px;
@@ -715,7 +739,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .flow__context { aspect-ratio: 1 / 1; }
   .flow__label { text-align: center; }
   .flow__label--out { margin-top: 0; }
-  .flow__device { margin: 0 auto; }
+  /* The band sits at the right of its column: the sound gets the room. */
+  .flow__device { margin: 0 0 0 auto; }
   /* The newest slot is the bottom one, moved up to the band's height. */
   .flow__out { translate: 0 calc(-1 * (var(--ch) + var(--cgap))); }
   .flow__card { top: calc(2 * (var(--ch) + var(--cgap))); }
