@@ -740,15 +740,17 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 @keyframes dev-breathe { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.85; } }
 .dev__canvas, .dev__calls, .dev__rides, .dev__travel { display: none; }
 .dev__copy { display: grid; gap: clamp(16px, 2.4vw, 24px); }
-/* One sentence, told a part at a time (the parts come on as the scroll
-   reaches each point). */
+/* One sentence, told a piece at a time: each piece takes the place of
+   the last as the scroll reaches its point. */
 .dev__title {
-  max-width: 24ch;
-  font-size: clamp(1.875rem, 3.6vw, 3.25rem);
-  line-height: 1.06;
+  display: grid;
+  gap: 0.35em;
+  max-width: 20ch;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.04;
   text-wrap: balance;
 }
-.dev__part { transition: opacity 0.7s var(--ease), filter 0.7s var(--ease); }
+.dev__part { transition: opacity 0.6s var(--ease), filter 0.6s var(--ease), translate 0.7s var(--ease); }
 
 /* --- Live: the journey, then one pinned screen --------------------------- */
 .dev.is-live .dev__pin { height: 340vh; }
@@ -807,8 +809,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   will-change: transform, opacity;
 }
 
-/* The sentence, centred above the band; each part arrives in its place,
-   so the words never move. It all waits until the band has arrived. */
+/* The sentence, centred above the band, one piece showing at a time (all
+   three share one place). It waits until the band has arrived, and at
+   the end it fades with the band as the next section rises. */
 .dev.is-live .dev__copy {
   position: absolute;
   left: 0;
@@ -817,14 +820,18 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   z-index: 3;
   justify-items: center;
   text-align: center;
+  opacity: calc(1 - var(--exit, 0));
 }
-.dev.is-live .dev__part { opacity: 0; filter: blur(6px); }
-.dev.is-live .dev__part.is-on { opacity: 1; filter: none; }
+.dev.is-live .dev__title { gap: 0; }
+.dev.is-live .dev__part { grid-area: 1 / 1; opacity: 0; filter: blur(6px); translate: 0 10px; }
+.dev.is-live .dev__part.is-on { opacity: 1; filter: none; translate: none; }
+.dev.is-live .dev__band { opacity: calc(1 - var(--exit, 0)); translate: 0 calc(var(--exit, 0) * -48px); }
+.dev.is-live .dev__canvas, .dev.is-live .dev__rides { opacity: calc(1 - var(--exit, 0)); }
 .dev.is-live .dev__eyebrow { transition: opacity 0.5s var(--ease); }
 .dev.is-live:not(.is-arrived) .dev__eyebrow { opacity: 0; }
 .dev.is-live:not(.is-arrived) .dev__part { opacity: 0; filter: blur(6px); }
 @media (max-width: 699px) {
-  .dev.is-live .dev__title { font-size: 1.75rem; }
+  .dev.is-live .dev__title { font-size: 1.875rem; }
   .dev__ride { font-size: 0.75rem; padding: 6px 11px 7px; }
 }
 
@@ -842,6 +849,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   background: var(--feature);
   color: var(--on-feature);
 }
+/* The app rises over the device as an ink card with rounded shoulders. */
+.app { position: relative; z-index: 2; margin-top: calc(var(--r-xl) * -1); border-radius: var(--r-xl) var(--r-xl) 0 0; box-shadow: 0 -30px 70px -36px rgba(0, 0, 0, 0.45); }
 .app > .shell { position: relative; z-index: 1; }
 .app + .section { position: relative; }
 #use-cases { position: relative; z-index: 1; background: var(--bg); border-radius: var(--r-xl) var(--r-xl) 0 0; margin-top: calc(var(--r-xl) * -1); }

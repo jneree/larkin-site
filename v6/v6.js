@@ -818,13 +818,13 @@
         });
       }
       // Listening: the sound streams in from both sides, the day riding it.
-      var amp = dSmooth(0.4, 0.46, p) * (1 - dSmooth(0.93, 0.97, p));
+      var amp = dSmooth(0.4, 0.46, p) * (1 - dSmooth(0.86, 0.92, p));
       var turn = 0.5 + 0.5 * Math.sin(t * 0.7);
       dWave(1, t, amp * (0.35 + 0.65 * turn), 0);
       dWave(-1, t, amp * (0.35 + 0.65 * (1 - turn)), 1);
       dRide(t, amp);
     };
-    var dSoundLive = function () { return D && dOn && dP > 0.38 && dP < 0.98; };
+    var dSoundLive = function () { return D && dOn && dP > 0.38 && dP < 0.93; };
     var dLoop = function (now) {
       dRaf = 0;
       if (!dSoundLive()) return;
@@ -839,11 +839,14 @@
       for (var i = 0; i < D_POINTS.length; i++) if (p >= D_POINTS[i]) pt = i;
       if (pt !== dPoint) {
         dPoint = pt;
-        dParts.forEach(function (el, j) { el.classList.toggle('is-on', j <= pt); });
+        dParts.forEach(function (el, j) { el.classList.toggle('is-on', j === pt); });
       }
+      // At the very end the band and the words fade and lift, and the
+      // next section rises over them.
+      dStage.style.setProperty('--exit', dSmooth(0.9, 1, p).toFixed(3));
       var callO = dSmooth(0.04, 0.12, p) * (1 - dSmooth(0.33, 0.37, p));
       dCalls.forEach(function (el) { el.style.setProperty('--call', callO.toFixed(3)); });
-      var lit = p > 0.37 && p < 0.97;
+      var lit = p > 0.37 && p < 0.9;
       if (lit !== dLit) { dLit = lit; devSec.classList.toggle('is-lit', lit); }
       if (dSoundLive()) { if (!dRaf) dRaf = requestAnimationFrame(dLoop); }
       else dPaint(performance.now());
