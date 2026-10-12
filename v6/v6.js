@@ -508,7 +508,7 @@
       requestAnimationFrame(function () { card.className = 'flow__card is-s0'; });
     };
 
-    var frame = function (now) {
+    var fFrame = function (now) {
       fRaf = 0;
       if (!fOn || !F) return;
       var t = (now - t0) / 1000;
@@ -520,7 +520,7 @@
       if (t > 1.3 && !flow.classList.contains('is-lit')) flow.classList.add('is-lit');
       var k = Math.floor((t - FIRST) / PERIOD);
       if (k > born) { born = k; birth(k); }
-      fRaf = requestAnimationFrame(frame);
+      fRaf = requestAnimationFrame(fFrame);
     };
 
     var fStart = function () {
@@ -531,7 +531,7 @@
       born = -1; slots = [];
       fCards.forEach(function (el) { el.className = 'flow__card is-off'; });
       geo();
-      if (!fRaf) fRaf = requestAnimationFrame(frame);
+      if (!fRaf) fRaf = requestAnimationFrame(fFrame);
     };
     var fStop = function () {
       fOn = false;
@@ -546,6 +546,236 @@
     new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) fStart(); else fStop(); });
     }, { threshold: 0.3 }).observe(fStage);
+  }
+
+  /* ---- The device: from the flow to the centre of the screen ------------- */
+  /* Two movements. The journey: while the section's top crosses the
+     screen, a fixed copy of the band carries it from where it sits in the
+     flow (wherever that is on screen right now) to the centre, growing;
+     the flow's band and its sound give way at the start, the section's
+     own band takes over at the end. Then the pin: one eased progress value
+     picks the point being made, draws the lines to the two microphones,
+     streams the sound in from both sides while it listens (time-animated
+     on the canvas), and brings the three moments in. Places come from the
+     screen (geo), so it fits a phone. */
+  var devSec = document.querySelector('[data-dev]');
+  var dCanvas = devSec && devSec.querySelector('.dev__canvas');
+  var dx = dCanvas && dCanvas.getContext && dCanvas.getContext('2d');
+  if (devSec && dx && !reduceMotion && 'IntersectionObserver' in window) {
+    devSec.classList.add('is-live');
+    var dPin = devSec.querySelector('.dev__pin');
+    var dStage = devSec.querySelector('.dev__stage');
+    var dBand = devSec.querySelector('.dev__band');
+    var dTravel = document.querySelector('.dev__travel');
+    var dCopy = devSec.querySelector('.dev__copy');
+    var dChaps = [].slice.call(devSec.querySelectorAll('.dev__chap'));
+    var dCalls = [].slice.call(devSec.querySelectorAll('.dev__call'));
+    var dMoments = [].slice.call(devSec.querySelectorAll('.dev__moments li'));
+    var srcBand = document.querySelector('.flow__device');
+    var srcCanvas = document.querySelector('.flow__canvas');
+    var srcStage = document.querySelector('.flow__stage');
+    // The module's middle and half-width in the band's picture, as
+    // fractions of its width and height, and the picture's shape.
+    var D_MOD = [0.45, 0.558], D_HALF = 0.132, D_RATIO = 520 / 1100;
+    var D_POINTS = [0, 0.37, 0.69];
+    var D = null, dP = 0, dTgt = 0, dPoint = -1, dRaf = 0, dOn = false, dLit = false;
+    var dSpan = function (v, a, b) { return clamp((v - a) / (b - a), 0, 1); };
+    var dSmooth = function (a, b, v) { var t = dSpan(v, a, b); return t * t * (3 - 2 * t); };
+    var dEaseIO = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+    var dPx = function (v) { return v.toFixed(1) + 'px'; };
+
+    // The layout for this screen: the band's place, the labels', the
+    // moments', and the lines' ends.
+    var dGeo = function () {
+      var W = dStage.clientWidth, H = dStage.clientHeight;
+      if (!W || !H) return;
+      var narrow = W < 700;
+      var gut = parseFloat(getComputedStyle(dCopy).paddingLeft) || 16;
+      var BW = Math.min(W * (narrow ? 0.92 : 0.72), 720), BH = BW * D_RATIO;
+      var headH = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 64;
+      var room = dCopy.offsetTop - headH;
+      var cx = W / 2, cy = headH + room * (narrow ? 0.5 : 0.52);
+      var left = cx - D_MOD[0] * BW, top = cy - D_MOD[1] * BH;
+      dBand.style.width = dPx(BW);
+      dBand.style.left = dPx(left);
+      dBand.style.top = dPx(top);
+      var modL = [cx - D_HALF * 0.95 * BW, cy], modR = [cx + D_HALF * 0.95 * BW, cy];
+
+      // The labels: one up and to the left, one down and to the right, each
+      // line from the label's near corner to its microphone.
+      var lines = [];
+      dCalls.forEach(function (el, i) {
+        var w = el.offsetWidth, h = el.offsetHeight, x, y, A;
+        if (narrow) {
+          if (i === 0) { x = gut; y = top - h - 22; A = [x + w - 24, y + h]; }
+          else { x = W - gut - w; y = top + BH + 22; A = [x + 24, y]; }
+        } else {
+          if (i === 0) { x = cx - BW * 0.42 - w; y = cy - BH * 0.5 - h - 20; A = [x + w - 16, y + h]; }
+          else { x = cx + BW * 0.42; y = cy + BH * 0.5 + 20; A = [x + 16, y]; }
+        }
+        x = clamp(x, gut, W - gut - w);
+        el.style.setProperty('--x', dPx(x));
+        el.style.setProperty('--y', dPx(y));
+        lines.push([A, i === 0 ? modL : modR]);
+      });
+
+      // The moments, around the band: one to its left, one above, one below.
+      dMoments.forEach(function (el, i) {
+        var w = el.offsetWidth, h = el.offsetHeight, x, y;
+        if (narrow) {
+          x = [gut, W * 0.36, W * 0.18][i];
+          y = [top - 96, top - 52, top + BH + 24][i];
+        } else {
+          x = [cx - BW * 0.5 - w - 28, cx + BW * 0.12, cx + BW * 0.24][i];
+          y = [cy - BH * 0.4 - h / 2, top - 76, top + BH + 24][i];
+        }
+        el.style.setProperty('--x', dPx(clamp(x, gut, W - gut - w)));
+        el.style.setProperty('--y', dPx(clamp(y, headH + 8, H - h - 8)));
+      });
+
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dCanvas.width = Math.round(W * dpr);
+      dCanvas.height = Math.round(H * dpr);
+      D = { W: W, H: H, dpr: dpr, narrow: narrow, BW: BW, BH: BH, cx: cx, cy: cy, left: left, top: top, lines: lines, modL: modL, modR: modR };
+    };
+
+    // ---- On the canvas: the lines to the microphones, and the sound ----
+    var D_STRANDS = [[1, 0, 1.5, 0.9], [0.6, 2.1, 1, 0.28]];
+    var D_SPEED = 110;
+    var dWave = function (side, t, amp, voice) {
+      if (amp <= 0.01) return;
+      var xT = side < 0 ? D.modL[0] : D.modR[0], x0 = side < 0 ? -8 : D.W + 8;
+      var L = Math.abs(xT - x0), y0 = D.cy;
+      var A = Math.min(D.H * 0.05, 30) * amp;
+      var grad = dx.createLinearGradient(x0, 0, xT, 0);
+      grad.addColorStop(0, 'rgba(21, 21, 21, 0)');
+      grad.addColorStop(0.1, 'rgba(21, 21, 21, 1)');
+      grad.addColorStop(0.9, 'rgba(21, 21, 21, 1)');
+      grad.addColorStop(1, 'rgba(160, 190, 40, 1)');
+      dx.strokeStyle = grad;
+      dx.lineCap = 'round';
+      dx.lineJoin = 'round';
+      var N = Math.ceil(L / 3);
+      D_STRANDS.forEach(function (st) {
+        dx.lineWidth = st[2];
+        dx.globalAlpha = st[3];
+        dx.beginPath();
+        for (var j = 0; j <= N; j++) {
+          var u = j / N, s = u * L, x = x0 + (xT - x0) * u;
+          var env = dSmooth(0, 0.1, u) * (1 - dSmooth(0.78, 1, u));
+          var ph = s - D_SPEED * t + voice * 700;
+          var burst = 0.25 + 0.75 * Math.pow(Math.max(0, Math.sin(ph / 300 * Math.PI * 2 + st[1] + voice)), 2);
+          var y = y0 + A * st[0] * env * burst * (0.6 * Math.sin(ph / 16 + st[1]) + 0.3 * Math.sin(ph / 7.4 + st[1] * 1.7 + voice) + 0.1 * Math.sin(ph / 3.6 + voice * 2));
+          if (j) dx.lineTo(x, y); else dx.moveTo(x, y);
+        }
+        dx.stroke();
+      });
+      dx.globalAlpha = 1;
+    };
+    var dPaint = function (now) {
+      if (!D) return;
+      var p = dP, t = now / 1000;
+      dx.setTransform(D.dpr, 0, 0, D.dpr, 0, 0);
+      dx.clearRect(0, 0, D.W, D.H);
+      // The lines draw from the labels to the microphones, then fade.
+      var draw = dSmooth(0.07, 0.19, p), fade = 1 - dSmooth(0.33, 0.37, p);
+      if (draw > 0 && fade > 0) {
+        dx.strokeStyle = 'rgba(21, 21, 21, ' + (0.5 * fade).toFixed(3) + ')';
+        dx.fillStyle = 'rgba(255, 255, 255, ' + fade.toFixed(3) + ')';
+        dx.lineWidth = 1.25;
+        D.lines.forEach(function (ln) {
+          var A = ln[0], T = ln[1], e = dEaseIO(draw);
+          var mx = (A[0] + T[0]) / 2;
+          dx.beginPath();
+          dx.moveTo(A[0], A[1]);
+          // A gentle curve, drawn along its length.
+          var N = 40;
+          for (var j = 1; j <= Math.round(N * e); j++) {
+            var u = j / N, iu = 1 - u;
+            var x = iu * iu * A[0] + 2 * iu * u * mx + u * u * T[0];
+            var y = iu * iu * A[1] + 2 * iu * u * (A[1] + (T[1] - A[1]) * 0.15) + u * u * T[1];
+            dx.lineTo(x, y);
+          }
+          dx.stroke();
+          if (draw > 0.95) {
+            dx.beginPath();
+            dx.arc(T[0], T[1], 4, 0, Math.PI * 2);
+            dx.fill();
+            dx.stroke();
+          }
+        });
+      }
+      // Listening: the sound streams in from both sides.
+      var amp = dSmooth(0.4, 0.46, p) * (1 - dSmooth(0.64, 0.69, p));
+      var turn = 0.5 + 0.5 * Math.sin(t * 0.7);
+      dWave(1, t, amp * (0.35 + 0.65 * turn), 0);
+      dWave(-1, t, amp * (0.35 + 0.65 * (1 - turn)), 1);
+    };
+    var dSoundLive = function () { return D && dOn && dP > 0.38 && dP < 0.7; };
+    var dLoop = function (now) {
+      dRaf = 0;
+      if (!dSoundLive()) return;
+      dPaint(now);
+      dRaf = requestAnimationFrame(dLoop);
+    };
+
+    var dRender = function () {
+      if (!D) return;
+      var p = dP;
+      var pt = 0;
+      for (var i = 0; i < D_POINTS.length; i++) if (p >= D_POINTS[i]) pt = i;
+      if (pt !== dPoint) {
+        dPoint = pt;
+        dChaps.forEach(function (el, j) {
+          el.classList.toggle('is-on', j === pt);
+          el.classList.toggle('is-past', j < pt);
+        });
+      }
+      var callO = dSmooth(0.04, 0.12, p) * (1 - dSmooth(0.33, 0.37, p));
+      dCalls.forEach(function (el) { el.style.setProperty('--call', callO.toFixed(3)); });
+      var lit = p > 0.37 && p < 0.69;
+      if (lit !== dLit) { dLit = lit; devSec.classList.toggle('is-lit', lit); }
+      dMoments.forEach(function (el, i) { el.classList.toggle('is-in', p > 0.72 + i * 0.05 && p < 0.98); });
+      if (dSoundLive()) { if (!dRaf) dRaf = requestAnimationFrame(dLoop); }
+      else dPaint(performance.now());
+    };
+
+    dGeo();
+    dRender();
+    window.addEventListener('resize', function () { dGeo(); dRender(); }, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { dGeo(); dRender(); });
+
+    link(function (vh) {
+      if (!D) return false;
+      var r = dPin.getBoundingClientRect();
+      // The journey, while the section's top crosses the screen.
+      var q = clamp(1 - r.top / vh, 0, 1);
+      if (q > 0 && q < 1 && srcBand) {
+        var a = srcBand.getBoundingClientRect(), e = dEaseIO(q);
+        dTravel.style.left = dPx(lerp(a.left, D.left, e));
+        dTravel.style.top = dPx(lerp(a.top, D.top, e));
+        dTravel.style.width = dPx(lerp(a.width, D.BW, e));
+        dTravel.classList.add('is-on');
+        srcBand.style.visibility = 'hidden';
+        dBand.style.visibility = 'hidden';
+        if (srcCanvas) srcCanvas.style.opacity = (1 - dSmooth(0, 0.3, q)).toFixed(3);
+        // The rest of the flow recedes as the band leaves it.
+        if (srcStage) srcStage.style.opacity = (1 - 0.9 * dSmooth(0.1, 0.7, q)).toFixed(3);
+      } else {
+        dTravel.classList.remove('is-on');
+        if (srcBand) srcBand.style.visibility = q >= 1 ? 'hidden' : '';
+        dBand.style.visibility = q >= 1 ? '' : 'hidden';
+        if (srcCanvas) srcCanvas.style.opacity = q >= 1 ? '0' : '';
+        if (srcStage) srcStage.style.opacity = q >= 1 ? '0.1' : '';
+      }
+      dOn = r.top < vh && r.bottom > 0;
+      if (r.bottom < -vh || r.top > vh * 2) return false;
+      dTgt = clamp(-r.top / Math.max(1, dPin.offsetHeight - vh), 0, 1);
+      if (Math.abs(dTgt - dP) < 0.0004) { dP = dTgt; dRender(); return false; }
+      dP = lerp(dP, dTgt, 0.16);
+      dRender();
+      return true;
+    });
   }
 
   /* ---- Compare: a fade on the sticky column once the table is scrolled ---- */

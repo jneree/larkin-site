@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v6.css?v=20261012i">
+<link rel="stylesheet" href="v6.css?v=20261012j">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -192,6 +192,54 @@
       </div>
     </div>
   </section>
+
+  <!-- The device. As you scroll on from the flow, the band travels from its
+       place there to the centre of the screen and grows (a fixed copy,
+       .dev__travel, carries it across; v6.js hands over at each end), then
+       holds while three things are said around it: two microphones, lines
+       drawn to each; listening all day, the sound streaming in from both
+       sides; and the best conversations are never planned, three unplanned
+       moments appearing around it. The words sit centred under the band,
+       one point at a time. Without the script, or with reduced motion,
+       nothing travels or pins: the band, then the three points as a list. -->
+  <section class="dev" id="device" aria-labelledby="dev-title" data-dev>
+    <div class="dev__pin">
+      <div class="dev__stage">
+        <canvas class="dev__canvas" aria-hidden="true"></canvas>
+        <div class="dev__band" aria-hidden="true">
+          <img src="/media/story-band-1100.webp" alt="" width="1100" height="520" loading="lazy" decoding="async">
+          <i class="dev__glow"></i>
+        </div>
+        <div class="dev__calls" aria-hidden="true">
+          <p class="dev__call" data-call="0"><b>Microphone</b><span>Your side of the table.</span></p>
+          <p class="dev__call" data-call="1"><b>Microphone</b><span>Theirs.</span></p>
+        </div>
+        <ul class="dev__moments" aria-hidden="true">
+          <li>8:52 AM · Coffee with a friend</li>
+          <li>2:15 PM · A quick chat after a meeting</li>
+          <li>8:40 PM · Dinner with an old friend</li>
+        </ul>
+        <div class="shell dev__copy">
+          <p class="eyebrow dev__eyebrow">The device</p>
+          <ol class="dev__chaps">
+            <li class="dev__chap is-on">
+              <h2 class="h2 dev__title" id="dev-title">Two microphones.</h2>
+              <p class="dev__line">One for each side of the conversation.</p>
+            </li>
+            <li class="dev__chap">
+              <h3 class="h2 dev__title">Listening all day.</h3>
+              <p class="dev__line">No app to open. Nothing to press.</p>
+            </li>
+            <li class="dev__chap">
+              <h3 class="h2 dev__title">The best conversations are never planned.</h3>
+              <p class="dev__line">You’d never press record for them. With Larkin, you don’t have to.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="dev__travel" aria-hidden="true"><img src="/media/story-band-1100.webp" alt="" width="1100" height="520" loading="lazy" decoding="async"></div>
 
   <!-- The app — on ink, full bleed. Two chapters, Chronicles (your day) and
        Conversations, each one phone beside its copy: the app's own UI
@@ -869,6 +917,6 @@
   </div>
 </footer>
 
-<script src="v6.js?v=20261012i" defer></script>
+<script src="v6.js?v=20261012j" defer></script>
 </body>
 </html>

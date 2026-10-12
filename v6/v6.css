@@ -680,6 +680,143 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 /* --------------------------------------------------------------------------
+   10. The device: from the flow to the centre of the screen
+   -------------------------------------------------------------------------- */
+/* Without the script (or with reduced motion) this is a plain section: the
+   band, then the three points as a list. v6.js adds .is-live: the section
+   becomes a tall track with one screen pinned inside it, the band placed
+   by v6.js (its module at the screen's middle), the lines and the sound
+   drawn on the canvas, the labels and moments placed around it, and one
+   point's words at a time centred under it. */
+.dev { position: relative; background: var(--bg); }
+.dev__stage {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 6vw, 72px);
+  padding-block: var(--section);
+}
+.dev__band { position: relative; width: min(100%, 520px); margin-inline: auto; }
+.dev__band img { display: block; width: 100%; height: auto; }
+.dev__glow {
+  position: absolute;
+  left: 52.45%;
+  top: 56.7%;
+  width: 2.6%;
+  height: 11%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(210, 237, 40, 0.55), rgba(210, 237, 40, 0));
+  opacity: 0;
+  pointer-events: none;
+}
+.dev.is-lit .dev__glow { animation: dev-breathe 2.6s var(--ease-io) infinite; }
+@keyframes dev-breathe { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.85; } }
+.dev__canvas, .dev__calls, .dev__moments, .dev__travel { display: none; }
+.dev__copy { display: grid; gap: clamp(20px, 3vw, 32px); }
+.dev__chaps { display: grid; gap: clamp(28px, 4vw, 44px); list-style: none; margin: 0; padding: 0; }
+.dev__chap { display: grid; gap: 10px; }
+.dev:not(.is-live) .dev__title { font-size: clamp(1.75rem, 3vw, 2.5rem); }
+.dev__line {
+  max-width: 36ch;
+  font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--ink-2);
+  text-wrap: balance;
+}
+
+/* --- Live: the journey, then one pinned screen --------------------------- */
+.dev.is-live .dev__pin { height: 340vh; }
+.dev.is-live .dev__stage {
+  position: sticky;
+  top: 0;
+  display: block;
+  height: 100vh;
+  height: 100svh;
+  padding: 0;
+  overflow: hidden;
+}
+.dev.is-live .dev__canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.dev.is-live .dev__band { position: absolute; margin: 0; z-index: 1; }
+/* The fixed copy that carries the band from the flow to the centre. */
+.dev__travel { position: fixed; left: 0; top: 0; z-index: 4; pointer-events: none; }
+.dev__travel.is-on { display: block; }
+.dev__travel img { display: block; width: 100%; height: auto; }
+
+/* The two microphones: a label for each, placed by v6.js, its line drawn
+   on the canvas. */
+.dev.is-live .dev__calls { display: block; position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.dev__call {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  gap: 2px;
+  width: max-content;
+  max-width: min(240px, 44vw);
+  padding: 11px 15px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 14px 34px -16px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(21, 21, 21, 0.05);
+  opacity: var(--call, 0);
+  translate: var(--x, 0) calc(var(--y, 0) + (1 - var(--call, 0)) * 10px);
+}
+.dev__call b { font-size: clamp(0.9375rem, 1.15vw, 1.0625rem); font-weight: 600; line-height: 1.3; }
+.dev__call span { font-size: clamp(0.8125rem, 0.95vw, 0.875rem); line-height: 1.4; color: var(--ink-2); }
+
+/* Three moments nobody planned, appearing around the band. */
+.dev.is-live .dev__moments { display: block; position: absolute; inset: 0; z-index: 2; margin: 0; padding: 0; list-style: none; pointer-events: none; }
+.dev__moments li {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 8px 14px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 12px 28px -14px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(21, 21, 21, 0.05);
+  opacity: 0;
+  translate: var(--x, 0) calc(var(--y, 0) + 10px);
+  scale: 0.96;
+  transition: opacity 0.5s var(--ease), translate 0.6s var(--ease), scale 0.6s var(--ease);
+}
+.dev__moments li.is-in { opacity: 1; translate: var(--x, 0) var(--y, 0); scale: 1; }
+
+/* One point's words at a time, centred under the band. */
+.dev.is-live .dev__copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(24px, 5.5vh, 64px);
+  z-index: 3;
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
+}
+.dev.is-live .dev__chaps { display: grid; width: 100%; }
+.dev.is-live .dev__chap {
+  grid-area: 1 / 1;
+  align-content: start;
+  justify-items: center;
+  gap: 12px;
+  opacity: 0;
+  translate: 0 16px;
+  transition: opacity 0.5s var(--ease), translate 0.7s var(--ease);
+  pointer-events: none;
+}
+.dev.is-live .dev__chap.is-on { opacity: 1; translate: none; transition-delay: 0.15s; pointer-events: auto; }
+.dev.is-live .dev__chap.is-past { translate: 0 -12px; }
+.dev.is-live .dev__title { max-width: 18ch; font-size: clamp(2rem, 4vw, 3.5rem); text-wrap: balance; }
+.dev.is-live .dev__line { margin-inline: auto; }
+@media (max-width: 699px) {
+  .dev.is-live .dev__title { font-size: 1.875rem; }
+  .dev.is-live .dev__line { font-size: 1rem; }
+  .dev__moments li { font-size: 0.75rem; padding: 7px 12px 8px; }
+}
+
+/* --------------------------------------------------------------------------
    11. The app — three chapters: rows, a swipeable row on phones, one held
        tile on wide screens
    -------------------------------------------------------------------------- */
