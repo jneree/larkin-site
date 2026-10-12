@@ -535,7 +535,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    the flow; the insights' side waits until the first comes out. */
 @media (min-width: 900px) {
   .flow.is-pinned { padding-block: 0; }
-  .flow.is-pinned .flow__pin { height: 320vh; }
+  .flow.is-pinned .flow__pin { height: 380vh; }
   .flow.is-pinned .flow__stick {
     position: sticky;
     top: 0;
@@ -550,7 +550,26 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .flow.is-pinned .flow__stage { margin-top: 0; }
   .flow.is-pinned :is(.flow__label--out, .flow__out) { opacity: 0; transition: opacity 0.6s var(--ease); }
   .flow.is-pinned.is-out :is(.flow__label--out, .flow__out) { opacity: 1; }
+  /* The title narrates: three pieces of one sentence that come on in
+     turn and stay (v6.js sets .is-on), so the whole sentence stands at
+     the end. Each piece is a line of its own, so what is shown is centred,
+     and hidden pieces keep their space: the words never move. */
+  .flow.is-pinned .flow__part { display: block; opacity: 0; filter: blur(6px); }
+  .flow.is-pinned .flow__part.is-on { opacity: 1; filter: none; }
+  /* The parts come on one at a time, the group centred at each step: the
+     conversation alone, then with the band, then the whole row (v6.js
+     sets --shift from where the parts are). */
+  .flow.is-pinned .flow__stage { translate: var(--shift, 0px) 0; transition: translate 1s var(--ease-io); }
+  .flow.is-pinned .flow__context { transition: scale 1s var(--ease-io); }
+  .flow.is-pinned:not(.is-dev) .flow__context { scale: 1.1; }
+  .flow.is-pinned :is(.flow__label--dev, .flow__device) { opacity: 0; translate: -28px 0; transition: opacity 0.7s var(--ease), translate 1s var(--ease-io); }
+  .flow.is-pinned.is-dev :is(.flow__label--dev, .flow__device) { opacity: 1; translate: none; }
+  /* At the pin's end the whole stage fades and lifts (--exit, v6.js) as
+     the app's ink rises over it. */
+  .flow.is-pinned .flow__stick > .shell { opacity: calc(1 - var(--exit, 0)); translate: 0 calc(var(--exit, 0) * -40px); }
 }
+.flow__title { max-width: 36ch; font-size: clamp(1.75rem, min(3.6vw, 5.2vh), 3.5rem); line-height: 1.06; text-wrap: balance; }
+.flow__part { transition: opacity 0.6s var(--ease), filter 0.6s var(--ease), translate 0.7s var(--ease); }
 .flow__stage {
   --ch: 96px;
   --cgap: 12px;
@@ -564,6 +583,22 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .flow__canvas { display: none; position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
 .flow.is-live .flow__canvas { display: block; }
+/* The words on the sound: short pieces of the conversation that travel
+   with it into the module, placed every frame by v6.js. */
+.flow__words { display: none; position: absolute; inset: 0; z-index: 3; margin: 0; padding: 0; list-style: none; pointer-events: none; }
+.flow.is-live .flow__words { display: block; }
+.flow__word {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: var(--ink-2);
+  opacity: 0;
+  will-change: transform, opacity;
+}
 
 .flow__label {
   font-size: 0.75rem;
@@ -615,7 +650,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 
 /* The band, cut out with its shadow, over the sound: the waveform runs in
    behind the module's end. Its light breathes while the flow runs. */
-.flow__device { grid-area: dev; position: relative; z-index: 2; width: min(100%, 460px); margin: 96px auto 0; }
+.flow__device { grid-area: dev; position: relative; z-index: 2; width: min(100%, 460px); margin: 150px auto 0; }
 .flow__device img { display: block; width: 100%; height: auto; }
 .flow__glow {
   position: absolute;
@@ -675,9 +710,17 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .flow__card.is-back { z-index: 4; transform: translate(var(--ex, 0), var(--ey, 0)) scale(0.35); opacity: 0; }
 .flow:not(.is-live) .flow__card { box-shadow: inset 0 0 0 1px var(--hair); }
 
-/* On phones the stack grows downwards from the newest slot. */
+/* On phones the stack grows downwards from the newest slot, and the words
+   ride the sound itself, as small pills over it. */
 @media (max-width: 899px) {
   .flow__stage { --dir: 1; --ch: 92px; }
+  .flow__word {
+    padding: 4px 10px 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(21, 21, 21, 0.06);
+    font-size: 0.75rem;
+  }
   .flow__card p { font-size: 0.875rem; }
   .flow__card { padding: 12px 14px; }
 }
@@ -686,9 +729,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    stack sits with its newest slot level with the band; older insights rise. */
 @media (min-width: 900px) {
   .flow__stage {
-    grid-template-columns: minmax(300px, 360px) minmax(0, 1fr) minmax(300px, 360px);
+    grid-template-columns: minmax(240px, min(280px, 32vh)) minmax(0, 1fr) minmax(260px, min(320px, 36vh));
     grid-template-areas: "ctx dev out" "lctx ldev lout";
-    column-gap: clamp(32px, 4vw, 56px);
+    column-gap: clamp(40px, 5vw, 64px);
     row-gap: 20px;
     align-items: center;
     padding-top: 96px;
@@ -696,147 +739,16 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .flow__context { aspect-ratio: 1 / 1; }
   .flow__label { text-align: center; }
   .flow__label--out { margin-top: 0; }
-  .flow__device { margin: 0 auto; }
+  /* The band sits at the right of its column: the sound gets the room,
+     and air on both sides of the band. */
+  .flow__device { width: min(100%, 420px); margin: 0 0 0 auto; }
   /* The newest slot is the bottom one, moved up to the band's height. */
   .flow__out { translate: 0 calc(-1 * (var(--ch) + var(--cgap))); }
   .flow__card { top: calc(2 * (var(--ch) + var(--cgap))); }
 }
 
 /* --------------------------------------------------------------------------
-   10. The device: from the flow to the centre of the screen
-   -------------------------------------------------------------------------- */
-/* Without the script (or with reduced motion) this is a plain section: the
-   band, then the three points as a list. v6.js adds .is-live: the section
-   becomes a tall track with one screen pinned inside it, the band placed
-   by v6.js (its module at the screen's middle), the lines and the sound
-   drawn on the canvas, the labels and moments placed around it, and one
-   point's words at a time centred under it. */
-.dev { position: relative; background: var(--bg); }
-.dev__stage {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(40px, 6vw, 72px);
-  padding-block: var(--section);
-}
-.dev__band { position: relative; width: min(100%, 720px); margin-inline: auto; }
-.dev__band img { display: block; width: 100%; height: auto; }
-.dev__bandc { display: none; width: 100%; height: auto; aspect-ratio: 16 / 9; }
-.dev.is-live .dev__band img { display: none; }
-.dev.is-live .dev__bandc { display: block; }
-/* The light, on the last frame. */
-.dev__glow {
-  position: absolute;
-  left: 53.4%;
-  top: 52%;
-  width: 2.4%;
-  height: 16%;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(210, 237, 40, 0.55), rgba(210, 237, 40, 0));
-  opacity: 0;
-  pointer-events: none;
-}
-.dev.is-lit .dev__glow { animation: dev-breathe 2.6s var(--ease-io) infinite; }
-@keyframes dev-breathe { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.85; } }
-.dev__canvas, .dev__calls, .dev__rides, .dev__travel { display: none; }
-.dev__copy { display: grid; gap: clamp(16px, 2.4vw, 24px); }
-/* One sentence, told a piece at a time: each piece takes the place of
-   the last as the scroll reaches its point. */
-.dev__title {
-  display: grid;
-  gap: 0.35em;
-  max-width: 20ch;
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  line-height: 1.04;
-  text-wrap: balance;
-}
-.dev__part { transition: opacity 0.6s var(--ease), filter 0.6s var(--ease), translate 0.7s var(--ease); }
-
-/* --- Live: the journey, then one pinned screen --------------------------- */
-.dev.is-live .dev__pin { height: 340vh; }
-.dev.is-live .dev__stage {
-  position: sticky;
-  top: 0;
-  display: block;
-  height: 100vh;
-  height: 100svh;
-  padding: 0;
-  overflow: hidden;
-}
-.dev.is-live .dev__canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.dev.is-live .dev__band { position: absolute; margin: 0; z-index: 1; }
-/* The fixed copy that carries the band from the flow to the centre. */
-.dev__travel { position: fixed; left: 0; top: 0; z-index: 4; pointer-events: none; }
-.dev__travel.is-on { display: block; }
-.dev__travel canvas { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
-
-/* The two microphones: a label for each, placed by v6.js, its line drawn
-   on the canvas. */
-.dev.is-live .dev__calls { display: block; position: absolute; inset: 0; z-index: 2; pointer-events: none; }
-.dev__call {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: grid;
-  gap: 2px;
-  width: max-content;
-  max-width: min(240px, 44vw);
-  padding: 11px 15px 12px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 14px 34px -16px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(21, 21, 21, 0.05);
-  opacity: var(--call, 0);
-  translate: var(--x, 0) calc(var(--y, 0) + (1 - var(--call, 0)) * 10px);
-}
-.dev__call b { font-size: clamp(0.9375rem, 1.15vw, 1.0625rem); font-weight: 600; line-height: 1.3; }
-.dev__call span { font-size: clamp(0.8125rem, 0.95vw, 0.875rem); line-height: 1.4; color: var(--ink-2); }
-
-/* Moments of the day, riding the waves into the band (placed by v6.js). */
-.dev.is-live .dev__rides { display: block; position: absolute; inset: 0; z-index: 2; margin: 0; padding: 0; list-style: none; pointer-events: none; }
-.dev__ride {
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: 7px 13px 8px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.96);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1.2;
-  white-space: nowrap;
-  box-shadow: 0 12px 28px -14px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(21, 21, 21, 0.05);
-  opacity: 0;
-  will-change: transform, opacity;
-}
-
-/* The sentence, centred above the band, one piece showing at a time (all
-   three share one place). It waits until the band has arrived, and at
-   the end it fades with the band as the next section rises. */
-.dev.is-live .dev__copy {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(var(--header-h) + clamp(8px, 2vh, 24px));
-  z-index: 3;
-  justify-items: center;
-  text-align: center;
-  opacity: calc(1 - var(--exit, 0));
-}
-.dev.is-live .dev__title { gap: 0; }
-.dev.is-live .dev__part { grid-area: 1 / 1; opacity: 0; filter: blur(6px); translate: 0 10px; }
-.dev.is-live .dev__part.is-on { opacity: 1; filter: none; translate: none; }
-.dev.is-live .dev__band { opacity: calc(1 - var(--exit, 0)); translate: 0 calc(var(--exit, 0) * -48px); }
-.dev.is-live .dev__canvas, .dev.is-live .dev__rides { opacity: calc(1 - var(--exit, 0)); }
-.dev.is-live .dev__eyebrow { transition: opacity 0.5s var(--ease); }
-.dev.is-live:not(.is-arrived) .dev__eyebrow { opacity: 0; }
-.dev.is-live:not(.is-arrived) .dev__part { opacity: 0; filter: blur(6px); }
-@media (max-width: 699px) {
-  .dev.is-live .dev__title { font-size: 1.875rem; }
-  .dev__ride { font-size: 0.75rem; padding: 6px 11px 7px; }
-}
-
-/* --------------------------------------------------------------------------
-   11. The app — three chapters: rows, a swipeable row on phones, one held
+   10. The app — three chapters: rows, a swipeable row on phones, one held
        tile on wide screens
    -------------------------------------------------------------------------- */
 .app {
@@ -849,7 +761,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   background: var(--feature);
   color: var(--on-feature);
 }
-/* The app rises over the device as an ink card with rounded shoulders. */
+/* The app rises over the story as an ink card with rounded shoulders. */
 .app { position: relative; z-index: 2; margin-top: calc(var(--r-xl) * -1); border-radius: var(--r-xl) var(--r-xl) 0 0; box-shadow: 0 -30px 70px -36px rgba(0, 0, 0, 0.45); }
 .app > .shell { position: relative; z-index: 1; }
 .app + .section { position: relative; }
@@ -1414,7 +1326,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 /* --------------------------------------------------------------------------
-   12. Use cases
+   11. Use cases
    -------------------------------------------------------------------------- */
 .uc-grid { display: grid; gap: 20px; }
 .uc {
@@ -1471,7 +1383,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 /* --------------------------------------------------------------------------
-   13. Privacy — six tiles
+   12. Privacy — six tiles
    -------------------------------------------------------------------------- */
 .privacy { padding-top: 0; }
 .privacy__grid { display: grid; gap: 16px; }
@@ -1501,7 +1413,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 @media (min-width: 1100px) { .privacy__grid { grid-template-columns: repeat(3, 1fr); } }
 
 /* --------------------------------------------------------------------------
-   14. Reserve
+   13. Reserve
    -------------------------------------------------------------------------- */
 .reserve { padding-top: 0; }
 .preorder {
@@ -1583,7 +1495,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 /* --------------------------------------------------------------------------
-   15. Try the app
+   14. Try the app
    -------------------------------------------------------------------------- */
 .beta { padding-top: 0; }
 .beta-card {
@@ -1667,7 +1579,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 /* --------------------------------------------------------------------------
-   16. Compare
+   15. Compare
    -------------------------------------------------------------------------- */
 .compare-sec { padding-top: 0; }
 .compare-hint { font-size: 0.875rem; color: var(--ink-3); text-align: center; margin-bottom: 12px; }
@@ -1744,7 +1656,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 /* --------------------------------------------------------------------------
-   17. Specs — the numbers, large
+   16. Specs — the numbers, large
    -------------------------------------------------------------------------- */
 .specs-sec { padding-top: 0; }
 .specs { display: grid; gap: 20px; }
@@ -1795,7 +1707,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 /* --------------------------------------------------------------------------
-   18. FAQ — hairline rows
+   17. FAQ — hairline rows
    -------------------------------------------------------------------------- */
 .faq-sec { padding-top: 0; }
 .faq { max-width: 820px; margin-inline: auto; border-top: 1px solid var(--hair); }
@@ -1836,7 +1748,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 @keyframes faq-in { from { opacity: 0; translate: 0 -6px; } }
 
 /* --------------------------------------------------------------------------
-   19. Closing
+   18. Closing
    -------------------------------------------------------------------------- */
 .closing {
   position: relative;
@@ -1876,7 +1788,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .closing__fine { font-size: 0.875rem; font-weight: 600; color: var(--on-feature-2); }
 
 /* --------------------------------------------------------------------------
-   20. Footer — the wordmark as a signature
+   19. Footer — the wordmark as a signature
    -------------------------------------------------------------------------- */
 .site-footer {
   background: var(--deep);
@@ -1914,7 +1826,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .site-footer__copy { font-size: 0.875rem; color: #6E6E69; }
 
 /* --------------------------------------------------------------------------
-   21. Motion
+   20. Motion
    -------------------------------------------------------------------------- */
 /* Hidden states exist only under .js-anim, which v5.js adds itself: if the
    script never runs, nothing is ever hidden. */
