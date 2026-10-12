@@ -351,14 +351,14 @@
   /* ---- How it works: one stage, told step by step -------------------------- */
   /* The pin holds a framed scene while its scroll plays it, slowly, one
      step at a time: a coffee with a friend; you speak; your friend answers;
-     the frame closes in on the band on your wrist until only the device is
-     left, on white, and the sound closes in on it and goes in; then insight
-     about you comes out. One eased progress value drives the scene's
-     camera, the device, the sound drawn on the canvas (arcs from whoever is
-     speaking, then rings closing in on the device), the speakers' labels,
-     the insights (cards sent to a place per beat, easing there by CSS) and
-     which step's words show. Places come from the screen (geo), so the same
-     story fits a phone. */
+     the camera pushes in on the band on your wrist, the café goes out of
+     focus and falls away, and the device comes forward out of the depth,
+     alone; the sound streams into it from both sides as long as the step
+     holds; then insight about you comes out. One eased progress value
+     drives the scene's camera and focus, the device, the waveform drawn
+     on the canvas, the speakers' labels, the insights (cards sent to a
+     place per beat, easing there by CSS) and which step's words show.
+     Places come from the screen (geo), so the same story fits a phone. */
   var story = document.querySelector('[data-story]');
   var sSound = story && story.querySelector('.story__sound');
   var sx = sSound && sSound.getContext && sSound.getContext('2d');
@@ -375,17 +375,16 @@
     [].forEach.call(story.querySelectorAll('[data-card]'), function (el) { sCards[el.getAttribute('data-card')] = el; });
 
     // Where things are in the two pictures, as fractions of their width and
-    // height. The scene: what the camera looks at, the band on your wrist,
-    // each mouth (and which way it faces) and where each label goes. The
-    // device: its module's middle and half-width, and the loop's box.
+    // height. The scene: what the camera looks at, the band on your wrist
+    // and where each label goes. The device: its module's middle and
+    // half-width, and the loop's box.
     var SCENE = { w: 2000, h: 1130, look: [0.48, 0.5], band: [0.6675, 0.7416],
-      you: { mouth: [0.5995, 0.301], dir: Math.PI, tag: [0.668, 0.235] },
-      friend: { mouth: [0.3225, 0.374], dir: 0, tag: [0.24, 0.235] } };
+      you: { tag: [0.668, 0.235] }, friend: { tag: [0.24, 0.235] } };
     var DEVICE = { w: 1100, h: 520, mod: [0.45, 0.558], half: 0.132, l: 0.209, r: 0.786, t: 0.25, b: 0.663 };
     // The steps, as points of the pin's progress (0 to 1).
-    var CHAPTERS = [0, 0.12, 0.26, 0.40, 0.60, 0.80];
-    var BEATS = [0.61, 0.70, 0.81];
-    var sP = 0, sTgt = 0, sChap = -1, sBeat = -1, sOn = false, G = null;
+    var CHAPTERS = [0, 0.12, 0.26, 0.47, 0.64, 0.82];
+    var BEATS = [0.65, 0.73, 0.83];
+    var sP = 0, sTgt = 0, sChap = -1, sBeat = -1, sOn = false, sLit = false, G = null;
     var span = function (v, a, b) { return clamp((v - a) / (b - a), 0, 1); };
     var smooth = function (a, b, v) { var t = span(v, a, b); return t * t * (3 - 2 * t); };
     var easeIO = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
@@ -416,60 +415,55 @@
       }
       return keys[keys.length - 1][1];
     };
-    // The device: its module's middle at (cx, cy), at scale k.
+    // The device: it comes forward out of the depth (large and soft to its
+    // size and sharp), its module's middle at (cx, cy); later it moves
+    // down to make room for the insights.
     var dev = function (p) {
-      var k = lerp(0.72, 1, easeIO(span(p, 0.47, 0.56)));
-      var cy = lerp(G.cy3, G.cy4, easeIO(span(p, 0.6, 0.66)));
-      return { k: k, cx: G.FW / 2, cy: cy, X: G.FW / 2 - k * DEVICE.mod[0] * G.DW, Y: cy - k * DEVICE.mod[1] * G.DH };
+      var k = lerp(1.32, 1, easeOut(span(p, 0.44, 0.55)));
+      var blur = (1 - smooth(0.44, 0.535, p)) * 18;
+      var cy = lerp(G.cy3, G.cy4, easeIO(span(p, 0.63, 0.69)));
+      return { k: k, blur: blur, cx: G.FW / 2, cy: cy, X: G.FW / 2 - k * DEVICE.mod[0] * G.DW, Y: cy - k * DEVICE.mod[1] * G.DH };
     };
 
     // ---- The sound ----
-    // Over the scene, whoever is speaking sends out arcs, the way sound
-    // spreads from a mouth. Around the device, the sound closes in from all
-    // around in rings, each a softly rippled ellipse lying on the same
-    // ground as the band, darkening as it nears and passing behind the band
-    // into the module (the canvas is under it); the light glows meanwhile.
+    // A waveform streams into the device from each side of the frame, at
+    // the module's height: two voices, each a line and a fainter echo of
+    // it, its crests and its louder bursts travelling towards the device,
+    // narrowing to nothing at the module's end.
+    var STRANDS = [[1, 0, 1.5, 0.9], [0.6, 2.1, 1, 0.28]];
+    var SPEED = 110;
     var soundRaf = 0, soundDrawn = false;
-    var soundLive = function () { return G && sOn && sP > 0.12 && sP < 0.61; };
-    var arcs = function (M, dir, loud, t, seed) {
-      if (loud <= 0.01) return;
-      var reach = Math.min(G.FW, G.FH) * 0.17, r0 = reach * 0.2;
-      var cx = M[0] + Math.cos(dir) * r0 * 0.4, cy = M[1] + Math.sin(dir) * r0 * 0.4;
-      sx.strokeStyle = '#fff';
+    var soundLive = function () { return G && sOn && sP > 0.47 && sP < 0.65; };
+    var wave = function (side, t, amp, voice) {
+      if (amp <= 0.01) return;
+      var d = G.dev, half = DEVICE.half * G.DW * d.k;
+      var xT = d.cx + side * half * 0.9, x0 = side < 0 ? -8 : G.FW + 8;
+      var L = Math.abs(xT - x0), y0 = d.cy;
+      var A = Math.min(G.FH * 0.06, 34) * amp;
+      var grad = sx.createLinearGradient(x0, 0, xT, 0);
+      grad.addColorStop(0, 'rgba(21, 21, 21, 0)');
+      grad.addColorStop(0.1, 'rgba(21, 21, 21, 1)');
+      grad.addColorStop(0.86, 'rgba(21, 21, 21, 1)');
+      grad.addColorStop(0.97, 'rgba(160, 190, 40, 1)');
+      grad.addColorStop(1, 'rgba(210, 237, 40, 1)');
+      sx.strokeStyle = grad;
       sx.lineCap = 'round';
-      sx.lineWidth = 2.4;
-      sx.shadowColor = 'rgba(0, 0, 0, 0.45)';
-      sx.shadowBlur = 8;
-      for (var i = 0; i < 4; i++) {
-        var ph = (t * 0.55 + i / 4 + seed) % 1;
-        sx.globalAlpha = loud * Math.sin(Math.PI * ph) * 0.95;
+      sx.lineJoin = 'round';
+      var N = Math.ceil(L / 3);
+      STRANDS.forEach(function (st, i) {
+        sx.lineWidth = st[2];
+        sx.globalAlpha = st[3];
         sx.beginPath();
-        sx.arc(cx, cy, r0 + ph * reach, dir - 0.52, dir + 0.52);
-        sx.stroke();
-      }
-      sx.globalAlpha = 1;
-      sx.shadowBlur = 0;
-    };
-    var rings = function (d, all, t) {
-      if (all <= 0.01) return;
-      var C = [d.cx, d.cy];
-      var rMax = Math.min(G.FW * (G.narrow ? 0.52 : 0.4), G.FH * 1.15), rMin = DEVICE.half * G.DW * d.k * 0.35;
-      sx.lineWidth = 1.5;
-      for (var i = 0; i < 4; i++) {
-        var ph = (t * 0.26 + i / 4) % 1, e = 1 - Math.pow(1 - ph, 1.6);
-        var r = lerp(rMax, rMin, e);
-        var a = all * smooth(0, 0.22, ph) * (1 - smooth(0.68, 0.95, ph));
-        sx.strokeStyle = '#151515';
-        sx.globalAlpha = a * lerp(0.3, 0.75, smooth(0, 0.8, ph));
-        sx.beginPath();
-        for (var j = 0; j <= 96; j++) {
-          var th = (j / 96) * Math.PI * 2;
-          var rr = r * (1 + 0.012 * (1 - e) * Math.sin(th * 7 + t * 2.4 + i * 1.3));
-          var x = C[0] + rr * Math.cos(th), y = C[1] + rr * 0.36 * Math.sin(th);
+        for (var j = 0; j <= N; j++) {
+          var u = j / N, s = u * L, x = x0 + (xT - x0) * u;
+          var env = smooth(0, 0.1, u) * (1 - smooth(0.76, 1, u));
+          var ph = s - SPEED * t + voice * 700;
+          var burst = 0.25 + 0.75 * Math.pow(Math.max(0, Math.sin(ph / 300 * Math.PI * 2 + st[1] + voice)), 2);
+          var y = y0 + A * st[0] * env * burst * (0.6 * Math.sin(ph / 16 + st[1]) + 0.3 * Math.sin(ph / 7.4 + st[1] * 1.7 + voice) + 0.1 * Math.sin(ph / 3.6 + voice * 2));
           if (j) sx.lineTo(x, y); else sx.moveTo(x, y);
         }
         sx.stroke();
-      }
+      });
       sx.globalAlpha = 1;
     };
     var drawSound = function (now) {
@@ -477,15 +471,11 @@
       sx.clearRect(0, 0, G.FW, G.FH);
       soundDrawn = true;
       var p = sP, t = now / 1000;
-      // You speak first; while your friend answers you go quiet; then the
-      // two take turns until the scene gives way to the device.
-      var fade = 1 - smooth(0.42, 0.47, p);
-      var turn = 0.5 + 0.5 * Math.sin(t * 1.1), both = smooth(0.4, 0.42, p);
-      var you = smooth(0.12, 0.15, p) * lerp(1 - smooth(0.26, 0.28, p), turn, both) * fade;
-      var friend = smooth(0.26, 0.29, p) * lerp(1, 1 - turn, both) * fade;
-      arcs(G.scene.at(SCENE.you.mouth), SCENE.you.dir, you, t, 0);
-      arcs(G.scene.at(SCENE.friend.mouth), SCENE.friend.dir, friend, t, 0.5);
-      rings(dev(p), smooth(0.5, 0.53, p) * (1 - smooth(0.575, 0.605, p)), t);
+      var amp = smooth(0.5, 0.54, p) * (1 - smooth(0.6, 0.64, p));
+      // Two voices, taking turns, as a conversation does.
+      var turn = 0.5 + 0.5 * Math.sin(t * 0.7);
+      wave(1, t, amp * (0.35 + 0.65 * turn), 0);
+      wave(-1, t, amp * (0.35 + 0.65 * (1 - turn)), 1);
     };
     var clearSound = function () {
       if (!soundDrawn) return;
@@ -529,15 +519,15 @@
       var look = narrow ? [0.47, 0.48] : SCENE.look;
       var sceneKeys = [
         [0, { f: look, c: [FW / 2, FH / 2], s: 1 }],
-        [0.4, { f: look, c: [FW / 2, FH / 2], s: 1.08 }],
-        [0.5, { f: SCENE.band, c: [FW / 2, FH / 2], s: narrow ? 2.6 : 3 }],
+        [0.38, { f: look, c: [FW / 2, FH / 2], s: 1.08 }],
+        [0.49, { f: SCENE.band, c: [FW / 2, FH / 2], s: narrow ? 2.6 : 3 }],
         [1, { f: SCENE.band, c: [FW / 2, FH / 2], s: narrow ? 2.6 : 3 }]
       ];
-      var DW = narrow ? FW * 1.12 : Math.min(FW * 0.6, 820), DH = DW * DEVICE.h / DEVICE.w;
+      var DW = narrow ? FW * 0.92 : Math.min(FW * 0.6, 820), DH = DW * DEVICE.h / DEVICE.w;
       sDevice.style.setProperty('--dw', px(DW));
 
       G = { W: W, H: H, FW: FW, FH: FH, FL: FL, FT: FT, dpr: dpr, sw: sw, sh: sh, narrow: narrow,
-        sceneKeys: sceneKeys, scene: null, DW: DW, DH: DH, cy3: FH * 0.5, cy4: FH * (narrow ? 0.74 : 0.66) };
+        sceneKeys: sceneKeys, scene: null, dev: null, DW: DW, DH: DH, cy3: FH * 0.5, cy4: FH * (narrow ? 0.74 : 0.66) };
 
       // The insights, placed around the device where it rests for them,
       // kept inside the frame.
@@ -601,23 +591,31 @@
       if (!G) return;
       var p = sP;
 
-      // The scene closes in on your wrist and fades to white; the device
-      // comes up out of the white and settles, then makes room above it.
+      // The camera pushes in on your wrist; the café goes out of focus and
+      // falls away; the device comes forward, sharp, alone.
       var a = keyed(G.sceneKeys, p);
       G.scene = cam(a.f, a.c, a.s);
       sScene.style.transform = 'translate3d(' + px(G.scene.X) + ',' + px(G.scene.Y) + ',0) scale(' + G.scene.s.toFixed(4) + ')';
-      sScene.style.setProperty('--scene', (1 - smooth(0.445, 0.5, p)).toFixed(3));
-      var d = dev(p);
+      sScene.style.setProperty('--soft', smooth(0.4, 0.46, p).toFixed(3));
+      sScene.style.setProperty('--scene', (1 - smooth(0.46, 0.53, p)).toFixed(3));
+      var d = G.dev = dev(p);
       sDevice.style.transform = 'translate3d(' + px(d.X) + ',' + px(d.Y) + ',0) scale(' + d.k.toFixed(4) + ')';
-      sDevice.style.setProperty('--dev', smooth(0.47, 0.53, p).toFixed(3));
+      sDevice.style.filter = d.blur > 0.05 ? 'blur(' + d.blur.toFixed(1) + 'px)' : '';
+      sDevice.style.setProperty('--dev', smooth(0.44, 0.5, p).toFixed(3));
+      // The light comes on once the device has arrived.
+      var lit = p > 0.535 && p < 0.65;
+      if (lit !== sLit) { sLit = lit; story.classList.toggle('is-lit', lit); }
 
-      // Who's speaking.
-      [['you', 0.12], ['friend', 0.26]].forEach(function (w) {
-        var el = sWho[w[0]], q = G.scene.at(SCENE[w[0]].tag);
-        var on = p >= w[1] && p < 0.42;
-        el.classList.toggle('is-on', on);
+      // Who's speaking: a label by each face, its bars moving while they talk.
+      var youOn = p >= 0.12 && p < 0.43, friendOn = p >= 0.26 && p < 0.43;
+      sWho.you.classList.toggle('is-on', youOn);
+      sWho.friend.classList.toggle('is-on', friendOn);
+      sWho.you.classList.toggle('is-talking', youOn && p < 0.26);
+      sWho.friend.classList.toggle('is-talking', friendOn);
+      ['you', 'friend'].forEach(function (w) {
+        var el = sWho[w], q = G.scene.at(SCENE[w].tag);
         var ew = el.offsetWidth, eh = el.offsetHeight;
-        el.style.setProperty('--x', px(clamp(w[0] === 'friend' ? q[0] - ew : q[0], 10, G.FW - ew - 10)));
+        el.style.setProperty('--x', px(clamp(w === 'friend' ? q[0] - ew : q[0], 10, G.FW - ew - 10)));
         el.style.setProperty('--y', px(clamp(q[1] - eh / 2, 10, G.FH - eh - 10)));
       });
 
@@ -632,8 +630,7 @@
         });
       }
 
-      // The sound, while it plays.
-      story.classList.toggle('is-listening', p > 0.5 && p < 0.61);
+      // The sound, while it streams in.
       if (soundLive()) { if (!soundRaf) soundRaf = requestAnimationFrame(soundLoop); }
       else clearSound();
 

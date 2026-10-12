@@ -526,7 +526,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    steps as a list, the scene, then the insights as tiles. v6.js adds
    .is-live and the section becomes a tall track with one white screen
    pinned inside it: a large rounded frame holds the scene (and then only
-   the device, on white), the sound is drawn over it on a canvas, the insights move
+   the device, on a soft white ground), the sound is drawn on a canvas, the insights move
    between places v6.js computes for the screen (custom properties in px),
    and one step's words sit centred under the frame. */
 .story { position: relative; background: var(--bg); }
@@ -560,7 +560,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .story__layer { position: absolute; inset: 0; }
 .story__photo { width: 100%; height: 100%; object-fit: cover; }
-.story__device, .story__sound, .story__who { display: none; }
+.story__device, .story__sound, .story__who, .story__photo--soft { display: none; }
 
 .story__notes {
   display: grid;
@@ -610,9 +610,12 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   aspect-ratio: auto;
 }
 /* The scene is a camera: the photo at its cover size, moved and scaled by
-   v6.js. As it closes in on the wrist it fades to the frame's white, and
-   only the device is left. */
-.story.is-live .story__frame { background: #fff; }
+   v6.js, with a soft copy over it that fades in as the focus moves to the
+   device. As the camera closes in on the wrist the café falls away to the
+   frame's ground, and only the device is left. */
+.story.is-live .story__frame { background: radial-gradient(110% 85% at 50% 42%, #FFFFFF 0%, #F4F4F2 100%); }
+.story.is-live .story__photo { position: absolute; inset: 0; }
+.story.is-live .story__photo--soft { display: block; opacity: var(--soft, 0); }
 .story.is-live .story__layer {
   inset: auto;
   left: 0;
@@ -623,6 +626,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   will-change: transform;
 }
 .story.is-live .story__layer--scene { opacity: var(--scene, 1); }
+/* The device, cut out with its shadow, over the sound: the waveform runs
+   in behind the module's ends. */
 .story.is-live .story__device {
   display: block;
   position: absolute;
@@ -631,9 +636,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   width: var(--dw, 600px);
   transform-origin: 0 0;
   opacity: var(--dev, 0);
-  /* Over the sound, multiplied, so its white is clear: the rings of sound
-     pass behind the band and go into it. */
-  mix-blend-mode: multiply;
+  will-change: transform, opacity, filter;
 }
 .story__device img { display: block; width: 100%; height: auto; }
 .story.is-live .story__sound {
@@ -659,12 +662,31 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   opacity: 0;
   pointer-events: none;
 }
-.story.is-listening .story__glow { animation: story-breathe 2.6s var(--ease-io) infinite; }
+.story.is-lit .story__glow { animation: story-breathe 2.6s var(--ease-io) infinite; }
 @keyframes story-breathe { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.85; } }
-
-/* Who's speaking: a small pill by each face. */
-.story.is-live .story__who {
+/* Once, as the device arrives, its light blooms. */
+.story.is-live .story__bloom {
   display: block;
+  position: absolute;
+  left: 52.45%;
+  top: 56.7%;
+  width: 9%;
+  height: 38%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(210, 237, 40, 0.7), rgba(210, 237, 40, 0));
+  opacity: 0;
+  pointer-events: none;
+}
+.story.is-lit .story__bloom { animation: story-bloom 1.1s var(--ease) both; }
+@keyframes story-bloom { from { opacity: 0.9; scale: 0.4; } to { opacity: 0; scale: 1.6; } }
+
+/* Who's speaking: a small pill by each face, its bars moving while they
+   talk. */
+.story.is-live .story__who {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   position: absolute;
   left: 0;
   top: 0;
@@ -683,6 +705,14 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   pointer-events: none;
 }
 .story.is-live .story__who.is-on { opacity: 1; translate: var(--x, 0) var(--y, 0); }
+.story__bars { display: inline-flex; align-items: center; gap: 2px; height: 12px; }
+.story__bars b { width: 2.5px; height: 100%; border-radius: 2px; background: var(--ink); transform: scaleY(0.25); transform-origin: center; }
+.story__who.is-talking .story__bars b { animation: story-talk 0.72s var(--ease-io) infinite alternate; }
+.story__bars b:nth-child(1) { animation-delay: -0.1s; }
+.story__bars b:nth-child(2) { animation-delay: -0.45s; }
+.story__bars b:nth-child(3) { animation-delay: -0.25s; }
+.story__bars b:nth-child(4) { animation-delay: -0.6s; }
+@keyframes story-talk { from { transform: scaleY(0.25); } to { transform: scaleY(1); } }
 
 /* The insights: each sits where v6.js last put it and eases to the next
    place, so the moves play out whatever the scroll speed. */
