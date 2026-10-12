@@ -27,7 +27,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v6.css?v=20261012p">
+<link rel="stylesheet" href="v6.css?v=20261013f">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -146,27 +146,41 @@
     </section>
   </div>
 
-  <!-- How it works: one continuous flow. A conversation on the left; the
-       sound of it streams out of the picture and into the band in the
-       middle, a waveform that never stops; out of the band's other side,
-       insight about you comes out, one card at a time, rising into a stack
-       on the right. On wide screens the section pins and the scroll plays
-       it: first only the sound going in, then one insight out with each
-       step (v6.js draws the sound on the canvas and sends each card out
-       of the band). On phones nothing pins: the three parts stack, the
-       flow runs down the page on its own. Without the script, or with reduced
-       motion, the parts simply stand: the picture, the band, three
-       insights. -->
+  <!-- The story, in one section. A conversation on the left; the sound of
+       it streams out of the picture and into the band in the middle, a
+       waveform that never stops; out of the band's other side, insight
+       about you comes out, one card at a time, rising into a stack on the
+       right. On wide screens the section pins and the scroll plays it a
+       part at a time, each group centred: the conversation alone, then
+       the band beside it with the sound going in, then the insights, one
+       out with each step. The title narrates it in three pieces that stay
+       once said (v6.js): Larkin is always with you / it recalls every
+       conversation / and turns it into insight about you. At the end it
+       fades and the app's ink rises over it. On phones nothing pins: the sentence
+       stands whole, the three parts stack, the flow runs on its own.
+       Without the script, or with reduced motion, the parts simply stand:
+       the sentence, the picture, the band, three insights. -->
   <section class="section flow" id="how" aria-labelledby="flow-title" data-flow>
     <div class="flow__pin"><div class="flow__stick">
     <div class="shell">
       <header class="sec-head sec-head--center rv">
-        <div class="sec-rule"><span class="eyebrow">How it works</span></div>
-        <h2 class="h2" id="flow-title">Sound goes in. Insight comes out.</h2>
+        <h2 class="h2 flow__title" id="flow-title"><span class="flow__part">Larkin is always with you.</span> <span class="flow__part">It recalls every conversation</span> <span class="flow__part">and turns it into insight about you.</span></h2>
       </header>
 
       <div class="flow__stage">
         <canvas class="flow__canvas" aria-hidden="true"></canvas>
+        <!-- Pieces of the conversation, riding the sound into the module
+             (placed by v6.js). -->
+        <ul class="flow__words" aria-hidden="true">
+          <li class="flow__word">So, how did it go?</li>
+          <li class="flow__word">Better than I expected.</li>
+          <li class="flow__word">Tell me everything.</li>
+          <li class="flow__word">I just said what I thought.</li>
+          <li class="flow__word">And they listened?</li>
+          <li class="flow__word">They really did.</li>
+          <li class="flow__word">You should be proud.</li>
+          <li class="flow__word">Same time next week?</li>
+        </ul>
 
         <p class="flow__label flow__label--ctx">A conversation</p>
         <figure class="flow__context">
@@ -194,47 +208,6 @@
     </div></div>
   </section>
 
-  <!-- The device. As you scroll on from the flow, the band travels from its
-       place there to its place under the words, lifting off and turning
-       to a three-quarter view (42 cut-out frames of it turning, scrubbed
-       by the scroll on a fixed canvas, .dev__travel; v6.js hands over at
-       each end), then holds while three things are said about it: two
-       microphones, lines drawn to each; listening all day, the sound
-       streaming in from both sides with moments of the day riding the
-       waves into the band; and the best conversations are never planned.
-       The three are one sentence, above the band, shown a piece at a
-       time, each in place of the last. At the end the band and the words
-       fade and the app's ink rises over them. Without the script, or with reduced motion, nothing travels
-       or pins: the sentence, then the band. -->
-  <section class="dev" id="device" aria-labelledby="dev-title" data-dev data-frames="42" data-src="/media/turn/{n}.webp">
-    <div class="dev__pin">
-      <div class="dev__stage">
-        <canvas class="dev__canvas" aria-hidden="true"></canvas>
-        <div class="dev__band" aria-hidden="true">
-          <img src="/media/turn/42.webp" alt="" width="1600" height="900" loading="lazy" decoding="async">
-          <canvas class="dev__bandc"></canvas>
-          <i class="dev__glow"></i>
-        </div>
-        <div class="dev__calls" aria-hidden="true">
-          <p class="dev__call" data-call="0"><b>Microphone</b><span>Your side of the table.</span></p>
-          <p class="dev__call" data-call="1"><b>Microphone</b><span>Theirs.</span></p>
-        </div>
-        <ul class="dev__rides" aria-hidden="true">
-          <li class="dev__ride" data-side="left">Morning coffee</li>
-          <li class="dev__ride" data-side="right">The team meeting</li>
-          <li class="dev__ride" data-side="left">Lunch with friends</li>
-          <li class="dev__ride" data-side="right">A call with your mum</li>
-          <li class="dev__ride" data-side="left">A walk after work</li>
-          <li class="dev__ride" data-side="right">Dinner with family</li>
-        </ul>
-        <div class="shell dev__copy">
-          <p class="eyebrow dev__eyebrow">The device</p>
-          <h2 class="h2 dev__title" id="dev-title"><span class="dev__part">Two microphones</span><span class="dev__part">that listen to your entire day</span><span class="dev__part">because the best conversations are never planned.</span></h2>
-        </div>
-      </div>
-    </div>
-  </section>
-  <div class="dev__travel" aria-hidden="true"><canvas></canvas></div>
 
   <!-- The app — on ink, full bleed. Two chapters, Chronicles (your day) and
        Conversations, each one phone beside its copy: the app's own UI
@@ -912,6 +885,6 @@
   </div>
 </footer>
 
-<script src="v6.js?v=20261012p" defer></script>
+<script src="v6.js?v=20261013f" defer></script>
 </body>
 </html>
