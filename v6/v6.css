@@ -525,8 +525,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 /* Without the script (or with reduced motion) this is a plain section: the
    steps as a list, the scene, then the insights as tiles. v6.js adds
    .is-live and the section becomes a tall track with one white screen
-   pinned inside it: a large rounded frame holds the scene (and then the
-   band at rest), the sound is drawn over it on a canvas, the insights move
+   pinned inside it: a large rounded frame holds the scene (and then only
+   the device, on white), the sound is drawn over it on a canvas, the insights move
    between places v6.js computes for the screen (custom properties in px),
    and one step's words sit centred under the frame. */
 .story { position: relative; background: var(--bg); }
@@ -560,7 +560,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .story__layer { position: absolute; inset: 0; }
 .story__photo { width: 100%; height: 100%; object-fit: cover; }
-.story__layer--desk, .story__glow, .story__flash, .story__sound, .story__who { display: none; }
+.story__device, .story__sound, .story__who { display: none; }
 
 .story__notes {
   display: grid;
@@ -609,10 +609,10 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   margin: 0;
   aspect-ratio: auto;
 }
-/* Between the scene and the band at rest the frame dips to white. */
-.story.is-live .story__flash { display: block; position: absolute; inset: 0; background: #fff; opacity: var(--flash, 0); pointer-events: none; }
-/* Each layer is a camera: the photo at its cover size, moved and scaled by
-   v6.js. The band at rest takes over under the white. */
+/* The scene is a camera: the photo at its cover size, moved and scaled by
+   v6.js. As it closes in on the wrist it fades to the frame's white, and
+   only the device is left. */
+.story.is-live .story__frame { background: #fff; }
 .story.is-live .story__layer {
   inset: auto;
   left: 0;
@@ -622,7 +622,20 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   transform-origin: 0 0;
   will-change: transform;
 }
-.story.is-live .story__layer--desk { display: block; opacity: var(--desk, 0); }
+.story.is-live .story__layer--scene { opacity: var(--scene, 1); }
+.story.is-live .story__device {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--dw, 600px);
+  transform-origin: 0 0;
+  opacity: var(--dev, 0);
+  /* Over the sound, multiplied, so its white is clear: the rings of sound
+     pass behind the band and go into it. */
+  mix-blend-mode: multiply;
+}
+.story__device img { display: block; width: 100%; height: auto; }
 .story.is-live .story__sound {
   display: block;
   position: absolute;
@@ -636,10 +649,10 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .story.is-live .story__glow {
   display: block;
   position: absolute;
-  left: 49.75%;
-  top: 62.2%;
-  width: 3.4%;
-  height: 7%;
+  left: 52.45%;
+  top: 56.7%;
+  width: 2.6%;
+  height: 11%;
   translate: -50% -50%;
   border-radius: 50%;
   background: radial-gradient(closest-side, rgba(210, 237, 40, 0.55), rgba(210, 237, 40, 0));

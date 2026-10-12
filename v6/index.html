@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v6.css?v=20261012e">
+<link rel="stylesheet" href="v6.css?v=20261012g">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -149,11 +149,11 @@
 
   <!-- How it works, told step by step on one stage. The tall .story__pin
        holds a framed scene in view while scroll plays it slowly: a coffee
-       with a friend; you speak, and your voice travels as sound to the
-       band on your wrist; your friend answers, and that sound travels to
-       it too; the frame closes in on the wrist and becomes the band at
-       rest, where only the sound goes in; then insight about you comes
-       out, and gathers from the rest of your life. One step's words at a
+       with a friend; you speak (sound arcs from your mouth); your friend
+       answers (from theirs); the frame closes in on the band on your wrist
+       until only the device is left, on white, and the sound closes in on
+       it in rings and goes in; then insight about you comes out, and
+       gathers from the rest of your life. One step's words at a
        time, centred under the frame. v6.js runs the cameras, draws the
        sound on the canvas and sets the beats. Without it, or with reduced
        motion, nothing pins: the steps as a list, the scene, the insights. -->
@@ -163,14 +163,13 @@
 
         <div class="story__frame">
           <div class="story__layer story__layer--scene" aria-hidden="true">
-            <img class="story__photo" src="/media/uc2-leaders-1400.webp" srcset="/media/uc2-leaders-800.webp 800w, /media/uc2-leaders-1400.webp 1400w, /media/uc2-leaders-2000.webp 2000w" sizes="100vw" alt="" width="2000" height="1130" loading="lazy" decoding="async">
+            <img class="story__photo" src="/media/story-cafe-1400.webp" srcset="/media/story-cafe-800.webp 800w, /media/story-cafe-1400.webp 1400w, /media/story-cafe-2000.webp 2000w" sizes="100vw" alt="" width="2000" height="1130" loading="lazy" decoding="async">
           </div>
-          <div class="story__layer story__layer--desk" aria-hidden="true">
-            <img class="story__photo" src="/media/story-desk-1500.webp" srcset="/media/story-desk-1000.webp 1000w, /media/story-desk-1500.webp 1500w" sizes="100vw" alt="" width="1493" height="2000" loading="lazy" decoding="async">
+          <canvas class="story__sound" aria-hidden="true"></canvas>
+          <div class="story__device" aria-hidden="true">
+            <img src="/media/story-band-1100.webp" alt="" width="1100" height="520" loading="lazy" decoding="async">
             <i class="story__glow"></i>
           </div>
-          <i class="story__flash" aria-hidden="true"></i>
-          <canvas class="story__sound" aria-hidden="true"></canvas>
           <p class="story__who" data-who="you" aria-hidden="true">You</p>
           <p class="story__who" data-who="friend" aria-hidden="true">Your friend</p>
         </div>
@@ -894,6 +893,6 @@
   </div>
 </footer>
 
-<script src="v6.js?v=20261012e" defer></script>
+<script src="v6.js?v=20261012g" defer></script>
 </body>
 </html>
