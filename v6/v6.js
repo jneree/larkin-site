@@ -581,13 +581,14 @@
     var bx2 = dBandC.getContext('2d'), tx2 = dTravelC.getContext('2d');
     // The frames: 16:9, the flow's picture (1100 wide, 520 tall) sits in
     // the first one scaled to its width with 72 of 900 above it. In the
-    // last frame: the box the band fills, the module's two ends and its
-    // light, as fractions of the frame.
+    // last frame (the band floating, seen from a three-quarter angle
+    // slightly below, its shadow under it): the box the band fills, the
+    // module's two ends and its light, as fractions of the frame.
     var D_N = parseInt(devSec.getAttribute('data-frames'), 10) || 42;
     var D_SRC = devSec.getAttribute('data-src');
     var D_FW = 1600, D_FH = 900, D_PAD = 72 / 900;
-    var D_BOX = { l: 0.11, r: 0.885, t: 0.08, b: 0.8 };
-    var D_ENDS = [[0.165, 0.515], [0.495, 0.635]];
+    var D_BOX = { l: 0.152, r: 0.853, t: 0.156, b: 0.62 };
+    var D_ENDS = [[0.28, 0.44], [0.595, 0.535]];
     var D_POINTS = [0, 0.37, 0.69];
     var dFrames = new Array(D_N), dLoading = false, dLastK = -1, dBandDrawn = false;
     var D = null, dP = 0, dTgt = 0, dPoint = -1, dRaf = 0, dOn = false, dLit = false;
