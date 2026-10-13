@@ -1259,95 +1259,69 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    layer with overflow + border-radius alone: clip-path keeps it inside the
    rounded screen, and the dark backing stops a white halo at the edges. */
 .grow .ui-screen { background: #F0F0F0; clip-path: inset(0 round 41px 41px 0 0); }
-.gscreen .gshot { position: absolute; inset: 0 0 auto; display: block; width: 100%; height: auto; transition: opacity 0.6s var(--ease); }
-.gshot--mirror { opacity: 0; }
-.grow[data-stage="3"] .gshot--ask { opacity: 0; }
-.grow[data-stage="3"] .gshot--mirror { opacity: 1; }
-
-/* The screen: Mirror's dark top and white sheet. Its focus pulls in over
-   the first weeks. */
+.grow__phone::after { z-index: 2; }
 .gscreen {
   position: relative;
-  display: flex;
-  flex-direction: column;
   height: 100%;
   overflow: hidden;
   background: #F0F0F0;
-  filter: blur(calc(max(0, 0.3 - var(--gp)) * 9px));
-}
-.gportrait { display: grid; }
-.gportrait .ui-portrait { grid-area: 1 / 1; opacity: 0; translate: 0 6px; transition: opacity 0.5s var(--ease), translate 0.6s var(--ease); }
-.grow[data-stage="1"] .gportrait [data-v="1"],
-.grow[data-stage="2"] .gportrait [data-v="2"],
-.grow[data-stage="3"] .gportrait [data-v="3"] { opacity: 1; translate: none; }
-
-/* Each scale starts as a wide, soft guess around a first estimate and
-   closes into a point at its real value. */
-.gtrack { --at: calc(var(--p0) + (var(--pf) - var(--p0)) * var(--k)); position: relative; height: 12px; }
-.gtrack::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; height: 2px; border-radius: 1px; background: var(--ui-track); }
-.gtrack__band {
-  position: absolute;
-  top: 0;
-  left: calc((100% - 12px) * var(--at) + 6px);
-  width: calc(12px + (1 - var(--k)) * 56%);
-  height: 12px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--c) 30%, transparent);
-  transform: translateX(-50%);
-  filter: blur(calc((1 - var(--k)) * 4px));
-  opacity: calc(1 - var(--k) * 0.85);
-}
-.gtrack__dot {
-  position: absolute;
-  top: 0;
-  left: calc((100% - 12px) * var(--at));
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--ui-ink);
-  filter: blur(calc((1 - var(--k)) * 2.5px));
-  opacity: calc(0.35 + var(--k) * 0.65);
-}
-
-/* The cards that rise over the sheet: month 1 asks, month 3 reports. */
-.gcard {
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 56px; /* clear of the phone's foot, which the tile cuts off */
-  display: grid;
-  gap: 12px;
-  padding: 18px;
-  border-radius: 22px;
-  background: #fff;
   color: var(--ui-ink);
-  box-shadow: inset 0 0 0 1px var(--ui-line), 0 -18px 40px -16px rgba(0, 0, 0, 0.45);
-  transform: translateY(calc(100% + 72px));
-  transition: transform 0.7s var(--ease);
+  font-size: 14px;
+  line-height: 20px;
 }
-.grow[data-stage="2"] .gcard--ask,
-.grow[data-stage="3"] .gcard--goal { transform: none; }
-.gcard .ui-ask__fact { font-size: 18px; line-height: 24px; }
-.gcard .ui-answer { height: 40px; transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
-.grow.is-yes .gcard .ui-answer:not(.ui-answer--yes) { opacity: 0.35; }
-.grow.is-yes .gcard .ui-answer--yes { box-shadow: inset 0 0 0 2px var(--ui-ink); transform: scale(0.97); }
-.gcard__added {
+/* The feed: cards arrive at its foot and push the older ones up and out
+   under a soft fade; a lime thread links them, drawn as time passes. */
+.gfeed {
+  position: relative;
   display: flex;
-  align-items: center;
-  gap: 6px;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  font-size: 13.5px;
-  line-height: 18px;
-  color: var(--ui-2);
-  transition: max-height 0.4s var(--ease), opacity 0.4s var(--ease);
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+  height: 100%;
+  padding: 64px 16px 64px 30px;
+  -webkit-mask-image: linear-gradient(180deg, transparent 56px, #000 120px);
+  mask-image: linear-gradient(180deg, transparent 56px, #000 120px);
 }
-.gcard__added svg { flex: none; width: 14px; height: 14px; color: var(--ui-ink); }
-.gcard__added b { color: var(--ui-ink); }
-.grow.is-yes .gcard__added { max-height: 24px; opacity: 1; }
-.gcard--goal .ui-track__moved { transform: scaleX(var(--g, 1)); }
-.gcard--goal .ui-track--move .ui-track__dot { left: calc((100% - 16px) * (var(--from) + (var(--to) - var(--from)) * var(--g, 1))); }
+.gfeed__thread { position: absolute; left: 17px; top: 0; bottom: 18px; width: 2px; background: #E2E2DF; }
+.gfeed__thread::after { content: ""; position: absolute; inset: 0; background: var(--lime); transform: scaleY(var(--gp)); transform-origin: bottom; }
+.gins { position: relative; flex: none; display: grid; gap: 8px; }
+.gins::before { content: ""; position: absolute; left: -19px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #E2E2DF; box-shadow: 0 0 0 3px #F0F0F0; }
+.gins--focus::before { display: none; }
+.gins__when { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ui-2); }
+.gins__card { display: grid; gap: 7px; padding: 14px 15px 15px; border-radius: 18px; background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 10px 26px -14px rgba(0, 0, 0, 0.12); }
+.gins__head { display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600; }
+.gins__ico { flex: none; width: 24px; height: 24px; border-radius: 7px; background: var(--lime) center / 13px no-repeat; }
+.gins__ico--insight { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='6' cy='6' r='3.2' fill='%23151515'/%3E%3Ccircle cx='11.5' cy='10.5' r='2' fill='%23151515'/%3E%3C/svg%3E"); }
+.gins__ico--you { background: #4A4A46 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='5.5' r='2.8' fill='%23fff'/%3E%3Cpath d='M3 13.5c.6-2.6 2.4-4 5-4s4.4 1.4 5 4' fill='%23fff'/%3E%3C/svg%3E") center / 13px no-repeat; }
+.gins__ico--focus { background: #5B4FD6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='5.5' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3Ccircle cx='8' cy='8' r='2' fill='%23fff'/%3E%3C/svg%3E") center / 13px no-repeat; }
+.gins__ico--report { background: #5B4FD6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='3' y='8' width='2.4' height='5' rx='1' fill='%23fff'/%3E%3Crect x='6.8' y='5' width='2.4' height='8' rx='1' fill='%23fff'/%3E%3Crect x='10.6' y='2.5' width='2.4' height='10.5' rx='1' fill='%23fff'/%3E%3C/svg%3E") center / 13px no-repeat; }
+.gins__why, .gins__since { margin-left: auto; font-size: 12px; font-weight: 600; color: var(--ui-ink); }
+.gins__why { padding: 4px 10px; border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(21, 21, 21, 0.14); }
+.gins__since { color: var(--ui-3); font-weight: 500; }
+.gins__label { font-size: 11px; color: var(--ui-3); }
+.gins__text { font-size: 14px; line-height: 20px; }
+.gins__text b { font-weight: 700; font-variant-numeric: tabular-nums; }
+.gins__quote, .gins__note { color: var(--ui-2); }
+.gins__note { font-size: 12px; margin-top: -2px; }
+.gins__answers { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+.gins__answer { display: grid; place-items: center; height: 36px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px rgba(21, 21, 21, 0.14); font-size: 13px; font-weight: 600; transition: opacity 0.35s var(--ease), background-color 0.35s var(--ease), box-shadow 0.35s var(--ease), transform 0.35s var(--ease); }
+.gins__answer--yes { background: var(--lime); box-shadow: none; }
+.grow.is-yes .gins__answer:not(.gins__answer--yes) { opacity: 0.35; }
+.grow.is-yes .gins__answer--yes { box-shadow: inset 0 0 0 2px var(--ui-ink); transform: scale(0.97); }
+.gins__card--focus { background: #F7F7F4; box-shadow: inset 0 0 0 1px rgba(21, 21, 21, 0.06); }
+.gins__rows { display: grid; gap: 8px; padding: 10px 12px; border-radius: 12px; background: #F0F0F0; }
+.gins__row { display: grid; grid-template-columns: 62px 1fr 18px; align-items: center; gap: 10px; font-size: 13px; }
+.gins__row--dim { color: var(--ui-3); }
+.gins__row b { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.gins__bar { position: relative; height: 5px; border-radius: 3px; background: #E2E2DF; overflow: hidden; }
+.gins__bar::after { content: ""; position: absolute; inset: 0; border-radius: 3px; background: var(--ui-ink); transform: scaleX(calc(var(--from) + (var(--to) - var(--from)) * var(--g, 1))); transform-origin: left; }
+.gins__row--dim .gins__bar::after { background: #9A9A94; }
+
+/* Scrubbed: each card and its dot come up as its month arrives. */
+.grow.is-scrub .gins { opacity: 0; translate: 0 18px; max-height: 0; margin-top: -14px; overflow: hidden; transition: opacity 0.5s var(--ease), translate 0.6s var(--ease), max-height 0.6s var(--ease), margin 0.6s var(--ease); }
+.grow.is-scrub .gins.is-on { opacity: 1; translate: none; max-height: 260px; margin-top: 0; overflow: visible; }
+.grow.is-scrub .gins--focus { transition-delay: 0.25s; }
+.gins.is-on::before { background: var(--lime); }
 
 /* Wide screens: the steps on the left, the tile on the right. Pinned, the
    pair holds the screen while three tall screens of scroll play the months. */
@@ -1406,6 +1380,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .grow.is-scrub .grow__stage { min-height: 0; padding-top: 56px; }
   .grow.is-scrub .grow__count { top: 18px; }
   .grow.is-scrub .ui-phone { --pw: min(310px, 78vw); height: auto; } /* stretches to the tile, its foot cut off */
+  .grow.is-scrub .gfeed { padding-bottom: 28px; }
 }
 
 /* --------------------------------------------------------------------------
