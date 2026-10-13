@@ -744,6 +744,31 @@
     paint();
   }
 
+  /* ---- The app in seven cards: arrows and dots follow the row ---------- */
+  var arail = document.querySelector('[data-arail]');
+  if (arail) {
+    var acards = [].slice.call(arail.children);
+    var adots = [].slice.call(document.querySelectorAll('.arail-dots i'));
+    var aprev = document.querySelector('[data-arail-prev]');
+    var anext = document.querySelector('[data-arail-next]');
+    var aRaf = 0;
+    var aStep = function () { return acards[1] ? acards[1].offsetLeft - acards[0].offsetLeft : arail.clientWidth; };
+    var aMark = function () {
+      aRaf = 0;
+      var end = arail.scrollLeft + arail.clientWidth >= arail.scrollWidth - 4;
+      var i = end ? acards.length - 1 : clamp(Math.round(arail.scrollLeft / aStep()), 0, acards.length - 1);
+      adots.forEach(function (d, j) { d.classList.toggle('is-on', j === i); });
+      if (aprev) aprev.disabled = arail.scrollLeft <= 4;
+      if (anext) anext.disabled = end;
+    };
+    arail.addEventListener('scroll', function () { if (!aRaf) aRaf = requestAnimationFrame(aMark); }, { passive: true });
+    window.addEventListener('resize', function () { if (!aRaf) aRaf = requestAnimationFrame(aMark); }, { passive: true });
+    var aGo = function (dir) { arail.scrollBy({ left: dir * aStep(), behavior: reduceMotion ? 'auto' : 'smooth' }); };
+    if (aprev) aprev.addEventListener('click', function () { aGo(-1); });
+    if (anext) anext.addEventListener('click', function () { aGo(1); });
+    aMark();
+  }
+
   /* ---- App chapters on phones: a swipeable row -------------------------- */
   var tour = document.querySelector('[data-tour]');
   var tourDots = tour ? [].slice.call(tour.parentNode.querySelectorAll('.tour-dots i')) : [];
@@ -859,7 +884,6 @@
     var gpin = grow.querySelector('.grow__pin');
     var gDay = grow.querySelector('[data-grow-day]');
     var gConv = grow.querySelector('[data-grow-convos]');
-    var gKnows = grow.querySelector('[data-grow-knows]');
     var gLast = -1, gStage = 0;
     // Piecewise over the three stages: [value at 0, at 1/3, at 2/3, at 1].
     var along = function (t, v) {
@@ -881,7 +905,6 @@
       grow.classList.toggle('is-yes', gp >= 0.5);
       gDay.textContent = 'Day ' + along(gp, [3, 7, 30, 90]);
       gConv.textContent = along(gp, [12, 31, 96, 268]);
-      gKnows.textContent = gp >= 0.5 ? 12 : 11;
       return false;
     });
   }
