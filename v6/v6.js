@@ -884,12 +884,17 @@
     var gpin = grow.querySelector('.grow__pin');
     var gDay = grow.querySelector('[data-grow-day]');
     var gConv = grow.querySelector('[data-grow-convos]');
+    var gCards = [].slice.call(grow.querySelectorAll('.gins'));
+    var gNums = [].slice.call(grow.querySelectorAll('[data-grow-n]'));
     var gLast = -1, gStage = 0;
     // Piecewise over the three stages: [value at 0, at 1/3, at 2/3, at 1].
     var along = function (t, v) {
       var seg = Math.min(2, Math.floor(t * 3)), f = t * 3 - seg;
       return Math.round(v[seg] + (v[seg + 1] - v[seg]) * f);
     };
+    // When each card comes up, as a share of the pin: the first insight,
+    // the question, the focus (once answered), the report.
+    var gAt = [0, 0.36, 0.52, 0.7];
     link(function (vh) {
       var r = gpin.getBoundingClientRect();
       if (r.bottom < -vh || r.top > vh * 2) return false;
@@ -899,12 +904,18 @@
       if (Math.abs(gp - gLast) < 0.0005) return false;
       gLast = gp;
       var stage = gp < 0.34 ? 1 : gp < 0.67 ? 2 : 3;
+      var g = clamp((gp - 0.74) / 0.2, 0, 1);
       grow.style.setProperty('--gp', gp.toFixed(4));
-      grow.style.setProperty('--g', clamp((gp - 0.7) / 0.22, 0, 1).toFixed(3));
+      grow.style.setProperty('--g', g.toFixed(3));
       if (stage !== gStage) { gStage = stage; grow.setAttribute('data-stage', stage); }
-      grow.classList.toggle('is-yes', gp >= 0.5);
-      gDay.textContent = 'Day ' + along(gp, [3, 7, 30, 90]);
-      gConv.textContent = along(gp, [12, 31, 96, 268]);
+      grow.classList.toggle('is-yes', gp >= 0.48);
+      gCards.forEach(function (c, i) { c.classList.toggle('is-on', gp >= gAt[i]); });
+      gNums.forEach(function (n) {
+        var from = +n.getAttribute('data-from'), to = +n.getAttribute('data-to');
+        n.textContent = Math.round(from + (to - from) * g);
+      });
+      gDay.textContent = 'Day ' + along(gp, [3, 7, 30, 84]);
+      gConv.textContent = along(gp, [12, 31, 96, 250]);
       return false;
     });
   }
