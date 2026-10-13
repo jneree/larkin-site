@@ -27,7 +27,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v6.css?v=20261014b">
+<link rel="stylesheet" href="v6.css?v=20261014c">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -208,34 +208,6 @@
     </div></div>
   </section>
 
-  <!-- Already here: the Watch app. A short card between the story and the
-       app. The bracelet ships in 2027; the beta on Apple Watch and iPhone is
-       open today, and the watch does the listening until the band arrives.
-       The watch plays its recording loop in view (v6.js, [data-watch]). -->
-  <section class="section early" id="early" aria-labelledby="early-title">
-    <div class="shell">
-      <div class="early-card rv">
-        <div class="watch" data-watch>
-          <div class="watch__screen">
-            <img class="watch__still" src="/media/watch-record-still-520.webp" alt="" width="520" height="620" loading="lazy" decoding="async">
-            <video class="watch__video" data-src="/media/watch-record-520.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-          </div>
-          <img class="watch__bezel" src="/media/watch-bezel-560.webp" alt="" width="560" height="880" loading="lazy" decoding="async">
-        </div>
-        <div class="early__copy">
-          <p class="eyebrow">Already on Apple Watch</p>
-          <h2 class="early__title" id="early-title">You can try Larkin today.</h2>
-          <p class="early__lead">The Larkin app is in beta on Apple Watch and iPhone, free for everyone. Your watch does the listening until your bracelet arrives.</p>
-          <div class="early__actions">
-            <a class="btn btn--ink" href="#beta"><span>Get your invite</span></a>
-            <a class="early__more" href="/watch/">More about the Watch app</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
 
   <!-- The app — on ink, full bleed. Five cards, one screen each, in a row
        that scrolls sideways. Then Mirror, told over time: one phone that
@@ -379,6 +351,33 @@
       </div>
     </div>
   </section>
+
+  <!-- Already here: the Watch app. A short card between the app and the
+       use cases. The bracelet ships in 2027; the beta on Apple Watch and iPhone is
+       open today, and the watch does the listening until the band arrives.
+       The watch plays its recording loop in view (v6.js, [data-watch]). -->
+  <section class="section early" id="early" aria-labelledby="early-title">
+    <div class="shell">
+      <div class="early-card rv">
+        <div class="watch" data-watch>
+          <div class="watch__screen">
+            <img class="watch__still" src="/media/watch-record-still-520.webp" alt="" width="520" height="620" loading="lazy" decoding="async">
+            <video class="watch__video" data-src="/media/watch-record-520.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+          </div>
+          <img class="watch__bezel" src="/media/watch-bezel-560.webp" alt="" width="560" height="880" loading="lazy" decoding="async">
+        </div>
+        <div class="early__copy">
+          <p class="eyebrow">Already on Apple Watch</p>
+          <h2 class="early__title" id="early-title">You can try Larkin today.</h2>
+          <p class="early__lead">The Larkin app is in beta on Apple Watch and iPhone, free for everyone. Your watch does the listening until your bracelet arrives.</p>
+          <div class="early__actions">
+            <a class="btn btn--ink" href="#beta"><span>Get your invite</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
   <!-- Use cases — four pictures, each carrying one piece of the app. The
        photos drift a little slower than the page (parallax, v5.js) and
@@ -806,6 +805,6 @@
   </div>
 </footer>
 
-<script src="v6.js?v=20261014b" defer></script>
+<script src="v6.js?v=20261014c" defer></script>
 </body>
 </html>
