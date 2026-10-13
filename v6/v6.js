@@ -606,10 +606,10 @@
         if (u >= 1) u = -1;
         // The title's pieces, each staying once said: always with you (the
         // conversation), it recalls every conversation (the band and the
-        // sound), insight about you (the cards come out). Then the exit.
+        // sound), insight about you (the cards come out). The stage stays
+        // whole to the pin's end and scrolls off with the page.
         var pt = p < F_S1 ? 0 : p < T0 ? 1 : 2;
         fParts.forEach(function (el, j) { el.classList.toggle('is-on', j <= pt); });
-        flow.style.setProperty('--exit', fSmooth(0.9, 1, p).toFixed(3));
       } else {
         amp = fSmooth(0.4, 1.6, t);
         lineA = fSmooth(1.2, 2, t);

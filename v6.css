@@ -564,9 +564,6 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .flow.is-pinned:not(.is-dev) .flow__context { scale: 1.1; }
   .flow.is-pinned :is(.flow__label--dev, .flow__device) { opacity: 0; translate: -28px 0; transition: opacity 0.7s var(--ease), translate 1s var(--ease-io); }
   .flow.is-pinned.is-dev :is(.flow__label--dev, .flow__device) { opacity: 1; translate: none; }
-  /* At the pin's end the whole stage fades and lifts (--exit, v6.js) as
-     the app's ink rises over it. */
-  .flow.is-pinned .flow__stick > .shell { opacity: calc(1 - var(--exit, 0)); translate: 0 calc(var(--exit, 0) * -40px); }
 }
 .flow__title { max-width: 36ch; font-size: clamp(1.75rem, min(3.6vw, 5.2vh), 3.5rem); line-height: 1.06; text-wrap: balance; }
 .flow__part { transition: opacity 0.6s var(--ease), filter 0.6s var(--ease), translate 0.7s var(--ease); }
