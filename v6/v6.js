@@ -69,7 +69,7 @@
     });
     var lit = -2;
     // Only one Reserve on screen: the header's steps aside while one in the page is in view.
-    var pageCtas = [].slice.call(document.querySelectorAll('main [data-reserve]'));
+    var pageCtas = [].slice.call(document.querySelectorAll('main [data-reserve], main [data-cta]'));
     var place = function () {
       pending = false;
       var y = window.scrollY;
