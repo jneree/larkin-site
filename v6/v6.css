@@ -772,6 +772,82 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 #use-cases { position: relative; z-index: 1; background: var(--bg); border-radius: var(--r-xl) var(--r-xl) 0 0; margin-top: calc(var(--r-xl) * -1); }
 .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 
+/* The app in seven cards: number and name, a headline, and the phone rising
+   from the foot of the card, cut off by it. A row that scrolls sideways,
+   snapping card by card; the arrows and dots follow it (v6.js). */
+.arail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(400px, 80vw);
+  gap: clamp(12px, 1.6vw, 20px);
+  margin: clamp(48px, 7vw, 88px) calc(var(--gutter) * -1) 0;
+  padding-inline: var(--gutter);
+  overflow-x: auto;
+  overflow-y: hidden; /* else a swipe can latch onto a vertical scroller */
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+.arail::-webkit-scrollbar { display: none; }
+.arail:focus-visible { outline: 2px solid var(--lime); outline-offset: 4px; border-radius: var(--r-xl); }
+.acard {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(26px, 3vw, 36px);
+  aspect-ratio: 600 / 872;
+  overflow: hidden;
+  padding: clamp(26px, 3vw, 34px) clamp(22px, 2.6vw, 30px) 0;
+  border-radius: var(--r-xl);
+  background: radial-gradient(120% 70% at 50% 0%, #282828 0%, #1F1F1F 60%, #1B1B1B 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+  scroll-snap-align: start;
+}
+.acard__copy { display: grid; gap: 12px; }
+.acard__title { font-size: clamp(1.625rem, 2.2vw, 2rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.015em; text-wrap: balance; }
+.acard__phone {
+  position: relative;
+  flex: none;
+  align-self: center;
+  width: 84%;
+  padding: 9px 9px 0;
+  border-radius: 50px 50px 0 0;
+  background: #0B0B0B;
+  box-shadow: inset 0 0 0 1.5px #343434, inset 0 0 0 3px #0B0B0B, 0 40px 80px -30px rgba(0, 0, 0, 0.7);
+}
+.acard__phone img { display: block; width: 100%; height: auto; border-radius: 41px 41px 0 0; background: #F0F0F0; }
+.acard__island { position: absolute; z-index: 1; top: 19px; left: 50%; width: 31%; height: 27px; translate: -50% 0; border-radius: 999px; background: #000; }
+.arail-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 24px; }
+.arail-dots { display: flex; gap: 8px; }
+.arail-dots i { width: 7px; height: 7px; border-radius: 999px; background: #3A3A3A; transition: width 0.3s var(--ease), background-color 0.3s var(--ease); }
+.arail-dots i.is-on { width: 22px; background: var(--lime); }
+.arail-btns { display: flex; gap: 10px; }
+.arail-btn {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: #262626;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+.arail-btn svg { width: 16px; height: 16px; }
+.arail-btn:hover { background: #333; }
+.arail-btn:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+.arail-btn[disabled] { opacity: 0.35; cursor: default; }
+@media (max-width: 699px) {
+  .arail-nav { justify-content: center; }
+  .arail-btns { display: none; }
+}
+
+/* A screen from the app, as an image inside a phone; the island sits on it. */
+.ui-screen img.ui-shot { display: block; width: 100%; height: auto; }
+.grow__phone::after, .beta__devices .ui-phone::after { content: ""; position: absolute; z-index: 1; top: 19px; left: 50%; width: 31%; height: 26px; translate: -50% 0; border-radius: 999px; background: #000; }
+
 .tour { display: grid; gap: clamp(88px, 12vw, 160px); margin-top: clamp(48px, 7vw, 88px); }
 .chap { scroll-margin-top: calc(var(--header-h) + 72px); }
 
@@ -1182,7 +1258,11 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 /* The blur below spills past its own box, and Safari won't clip a filtered
    layer with overflow + border-radius alone: clip-path keeps it inside the
    rounded screen, and the dark backing stops a white halo at the edges. */
-.grow .ui-screen { background: #151515; clip-path: inset(0 round 41px 41px 0 0); }
+.grow .ui-screen { background: #F0F0F0; clip-path: inset(0 round 41px 41px 0 0); }
+.gscreen .gshot { position: absolute; inset: 0 0 auto; display: block; width: 100%; height: auto; transition: opacity 0.6s var(--ease); }
+.gshot--mirror { opacity: 0; }
+.grow[data-stage="3"] .gshot--ask { opacity: 0; }
+.grow[data-stage="3"] .gshot--mirror { opacity: 1; }
 
 /* The screen: Mirror's dark top and white sheet. Its focus pulls in over
    the first weeks. */
@@ -1192,8 +1272,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  background: #151515;
-  color: #fff;
+  background: #F0F0F0;
   filter: blur(calc(max(0, 0.3 - var(--gp)) * 9px));
 }
 .gportrait { display: grid; }
