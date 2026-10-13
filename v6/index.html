@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v6.css?v=20261013j">
+<link rel="stylesheet" href="v6.css?v=20261013l">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -210,26 +210,12 @@
   </section>
 
 
-  <!-- The app — on ink, full bleed. Two chapters, Chronicles (your day) and
-       Conversations, each one phone beside its copy: the app's own UI
-       rebuilt in HTML, so it stays sharp at any width. On phones they're a
-       swipeable row of tiles, dots below. Then Mirror, told over time: one
-       phone that sharpens from week 1 to month 3 as you scroll (v5.js).
-       Sample data is one persona, Alex. -->
+  <!-- The app — on ink, full bleed. Seven cards, one screen each, in a row
+       that scrolls sideways. Then Mirror, told over time: one phone that
+       sharpens from week 1 to month 3 as you scroll (v5.js). The screens are
+       the Oct 13 app design, exported from Figma; sample person Alex, on a
+       day built around a lunch with Maya. -->
   <section class="section app grain" id="app">
-    <svg class="sprite" aria-hidden="true" focusable="false">
-      <symbol id="i-chev" viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-      <symbol id="i-back" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-      <symbol id="i-cal" viewBox="0 0 16 16"><path d="M11 3.5H5A2.5 2.5 0 0 0 2.5 6v5A2.5 2.5 0 0 0 5 13.5h6a2.5 2.5 0 0 0 2.5-2.5V6A2.5 2.5 0 0 0 11 3.5Z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 6.75h11M5.5 2.25V4.5m5-2.25V4.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
-      <symbol id="i-focus" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="10" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
-      <symbol id="i-check" viewBox="0 0 14 14"><path d="m2.75 7.25 3 3 5.5-6.25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-      <symbol id="i-x" viewBox="0 0 14 14"><path d="m3.5 3.5 7 7m0-7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
-      <symbol id="i-band" viewBox="0 0 16 16"><rect x="4.25" y="3.5" width="7.5" height="9" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6.2 3.5V1.75m3.6 1.75V1.75M6.2 12.5v1.75m3.6-1.75v1.75" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
-      <symbol id="i-more" viewBox="0 0 16 16"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></symbol>
-      <symbol id="i-share" viewBox="0 0 16 16"><path d="M8 9.5V2.5M5.25 5 8 2.25 10.75 5M5.5 7H5a1.75 1.75 0 0 0-1.75 1.75v3.5C3.25 13.2 4.03 14 5 14h6c.97 0 1.75-.8 1.75-1.75v-3.5C12.75 7.78 11.97 7 11 7h-.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-      <symbol id="i-trash" viewBox="0 0 16 16"><path d="M3 4.5h10M6.5 4.5V3.2c0-.66.54-1.2 1.2-1.2h.6c.66 0 1.2.54 1.2 1.2v1.3m-5 0 .55 8.15c.06.78.7 1.35 1.5 1.35h2.9c.8 0 1.44-.57 1.5-1.35l.55-8.15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-      <symbol id="i-status" viewBox="0 0 66 12"><rect x="0" y="7.5" width="3" height="4.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="6.5" rx="1"/><rect x="9" y="3" width="3" height="9" rx="1"/><rect x="13.5" y="0.5" width="3" height="11.5" rx="1"/><path d="M27.6 4.7a9.4 9.4 0 0 1 13.8 0M30.2 7.3a5.6 5.6 0 0 1 8.6 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="34.5" cy="10.2" r="1.5"/><rect x="44.5" y="0.5" width="19" height="11" rx="3.2" fill="none" stroke="currentColor" stroke-opacity=".45"/><rect x="46.5" y="2.5" width="15" height="7" rx="1.6"/><path d="M65.2 4.3v3.4" stroke="currentColor" stroke-opacity=".45" stroke-width="1.3" stroke-linecap="round"/></symbol>
-    </svg>
 
     <div class="shell">
       <header class="sec-head sec-head--center rv">
@@ -237,110 +223,89 @@
         <h2 class="h2">Your day. Your conversations. You.</h2>
       </header>
 
-      <div class="tour" data-tour>
-
-        <!-- 01 · Chronicles — the week, a chapter per day. -->
-        <article class="chap" id="app-chronicles" aria-labelledby="chap-chronicles">
-          <div class="feat">
-            <div class="feat__copy rv">
-              <p class="feat__label"><span>01</span> Chronicles</p>
-              <h3 class="feat__title" id="chap-chronicles">Eve<span class="kern">r</span>y day becomes a chapter.</h3>
-            </div>
-            <div class="stage stage--chron rv" role="img" aria-label="The Chronicles screen: this week’s days, each with a title such as “Finding the simpler story” or “Saying no, kindly”, one line on what happened, and how many conversations and insights it holds.">
-              <div class="ui-phone">
-                <div class="ui-screen">
-                  <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
-                  <div class="ui-bar"><span class="ui-capsule"><svg><use href="#i-band"/></svg><i></i><span class="ui-capsule__sep"></span><svg><use href="#i-more"/></svg></span></div>
-                  <div class="ui-body">
-                    <p class="ui-h1">Chronicles</p>
-                    <div class="ui-row"><span class="ui-eyebrow">This week</span><span class="ui-link"><svg><use href="#i-cal"/></svg>Calendar</span></div>
-                    <div class="ui-days">
-                      <div class="ui-day">
-                        <p class="ui-day__date"><small>Wed</small><b>30</b></p>
-                        <div class="ui-day__card">
-                          <p class="ui-day__title">Finding the simpler story</p>
-                          <p class="ui-day__sum">Product ideas gave way to everyday life, and the pitch got easier to explain.</p>
-                          <p class="ui-meta"><span>6 conversations · 1h 48m<span class="ui-meta__more"> · 3 insights</span></span><svg><use href="#i-chev"/></svg></p>
-                        </div>
-                      </div>
-                      <div class="ui-day">
-                        <p class="ui-day__date"><small>Tue</small><b>29</b></p>
-                        <div class="ui-day__card">
-                          <p class="ui-day__title">Saying no, kindly</p>
-                          <p class="ui-day__sum">You turned down a side project without closing the door.</p>
-                          <p class="ui-meta"><span>4 conversations · 52m<span class="ui-meta__more"> · 2 insights</span></span><svg><use href="#i-chev"/></svg></p>
-                        </div>
-                      </div>
-                      <div class="ui-day">
-                        <p class="ui-day__date"><small>Mon</small><b>28</b></p>
-                        <div class="ui-day__card">
-                          <p class="ui-day__title">Two ways to tell it</p>
-                          <p class="ui-day__sum">Two openings for the pitch. The everyday problem got more questions.</p>
-                          <p class="ui-meta"><span>7 conversations · 2h 10m<span class="ui-meta__more"> · 3 insights</span></span><svg><use href="#i-chev"/></svg></p>
-                        </div>
-                      </div>
-                      <div class="ui-day">
-                        <p class="ui-day__date"><small>Sun</small><b>27</b></p>
-                        <div class="ui-day__card">
-                          <p class="ui-day__title">A slow Sunday</p>
-                          <p class="ui-day__sum">Pancakes, a long call with your sister, and a plan for the week.</p>
-                          <p class="ui-meta"><span>3 conversations · 41m<span class="ui-meta__more"> · 1 insight</span></span><svg><use href="#i-chev"/></svg></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <!-- The app in seven cards, one screen each, from the Oct 13 design:
+           number and name, a headline, and the phone rising from the foot of
+           the card. A row that scrolls sideways, snapping card by card; v5.js
+           wires the arrows and the dots. Screens are exports at 2x and 3x. -->
+      <div class="arail" data-arail tabindex="0" role="region" aria-label="The app, screen by screen">
+        <article class="acard" aria-labelledby="acard-home">
+          <div class="acard__copy">
+            <p class="feat__label"><span>01</span> Home</p>
+            <h3 class="acard__title" id="acard-home">Your day, at a glance.</h3>
+          </div>
+          <div class="acard__phone">
+            <i class="acard__island" aria-hidden="true"></i>
+            <img src="/media/app3-home-786.webp" srcset="/media/app3-home-786.webp 786w, /media/app3-home-1179.webp 1179w" sizes="(max-width: 699px) 72vw, 360px" alt="The Home screen: “Good morning, Alex.”, a card counting down to your first report, then today’s conversations, starting with lunch with Maya at 12:30, and what you could do better, with a Why? button on each." width="786" height="1704" loading="lazy" decoding="async">
           </div>
         </article>
-
-        <!-- 02 · Conversations — one conversation and its insights, skill by
-             skill. -->
-        <article class="chap" id="app-conversations" aria-labelledby="chap-conversations">
-          <div class="feat feat--flip">
-            <div class="feat__copy rv">
-              <p class="feat__label"><span>02</span> Conversations</p>
-              <h3 class="feat__title" id="chap-conversations">See how you came across.</h3>
-            </div>
-            <div class="stage rv" role="img" aria-label="A conversation page, “Agency pricing call”, with a short note for each skill. Clarity and concision: you laid out the plan in three steps before they asked. Persuasion and framing: on price, you explained costs at length; lead with the one reason it’s worth it. Listening and inquiry: you asked how they price a launch before giving your number. Assertiveness: you named your fee plainly and held it through the pause.">
-              <div class="ui-phone">
-                <div class="ui-screen">
-                  <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
-                  <div class="ui-bar ui-bar--split"><span class="ui-round"><svg><use href="#i-back"/></svg></span><span class="ui-capsule"><svg><use href="#i-share"/></svg><span class="ui-capsule__sep"></span><svg><use href="#i-trash"/></svg></span></div>
-                  <div class="ui-body">
-                    <div class="ui-group">
-                      <p class="ui-sub">Oct 6 · 11:20–11:58 AM · 38 min</p>
-                      <p class="ui-h1">Agency pricing call</p>
-                    </div>
-                    <p class="ui-h2 ui-h2--section">Insights</p>
-                    <div class="ui-insights">
-                      <div class="ui-insight">
-                        <p class="ui-insight__name" style="--c: var(--clarity)">Clarity &amp; concision</p>
-                        <p class="ui-insight__text">You laid out the plan in three steps before they asked.</p>
-                      </div>
-                      <div class="ui-insight">
-                        <p class="ui-insight__name" style="--c: var(--framing)">Persuasion &amp; framing</p>
-                        <p class="ui-insight__text">On price, you explained costs at length. Lead with the one reason it’s worth it.</p>
-                      </div>
-                      <div class="ui-insight">
-                        <p class="ui-insight__name" style="--c: var(--listening)">Listening &amp; inquiry</p>
-                        <p class="ui-insight__text">You asked how they price a launch before giving your number.</p>
-                      </div>
-                      <div class="ui-insight">
-                        <p class="ui-insight__name" style="--c: var(--assert)">Assertiveness</p>
-                        <p class="ui-insight__text">You named your fee plainly and held it through the pause.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <article class="acard" aria-labelledby="acard-conversation">
+          <div class="acard__copy">
+            <p class="feat__label"><span>02</span> Conversations</p>
+            <h3 class="acard__title" id="acard-conversation">See how you came across.</h3>
+          </div>
+          <div class="acard__phone">
+            <i class="acard__island" aria-hidden="true"></i>
+            <img src="/media/app3-conversation-786.webp" srcset="/media/app3-conversation-786.webp 786w, /media/app3-conversation-1179.webp 1179w" sizes="(max-width: 699px) 72vw, 360px" alt="A conversation page, “Lunch with Maya”, 52 minutes: a summary, then insights. How you came across: warm and decisive. What slipped, under clarity: you gave the plan in pieces. What worked, under listening: you asked what was blocking her first." width="786" height="1704" loading="lazy" decoding="async">
           </div>
         </article>
-
+        <article class="acard" aria-labelledby="acard-notes">
+          <div class="acard__copy">
+            <p class="feat__label"><span>03</span> Notes</p>
+            <h3 class="acard__title" id="acard-notes">Notes, without the laptop.</h3>
+          </div>
+          <div class="acard__phone">
+            <i class="acard__island" aria-hidden="true"></i>
+            <img src="/media/app3-notes-786.webp" srcset="/media/app3-notes-786.webp 786w, /media/app3-notes-1179.webp 1179w" sizes="(max-width: 699px) 72vw, 360px" alt="Notes from the lunch: the launch date, who does what, then a to-do list with “Brief the photographer on Thursday” and “Send Maya the dates for the launch”, each with a Remind me button." width="786" height="1704" loading="lazy" decoding="async">
+          </div>
+        </article>
+        <article class="acard" aria-labelledby="acard-why">
+          <div class="acard__copy">
+            <p class="feat__label"><span>04</span> Insights</p>
+            <h3 class="acard__title" id="acard-why">Ask why. See the moment.</h3>
+          </div>
+          <div class="acard__phone">
+            <i class="acard__island" aria-hidden="true"></i>
+            <img src="/media/app3-why-786.webp" srcset="/media/app3-why-786.webp 786w, /media/app3-why-1179.webp 1179w" sizes="(max-width: 699px) 72vw, 360px" alt="The page Why? opens: “The dates got lost in the details.” Larkin’s analysis explains the deadline came after three details, and Next time says: say the deadline first, then the details." width="786" height="1704" loading="lazy" decoding="async">
+          </div>
+        </article>
+        <article class="acard" aria-labelledby="acard-isthisyou">
+          <div class="acard__copy">
+            <p class="feat__label"><span>05</span> Is this you?</p>
+            <h3 class="acard__title" id="acard-isthisyou">It learns you by asking.</h3>
+          </div>
+          <div class="acard__phone">
+            <i class="acard__island" aria-hidden="true"></i>
+            <img src="/media/app3-isthisyou-786.webp" srcset="/media/app3-isthisyou-786.webp 786w, /media/app3-isthisyou-1179.webp 1179w" sizes="(max-width: 699px) 72vw, 360px" alt="Mirror for Alex: “You decide fast and say it clearly, then soften how it lands.”, then a card asking “Is this you?” with Not me and That’s me, above How you communicate." width="786" height="1704" loading="lazy" decoding="async">
+          </div>
+        </article>
+        <article class="acard" aria-labelledby="acard-mirror">
+          <div class="acard__copy">
+            <p class="feat__label"><span>06</span> Mirror</p>
+            <h3 class="acard__title" id="acard-mirror">Know how you communicate.</h3>
+          </div>
+          <div class="acard__phone">
+            <i class="acard__island" aria-hidden="true"></i>
+            <img src="/media/app3-mirror-786.webp" srcset="/media/app3-mirror-786.webp 786w, /media/app3-mirror-1179.webp 1179w" sizes="(max-width: 699px) 72vw, 360px" alt="How you communicate, four habits counted: assertiveness, direct 9 and softened 4; listening, about plans 10 and about people 4; clarity, to the point 8; framing, story first 6." width="786" height="1704" loading="lazy" decoding="async">
+          </div>
+        </article>
+        <article class="acard" aria-labelledby="acard-chronicles">
+          <div class="acard__copy">
+            <p class="feat__label"><span>07</span> Chronicles</p>
+            <h3 class="acard__title" id="acard-chronicles">Every day becomes a chapter.</h3>
+          </div>
+          <div class="acard__phone">
+            <i class="acard__island" aria-hidden="true"></i>
+            <img src="/media/app3-chronicles-786.webp" srcset="/media/app3-chronicles-786.webp 786w, /media/app3-chronicles-1179.webp 1179w" sizes="(max-width: 699px) 72vw, 360px" alt="Chronicles: today, with your summary arriving tonight, then this week: Sunday, a slow Sunday with family lunch and a half marathon plan; Saturday, you turned down a side project without closing the door." width="786" height="1704" loading="lazy" decoding="async">
+          </div>
+        </article>
       </div>
-      <div class="tour-dots" aria-hidden="true"><i class="is-on"></i><i></i></div>
+      <div class="arail-nav">
+        <div class="arail-dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="arail-btns">
+          <button class="arail-btn" type="button" data-arail-prev aria-label="Previous screen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="arail-btn" type="button" data-arail-next aria-label="Next screen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
 
       <!-- Mirror, over time. The tall .grow__pin holds the stage in view
            while scroll plays three months: the steps light in turn, the
@@ -361,65 +326,15 @@
             <ol class="grow__steps">
               <li class="grow__step" data-step="1"><p class="grow__when">Week 1</p><p class="grow__name">A first read.</p><p class="grow__text">From a handful of conversations.</p></li>
               <li class="grow__step" data-step="2"><p class="grow__when">Month 1</p><p class="grow__name">It checks with you.</p><p class="grow__text">Your answers tune it to you.</p></li>
-              <li class="grow__step" data-step="3"><p class="grow__when">Month 3</p><p class="grow__name">It tracks your progress.</p><p class="grow__text">One goal, measured monthly.</p></li>
+              <li class="grow__step" data-step="3"><p class="grow__when">Month 3</p><p class="grow__name">It knows how you communicate.</p><p class="grow__text">Four habits, counted across your conversations.</p></li>
             </ol>
             <div class="stage grow__stage">
               <p class="grow__count" aria-hidden="true"><span data-grow-day>Day 90</span><i></i><span><b data-grow-convos>268</b> conversations</span></p>
               <div class="ui-phone grow__phone">
                 <div class="ui-screen">
-                  <div class="gscreen" role="img" aria-label="Mirror after three months: the portrait reads “You decide fast and say it clearly, then soften how it lands.” Over time the scales for assertiveness, listening, clarity and framing close from rough guesses into exact points, Larkin asks “Is this you?” and adds what you confirm, and your goal, to say what you want plainly, moves from October to November.">
-                    <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
-                    <div class="ui-hero">
-                      <div class="ui-who"><span class="ui-avatar">A</span><p><b>Alex</b><span>With Larkin since Sep 28</span></p></div>
-                      <div class="gportrait">
-                        <p class="ui-portrait" data-v="1">You get to the point quickly.</p>
-                        <p class="ui-portrait" data-v="2">You decide fast and say it clearly.</p>
-                        <p class="ui-portrait" data-v="3">You decide fast and say it clearly, then soften how it lands.</p>
-                      </div>
-                    </div>
-                    <div class="ui-sheet">
-                      <p class="ui-h2">How you communicate</p>
-                      <div class="ui-areas">
-                        <div class="ui-area" style="--c: var(--assert); --p0: 0.5; --pf: 0.31">
-                          <p class="ui-area__name">Assertiveness</p>
-                          <div class="gtrack"><i class="gtrack__band"></i><i class="gtrack__dot"></i></div>
-                          <p class="ui-ends"><span>Softened</span><span>Plain</span></p>
-                        </div>
-                        <div class="ui-area" style="--c: var(--listening); --p0: 0.45; --pf: 0.25">
-                          <p class="ui-area__name">Listening</p>
-                          <div class="gtrack"><i class="gtrack__band"></i><i class="gtrack__dot"></i></div>
-                          <p class="ui-ends"><span>About plans</span><span>About people</span></p>
-                        </div>
-                        <div class="ui-area" style="--c: var(--clarity); --p0: 0.5; --pf: 0.62">
-                          <p class="ui-area__name">Clarity</p>
-                          <div class="gtrack"><i class="gtrack__band"></i><i class="gtrack__dot"></i></div>
-                          <p class="ui-ends"><span>Thinks out loud</span><span>Gets to the point</span></p>
-                        </div>
-                        <div class="ui-area" style="--c: var(--framing); --p0: 0.55; --pf: 0.72">
-                          <p class="ui-area__name">Framing</p>
-                          <div class="gtrack"><i class="gtrack__band"></i><i class="gtrack__dot"></i></div>
-                          <p class="ui-ends"><span>Facts first</span><span>Story first</span></p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="gcard gcard--ask" data-v="2">
-                      <p class="ui-eyebrow">Is this you? · Heard at lunch</p>
-                      <p class="ui-ask__fact">You value having more control over your time.</p>
-                      <div class="ui-ask__actions">
-                        <span class="ui-answer"><svg><use href="#i-x"/></svg>Not me</span>
-                        <span class="ui-answer ui-answer--yes"><svg><use href="#i-check"/></svg>That’s me</span>
-                      </div>
-                      <p class="gcard__added"><svg><use href="#i-check"/></svg>Added to what Larkin knows · <b data-grow-knows>12</b></p>
-                    </div>
-                    <div class="gcard gcard--goal" data-v="3">
-                      <p class="ui-eyebrow">Your November report</p>
-                      <p class="ui-goal"><svg><use href="#i-focus"/></svg>Say what you want plainly.</p>
-                      <div class="ui-move" style="--from: 0.31; --to: 0.55">
-                        <div class="ui-track ui-track--move"><i class="ui-track__moved"></i><i class="ui-track__was"></i><i class="ui-track__dot"></i></div>
-                        <p class="ui-ends"><span>Softened</span><span>Plain</span></p>
-                      </div>
-                      <p class="ui-p">Said plainly in 9 of 16 conversations, up from 4 of 15 in October.</p>
-                    </div>
+                  <div class="gscreen" role="img" aria-label="Mirror, over three months. First, Alex’s portrait, soft at first: “You decide fast and say it clearly, then soften how it lands.” with a card asking “Is this you?”. By month 3, How you communicate: assertiveness, direct 9 and softened 4; listening, about plans 10 and about people 4; clarity, to the point 8; framing, story first 6.">
+                    <img class="gshot gshot--ask" src="/media/app3-isthisyou-786.webp" srcset="/media/app3-isthisyou-786.webp 786w, /media/app3-isthisyou-1179.webp 1179w" sizes="360px" alt="" width="786" height="1704" loading="lazy" decoding="async">
+                    <img class="gshot gshot--mirror" src="/media/app3-mirror-786.webp" srcset="/media/app3-mirror-786.webp 786w, /media/app3-mirror-1179.webp 1179w" sizes="360px" alt="" width="786" height="1704" loading="lazy" decoding="async">
                   </div>
                 </div>
               </div>
@@ -632,41 +547,10 @@
           </form>
           <p class="beta__note">Needs an iPhone and an Apple Watch.</p>
         </div>
-        <div class="beta__devices" role="img" aria-label="The Larkin app on an Apple Watch, recording in lime with the words “Larkin is with you”, in front of an iPhone showing this week’s days in Chronicles.">
+        <div class="beta__devices" role="img" aria-label="The Larkin app on an Apple Watch, recording in lime with the words “Larkin is with you”, in front of an iPhone showing Chronicles: today, with your summary arriving tonight, then this week’s days.">
           <div class="ui-phone">
             <div class="ui-screen">
-              <div class="ui-status"><b>9:41</b><i class="ui-island"></i><svg><use href="#i-status"/></svg></div>
-              <div class="ui-bar"><span class="ui-capsule"><svg><use href="#i-band"/></svg><i></i><span class="ui-capsule__sep"></span><svg><use href="#i-more"/></svg></span></div>
-              <div class="ui-body">
-                <p class="ui-h1">Chronicles</p>
-                <div class="ui-row"><span class="ui-eyebrow">This week</span><span class="ui-link"><svg><use href="#i-cal"/></svg>Calendar</span></div>
-                <div class="ui-days">
-                  <div class="ui-day">
-                    <p class="ui-day__date"><small>Wed</small><b>30</b></p>
-                    <div class="ui-day__card">
-                      <p class="ui-day__title">Finding the simpler story</p>
-                      <p class="ui-day__sum">Product ideas gave way to everyday life, and the pitch got easier to explain.</p>
-                      <p class="ui-meta"><span>6 conversations · 1h 48m<span class="ui-meta__more"> · 3 insights</span></span><svg><use href="#i-chev"/></svg></p>
-                    </div>
-                  </div>
-                  <div class="ui-day">
-                    <p class="ui-day__date"><small>Tue</small><b>29</b></p>
-                    <div class="ui-day__card">
-                      <p class="ui-day__title">Saying no, kindly</p>
-                      <p class="ui-day__sum">You turned down a side project without closing the door.</p>
-                      <p class="ui-meta"><span>4 conversations · 52m<span class="ui-meta__more"> · 2 insights</span></span><svg><use href="#i-chev"/></svg></p>
-                    </div>
-                  </div>
-                  <div class="ui-day">
-                    <p class="ui-day__date"><small>Mon</small><b>28</b></p>
-                    <div class="ui-day__card">
-                      <p class="ui-day__title">Two ways to tell it</p>
-                      <p class="ui-day__sum">Two openings for the pitch. The everyday problem got more questions.</p>
-                      <p class="ui-meta"><span>7 conversations · 2h 10m<span class="ui-meta__more"> · 3 insights</span></span><svg><use href="#i-chev"/></svg></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <img class="ui-shot" src="/media/app3-chronicles-786.webp" srcset="/media/app3-chronicles-786.webp 786w, /media/app3-chronicles-1179.webp 1179w" sizes="320px" alt="" width="786" height="1704" loading="lazy" decoding="async">
             </div>
           </div>
           <div class="watch" data-watch>
@@ -886,6 +770,6 @@
   </div>
 </footer>
 
-<script src="v6.js?v=20261013j" defer></script>
+<script src="v6.js?v=20261013k" defer></script>
 </body>
 </html>
