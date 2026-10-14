@@ -753,8 +753,19 @@
     var anext = document.querySelector('[data-arail-next]');
     var aRaf = 0;
     var aStep = function () { return acards[1] ? acards[1].offsetLeft - acards[0].offsetLeft : arail.clientWidth; };
+    // A card's brightness follows how much of it is on screen: whole, full
+    // ink; a neighbour peeking in from the edge sits back at about half.
+    var aDim = function () {
+      var L = arail.getBoundingClientRect().left, R = L + arail.clientWidth;
+      acards.forEach(function (c) {
+        var r = c.getBoundingClientRect();
+        var vis = r.width ? Math.max(0, Math.min(r.right, R) - Math.max(r.left, L)) / r.width : 1;
+        c.style.opacity = (0.45 + 0.55 * clamp((vis - 0.25) / 0.75, 0, 1)).toFixed(3);
+      });
+    };
     var aMark = function () {
       aRaf = 0;
+      aDim();
       var end = arail.scrollLeft + arail.clientWidth >= arail.scrollWidth - 4;
       var i = end ? acards.length - 1 : clamp(Math.round(arail.scrollLeft / aStep()), 0, acards.length - 1);
       adots.forEach(function (d, j) { d.classList.toggle('is-on', j === i); });
