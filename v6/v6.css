@@ -1625,7 +1625,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .vs__row b { font-size: clamp(1.25rem, 1.75vw, 1.5rem); font-weight: 650; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
 .vs__side--us .vs__row { border-top-color: rgba(255, 255, 255, 0.14); }
 .vs__side--us .vs__row p { color: rgba(255, 255, 255, 0.62); }
-.vs__side--us .vs__row b { color: #fff; }
+.vs__side--us .vs__row b { color: var(--lime); }
 .vs__foot { margin-top: 20px; font-size: 0.8125rem; color: var(--ink-3); text-align: center; }
 
 @media (min-width: 900px) {
