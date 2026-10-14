@@ -1618,14 +1618,20 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .vs__device--pocket img { width: clamp(150px, 14.6vw, 200px); }
 .vs__device--larkin img { width: clamp(240px, 25vw, 350px); filter: none; }
 
-/* The rows, the same on both sides: a hairline, a large bold title that
-   says the point, then one quiet line. */
-.vs__row { align-self: start; padding-top: 20px; border-top: 1px solid var(--hair); }
-.vs__row p { display: grid; gap: 5px; margin: 0; font-size: 0.9375rem; line-height: 1.45; color: var(--ink-2); text-wrap: pretty; }
-.vs__row b { font-size: clamp(1.25rem, 1.75vw, 1.5rem); font-weight: 650; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
-.vs__side--us .vs__row { border-top-color: rgba(255, 255, 255, 0.14); }
-.vs__side--us .vs__row p { color: rgba(255, 255, 255, 0.62); }
-.vs__side--us .vs__row b { color: #fff; }
+/* The rows, the same on both sides: a hairline, then one short bold line
+   that says the point. */
+.vs__row {
+  align-self: start;
+  margin: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--hair);
+  font-size: clamp(1.25rem, 1.75vw, 1.5rem);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.vs__side--us .vs__row { border-top-color: rgba(255, 255, 255, 0.14); color: #fff; }
 .vs__foot { margin-top: 20px; font-size: 0.8125rem; color: var(--ink-3); text-align: center; }
 
 @media (min-width: 900px) {
