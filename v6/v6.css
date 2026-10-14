@@ -1634,15 +1634,21 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .vs__device--plaud img { width: clamp(84px, 8.4vw, 116px); }
 .vs__device--pocket img { width: clamp(150px, 14.6vw, 200px); }
 .vs__device--larkin img { width: clamp(240px, 25vw, 350px); filter: none; }
-.vs__device figcaption { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+.vs__device figcaption { font-size: 0.8125rem; font-weight: 500; color: var(--ink-3); }
 .vs__side--us .vs__device figcaption { color: rgba(255, 255, 255, 0.5); }
 
-/* The two rows, the same on both sides. */
-.vs__row { display: grid; align-content: start; gap: 6px; margin: 0; padding-top: 16px; border-top: 1px solid var(--hair); }
-.vs__row dt { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
-.vs__row dd { margin: 0; max-width: 32ch; font-size: clamp(1.0625rem, 1.4vw, 1.25rem); font-weight: 600; line-height: 1.35; text-wrap: balance; }
+/* The two rows, the same on both sides: a hairline, then the line. */
+.vs__row {
+  align-self: start;
+  margin: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--hair);
+  font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.35;
+  text-wrap: balance;
+}
 .vs__side--us .vs__row { border-top-color: rgba(255, 255, 255, 0.14); }
-.vs__side--us .vs__row dt { color: var(--lime); }
 .vs__foot { margin-top: 20px; font-size: 0.8125rem; color: var(--ink-3); text-align: center; }
 
 @media (min-width: 900px) {

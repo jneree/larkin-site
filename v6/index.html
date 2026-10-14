@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v6.css?v=20261014f">
+<link rel="stylesheet" href="v6.css?v=20261014g">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -683,13 +683,13 @@
 
   <!-- How it compares: not a recorder. One rounded panel in two equal
        halves with the same parts in the same places, so it reads across:
-       the name, the devices, then how it feels and what it is for. On the
+       the name, the devices, then how it feels and what it is for, with
+       no eyebrows or row labels: the rows line up, so they read across. On the
        left the recorders (Plaud, Pocket), on grey; on the right Larkin, on
        ink. On phones the halves stack. -->
   <section class="section vs" id="compare" aria-labelledby="vs-title">
     <div class="shell">
       <header class="sec-head sec-head--center rv">
-        <div class="sec-rule"><span class="eyebrow">How it compares</span></div>
         <h2 class="h2" id="vs-title">Not a recorder. A mirror.</h2>
       </header>
       <div class="vs__panel rv">
@@ -702,8 +702,8 @@
               <figure class="vs__device vs__device--pocket"><img src="/media/vs-pocket.webp" alt="The Pocket recorder" width="760" height="497" loading="lazy" decoding="async"><figcaption>Pocket</figcaption></figure>
             </div>
           </div>
-          <dl class="vs__row"><dt>The experience</dt><dd>You press record, like going into a meeting.</dd></dl>
-          <dl class="vs__row"><dt>The angle</dt><dd>Notes, summaries and to&#8209;dos about the meeting.</dd></dl>
+          <p class="vs__row"><span class="sr-only">The experience: </span>You press record, like going into a meeting.</p>
+          <p class="vs__row"><span class="sr-only">The angle: </span>Notes, summaries and to&#8209;dos about the meeting.</p>
         </article>
         <article class="vs__side vs__side--us" aria-labelledby="vs-us">
           <p class="vs__name" id="vs-us">Larkin<span>Worn on your wrist</span></p>
@@ -713,8 +713,8 @@
               <figure class="vs__device vs__device--larkin"><img src="/media/vs-larkin.webp" alt="The Larkin band" width="1100" height="448" loading="lazy" decoding="async"><figcaption>Larkin</figcaption></figure>
             </div>
           </div>
-          <dl class="vs__row"><dt>The experience</dt><dd>Always on and seamless. You just live your day.</dd></dl>
-          <dl class="vs__row"><dt>The angle</dt><dd>Insight about you, so you keep getting better.</dd></dl>
+          <p class="vs__row"><span class="sr-only">The experience: </span>Always on and seamless. You just live your day.</p>
+          <p class="vs__row"><span class="sr-only">The angle: </span>Insight about you, so you keep getting better.</p>
         </article>
       </div>
       <p class="vs__foot">Plaud and Pocket are trademarks of their respective owners. Product images belong to them.</p>
@@ -838,6 +838,6 @@
   </div>
 </footer>
 
-<script src="v6.js?v=20261014f" defer></script>
+<script src="v6.js?v=20261014g" defer></script>
 </body>
 </html>
