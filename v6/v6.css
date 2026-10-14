@@ -1655,7 +1655,6 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   color: var(--ink);
 }
 .vs__side--us .vs__row { border-top-color: rgba(255, 255, 255, 0.14); color: #fff; }
-.vs__foot { margin-top: 20px; font-size: 0.8125rem; color: var(--ink-3); text-align: center; }
 
 @media (min-width: 900px) {
   .vs__panel { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(5, auto); }
