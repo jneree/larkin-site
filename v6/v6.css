@@ -1583,80 +1583,92 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 /* --------------------------------------------------------------------------
-   15. Compare
+   15. How it compares: not a recorder
    -------------------------------------------------------------------------- */
-.compare-sec { padding-top: 0; }
-.compare-hint { font-size: 0.875rem; color: var(--ink-3); text-align: center; margin-bottom: 12px; }
-.compare-scroll {
-  position: relative; /* the containing block of the table's .sr-only labels */
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-x: contain;
-  margin-inline: calc(var(--gutter) * -1);
-  padding-inline: var(--gutter);
+/* One rounded panel, split in two. The recorders' side is grey and shows
+   the dialogs they put in your day; Larkin's side is ink, the band in the
+   middle with four things called out around it. */
+.vs { padding-top: 0; }
+.vs__panel { display: grid; border-radius: var(--r-xl); overflow: hidden; }
+.vs__side {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: clamp(20px, 3vw, 32px);
+  padding: clamp(24px, 3.2vw, 44px);
 }
-.compare {
-  width: 100%;
-  min-width: 780px;
-  border-collapse: separate;
-  border-spacing: 0;
-  font-size: 1rem;
+.vs__side--them { background: linear-gradient(160deg, #EFEFEC, #D8D8D4); color: var(--ink); }
+.vs__side--us {
+  background:
+    radial-gradient(42% 34% at 50% 48%, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0) 100%),
+    linear-gradient(160deg, #1D1D1C, #0D0D0C);
+  color: #fff;
 }
-.compare th, .compare td { padding: 18px 16px; text-align: center; border-bottom: 1px solid var(--hair); }
-.compare tbody th { text-align: left; font-weight: 600; padding-left: 0; width: 30%; }
-.compare thead th { vertical-align: bottom; border-bottom: 0; padding-bottom: 20px; }
-.col-name { display: block; font-size: 1.0625rem; font-weight: 700; }
-.col-note { display: block; margin-top: 4px; font-size: 0.8125rem; font-weight: 500; color: var(--ink-3); line-height: 1.35; }
-.compare .col-us { background: var(--feature); color: #fff; border-bottom-color: var(--hair-dark); }
-.compare thead .col-us { border-radius: 22px 22px 0 0; padding-top: 24px; }
-.compare thead .col-us .col-note { color: var(--on-feature-2); }
-.compare tbody tr:last-child .col-us { border-radius: 0 0 22px 22px; border-bottom: 0; }
-.yes, .half {
-  display: inline-grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  font-weight: 800;
-  font-size: 0.9375rem;
+.vs__name { display: grid; gap: 3px; font-size: 1.0625rem; font-weight: 700; line-height: 1.2; }
+.vs__name span { font-size: 0.8125rem; font-weight: 500; color: var(--ink-3); }
+.vs__side--us .vs__name span { color: rgba(255, 255, 255, 0.58); }
+.vs__sum {
+  align-self: end;
+  max-width: 24ch;
+  font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.35;
+  text-wrap: balance;
 }
-.yes { background: var(--lime); color: var(--ink); }
-.half { background: var(--card); color: var(--ink-2); }
-.no { color: #C4C4BF; font-weight: 700; }
-.qual { font-size: 0.875rem; color: var(--ink-2); font-weight: 500; }
+.vs__side--us .vs__sum { color: var(--lime); }
+
+/* The dialogs: the ones a recorder puts in your day. */
+.vs__dialogs { display: grid; gap: 12px; align-content: center; margin: 0; padding: 0; list-style: none; }
+.vs__dialog {
+  display: grid;
+  gap: 2px;
+  padding: 11px 14px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 28px -16px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(21, 21, 21, 0.05);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+.vs__dialog b { font-size: 0.875rem; font-weight: 600; color: var(--ink); }
+.vs__dialog--rec { grid-auto-flow: column; justify-content: start; align-items: center; gap: 10px; font-size: 0.9375rem; font-weight: 600; color: var(--ink); }
+.vs__dialog--rec i { width: 14px; height: 14px; border-radius: 50%; background: #FF3B30; box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.18); }
+
+/* The band and what is called out around it. */
+.vs__band { display: grid; place-items: center; }
+.vs__band img { width: min(100%, 520px); height: auto; }
+.vs__calls { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.vs__call { display: grid; gap: 3px; font-size: 0.8125rem; line-height: 1.4; color: rgba(255, 255, 255, 0.62); }
+.vs__call b { font-size: 0.9375rem; font-weight: 600; color: #fff; }
 .compare__foot { margin-top: 20px; font-size: 0.8125rem; color: var(--ink-3); text-align: center; }
-@media (min-width: 840px) { .compare-hint { display: none; } }
-/* Phones: the capability column stays put, narrow, while the rest scrolls
-   under it; once scrolled, a soft fade on its right edge shows there's more
-   beneath (v5.js sets is-scrolled). */
-@media (max-width: 839px) {
-  .compare-scroll { padding-inline: 0; }
-  .compare { min-width: 700px; }
-  .compare tbody th, .compare thead th:first-child {
-    position: sticky;
-    left: 0;
-    z-index: 2;
-    width: 140px;
-    min-width: 140px;
-    padding-left: var(--gutter);
-    padding-right: 12px;
-    background: var(--bg);
-  }
-  .compare tbody th { font-size: 0.875rem; line-height: 1.3; }
-  .compare tbody th::after, .compare thead th:first-child::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: -1px;
-    left: 100%;
-    width: 18px;
-    background: linear-gradient(90deg, var(--bg), transparent);
-    opacity: 0;
-    transition: opacity 0.2s linear;
-    pointer-events: none;
-  }
-  .compare-scroll.is-scrolled :is(tbody th, thead th:first-child)::after { opacity: 1; }
-  .compare td:last-child, .compare thead th:last-child { padding-right: var(--gutter); }
+
+@media (min-width: 900px) {
+  .vs__panel { grid-template-columns: 1fr 1fr; }
+  .vs__side { min-height: 600px; }
+  /* The dialogs on a loose grid, every other one a little lower. */
+  .vs__dialogs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 20px; }
+  .vs__dialog:nth-child(2n) { translate: 0 22px; }
+  .vs__dialog--rec { grid-column: 1; }
+  /* Larkin's side: the band in the middle, the callouts in the corners
+     around it, a hairline and a dot from each towards the band. */
+  .vs__side--us { grid-template-rows: auto 1fr auto; }
+  .vs__band { position: absolute; inset: 0; pointer-events: none; }
+  .vs__band img { width: 64%; }
+  .vs__calls { position: absolute; inset: clamp(24px, 3.2vw, 44px); display: block; }
+  .vs__call { position: absolute; width: 38%; }
+  .vs__call--tl { left: 0; top: 17%; }
+  .vs__call--tr { right: 0; top: 13%; text-align: right; }
+  .vs__call--bl { left: 0; bottom: 19%; }
+  .vs__call--br { right: 0; bottom: 15%; text-align: right; }
+  .vs__call::before, .vs__call::after { content: ""; position: absolute; left: 24px; }
+  .vs__call--tr::before, .vs__call--tr::after, .vs__call--br::before, .vs__call--br::after { left: auto; right: 24px; }
+  .vs__call::before { width: 1px; height: 34px; background: rgba(255, 255, 255, 0.32); }
+  .vs__call::after { width: 5px; height: 5px; margin-left: -2px; border-radius: 50%; background: rgba(255, 255, 255, 0.8); }
+  .vs__call--tr::after, .vs__call--br::after { margin-left: 0; margin-right: -2px; }
+  .vs__call--tl::before, .vs__call--tr::before { top: 100%; margin-top: 8px; }
+  .vs__call--tl::after, .vs__call--tr::after { top: 100%; margin-top: 42px; }
+  .vs__call--bl::before, .vs__call--br::before { bottom: 100%; margin-bottom: 8px; }
+  .vs__call--bl::after, .vs__call--br::after { bottom: 100%; margin-bottom: 42px; }
 }
 
 /* --------------------------------------------------------------------------

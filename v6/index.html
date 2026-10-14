@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v6.css?v=20261013j">
+<link rel="stylesheet" href="v6.css?v=20261014b">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -681,91 +681,43 @@
     </div>
   </section>
 
-  <!-- How it compares -->
-  <section class="section compare-sec" id="compare">
+  <!-- How it compares: not a recorder. One rounded panel split in two. On
+       the left, the AI recorders (you press record, you get notes about
+       the meeting) as the dialogs they put in your day, in grey; on the
+       right, Larkin on ink, the band with what sets it apart called out
+       around it. On phones the two halves stack. -->
+  <section class="section vs" id="compare">
     <div class="shell">
       <header class="sec-head sec-head--center rv">
         <div class="sec-rule"><span class="eyebrow">How it compares</span></div>
-        <h2 class="h2">Nothing to open. Nothing to press.</h2>
+        <h2 class="h2">Not a recorder. A mirror.</h2>
       </header>
-      <p class="compare-hint">Scroll the table sideways to see every column.</p>
-      <div class="compare-scroll rv" tabindex="0" role="region" aria-label="Comparison table">
-        <table class="compare">
-          <thead>
-            <tr>
-              <th scope="col"><span class="sr-only">Capability</span></th>
-              <th scope="col" class="col-us">
-                <span class="col-name">Larkin</span>
-                <span class="col-note">Worn on your wrist, always on</span>
-              </th>
-              <th scope="col">
-                <span class="col-name">Phone app</span>
-                <span class="col-note">In your pocket, you open it and press record</span>
-              </th>
-              <th scope="col">
-                <span class="col-name">Apple Watch app</span>
-                <span class="col-note">On your wrist, but you tap a screen to start it</span>
-              </th>
-              <th scope="col">
-                <span class="col-name">Hardware recorder</span>
-                <span class="col-note">Clipped on, you press to record</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Nothing to open or press</th>
-              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            </tr>
-            <tr>
-              <th scope="row">Worn on your body all day</th>
-              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-              <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-            </tr>
-            <tr>
-              <th scope="row">No screen</th>
-              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-              <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            </tr>
-            <tr>
-              <th scope="row">Records both people talking</th>
-              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-              <td><span class="qual">Only if out</span></td>
-              <td><span class="qual">Partly</span></td>
-              <td><span class="half" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-            </tr>
-            <tr>
-              <th scope="row">Picks out what matters instead of a transcript</th>
-              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-              <td><span class="qual">Partly</span></td>
-            </tr>
-            <tr>
-              <th scope="row">Makes reminders from what you said</th>
-              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-              <td><span class="qual">If you type them</span></td>
-              <td><span class="qual">If you dictate</span></td>
-              <td><span class="qual">Partly</span></td>
-            </tr>
-            <tr>
-              <th scope="row">A light shows when it’s on</th>
-              <td class="col-us"><span class="yes" aria-hidden="true">✓</span><span class="sr-only">Yes</span></td>
-              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-              <td><span class="no" aria-hidden="true">—</span><span class="sr-only">No</span></td>
-              <td><span class="qual">Partly</span></td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="vs__panel rv">
+        <div class="vs__side vs__side--them" aria-labelledby="vs-them">
+          <p class="vs__name" id="vs-them">AI recorders<span>Plaud, Limitless, Pocket and the rest</span></p>
+          <ul class="vs__dialogs" aria-label="What a recorder asks of you">
+            <li class="vs__dialog vs__dialog--rec"><i aria-hidden="true"></i>Tap to record</li>
+            <li class="vs__dialog"><b>Recording stopped</b><span>Keep the app open to continue.</span></li>
+            <li class="vs__dialog"><b>Transcript ready</b><span>47 minutes · 6,200 words</span></li>
+            <li class="vs__dialog"><b>Summary</b><span>5 action items for the meeting.</span></li>
+            <li class="vs__dialog"><b>Recorder not connected</b><span>Snap it to your phone to record.</span></li>
+            <li class="vs__dialog"><b>Battery at 10%</b><span>Charge to keep recording.</span></li>
+          </ul>
+          <p class="vs__sum">You press record. You get notes about the meeting.</p>
+        </div>
+        <div class="vs__side vs__side--us" aria-labelledby="vs-us">
+          <p class="vs__name" id="vs-us">Larkin<span>Worn on your wrist, all day</span></p>
+          <div class="vs__band" aria-hidden="true"><img src="/media/turn/42.webp" alt="" width="1600" height="900" loading="lazy" decoding="async"></div>
+          <ul class="vs__calls" aria-label="What sets Larkin apart">
+            <li class="vs__call vs__call--tl"><b>Nothing to press</b><span>It is listening before you know it matters.</span></li>
+            <li class="vs__call vs__call--tr"><b>On your wrist</b><span>Not snapped to a phone or clipped to a shirt.</span></li>
+            <li class="vs__call vs__call--bl"><b>About you, not the meeting</b><span>How you came across: clarity, listening, framing.</span></li>
+            <li class="vs__call vs__call--br"><b>Words, not recordings</b><span>Audio is temporary. What was said stays.</span></li>
+          </ul>
+          <p class="vs__sum">You live your day. You see how you came across.</p>
+        </div>
       </div>
-      <p class="compare__foot">Based on published specifications and everyday use, July 2026. Apple Watch and Plaud are trademarks of their respective owners.</p>
+      <p class="compare__foot">Plaud, Limitless and Pocket are trademarks of their respective owners.</p>
     </div>
   </section>
 
@@ -886,6 +838,6 @@
   </div>
 </footer>
 
-<script src="v6.js?v=20261013j" defer></script>
+<script src="v6.js?v=20261014b" defer></script>
 </body>
 </html>
