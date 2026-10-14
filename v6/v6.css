@@ -772,21 +772,25 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 #use-cases { position: relative; z-index: 1; background: var(--bg); border-radius: var(--r-xl) var(--r-xl) 0 0; margin-top: calc(var(--r-xl) * -1); }
 .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 
-/* The app in seven cards: number and name, a headline, and the phone rising
+/* The app in five cards: number and name, a headline, and the phone rising
    from the foot of the card, cut off by it. A row that scrolls sideways,
-   snapping card by card; the arrows and dots follow it (v6.js). */
+   snapping card by card; the arrows and dots follow it (v6.js). The row
+   bleeds to the screen's edges while the cards align to the content
+   column (--edge), so a neighbour peeks in
+   from the edge of the screen rather than being cut at the column. */
 .arail {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: min(400px, 80vw);
   gap: clamp(12px, 1.6vw, 20px);
-  margin: clamp(48px, 7vw, 88px) calc(var(--gutter) * -1) 0;
-  padding-inline: var(--gutter);
+  --edge: max(var(--gutter), (100vw - var(--shell)) / 2); /* screen edge to the content column */
+  margin: clamp(48px, 7vw, 88px) calc(0px - var(--edge)) 0;
+  padding-inline: var(--edge);
   overflow-x: auto;
   overflow-y: hidden; /* else a swipe can latch onto a vertical scroller */
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--gutter);
+  scroll-padding-inline: var(--edge);
   scrollbar-width: none;
 }
 .arail::-webkit-scrollbar { display: none; }
