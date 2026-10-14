@@ -1637,32 +1637,22 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .vs__device figcaption { font-size: 0.8125rem; font-weight: 500; color: var(--ink-3); }
 .vs__side--us .vs__device figcaption { color: rgba(255, 255, 255, 0.5); }
 
-/* The rows, the same on both sides: a hairline, the same small icon on
-   both sides, a short bold title that says the point, then the line. */
+/* The rows, the same on both sides: a hairline, one of the app's own
+   icons (glossy squares, from the Larkin app's Figma), a short bold title
+   that says the point, then the line. */
 .vs__row {
   align-self: start;
   display: grid;
-  grid-template-columns: 32px minmax(0, 1fr);
+  grid-template-columns: 36px minmax(0, 1fr);
   column-gap: 14px;
   align-items: start;
   padding-top: 18px;
   border-top: 1px solid var(--hair);
 }
-.vs__ico {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 1px rgba(21, 21, 21, 0.14);
-  color: var(--ink-2);
-}
-.vs__ico svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.vs__ico .vs__fill { fill: currentColor; stroke: none; }
+.vs__ico { display: block; width: 36px; height: 36px; border-radius: 10px; box-shadow: 0 6px 14px -8px rgba(0, 0, 0, 0.45); }
 .vs__row p { display: grid; gap: 3px; margin: 0; font-size: 0.9375rem; line-height: 1.45; color: var(--ink-2); text-wrap: pretty; }
 .vs__row b { font-size: clamp(1.0625rem, 1.35vw, 1.1875rem); font-weight: 650; line-height: 1.3; color: var(--ink); }
 .vs__side--us .vs__row { border-top-color: rgba(255, 255, 255, 0.14); }
-.vs__side--us .vs__ico { box-shadow: inset 0 0 0 1px rgba(210, 237, 40, 0.45); color: var(--lime); }
 .vs__side--us .vs__row p { color: rgba(255, 255, 255, 0.64); }
 .vs__side--us .vs__row b { color: #fff; }
 .vs__foot { margin-top: 20px; font-size: 0.8125rem; color: var(--ink-3); text-align: center; }
