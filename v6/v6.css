@@ -1583,52 +1583,71 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 /* --------------------------------------------------------------------------
-   15. How Larkin is different
+   15. How it compares: not a recorder
    -------------------------------------------------------------------------- */
-/* On ink. Two cards: the always-on and meeting recorders on dark grey,
-   their devices fanned out above focus / you get / the goal; Larkin on
-   lime, the band on a white tile beside the wordmark, the same three
-   rows. */
-.diff { background: var(--feature); color: #fff; }
-.diff__head { display: grid; gap: 14px; margin-bottom: clamp(32px, 4vw, 48px); }
-.diff__accent { font-style: normal; color: var(--lime); }
-.diff__cards { display: grid; gap: clamp(16px, 2vw, 24px); }
-.diff__card {
+/* One rounded panel in two equal halves, the recorders on grey and Larkin
+   on ink, with the same parts in the same places: the name, the devices
+   on a stage of the same height under a status, then the same two rows.
+   On wide screens the halves share their rows (subgrid), so each line
+   sits level with the one it is compared with. */
+.vs { padding-top: 0; }
+.vs__panel { display: grid; border-radius: var(--r-xl); overflow: hidden; }
+.vs__side {
   display: grid;
-  gap: clamp(20px, 2.6vw, 32px);
+  align-content: start;
+  gap: clamp(18px, 2.2vw, 26px);
   padding: clamp(24px, 3vw, 44px);
-  border-radius: var(--r-xl);
 }
-.diff__card--them { background: #1E1E1D; color: #fff; }
-.diff__card--us { background: var(--lime); color: var(--ink); }
-.diff__kicker { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
-.diff__fan { display: block; width: 100%; height: auto; }
-.diff__us { display: flex; align-items: center; gap: clamp(20px, 3vw, 44px); }
-.diff__tile {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: clamp(120px, 14vw, 150px);
-  aspect-ratio: 1;
-  border-radius: 22px;
-  background: #fff;
-  box-shadow: 0 18px 40px -18px rgba(21, 21, 21, 0.45);
+.vs__side--them { background: linear-gradient(165deg, #F3F3F1, #E3E3DF); color: var(--ink); }
+.vs__side--us {
+  background:
+    radial-gradient(46% 30% at 50% 38%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 100%),
+    linear-gradient(165deg, #1D1D1C, #0E0E0D);
+  color: #fff;
 }
-.diff__tile img { width: 88%; height: auto; }
-.diff__logo { height: clamp(2.25rem, 4vw, 3.5rem); fill: var(--ink); }
-.diff__logo .logo__dot { fill: var(--ink); }
-.diff__rows { display: grid; margin: 0; }
-.diff__rows div { display: grid; gap: 4px; padding: 14px 0; border-top: 1px solid rgba(255, 255, 255, 0.12); }
-.diff__rows dt { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
-.diff__rows dd { margin: 0; font-size: clamp(1.0625rem, 1.3vw, 1.25rem); font-weight: 600; line-height: 1.3; }
-.diff__card--us .diff__rows div { border-top-color: rgba(21, 21, 21, 0.16); }
-.diff__card--us .diff__rows dt { color: rgba(21, 21, 21, 0.62); }
-.diff__foot { margin-top: 20px; font-size: 0.8125rem; color: rgba(255, 255, 255, 0.45); }
+.vs__name { display: grid; gap: 4px; font-size: clamp(1.25rem, 1.8vw, 1.5rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; }
+.vs__name span { font-size: 0.875rem; font-weight: 500; letter-spacing: 0; color: var(--ink-3); }
+.vs__side--us .vs__name span { color: rgba(255, 255, 255, 0.56); }
+
+/* The stage: the status at the top, the devices centred under it, at the
+   same height on both sides. */
+.vs__stage { display: grid; grid-template-rows: auto 1fr; justify-items: center; align-items: center; gap: 16px; min-height: clamp(230px, 20vw, 280px); }
+.vs__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 7px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+  box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(21, 21, 21, 0.06);
+}
+.vs__status i { width: 8px; height: 8px; border-radius: 50%; background: #FF3B30; }
+.vs__side--us .vs__status { background: rgba(255, 255, 255, 0.08); color: #fff; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12); }
+.vs__side--us .vs__status i { background: var(--lime); box-shadow: 0 0 0 3px rgba(210, 237, 40, 0.18); }
+.vs__devices { align-self: end; display: flex; align-items: flex-end; justify-content: center; gap: clamp(20px, 3vw, 40px); }
+.vs__device { display: grid; justify-items: center; gap: 10px; margin: 0; }
+.vs__device img { display: block; height: auto; filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.22)); }
+.vs__device--plaud img { width: clamp(84px, 8.4vw, 116px); }
+.vs__device--pocket img { width: clamp(150px, 14.6vw, 200px); }
+.vs__device--larkin img { width: clamp(240px, 25vw, 350px); filter: none; }
+.vs__device figcaption { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+.vs__side--us .vs__device figcaption { color: rgba(255, 255, 255, 0.5); }
+
+/* The two rows, the same on both sides. */
+.vs__row { display: grid; align-content: start; gap: 6px; margin: 0; padding-top: 16px; border-top: 1px solid var(--hair); }
+.vs__row dt { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+.vs__row dd { margin: 0; max-width: 32ch; font-size: clamp(1.0625rem, 1.4vw, 1.25rem); font-weight: 600; line-height: 1.35; text-wrap: balance; }
+.vs__side--us .vs__row { border-top-color: rgba(255, 255, 255, 0.14); }
+.vs__side--us .vs__row dt { color: var(--lime); }
+.vs__foot { margin-top: 20px; font-size: 0.8125rem; color: var(--ink-3); text-align: center; }
+
 @media (min-width: 900px) {
-  .diff__cards { grid-template-columns: 1fr 1fr; align-items: stretch; }
-  .diff__card { grid-template-rows: auto 1fr auto; }
-  .diff__card--us { grid-template-rows: 1fr auto; }
-  .diff__rows { align-self: end; }
+  .vs__panel { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, auto); }
+  .vs__side { grid-row: span 4; grid-template-rows: subgrid; }
 }
 
 /* --------------------------------------------------------------------------
