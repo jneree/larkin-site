@@ -1535,6 +1535,7 @@ html:not(.js) .device__stage { position: relative; height: auto; min-height: 70v
 .beta__form.is-done :is(.beta__input, .btn) { display: none; }
 .beta__form.is-done .beta__msg { padding: 16px 22px; border-radius: 20px; background: #fff; font-size: 1rem; }
 .beta__note { max-width: 44ch; color: var(--ink-2); font-size: 0.9375rem; }
+.beta__note a { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 
 .beta__devices {
   --ww: clamp(150px, 15vw, 200px);

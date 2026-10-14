@@ -773,6 +773,86 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 #use-cases { padding-top: 0; }
 .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 
+/* The app in five cards: number and name, a headline, and the phone rising
+   from the foot of the card, cut off by it. A row that scrolls sideways,
+   snapping card by card; the arrows and dots follow it (v6.js). The row
+   bleeds to the screen's edges while the cards align to the content
+   column (--edge), so a neighbour peeks in
+   from the edge of the screen rather than being cut at the column. */
+.arail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(400px, 80vw);
+  gap: clamp(12px, 1.6vw, 20px);
+  --edge: max(var(--gutter), (100vw - var(--shell)) / 2); /* screen edge to the content column */
+  margin: clamp(48px, 7vw, 88px) calc(0px - var(--edge)) 0;
+  padding-inline: var(--edge);
+  overflow-x: auto;
+  overflow-y: hidden; /* else a swipe can latch onto a vertical scroller */
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--edge);
+  scrollbar-width: none;
+}
+.arail::-webkit-scrollbar { display: none; }
+.arail:focus-visible { outline: 2px solid var(--lime); outline-offset: 4px; border-radius: var(--r-xl); }
+.acard {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(26px, 3vw, 36px);
+  aspect-ratio: 600 / 872;
+  overflow: hidden;
+  padding: clamp(26px, 3vw, 34px) clamp(22px, 2.6vw, 30px) 0;
+  border-radius: var(--r-xl);
+  background: radial-gradient(120% 70% at 50% 0%, #282828 0%, #1F1F1F 60%, #1B1B1B 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+  scroll-snap-align: start;
+}
+.acard__copy { display: grid; gap: 12px; }
+.acard__title { font-size: clamp(1.625rem, 2.2vw, 2rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.015em; text-wrap: balance; }
+.acard__phone {
+  position: relative;
+  flex: none;
+  align-self: center;
+  width: 84%;
+  padding: 9px 9px 0;
+  border-radius: 50px 50px 0 0;
+  background: #0B0B0B;
+  box-shadow: inset 0 0 0 1.5px #343434, inset 0 0 0 3px #0B0B0B, 0 40px 80px -30px rgba(0, 0, 0, 0.7);
+}
+.acard__phone img { display: block; width: 100%; height: auto; border-radius: 41px 41px 0 0; background: #F0F0F0; }
+.acard__island { position: absolute; z-index: 1; top: 19px; left: 50%; width: 31%; height: 27px; translate: -50% 0; border-radius: 999px; background: #000; }
+.arail-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 24px; }
+.arail-dots { display: flex; gap: 8px; }
+.arail-dots i { width: 7px; height: 7px; border-radius: 999px; background: #3A3A3A; transition: width 0.3s var(--ease), background-color 0.3s var(--ease); }
+.arail-dots i.is-on { width: 22px; background: var(--lime); }
+.arail-btns { display: flex; gap: 10px; }
+.arail-btn {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: #262626;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+.arail-btn svg { width: 16px; height: 16px; }
+.arail-btn:hover { background: #333; }
+.arail-btn:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+.arail-btn[disabled] { opacity: 0.35; cursor: default; }
+@media (max-width: 699px) {
+  .arail-nav { justify-content: center; }
+  .arail-btns { display: none; }
+}
+
+/* A screen from the app, as an image inside a phone; the island sits on it. */
+.ui-screen img.ui-shot { display: block; width: 100%; height: auto; }
+.grow__phone::after, .beta__devices .ui-phone::after { content: ""; position: absolute; z-index: 1; top: 19px; left: 50%; width: 31%; height: 26px; translate: -50% 0; border-radius: 999px; background: #000; }
+
 .tour { display: grid; gap: clamp(88px, 12vw, 160px); margin-top: clamp(48px, 7vw, 88px); }
 .chap { scroll-margin-top: calc(var(--header-h) + 72px); }
 
@@ -1186,93 +1266,89 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 /* The blur below spills past its own box, and Safari won't clip a filtered
    layer with overflow + border-radius alone: clip-path keeps it inside the
    rounded screen, and the dark backing stops a white halo at the edges. */
-.grow .ui-screen { background: #151515; clip-path: inset(0 round 41px 41px 0 0); }
-
-/* The screen: Mirror's dark top and white sheet. Its focus pulls in over
-   the first weeks. */
+.grow .ui-screen { background: #F0F0F0; clip-path: inset(0 round 41px 41px 0 0); }
+.grow__phone::after { z-index: 2; }
 .gscreen {
   position: relative;
-  display: flex;
-  flex-direction: column;
   height: 100%;
   overflow: hidden;
-  background: #151515;
-  color: #fff;
-  filter: blur(calc(max(0, 0.3 - var(--gp)) * 9px));
-}
-.gportrait { display: grid; }
-.gportrait .ui-portrait { grid-area: 1 / 1; opacity: 0; translate: 0 6px; transition: opacity 0.5s var(--ease), translate 0.6s var(--ease); }
-.grow[data-stage="1"] .gportrait [data-v="1"],
-.grow[data-stage="2"] .gportrait [data-v="2"],
-.grow[data-stage="3"] .gportrait [data-v="3"] { opacity: 1; translate: none; }
-
-/* Each scale starts as a wide, soft guess around a first estimate and
-   closes into a point at its real value. */
-.gtrack { --at: calc(var(--p0) + (var(--pf) - var(--p0)) * var(--k)); position: relative; height: 12px; }
-.gtrack::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; height: 2px; border-radius: 1px; background: var(--ui-track); }
-.gtrack__band {
-  position: absolute;
-  top: 0;
-  left: calc((100% - 12px) * var(--at) + 6px);
-  width: calc(12px + (1 - var(--k)) * 56%);
-  height: 12px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--c) 30%, transparent);
-  transform: translateX(-50%);
-  filter: blur(calc((1 - var(--k)) * 4px));
-  opacity: calc(1 - var(--k) * 0.85);
-}
-.gtrack__dot {
-  position: absolute;
-  top: 0;
-  left: calc((100% - 12px) * var(--at));
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--ui-ink);
-  filter: blur(calc((1 - var(--k)) * 2.5px));
-  opacity: calc(0.35 + var(--k) * 0.65);
-}
-
-/* The cards that rise over the sheet: month 1 asks, month 3 reports. */
-.gcard {
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 56px; /* clear of the phone's foot, which the tile cuts off */
-  display: grid;
-  gap: 12px;
-  padding: 18px;
-  border-radius: 22px;
-  background: #fff;
+  background: #F0F0F0;
   color: var(--ui-ink);
-  box-shadow: inset 0 0 0 1px var(--ui-line), 0 -18px 40px -16px rgba(0, 0, 0, 0.45);
-  transform: translateY(calc(100% + 72px));
-  transition: transform 0.7s var(--ease);
+  font-size: 14px;
+  line-height: 20px;
 }
-.grow[data-stage="2"] .gcard--ask,
-.grow[data-stage="3"] .gcard--goal { transform: none; }
-.gcard .ui-ask__fact { font-size: 18px; line-height: 24px; }
-.gcard .ui-answer { height: 40px; transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
-.grow.is-yes .gcard .ui-answer:not(.ui-answer--yes) { opacity: 0.35; }
-.grow.is-yes .gcard .ui-answer--yes { box-shadow: inset 0 0 0 2px var(--ui-ink); transform: scale(0.97); }
-.gcard__added {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  font-size: 13.5px;
-  line-height: 18px;
-  color: var(--ui-2);
-  transition: max-height 0.4s var(--ease), opacity 0.4s var(--ease);
+/* The deck: three cards, one per month, stacked in the phone. The front
+   one is the current month; the next waits behind it, peeking above; a
+   done one slips away below. Each has its own small life once in front. */
+.gdeck { position: relative; display: grid; place-items: center; height: 100%; padding: 64px 16px 48px; }
+.gdeck__top { position: absolute; z-index: 1; top: 54px; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; color: var(--ui-ink); }
+.gdeck__top i { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--lime); font-size: 13px; font-style: normal; font-weight: 700; }
+.gdk {
+  --d: 0; /* distance from the front: 0 in front, 1 and 2 behind, -1 done */
+  grid-area: 1 / 1;
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  padding: 16px 16px 17px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 18px 40px -18px rgba(0, 0, 0, 0.22);
+  transform-origin: 50% 0;
+  transition: transform 0.7s var(--ease), opacity 0.6s var(--ease), filter 0.6s var(--ease);
 }
-.gcard__added svg { flex: none; width: 14px; height: 14px; color: var(--ui-ink); }
-.gcard__added b { color: var(--ui-ink); }
-.grow.is-yes .gcard__added { max-height: 24px; opacity: 1; }
-.gcard--goal .ui-track__moved { transform: scaleX(var(--g, 1)); }
-.gcard--goal .ui-track--move .ui-track__dot { left: calc((100% - 16px) * (var(--from) + (var(--to) - var(--from)) * var(--g, 1))); }
+.grow[data-stage="1"] .gdk[data-k="2"], .grow[data-stage="2"] .gdk[data-k="3"] { --d: 1; }
+.grow[data-stage="1"] .gdk[data-k="3"] { --d: 2; }
+.grow[data-stage="2"] .gdk[data-k="1"], .grow[data-stage="3"] .gdk[data-k="1"], .grow[data-stage="3"] .gdk[data-k="2"] { --d: -1; }
+.gdk { transform: translateY(calc(var(--d) * -16px)) scale(calc(1 - var(--d) * 0.06)); opacity: calc(1 - var(--d) * 0.45); filter: blur(calc(var(--d) * 0.6px)); z-index: calc(3 - var(--d)); }
+.gdk[style*="--d: -1"], .grow[data-stage="2"] .gdk[data-k="1"], .grow[data-stage="3"] .gdk[data-k="1"], .grow[data-stage="3"] .gdk[data-k="2"] { transform: translateY(70%) rotate(-2deg) scale(0.96); opacity: 0; filter: none; pointer-events: none; }
+.gdk > * { transition: opacity 0.4s var(--ease); }
+.gdk:not(.is-at) > :not(.gdk__when):not(.gdk__head) { opacity: 0.55; } /* behind, the words wait */
+.gdk__when { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ui-2); }
+.gdk__head { display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600; }
+.gdk__ico { flex: none; width: 24px; height: 24px; border-radius: 7px; background: var(--lime) center / 13px no-repeat; }
+.gdk__ico--insight { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='6' cy='6' r='3.2' fill='%23151515'/%3E%3Ccircle cx='11.5' cy='10.5' r='2' fill='%23151515'/%3E%3C/svg%3E"); }
+.gdk__ico--you { background: #4A4A46 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='5.5' r='2.8' fill='%23fff'/%3E%3Cpath d='M3 13.5c.6-2.6 2.4-4 5-4s4.4 1.4 5 4' fill='%23fff'/%3E%3C/svg%3E") center / 13px no-repeat; }
+.gdk__ico--focus { background: #5B4FD6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='5.5' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3Ccircle cx='8' cy='8' r='2' fill='%23fff'/%3E%3C/svg%3E") center / 13px no-repeat; }
+.gdk__ico--report { background: #5B4FD6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='3' y='8' width='2.4' height='5' rx='1' fill='%23fff'/%3E%3Crect x='6.8' y='5' width='2.4' height='8' rx='1' fill='%23fff'/%3E%3Crect x='10.6' y='2.5' width='2.4' height='10.5' rx='1' fill='%23fff'/%3E%3C/svg%3E") center / 13px no-repeat; }
+.gdk__why, .gdk__since { margin-left: auto; font-size: 12px; font-weight: 600; color: var(--ui-ink); }
+.gdk__why { padding: 4px 10px; border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(21, 21, 21, 0.14); }
+.gdk__since { color: var(--ui-3); font-weight: 500; }
+.gdk__label { font-size: 11px; color: var(--ui-3); }
+.gdk__text { font-size: 14px; line-height: 20px; }
+.gdk__text b { font-weight: 700; font-variant-numeric: tabular-nums; }
+.gdk__quote, .gdk__note { color: var(--ui-2); }
+.gdk__note { font-size: 12px; margin-top: -2px; }
+/* Week 1: the softener gets a lime mark, swept on once the card is in front. */
+.gdk__mark { color: inherit; background: linear-gradient(var(--lime), var(--lime)) no-repeat 0 60% / 0% 45%; padding: 0 2px; margin: 0 -2px; border-radius: 3px; transition: background-size 0.8s var(--ease) 0.5s; }
+.gdk.is-at .gdk__mark { background-size: 100% 45%; }
+/* Month 1: the question, answered; then the focus unfolds under it. */
+.gdk__answers { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+.gdk__answer { display: grid; place-items: center; height: 36px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px rgba(21, 21, 21, 0.14); font-size: 13px; font-weight: 600; transition: opacity 0.35s var(--ease), background-color 0.35s var(--ease), box-shadow 0.35s var(--ease), transform 0.35s var(--ease); }
+.gdk__answer--yes { background: var(--lime); box-shadow: none; }
+.grow.is-yes .gdk__answer:not(.gdk__answer--yes) { opacity: 0.35; }
+.grow.is-yes .gdk__answer--yes { box-shadow: inset 0 0 0 2px var(--ui-ink); transform: scale(0.97); }
+.gdk__focus { display: grid; gap: 6px; max-height: 0; margin-top: 0; padding: 0 12px; overflow: hidden; border-radius: 14px; background: #F4F4F1; opacity: 0; transition: max-height 0.6s var(--ease), padding 0.6s var(--ease), margin 0.6s var(--ease), opacity 0.5s var(--ease) 0.15s; }
+.grow.is-yes .gdk__focus { max-height: 120px; margin-top: 6px; padding: 11px 12px 12px; opacity: 1; }
+/* Month 3: the bars fill as the scroll plays, a light running along them;
+   the weeks under them rise one by one. */
+.gdk__rows { display: grid; gap: 8px; padding: 10px 12px; border-radius: 12px; background: #F0F0F0; }
+.gdk__row { display: grid; grid-template-columns: 62px 1fr 18px; align-items: center; gap: 10px; font-size: 13px; }
+.gdk__row--dim { color: var(--ui-3); }
+.gdk__row b { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.gdk__bar { position: relative; height: 6px; border-radius: 3px; background: #E2E2DF; overflow: hidden; }
+.gdk__bar::after { content: ""; position: absolute; inset: 0; border-radius: 3px; background: var(--ui-ink); transform: scaleX(calc(var(--from) + (var(--to) - var(--from)) * var(--g, 1))); transform-origin: left; }
+.gdk__row--dim .gdk__bar::after { background: #9A9A94; }
+.gdk__bar::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 40%; z-index: 1; border-radius: 3px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent); transform: translateX(-120%); }
+.gdk.is-at .gdk__bar::before { animation: bar-run 2.2s var(--ease-io) 0.8s infinite; }
+@keyframes bar-run { 0% { transform: translateX(-120%); } 60%, 100% { transform: translateX(260%); } }
+.gdk__weeks { display: flex; align-items: flex-end; gap: 5px; height: 26px; padding: 0 2px; }
+.gdk__weeks i { flex: 1; height: calc(var(--h) * 100%); border-radius: 3px 3px 1px 1px; background: #E2E2DF; transform: scaleY(0); transform-origin: bottom; transition: transform 0.5s var(--ease), background-color 0.4s var(--ease); }
+.gdk__weeks i:last-child { background: var(--lime); }
+.gdk.is-at .gdk__weeks i { transform: none; }
+.gdk.is-at .gdk__weeks i:nth-child(1) { transition-delay: 0.3s; } .gdk.is-at .gdk__weeks i:nth-child(2) { transition-delay: 0.4s; } .gdk.is-at .gdk__weeks i:nth-child(3) { transition-delay: 0.5s; } .gdk.is-at .gdk__weeks i:nth-child(4) { transition-delay: 0.6s; } .gdk.is-at .gdk__weeks i:nth-child(5) { transition-delay: 0.7s; } .gdk.is-at .gdk__weeks i:nth-child(6) { transition-delay: 0.8s; }
+/* The steps can be clicked to jump to their month. */
+.grow.is-scrub .grow__step, .grow.is-scrub .grow__bar b { cursor: pointer; }
+.grow.is-scrub .grow__step:hover { opacity: 0.75; }
 
 /* Wide screens: the steps on the left, the tile on the right. Pinned, the
    pair holds the screen while the scroll plays the months. */
@@ -1331,6 +1407,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .grow.is-scrub .grow__stage { min-height: 0; padding-top: 56px; }
   .grow.is-scrub .grow__count { top: 18px; }
   .grow.is-scrub .ui-phone { --pw: min(310px, 78vw); height: auto; } /* stretches to the tile, its foot cut off */
+  .grow.is-scrub .gdeck { padding: 56px 14px 60px; }
 }
 
 /* --------------------------------------------------------------------------
@@ -1521,6 +1598,35 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .preorder { grid-template-columns: 1.05fr 1fr; }
 }
 
+
+/* Already here — the Watch app. A short card after the app, before the
+   use cases: the beta is open today, before the bracelet ships. It rises
+   over the app's ink with the rounded shoulders the use cases had, and
+   the use cases rise over its foot the same way, so the foot keeps room. */
+.early { position: relative; z-index: 1; margin-top: calc(var(--r-xl) * -1); border-radius: var(--r-xl) var(--r-xl) 0 0; background: var(--bg); padding-top: calc(var(--section) + var(--r-xl)); padding-bottom: var(--r-xl); }
+/* After the comparison (white), the Watch card is plain white flow: no
+   rising shoulders, the usual section gap below for the use cases. */
+.vs + .early { margin-top: 0; border-radius: 0; padding-top: 0; padding-bottom: var(--section); }
+.early-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: clamp(20px, 4vw, 56px);
+  padding: clamp(24px, 4vw, 48px) clamp(24px, 5vw, 64px);
+  border-radius: var(--r-xl);
+  background: var(--card);
+}
+.early .watch { --ww: clamp(132px, 13vw, 176px); order: 0; margin: 0; }
+.early__copy { display: grid; gap: 14px; }
+.early__title { font-size: clamp(1.75rem, 2.8vw, 2.5rem); font-weight: 700; line-height: 1.04; letter-spacing: -0.02em; text-wrap: balance; }
+.early__lead { max-width: 46ch; color: var(--ink-2); font-size: 1.0625rem; }
+.early__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 6px; }
+@media (max-width: 599px) {
+  .early-card { grid-template-columns: 1fr; justify-items: start; gap: 8px; }
+  .early .watch { --ww: 120px; margin-left: -6px; }
+  .early__actions .btn { width: 100%; }
+}
+
 /* --------------------------------------------------------------------------
    14. Try the app
    -------------------------------------------------------------------------- */
@@ -1558,6 +1664,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .beta__form.is-done :is(.beta__input, .btn) { display: none; }
 .beta__form.is-done .beta__msg { padding: 16px 22px; border-radius: 20px; background: #fff; font-size: 1rem; }
 .beta__note { max-width: 44ch; color: var(--ink-2); font-size: 0.9375rem; }
+.beta__note a { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 
 .beta__devices {
   --ww: clamp(150px, 15vw, 200px);

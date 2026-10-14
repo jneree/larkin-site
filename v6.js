@@ -69,7 +69,7 @@
     });
     var lit = -2;
     // Only one Reserve on screen: the header's steps aside while one in the page is in view.
-    var pageCtas = [].slice.call(document.querySelectorAll('main [data-reserve]'));
+    var pageCtas = [].slice.call(document.querySelectorAll('main [data-reserve], main [data-cta]'));
     var place = function () {
       pending = false;
       var y = window.scrollY;
@@ -744,6 +744,42 @@
     paint();
   }
 
+  /* ---- The app in seven cards: arrows and dots follow the row ---------- */
+  var arail = document.querySelector('[data-arail]');
+  if (arail) {
+    var acards = [].slice.call(arail.children);
+    var adots = [].slice.call(document.querySelectorAll('.arail-dots i'));
+    var aprev = document.querySelector('[data-arail-prev]');
+    var anext = document.querySelector('[data-arail-next]');
+    var aRaf = 0;
+    var aStep = function () { return acards[1] ? acards[1].offsetLeft - acards[0].offsetLeft : arail.clientWidth; };
+    // A card's brightness follows how much of it is on screen: whole, full
+    // ink; a neighbour peeking in from the edge sits back at about half.
+    var aDim = function () {
+      var L = arail.getBoundingClientRect().left, R = L + arail.clientWidth;
+      acards.forEach(function (c) {
+        var r = c.getBoundingClientRect();
+        var vis = r.width ? Math.max(0, Math.min(r.right, R) - Math.max(r.left, L)) / r.width : 1;
+        c.style.opacity = (0.45 + 0.55 * clamp((vis - 0.25) / 0.75, 0, 1)).toFixed(3);
+      });
+    };
+    var aMark = function () {
+      aRaf = 0;
+      aDim();
+      var end = arail.scrollLeft + arail.clientWidth >= arail.scrollWidth - 4;
+      var i = end ? acards.length - 1 : clamp(Math.round(arail.scrollLeft / aStep()), 0, acards.length - 1);
+      adots.forEach(function (d, j) { d.classList.toggle('is-on', j === i); });
+      if (aprev) aprev.disabled = arail.scrollLeft <= 4;
+      if (anext) anext.disabled = end;
+    };
+    arail.addEventListener('scroll', function () { if (!aRaf) aRaf = requestAnimationFrame(aMark); }, { passive: true });
+    window.addEventListener('resize', function () { if (!aRaf) aRaf = requestAnimationFrame(aMark); }, { passive: true });
+    var aGo = function (dir) { arail.scrollBy({ left: dir * aStep(), behavior: reduceMotion ? 'auto' : 'smooth' }); };
+    if (aprev) aprev.addEventListener('click', function () { aGo(-1); });
+    if (anext) anext.addEventListener('click', function () { aGo(1); });
+    aMark();
+  }
+
   /* ---- App chapters on phones: a swipeable row -------------------------- */
   var tour = document.querySelector('[data-tour]');
   var tourDots = tour ? [].slice.call(tour.parentNode.querySelectorAll('.tour-dots i')) : [];
@@ -859,7 +895,8 @@
     var gpin = grow.querySelector('.grow__pin');
     var gDay = grow.querySelector('[data-grow-day]');
     var gConv = grow.querySelector('[data-grow-convos]');
-    var gKnows = grow.querySelector('[data-grow-knows]');
+    var gCards = [].slice.call(grow.querySelectorAll('.gdk'));
+    var gNums = [].slice.call(grow.querySelectorAll('[data-grow-n]'));
     var gLast = -1, gStage = 0;
     // Piecewise over the three stages: [value at 0, at 1/3, at 2/3, at 1].
     var along = function (t, v) {
@@ -875,14 +912,32 @@
       if (Math.abs(gp - gLast) < 0.0005) return false;
       gLast = gp;
       var stage = gp < 0.34 ? 1 : gp < 0.67 ? 2 : 3;
+      var g = clamp((gp - 0.72) / 0.2, 0, 1);
       grow.style.setProperty('--gp', gp.toFixed(4));
-      grow.style.setProperty('--g', clamp((gp - 0.7) / 0.22, 0, 1).toFixed(3));
-      if (stage !== gStage) { gStage = stage; grow.setAttribute('data-stage', stage); }
-      grow.classList.toggle('is-yes', gp >= 0.5);
-      gDay.textContent = 'Day ' + along(gp, [3, 7, 30, 90]);
-      gConv.textContent = along(gp, [12, 31, 96, 268]);
-      gKnows.textContent = gp >= 0.5 ? 12 : 11;
+      grow.style.setProperty('--g', g.toFixed(3));
+      if (stage !== gStage) {
+        gStage = stage;
+        grow.setAttribute('data-stage', stage);
+        gCards.forEach(function (c) { c.classList.toggle('is-at', +c.getAttribute('data-k') === stage); });
+      }
+      grow.classList.toggle('is-yes', gp >= 0.46);
+      gNums.forEach(function (n) {
+        var from = +n.getAttribute('data-from'), to = +n.getAttribute('data-to');
+        n.textContent = Math.round(from + (to - from) * g);
+      });
+      gDay.textContent = 'Day ' + along(gp, [3, 7, 30, 84]);
+      gConv.textContent = along(gp, [12, 31, 96, 250]);
       return false;
+    });
+    // Click a step, or a stop on the bar, to scroll to its month.
+    [].slice.call(grow.querySelectorAll('[data-grow-go]')).forEach(function (el) {
+      el.addEventListener('click', function () {
+        var k = +el.getAttribute('data-grow-go');
+        var gp = [0.12, 0.5, 0.86][k - 1];
+        var top = gpin.getBoundingClientRect().top + window.scrollY;
+        var span = gpin.offsetHeight - (window.innerHeight || root.clientHeight);
+        window.scrollTo({ top: top + span * (gp * 0.88 + 0.05), behavior: 'smooth' });
+      });
     });
   }
 
