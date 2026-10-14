@@ -768,8 +768,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 /* The app rises over the story as an ink card with rounded shoulders. */
 .app { position: relative; z-index: 2; margin-top: calc(var(--r-xl) * -1); border-radius: var(--r-xl) var(--r-xl) 0 0; box-shadow: 0 -30px 70px -36px rgba(0, 0, 0, 0.45); }
 .app > .shell { position: relative; z-index: 1; }
-.app + .section { position: relative; }
-#use-cases { position: relative; z-index: 1; background: var(--bg); border-radius: var(--r-xl) var(--r-xl) 0 0; margin-top: calc(var(--r-xl) * -1); }
+/* The section after the app (the comparison) is a white card under it. */
+.app + .section { position: relative; z-index: 1; background: var(--bg); border-radius: var(--r-xl) var(--r-xl) 0 0; margin-top: calc(var(--r-xl) * -1); }
+#use-cases { padding-top: 0; }
 .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 
 .tour { display: grid; gap: clamp(88px, 12vw, 160px); margin-top: clamp(48px, 7vw, 88px); }
@@ -1590,7 +1591,6 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    on a stage of the same height under a status, then the same two rows.
    On wide screens the halves share their rows (subgrid), so each line
    sits level with the one it is compared with. */
-.vs { padding-top: 0; }
 .vs__panel { display: grid; border-radius: var(--r-xl); overflow: hidden; }
 /* No gap between the parts: the stage's own height gives the devices
    their air, and each row's padding centres its title between its
