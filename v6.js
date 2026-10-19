@@ -748,7 +748,7 @@
   var arail = document.querySelector('[data-arail]');
   if (arail) {
     var acards = [].slice.call(arail.children);
-    var adots = [].slice.call(document.querySelectorAll('.arail-dots i'));
+    var adots = [].slice.call(arail.parentNode.querySelectorAll('.arail-dots i'));
     var aprev = document.querySelector('[data-arail-prev]');
     var anext = document.querySelector('[data-arail-next]');
     var aRaf = 0;
@@ -778,6 +778,49 @@
     if (aprev) aprev.addEventListener('click', function () { aGo(-1); });
     if (anext) anext.addEventListener('click', function () { aGo(1); });
     aMark();
+  }
+
+  /* ---- Moments: a full-bleed row of photographs, centred, snapping -----
+     The arrows step a slide; the dot follows the slide nearest the middle;
+     a slide's brightness follows how close it sits to the middle, so the
+     neighbours peeking in at the edges sit back. */
+  var mrail = document.querySelector('[data-moments]');
+  if (mrail) {
+    var mslides = [].slice.call(mrail.children);
+    var msec = mrail.closest('section');
+    var mdots = [].slice.call(msec.querySelectorAll('.arail-dots i'));
+    var mprev = msec.querySelector('[data-moments-prev]');
+    var mnext = msec.querySelector('[data-moments-next]');
+    var mRaf = 0, mCur = 0;
+    var mMark = function () {
+      mRaf = 0;
+      var box = mrail.getBoundingClientRect(), mid = box.left + box.width / 2, best = 1e9;
+      mslides.forEach(function (s, i) {
+        var r = s.getBoundingClientRect();
+        var d = Math.abs(r.left + r.width / 2 - mid);
+        if (d < best) { best = d; mCur = i; }
+        var k = clamp(d / (r.width || 1), 0, 1);
+        s.style.opacity = (1 - 0.55 * k).toFixed(3);
+      });
+      mdots.forEach(function (d, i) { d.classList.toggle('is-on', i === mCur); });
+      if (mprev) mprev.disabled = mCur === 0;
+      if (mnext) mnext.disabled = mCur === mslides.length - 1;
+    };
+    var mGo = function (i) {
+      i = clamp(i, 0, mslides.length - 1);
+      var s = mslides[i];
+      mrail.scrollTo({ left: s.offsetLeft - (mrail.clientWidth - s.offsetWidth) / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+    };
+    mrail.addEventListener('scroll', function () { if (!mRaf) mRaf = requestAnimationFrame(mMark); }, { passive: true });
+    window.addEventListener('resize', function () { if (!mRaf) mRaf = requestAnimationFrame(mMark); }, { passive: true });
+    if (mprev) mprev.addEventListener('click', function () { mGo(mCur - 1); });
+    if (mnext) mnext.addEventListener('click', function () { mGo(mCur + 1); });
+    mdots.forEach(function (d, i) { d.addEventListener('click', function () { mGo(i); }); });
+    mrail.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); mGo(mCur + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); mGo(mCur - 1); }
+    });
+    mMark();
   }
 
   /* ---- App chapters on phones: a swipeable row -------------------------- */
