@@ -665,6 +665,59 @@
     });
   }
 
+  /* ---- From the band to the app: a push in on the phone ------------------ */
+  /* The section pins one screen; scroll moves the photo from a card under
+     the title (whole, upright) to the phone's screen filling most of the
+     height, turned upright (the phone leans about 23 degrees in the photo),
+     the room going dark (the ink) while it is still a card, then
+     everything but the phone sinking into the ink. All of it is placed around the phone screen's centre in the
+     photo (B_C, in the photo's pixels), so the push lands on the phone. */
+  var bridge = document.querySelector('[data-bridge]');
+  if (bridge && !reduceMotion) {
+    bridge.classList.add('is-live');
+    var bPin = bridge.querySelector('.bridge__pin');
+    var bStage = bridge.querySelector('.bridge__stage');
+    var bShot = bridge.querySelector('.bridge__shot');
+    var bTitle = bridge.querySelector('.bridge__title');
+    var B_W = 1472, B_H = 2102, B_C = [785.8, 976], B_SW = 393, B_SH = 877, B_TURN = -23.5;
+    var bP = 0, bTgt = 0, bLast = -1;
+    var bSmooth = function (a, b, v) { var t = clamp((v - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+    var bPlace = function (p) {
+      var vw = bStage.clientWidth, vh = bStage.clientHeight;
+      // Start: the whole photo as a card under the title.
+      var tb = bTitle.getBoundingClientRect().bottom - bStage.getBoundingClientRect().top;
+      var room = vh - tb - Math.max(24, vh * 0.05);
+      var s0 = Math.min(room / B_H, (vw * 0.9) / B_W);
+      var cx0 = vw / 2 + (B_C[0] - B_W / 2) * s0, cy0 = tb + 16 + room / 2 + (B_C[1] - B_H / 2) * s0;
+      // End: the phone screen upright, filling most of the height (or the width on narrow screens).
+      var s1 = Math.min((vh * 0.8) / B_SH, (vw * 0.78) / B_SW);
+      var z = bSmooth(0.06, 0.8, p);
+      var s = s0 * Math.pow(s1 / s0, z);          // even zoom: geometric
+      var x = lerp(cx0, vw / 2, z), y = lerp(cy0, vh / 2, z), r = B_TURN * bSmooth(0.2, 0.8, p);
+      bShot.style.transform = 'translate(' + (x - B_C[0]).toFixed(2) + 'px,' + (y - B_C[1]).toFixed(2) + 'px) rotate(' + r.toFixed(3) + 'deg) scale(' + s.toFixed(5) + ')';
+      bShot.style.setProperty('--br', (24 / s).toFixed(1) + 'px');
+      bStage.style.setProperty('--tt', bSmooth(0.04, 0.22, p).toFixed(3));
+      bStage.style.setProperty('--ink', bSmooth(0.1, 0.32, p).toFixed(3));
+      // The phone's own outline, a little wider than its screen: everything else sinks.
+      bStage.style.setProperty('--hw', (B_SW * s1 * 1.07).toFixed(1) + 'px');
+      bStage.style.setProperty('--hh', (B_SH * s1 * 1.035).toFixed(1) + 'px');
+      bStage.style.setProperty('--hr', (B_SW * s1 * 0.2).toFixed(1) + 'px');
+      bStage.style.setProperty('--hole', bSmooth(0.8, 0.95, p).toFixed(3));
+    };
+    bPlace(0);
+    window.addEventListener('resize', function () { bLast = -1; kick(); }, { passive: true });
+    link(function (vh) {
+      var r = bPin.getBoundingClientRect();
+      if (r.bottom < -vh || r.top > vh * 2) return false;
+      bTgt = clamp(-r.top / Math.max(1, bPin.offsetHeight - vh), 0, 1);
+      bP = Math.abs(bTgt - bP) < 0.0005 ? bTgt : lerp(bP, bTgt, 0.18);
+      if (bP === bLast) return false;
+      bLast = bP;
+      bPlace(bP);
+      return bP !== bTgt;
+    });
+  }
+
   /* ---- Compare: a fade on the sticky column once the table is scrolled ---- */
   var cmpScroll = document.querySelector('.compare-scroll');
   if (cmpScroll) {

@@ -765,6 +765,55 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   background: var(--feature);
   color: var(--on-feature);
 }
+/* From the band to the app: the photo, then a push in on the phone. */
+.bridge { position: relative; background: var(--bg); }
+.bridge__stage { display: grid; justify-items: center; gap: clamp(28px, 4vw, 48px); padding: var(--section) var(--gutter) calc(var(--section) + var(--r-xl)); }
+.bridge__title { text-align: center; text-wrap: balance; }
+.bridge__shot { display: block; width: min(100%, 560px); height: auto; border-radius: var(--r-xl); }
+.bridge__ink, .bridge__hole { display: none; }
+/* Live (v6.js adds .is-live): one pinned screen. The photo is placed and
+   turned by the script around the phone's screen; the ink comes up behind
+   it, then everything but the phone sinks into the ink (the hole's shadow). */
+.bridge.is-live .bridge__pin { height: 260vh; height: 260svh; }
+.bridge.is-live .bridge__stage { position: sticky; top: 0; display: block; height: 100vh; height: 100svh; padding: 0; overflow: hidden; }
+.bridge.is-live .bridge__ink { display: block; position: absolute; inset: 0; background: var(--feature); opacity: var(--ink, 0); }
+.bridge.is-live .bridge__title {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  top: calc(var(--header-h) + clamp(12px, 3vh, 40px));
+  margin: 0;
+  z-index: 2;
+  opacity: calc(1 - var(--tt, 0));
+  translate: 0 calc(var(--tt, 0) * -28px);
+}
+.bridge.is-live .bridge__shot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1472px;
+  max-width: none;
+  height: 2102px;
+  transform-origin: 785.8px 976px;
+  border-radius: var(--br, 0px);
+  box-shadow: 0 40px 90px -50px rgba(0, 0, 0, 0.5);
+  will-change: transform;
+}
+.bridge.is-live .bridge__hole {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--hw, 0px);
+  height: var(--hh, 0px);
+  translate: -50% -50%;
+  border-radius: var(--hr, 0px);
+  box-shadow: 0 0 0 200vmax rgba(21, 21, 21, var(--hole, 0));
+  pointer-events: none;
+}
+/* The app rises over the bridge's ink: no shadow needed there. */
+.bridge + .app { box-shadow: none; }
+
 /* The app rises over the story as an ink card with rounded shoulders. */
 .app { position: relative; z-index: 2; margin-top: calc(var(--r-xl) * -1); border-radius: var(--r-xl) var(--r-xl) 0 0; box-shadow: 0 -30px 70px -36px rgba(0, 0, 0, 0.45); }
 .app > .shell { position: relative; z-index: 1; }
