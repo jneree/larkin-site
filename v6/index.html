@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v6.css?v=20261021b">
+<link rel="stylesheet" href="v6.css?v=20261015b">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -210,59 +210,82 @@
   </section>
 
 
-  <!-- From the band to the app, in one move. A photo on the app's own ink:
-       a hand holding the phone, the band on the wrist. The site's own phone,
-       with the app's real screen, lies exactly on the phone in the photo
-       (a perspective matrix maps its screen onto the photo screen's four
-       corners). Pinned, the scroll opens the photo from a card under the
-       title to the whole screen, then the phone lifts off the hand and turns
-       to face us while the photo sinks into the ink; the same phone settles
-       on the right, the features listed on the left, and each step of
-       scroll lights the next feature while its screen changes (v6.js,
-       [data-bridge]). Without the script or with reduced motion: the title,
-       the photo and the list. -->
-  <section class="bridge" id="bridge" aria-labelledby="bridge-title" data-bridge>
-    <div class="bridge__pin">
-      <div class="bridge__stage">
-        <i class="bridge__ink" aria-hidden="true"></i>
-        <h2 class="h2 bridge__title" id="bridge-title">It all lands in the app.</h2>
-        <div class="bridge__win">
-          <div class="bridge__film">
-            <img class="bridge__photo" src="/media/bridge-hand-2000.webp" srcset="/media/bridge-hand-1200.webp 1200w, /media/bridge-hand-2000.webp 2000w" sizes="100vw" alt="A hand holding a phone open on the Larkin app, the Larkin band on the wrist" width="2000" height="1131" loading="lazy" decoding="async">
-          </div>
-        </div>
-        <div class="bridge__phone" aria-hidden="true">
-          <div class="bridge__glass">
-            <img class="bridge__ui is-on" src="/media/app3-day-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-            <img class="bridge__ui" src="/media/app3-conversation-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-            <img class="bridge__ui" src="/media/app3-notes-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-            <img class="bridge__ui" src="/media/app3-isthisyou-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-            <img class="bridge__ui" src="/media/app3-mirror-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-            <i class="bridge__island"></i>
-          </div>
-        </div>
-        <div class="bridge__copy" id="app-tour">
-          <h2 class="bridge__head">Your day. Your conversations. You.</h2>
-          <ol class="bridge__feats">
-          <li class="bridge__feat is-on" data-feat="0"><p class="feat__label"><span>01</span> Day</p><h3 class="bridge__name">Your day, written up.</h3></li>
-          <li class="bridge__feat" data-feat="1"><p class="feat__label"><span>02</span> Conversations</p><h3 class="bridge__name">See how you came across.</h3></li>
-          <li class="bridge__feat" data-feat="2"><p class="feat__label"><span>03</span> Notes</p><h3 class="bridge__name">Notes, without the laptop.</h3></li>
-          <li class="bridge__feat" data-feat="3"><p class="feat__label"><span>04</span> Is this you?</p><h3 class="bridge__name">It learns you by asking.</h3></li>
-          <li class="bridge__feat" data-feat="4"><p class="feat__label"><span>05</span> Mirror</p><h3 class="bridge__name">Know how you communicate.</h3></li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- The app, continued on ink: the features were the tour above (the
-       bridge); here Mirror, told over time: one phone that
+  <!-- The app — on ink, full bleed. Five cards, one screen each, in a row
+       that scrolls sideways. Then Mirror, told over time: one phone that
        sharpens from week 1 to month 3 as you scroll (v5.js). The screens are
        the Oct 13 app design, exported from Figma; sample person Alex, on a
        day built around a lunch with Jane. -->
   <section class="section app grain" id="app">
 
     <div class="shell">
+      <header class="sec-head sec-head--center rv">
+        <h2 class="h2">Your day. Your conversations. You.</h2>
+      </header>
+
+      <!-- The app in five cards, one screen each, from the Oct 13 design:
+           number and name, a headline, and the phone rising from the foot of
+           the card. A row that scrolls sideways, snapping card by card; v5.js
+           wires the arrows and the dots. Screens are exports at 2x and 3x. -->
+      <div class="arail" data-arail tabindex="0" role="region" aria-label="The app, screen by screen">
+        <article class="acard" aria-labelledby="acard-day">
+          <div class="acard__copy">
+            <p class="feat__label"><span>01</span> Day</p>
+            <h3 class="acard__title" id="acard-day">Your day, written up.</h3>
+          </div>
+          <div class="acard__phone">
+            <i class="acard__island" aria-hidden="true"></i>
+            <img src="/media/app3-day-786.webp" srcset="/media/app3-day-786.webp 786w, /media/app3-day-1179.webp 1179w" sizes="(max-width: 699px) 72vw, 360px" alt="A day page: Monday, October 6, “The launch takes shape”. Your Monday moved from a quick coffee to the spring launch. Then every conversation in order: coffee with Sam at 9:10, a walk to the print shop with Jordan at 11:00, lunch with Jane at 12:30, and the to-dos it left you with." width="786" height="1704" loading="lazy" decoding="async">
+          </div>
+        </article>
+        <article class="acard" aria-labelledby="acard-conversation">
+          <div class="acard__copy">
+            <p class="feat__label"><span>02</span> Conversations</p>
+            <h3 class="acard__title" id="acard-conversation">See how you came across.</h3>
+          </div>
+          <div class="acard__phone">
+            <i class="acard__island" aria-hidden="true"></i>
+            <img src="/media/app3-conversation-786.webp" srcset="/media/app3-conversation-786.webp 786w, /media/app3-conversation-1179.webp 1179w" sizes="(max-width: 699px) 72vw, 360px" alt="A conversation page, “Lunch with Jane”, 52 minutes: a summary, then insights. How you came across: warm and decisive. What slipped, under clarity: you gave the plan in pieces. What worked, under listening: you asked what was blocking her first." width="786" height="1704" loading="lazy" decoding="async">
+          </div>
+        </article>
+        <article class="acard" aria-labelledby="acard-notes">
+          <div class="acard__copy">
+            <p class="feat__label"><span>03</span> Notes</p>
+            <h3 class="acard__title" id="acard-notes">Notes, without the laptop.</h3>
+          </div>
+          <div class="acard__phone">
+            <i class="acard__island" aria-hidden="true"></i>
+            <img src="/media/app3-notes-786.webp" srcset="/media/app3-notes-786.webp 786w, /media/app3-notes-1179.webp 1179w" sizes="(max-width: 699px) 72vw, 360px" alt="Notes from the lunch: the launch date, who does what, then a to-do list with “Brief the photographer on Thursday” and “Send Jane the dates for the launch”, each with a Remind me button." width="786" height="1704" loading="lazy" decoding="async">
+          </div>
+        </article>
+        <article class="acard" aria-labelledby="acard-isthisyou">
+          <div class="acard__copy">
+            <p class="feat__label"><span>04</span> Is this you?</p>
+            <h3 class="acard__title" id="acard-isthisyou">It learns you by asking.</h3>
+          </div>
+          <div class="acard__phone">
+            <i class="acard__island" aria-hidden="true"></i>
+            <img src="/media/app3-isthisyou-786.webp" srcset="/media/app3-isthisyou-786.webp 786w, /media/app3-isthisyou-1179.webp 1179w" sizes="(max-width: 699px) 72vw, 360px" alt="Mirror for Alex: “You decide fast and say it clearly, then soften how it lands.”, then a card asking “Is this you?” with Not me and That’s me, above How you communicate." width="786" height="1704" loading="lazy" decoding="async">
+          </div>
+        </article>
+        <article class="acard" aria-labelledby="acard-mirror">
+          <div class="acard__copy">
+            <p class="feat__label"><span>05</span> Mirror</p>
+            <h3 class="acard__title" id="acard-mirror">Know how you communicate.</h3>
+          </div>
+          <div class="acard__phone">
+            <i class="acard__island" aria-hidden="true"></i>
+            <img src="/media/app3-mirror-786.webp" srcset="/media/app3-mirror-786.webp 786w, /media/app3-mirror-1179.webp 1179w" sizes="(max-width: 699px) 72vw, 360px" alt="How you communicate, four habits counted: assertiveness, direct 9 and softened 4; listening, about plans 10 and about people 4; clarity, to the point 8; framing, story first 6." width="786" height="1704" loading="lazy" decoding="async">
+          </div>
+        </article>
+      </div>
+      <div class="arail-nav">
+        <div class="arail-dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i><i></i></div>
+        <div class="arail-btns">
+          <button class="arail-btn" type="button" data-arail-prev aria-label="Previous screen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="arail-btn" type="button" data-arail-next aria-label="Next screen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+
       <!-- Mirror, over time. One habit, softening your asks, followed for
            three months as a deck of three cards in the phone: the next
            waits behind the front one and comes forward as its month
@@ -733,6 +756,6 @@
   </div>
 </footer>
 
-<script src="v6.js?v=20261021b" defer></script>
+<script src="v6.js?v=20261015b" defer></script>
 </body>
 </html>
