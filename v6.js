@@ -801,6 +801,7 @@
         if (d < best) { best = d; mCur = i; }
         var k = clamp(d / (r.width || 1), 0, 1);
         s.style.opacity = (1 - 0.4 * k).toFixed(3);
+        s.style.setProperty('--k', k.toFixed(3));
       });
       mdots.forEach(function (d, i) { d.classList.toggle('is-on', i === mCur); });
       if (mprev) mprev.disabled = mCur === 0;

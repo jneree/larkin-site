@@ -1714,6 +1714,18 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .mrail-nav .arail-btn { background: var(--card); color: var(--ink); box-shadow: none; }
 .mrail-nav .arail-btn:hover { background: var(--card-2); }
 .mrail-nav .arail-btn:focus-visible { outline-color: var(--ink); }
+/* Desktop: wide cards from the AI-widened photos, the story on whichever
+   side keeps faces clear (data-side), the centre card full size and its
+   neighbours a little smaller as they slide away (--k, v6.js). */
+@media (min-width: 900px) {
+  .moments { --mw: min(1040px, 74vw); }
+  .moment { aspect-ratio: 3 / 2; scale: calc(1 - var(--k, 0) * 0.1); }
+  .moment__story { inset: auto auto 32px 32px; width: min(440px, 46%); gap: 18px; }
+  .moment[data-side="right"] .moment__story { inset: auto 32px 32px auto; }
+  .moment__line { font-size: clamp(1.5rem, 2.1vw, 1.875rem); }
+  .moment__tag { top: 24px; left: 24px; }
+  .moment::after { background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent 22%), linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.25) 32%, transparent 60%); }
+}
 @media (max-width: 699px) {
   .moments { --mw: 84vw; }
   .moment { aspect-ratio: 2 / 3; }
