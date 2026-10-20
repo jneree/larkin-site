@@ -27,7 +27,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v6.css?v=20261020c">
+<link rel="stylesheet" href="v6.css?v=20261020e">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -168,12 +168,13 @@
           <span class="moment__tag">Team discussion</span>
           <figcaption class="moment__story">
             <div class="mviz" aria-hidden="true">
-                <p class="mviz__label">Time to your main point</p>
-                <div class="mviz__nums"><p><b>8s</b><span>Today</span></p><p class="is-dim"><b>41s</b><span>Your average</span></p></div>
-                <div class="mviz__bars"><i class="is-lime" style="--w:13%"></i><i style="--w:74%"></i></div>
+                <p class="mviz__head"><span style="--c: #74D9B8">Clarity &amp; concision</span><em class="mviz__pill">Why?</em></p>
+                <p class="mviz__label">What slipped</p>
+                <p class="mviz__text">You gave the plan in pieces, so the dates got lost. They asked twice when the draft was due.</p>
+                <p class="mviz__next"><b>Next time</b>Say the deadline first, then the details.</p>
             </div>
-            <p class="moment__line">You got to the point in 8 seconds.</p>
-            <p class="moment__area" style="--c: #74D9B8">Clarity</p>
+            <p class="moment__line">The dates got lost in the details.</p>
+            <p class="moment__area" style="--c: #74D9B8">Team sync · 10:00 AM · 45 min</p>
           </figcaption>
         </figure>
         <figure class="moment">
@@ -184,12 +185,12 @@
           <span class="moment__tag">Between meetings</span>
           <figcaption class="moment__story">
             <div class="mviz" aria-hidden="true">
-                <p class="mviz__label">Who talked</p>
-                <div class="mviz__split"><i class="is-lime" style="flex:72"></i><i style="flex:28"></i></div>
-                <div class="mviz__nums mviz__nums--spread"><p><b>72%</b><span>You</span></p><p class="is-dim is-end"><b>28%</b><span>Sam</span></p></div>
+                <p class="mviz__label">To-do</p>
+                <div class="mviz__todo"><i></i><p>Brief the photographer on Thursday.<small>Said at 11:42 AM</small><em class="mviz__pill is-lime">Remind me</em></p></div>
+                <div class="mviz__todo is-dim"><i></i><p>Send Jane the dates for the launch.<small>Said at 11:47 AM</small></p></div>
             </div>
-            <p class="moment__line">You did most of the talking. Next time, ask first.</p>
-            <p class="moment__area" style="--c: #F2738C">Balance</p>
+            <p class="moment__line">Said on the way. Already on your to-do list.</p>
+            <p class="moment__area" style="--c: #D2ED28">Walk to the print shop · 11:40 AM · 12 min</p>
           </figcaption>
         </figure>
         <figure class="moment">
@@ -200,12 +201,13 @@
           <span class="moment__tag">Working session</span>
           <figcaption class="moment__story">
             <div class="mviz" aria-hidden="true">
-                <p class="mviz__label">Conversation · 18 min</p>
-                <div class="mviz__wave"><i style="--h:10"></i><i style="--h:18"></i><i style="--h:8"></i><i style="--h:22"></i><i style="--h:14"></i><i style="--h:26"></i><i style="--h:12"></i><i style="--h:16"></i><i style="--h:30"></i><i style="--h:20"></i><i style="--h:9"></i><i style="--h:15"></i><i style="--h:24"></i><i style="--h:11"></i><i style="--h:19"></i><i style="--h:28"></i><i style="--h:13"></i><i style="--h:21"></i><i class="is-lime" style="--h:34"></i><i class="is-lime" style="--h:30"></i><i class="is-lime" style="--h:26"></i><i class="is-lime" style="--h:22"></i><i class="is-lime" style="--h:18"></i><i class="is-lime" style="--h:24"></i><i style="--h:16"></i><i style="--h:12"></i><i style="--h:20"></i><i style="--h:14"></i><i style="--h:10"></i><i style="--h:8"></i><i style="--h:12"></i><i style="--h:6"></i><span class="mviz__tag is-lime" style="--x:49%">Your example</span></div>
-                <div class="mviz__legend"><span>0:00</span><span class="is-strong">“Oh, I see.”</span><span>18:00</span></div>
+                <p class="mviz__label">How you frame ideas · this week</p>
+                <div class="mviz__count"><p><span>Story first</span><b>6</b></p><i class="is-lime" style="--w:64%"></i></div>
+                <div class="mviz__count is-dim"><p><span>Facts first</span><b>2</b></p><i style="--w:21%"></i></div>
+                <p class="mviz__small">Counted across your conversations</p>
             </div>
-            <p class="moment__line">Your example made the idea click for him.</p>
-            <p class="moment__area" style="--c: #B399FF">Framing</p>
+            <p class="moment__line">You lead with a story, not the numbers.</p>
+            <p class="moment__area" style="--c: #B399FF">Design review · 2:00 PM · 40 min</p>
           </figcaption>
         </figure>
         <figure class="moment">
@@ -216,16 +218,14 @@
           <span class="moment__tag">Client meeting</span>
           <figcaption class="moment__story">
             <div class="mviz" aria-hidden="true">
-                <p class="mviz__label">Tone across the meeting</p>
-                <div class="mviz__chart">
-                  <svg viewBox="0 0 264 92" preserveAspectRatio="none"><defs><linearGradient id="mviz-tone" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".5"/><stop offset="1" stop-color="#D2ED28"/></linearGradient></defs><path class="mviz__grid" d="M66 0V92M132 0V92M198 0V92"/><path class="mviz__curve" d="M0 78C30 77 55 62 82 50C110 38 128 30 150 34C175 38 190 46 214 44C236 42 252 40 264 38"/></svg>
-                  <i class="mviz__dot" style="--x:31.1%;--y:54.3%"></i><i class="mviz__dot" style="--x:81.1%;--y:47.8%"></i>
-                  <span class="mviz__tag is-lime" style="--x:31.1%;--y:54.3%">Shared a laugh</span><span class="mviz__tag mviz__tag--end" style="--x:81.1%;--y:47.8%">Back to the plan</span>
-                </div>
-                <div class="mviz__legend"><span>Hello</span><span>45 min</span></div>
+                <p class="mviz__head"><span style="--c: #fff">Is this you?</span></p>
+                <p class="mviz__claim">You decide fast and adjust as you go.</p>
+                <p class="mviz__quote">“Let’s pick one and fix it as we go.”</p>
+                <p class="mviz__small">Heard at lunch with Jane</p>
+                <p class="mviz__btns"><em class="mviz__pill">Not me</em><em class="mviz__pill is-lime">That’s me</em></p>
             </div>
-            <p class="moment__line">You laughed with her, then brought it back to the plan.</p>
-            <p class="moment__area" style="--c: #D2ED28">Warmth</p>
+            <p class="moment__line">You decide fast. Larkin checks before it remembers.</p>
+            <p class="moment__area" style="--c: #FFFFFF">Lunch with Jane · 12:30 PM · 52 min</p>
           </figcaption>
         </figure>
         <figure class="moment">
@@ -236,15 +236,14 @@
           <span class="moment__tag">Coffee catch-up</span>
           <figcaption class="moment__story">
             <div class="mviz" aria-hidden="true">
-                <p class="mviz__label">Who spoke when</p>
-                <div class="mviz__turns">
-                  <p><span>You</span><b><i class="is-lime" style="--x:0%;--w:9.5%"></i><i class="is-lime" style="--x:27%;--w:13%"></i><i class="is-lime" style="--x:59%;--w:8%"></i><i class="is-lime" style="--x:83.5%;--w:11.5%"></i></b></p>
-                  <p><span>Her</span><b><i style="--x:10.5%;--w:15.5%"></i><i style="--x:41%;--w:17%"></i><i style="--x:68%;--w:14.5%"></i></b></p>
-                </div>
-                <div class="mviz__nums"><p><b>0</b><span>Interruptions today</span></p><p class="is-dim"><b>4</b><span>Last week</span></p></div>
+                <p class="mviz__label">Your focus</p>
+                <p class="mviz__claim">Say what you want without softening it</p>
+                <p class="mviz__steps"><i class="is-lime"></i><i class="is-lime"></i><i></i><i></i></p>
+                <p class="mviz__text">It came up 4 times this week. You did it twice.</p>
+                <p class="mviz__quote">You asked for Friday, then added “if that’s okay”.</p>
             </div>
-            <p class="moment__line">You let her finish before you answered. Every time.</p>
-            <p class="moment__area" style="--c: #59C7FF">Listening</p>
+            <p class="moment__line">You softened your ask. Twice this week, you didn’t.</p>
+            <p class="moment__area" style="--c: #F2738C">Coffee with Sam · 6:00 PM · 30 min</p>
           </figcaption>
         </figure>
     </div>
