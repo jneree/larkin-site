@@ -147,7 +147,7 @@
     </section>
   </div>
 
-  <!-- Moments — the story told in pictures, after HiDock's gallery. Four
+  <!-- Moments — the story told in pictures, after HiDock's gallery. Five
        situations of a working day, each photographed and paired with the
        insight Larkin drew from that moment, so every picture shows a
        conversation going in and insight coming out. A full-bleed row that
@@ -202,6 +202,19 @@
         </figure>
         <figure class="moment">
           <picture>
+            <source type="image/webp" srcset="/media/moment-client.webp">
+            <img class="moment__img" src="/media/moment-client.jpg" alt="A woman laughing across a café table during a meeting, papers and pens between her and a colleague" width="664" height="830" loading="lazy" decoding="async">
+          </picture>
+          <figcaption class="moment__cap">
+            <p class="moment__scene"><span class="moment__who">Over lunch</span>Client meeting</p>
+            <div class="moment__insight">
+              <p class="flow__area" style="--c: var(--lime)"><span>Warmth</span></p>
+              <p>You laughed with her, then brought it back to the plan.</p>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="moment">
+          <picture>
             <source type="image/webp" srcset="/media/moment-coffee.webp">
             <img class="moment__img" src="/media/moment-coffee.jpg" alt="Two women talking on a green sofa over coffee" width="736" height="920" loading="lazy" decoding="async">
           </picture>
@@ -216,7 +229,7 @@
     </div>
     <div class="shell">
       <div class="arail-nav mrail-nav">
-        <div class="arail-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div class="arail-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
         <div class="arail-btns">
           <button class="arail-btn" type="button" data-moments-prev aria-label="Previous moment"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <button class="arail-btn" type="button" data-moments-next aria-label="Next moment"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
