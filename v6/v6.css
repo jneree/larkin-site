@@ -765,16 +765,22 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   background: var(--feature);
   color: var(--on-feature);
 }
-/* From the band to the app: the photo, then a push in on the phone. */
+/* From the band to the app, in one move: the photo, a push in on the
+   phone, then the same phone on the right while the features play. */
 .bridge { position: relative; background: var(--bg); }
 .bridge__stage { display: grid; justify-items: center; gap: clamp(28px, 4vw, 48px); padding: var(--section) var(--gutter) calc(var(--section) + var(--r-xl)); }
 .bridge__title { text-align: center; text-wrap: balance; }
-.bridge__shot { display: block; width: min(100%, 560px); height: auto; border-radius: var(--r-xl); }
-.bridge__ink, .bridge__hole { display: none; }
-/* Live (v6.js adds .is-live): one pinned screen. The photo is placed and
-   turned by the script around the phone's screen; the ink comes up behind
-   it, then everything but the phone sinks into the ink (the hole's shadow). */
-.bridge.is-live .bridge__pin { height: 260vh; height: 260svh; }
+.bridge__photo { width: min(100%, 560px); }
+.bridge__shot { display: block; width: 100%; height: auto; border-radius: var(--r-xl); }
+.bridge__screen, .bridge__ink, .bridge__hole { display: none; }
+.bridge__copy { display: grid; gap: 20px; width: min(100%, 560px); }
+.bridge__head { font-size: clamp(1.75rem, 3vw, 2.75rem); font-weight: 700; line-height: 1.04; letter-spacing: -0.02em; text-wrap: balance; }
+.bridge__feats { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.bridge__name { font-size: clamp(1.25rem, 1.9vw, 1.75rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.01em; }
+
+/* Live (v6.js adds .is-live): one pinned screen for the whole move. */
+.bridge.is-live { background: var(--bg); color: var(--ink); }
+.bridge.is-live .bridge__pin { height: 700vh; height: 700svh; }
 .bridge.is-live .bridge__stage { position: sticky; top: 0; display: block; height: 100vh; height: 100svh; padding: 0; overflow: hidden; }
 .bridge.is-live .bridge__ink { display: block; position: absolute; inset: 0; background: var(--feature); opacity: var(--ink, 0); }
 .bridge.is-live .bridge__title {
@@ -787,32 +793,71 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   opacity: calc(1 - var(--tt, 0));
   translate: 0 calc(var(--tt, 0) * -28px);
 }
-.bridge.is-live .bridge__shot {
+/* The photo, placed and turned by v6.js around its phone screen's centre;
+   the app screens lie on the screen's glass (a perspective matrix from
+   v6.js maps them onto the screen's four corners in the photo). */
+.bridge.is-live .bridge__photo { position: absolute; left: 0; top: 0; width: 1472px; height: 2102px; max-width: none; transform-origin: 785.8px 976px; will-change: transform; }
+.bridge.is-live .bridge__shot { width: 1472px; height: 2102px; border-radius: var(--br, 0px); box-shadow: 0 40px 90px -50px rgba(0, 0, 0, 0.5); }
+.bridge.is-live .bridge__screen {
+  display: block;
   position: absolute;
   left: 0;
   top: 0;
-  width: 1472px;
-  max-width: none;
-  height: 2102px;
-  transform-origin: 785.8px 976px;
-  border-radius: var(--br, 0px);
-  box-shadow: 0 40px 90px -50px rgba(0, 0, 0, 0.5);
-  will-change: transform;
+  width: 1179px;
+  height: 2556px;
+  transform-origin: 0 0;
+  border-radius: 195px;
+  overflow: hidden;
+  background: #F0F0F0;
+  filter: brightness(0.9);
 }
+.bridge__ui { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.5s var(--ease); }
+.bridge__ui.is-on { opacity: 1; }
+.bridge__island { position: absolute; left: 50%; top: 26px; width: 318px; height: 81px; translate: -50% 0; border-radius: 999px; background: #080808; }
 .bridge.is-live .bridge__hole {
   display: block;
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 0;
+  top: 0;
   width: var(--hw, 0px);
   height: var(--hh, 0px);
-  translate: -50% -50%;
+  translate: calc(var(--hx, 0px) - 50%) calc(var(--hy, 0px) - 50%);
   border-radius: var(--hr, 0px);
   box-shadow: 0 0 0 200vmax rgba(21, 21, 21, var(--hole, 0));
   pointer-events: none;
 }
-/* The app rises over the bridge's ink: no shadow needed there. */
-.bridge + .app { box-shadow: none; }
+/* The features, on the left; the step's one bright with the lime bar. */
+.bridge.is-live .bridge__copy {
+  position: absolute;
+  z-index: 3;
+  left: max(var(--gutter), calc((100% - var(--shell, 1280px)) / 2 + var(--gutter)));
+  top: 50%;
+  width: min(40vw, 520px);
+  translate: 0 calc(-50% + (1 - var(--cp, 0)) * 24px);
+  opacity: var(--cp, 0);
+  color: #fff;
+  gap: clamp(24px, 4vh, 40px);
+  pointer-events: none;
+}
+.bridge.is-live .bridge__feats { gap: clamp(14px, 2.4vh, 22px); }
+.bridge.is-live .bridge__feat { position: relative; padding-left: 22px; opacity: 0.32; transition: opacity 0.4s var(--ease); }
+.bridge.is-live .bridge__feat::before { content: ""; position: absolute; left: 0; top: 2px; bottom: 2px; width: 3px; border-radius: 2px; background: var(--lime); transform: scaleY(0); transform-origin: top; transition: transform 0.45s var(--ease); }
+.bridge.is-live .bridge__feat.is-on { opacity: 1; }
+.bridge.is-live .bridge__feat.is-on::before { transform: none; }
+.bridge.is-live .bridge__feat .feat__label { margin-bottom: 6px; }
+/* Narrow screens: the words on top, only the step's feature; the phone below. */
+@media (max-width: 899px) {
+  .bridge.is-live .bridge__copy { left: var(--gutter); right: var(--gutter); top: calc(var(--header-h) + 12px); width: auto; translate: 0 calc((1 - var(--cp, 0)) * 16px); gap: 14px; }
+  .bridge.is-live .bridge__head { font-size: 1.5rem; }
+  .bridge.is-live .bridge__feats { display: grid; }
+  .bridge.is-live .bridge__feat { grid-area: 1 / 1; padding-left: 16px; opacity: 0; }
+  .bridge.is-live .bridge__feat.is-on { opacity: 1; }
+  .bridge.is-live .bridge__name { font-size: 1.25rem; }
+}
+/* The app continues on the same ink below: no card edge, no shadow. */
+.bridge + .app { margin-top: 0; border-radius: 0; box-shadow: none; }
+.bridge + .app { padding-top: clamp(24px, 4vw, 56px); }
+.bridge + .app .grow { margin-top: 0; }
 
 /* The app rises over the story as an ink card with rounded shoulders. */
 .app { position: relative; z-index: 2; margin-top: calc(var(--r-xl) * -1); border-radius: var(--r-xl) var(--r-xl) 0 0; box-shadow: 0 -30px 70px -36px rgba(0, 0, 0, 0.45); }
