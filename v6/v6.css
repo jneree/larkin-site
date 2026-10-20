@@ -1698,6 +1698,13 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .mviz__count.is-dim p { opacity: 0.7; }
 .mviz__btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .mviz__btns .mviz__pill { padding-block: 8px; }
+.mviz__scale { display: grid; gap: 7px; }
+.mviz__scale > p:first-child { font-size: 0.8125rem; font-weight: 500; }
+.mviz__scale i { position: relative; display: block; height: 12px; background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)) center / 100% 2px no-repeat; }
+.mviz__scale i::after { content: ""; position: absolute; top: 0; left: var(--x); width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: var(--lime); }
+.mviz__scale > p:last-child { display: flex; justify-content: space-between; font-size: 0.6875rem; color: rgba(255, 255, 255, 0.5); }
+.mviz__scale .is-on { color: rgba(255, 255, 255, 0.9); }
+.mviz__head span::before { flex: none; }
 .mviz__steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
 .mviz__steps i { height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.2); }
 .mviz__steps i.is-lime { background: var(--lime); }
