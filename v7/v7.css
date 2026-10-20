@@ -2079,3 +2079,112 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
+
+/* --------------------------------------------------------------------------
+   Moments — the story in pictures: a full-bleed row of big photographs,
+   one moment of a day each, centred and snapping, the neighbours peeking
+   in dimmed (v6.js). Each carries the insight Larkin drew from it.
+   -------------------------------------------------------------------------- */
+.moments { --mw: min(460px, 78vw); overflow: clip; padding-bottom: calc(var(--section) + var(--r-xl)); }
+.moments .sec-head { margin-bottom: clamp(32px, 5vw, 56px); }
+.moments__title span { display: block; color: var(--ink-3); }
+.mrail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--mw);
+  gap: clamp(12px, 1.6vw, 24px);
+  padding-inline: calc((100% - var(--mw)) / 2);
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.mrail::-webkit-scrollbar { display: none; }
+.mrail:focus-visible { outline: none; }
+.mrail:focus-visible .moment { box-shadow: 0 0 0 3px var(--ink); }
+/* Portrait cards: one situation each, the photo filling the card, the
+   scene and the insight stacked at its foot. */
+.moment {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--r-xl);
+  background: var(--card);
+  scroll-snap-align: center;
+  transition: opacity 0.35s var(--ease);
+}
+.moment picture { position: absolute; inset: 0; }
+.moment__img { width: 100%; height: 100%; object-fit: cover; }
+/* Shade: a little at the top for the tag, more at the foot for the story. */
+.moment::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), transparent 24%), linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.35) 30%, transparent 66%); pointer-events: none; }
+/* Frosted dark glass, shared by the tag and the illustration panel. */
+.moment__tag, .mviz {
+  background: rgba(10, 10, 10, 0.42);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  backdrop-filter: blur(24px) saturate(1.2);
+  color: #fff;
+}
+.moment__tag { position: absolute; z-index: 1; top: 20px; left: 20px; padding: 7px 13px; border-radius: 999px; background-color: rgba(10, 10, 10, 0.35); font-size: 0.875rem; font-weight: 500; line-height: 1.2; }
+.moment__story { position: absolute; z-index: 1; inset: auto 24px 26px; display: grid; gap: 16px; color: #fff; }
+.moment__line { font-size: clamp(1.25rem, 1.75vw, 1.5625rem); font-weight: 600; line-height: 1.18; letter-spacing: -0.015em; text-wrap: balance; text-shadow: 0 1px 16px rgba(0, 0, 0, 0.25); }
+/* The insight, as the app shows it: a tile, a habit count, an "Is this
+   you?" check or your focus, on dark glass, each under the same header,
+   the area and its colour (Figma: Moments v2). */
+.mviz { width: min(320px, 100%); display: grid; gap: 10px; padding: 16px; border-radius: 18px; }
+.mviz__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.8125rem; font-weight: 600; }
+.mviz__head span { display: flex; align-items: center; gap: 8px; }
+.mviz__head span::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.mviz__head small { font-size: 0.6875rem; font-weight: 400; color: rgba(255, 255, 255, 0.55); }
+.mviz__pill { display: inline-flex; justify-content: center; padding: 5px 11px; border-radius: 999px; background: rgba(255, 255, 255, 0.14); font-size: 0.75rem; font-weight: 500; font-style: normal; color: #fff; }
+.mviz__pill.is-lime { background: var(--lime); color: var(--ink); }
+.mviz__text { font-size: 0.8125rem; line-height: 1.4; color: #fff; text-wrap: pretty; }
+.mviz__claim { font-size: 0.9375rem; font-weight: 500; line-height: 1.35; }
+.mviz__quote { font-size: 0.8125rem; font-style: italic; line-height: 1.4; color: rgba(255, 255, 255, 0.65); }
+.mviz__small { font-size: 0.6875rem; color: rgba(255, 255, 255, 0.5); }
+.mviz__count { display: grid; gap: 6px; }
+.mviz__count p { display: flex; justify-content: space-between; font-size: 0.8125rem; font-weight: 500; }
+.mviz__count b { font-weight: 600; }
+.mviz__count i { display: block; height: 6px; border-radius: 3px; background: linear-gradient(90deg, rgba(255, 255, 255, 0.55) var(--w), rgba(255, 255, 255, 0.14) var(--w)); }
+.mviz__count i.is-lime { background: linear-gradient(90deg, var(--lime) var(--w), rgba(255, 255, 255, 0.14) var(--w)); }
+.mviz__count.is-dim p { opacity: 0.7; }
+.mviz__btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mviz__btns .mviz__pill { padding-block: 8px; }
+.mviz__scale { display: grid; gap: 7px; }
+.mviz__scale > p:first-child { font-size: 0.8125rem; font-weight: 500; }
+.mviz__scale i { position: relative; display: block; height: 12px; background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)) center / 100% 2px no-repeat; }
+.mviz__scale i::after { content: ""; position: absolute; top: 0; left: var(--x); width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: var(--lime); }
+.mviz__scale > p:last-child { display: flex; justify-content: space-between; font-size: 0.6875rem; color: rgba(255, 255, 255, 0.5); }
+.mviz__scale .is-on { color: rgba(255, 255, 255, 0.9); }
+.mviz__head span::before { flex: none; }
+.mviz__next { display: grid; gap: 3px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.14); font-size: 0.8125rem; font-weight: 500; line-height: 1.4; text-wrap: pretty; }
+.mviz__next b { font-size: 0.6875rem; font-weight: 600; color: var(--lime); }
+.mviz__steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+.mviz__steps i { height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.2); }
+.mviz__steps i.is-lime { background: var(--lime); }
+.mrail-nav { margin-top: clamp(20px, 3vw, 32px); }
+.mrail-nav .arail-dots i { cursor: pointer; background: var(--card-2); }
+.mrail-nav .arail-dots i.is-on { background: var(--ink); }
+.mrail-nav .arail-btn { background: var(--card); color: var(--ink); box-shadow: none; }
+.mrail-nav .arail-btn:hover { background: var(--card-2); }
+.mrail-nav .arail-btn:focus-visible { outline-color: var(--ink); }
+/* Desktop: wide cards from the AI-widened photos, the story on whichever
+   side keeps faces clear (data-side), the centre card full size and its
+   neighbours a little smaller as they slide away (--k, v6.js). */
+@media (min-width: 900px) {
+  .moments { --mw: min(1040px, 74vw); }
+  .moment { aspect-ratio: 3 / 2; scale: calc(1 - var(--k, 0) * 0.1); }
+  .moment__story { inset: auto auto 32px 32px; width: min(440px, 46%); gap: 18px; }
+  .moment[data-side="right"] .moment__story { inset: auto 32px 32px auto; }
+  .moment__line { font-size: clamp(1.5rem, 2.1vw, 1.875rem); }
+  .moment__tag { top: 24px; left: 24px; }
+  .moment::after { background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent 22%), linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.25) 32%, transparent 60%); }
+}
+@media (max-width: 699px) {
+  .moments { --mw: 84vw; }
+  .moment { aspect-ratio: 2 / 3; }
+  .moment__story { inset: auto 16px 18px; gap: 14px; }
+}
+/* v7: the bridge follows with its own top space, so no foot here. */
+.moments { padding-bottom: 0; }

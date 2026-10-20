@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v7.css?v=20261021c">
+<link rel="stylesheet" href="v7.css?v=20261021m">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -83,7 +83,7 @@
     <nav class="nav" aria-label="Primary">
       <a href="/how-it-works/">How it works</a>
       <a href="#app">The app</a>
-      <a href="#use-cases">Use cases</a>
+      <a href="#how">Use cases</a>
       <a href="#privacy">Privacy</a>
     </nav>
 
@@ -147,66 +147,116 @@
     </section>
   </div>
 
-  <!-- The story, in one section. A conversation on the left; the sound of
-       it streams out of the picture and into the band in the middle, a
-       waveform that never stops; out of the band's other side, insight
-       about you comes out, one card at a time, rising into a stack on the
-       right. On wide screens the section pins and the scroll plays it a
-       part at a time, each group centred: the conversation alone, then
-       the band beside it with the sound going in, then the insights, one
-       out with each step. The title narrates it in three pieces that stay
-       once said (v7.js): Larkin is always with you / it recalls every
-       conversation / and turns it into insight about you. At the end it
-       fades and the app's ink rises over it. On phones nothing pins: the sentence
-       stands whole, the three parts stack, the flow runs on its own.
-       Without the script, or with reduced motion, the parts simply stand:
-       the sentence, the picture, the band, three insights. -->
-  <section class="section flow" id="how" aria-labelledby="flow-title" data-flow>
-    <div class="flow__pin"><div class="flow__stick">
+  <!-- Moments — the story told in pictures, after HiDock's gallery. Five
+       situations of a working day, each photographed and paired with the
+       insight Larkin drew from that moment, so every picture shows a
+       conversation going in and insight coming out. A full-bleed row that
+       snaps slide by slide, centred, the neighbours peeking in dimmed;
+       arrows and dots follow it (v6.js, [data-moments]). It replaces the
+       animated flow and the use-case cards. -->
+  <section class="section moments" id="how" aria-labelledby="moments-title">
     <div class="shell">
       <header class="sec-head sec-head--center rv">
-        <h2 class="h2 flow__title" id="flow-title"><span class="flow__part">Larkin is always with you.</span> <span class="flow__part">It recalls every conversation</span> <span class="flow__part">and turns it into insight about you.</span></h2>
+        <h2 class="h2 moments__title" id="moments-title">Larkin is always with you. <span>It turns every conversation into insight about you.</span></h2>
       </header>
-
-      <div class="flow__stage">
-        <canvas class="flow__canvas" aria-hidden="true"></canvas>
-        <!-- Pieces of the conversation, riding the sound into the module
-             (placed by v7.js). -->
-        <ul class="flow__words" aria-hidden="true">
-          <li class="flow__word">So, how did it go?</li>
-          <li class="flow__word">Better than I expected.</li>
-          <li class="flow__word">Tell me everything.</li>
-          <li class="flow__word">I just said what I thought.</li>
-          <li class="flow__word">And they listened?</li>
-          <li class="flow__word">They really did.</li>
-          <li class="flow__word">You should be proud.</li>
-          <li class="flow__word">Same time next week?</li>
-        </ul>
-
-        <p class="flow__label flow__label--ctx">A conversation</p>
-        <figure class="flow__context">
-          <img src="/media/story-cafe-1400.webp" srcset="/media/story-cafe-800.webp 800w, /media/story-cafe-1400.webp 1400w" sizes="(min-width: 900px) 340px, 92vw" alt="Two friends talking over coffee at a table, the black Larkin band on one woman’s wrist" width="1400" height="791" loading="lazy" decoding="async">
-          <figcaption><i class="flow__bars" aria-hidden="true"><b></b><b></b><b></b><b></b></i>Coffee with a friend</figcaption>
+    </div>
+    <div class="mrail" data-moments tabindex="0" role="region" aria-label="Moments with Larkin">
+        <figure class="moment" data-side="right">
+          <picture>
+            <source media="(min-width: 900px)" type="image/webp" srcset="/media/moment-walk-wide.webp">
+            <source media="(min-width: 900px)" srcset="/media/moment-walk-wide.jpg">
+            <source type="image/webp" srcset="/media/moment-walk.webp">
+            <img class="moment__img" src="/media/moment-walk.jpg" alt="Two colleagues walking and talking through a bright office" width="880" height="1100" decoding="async">
+          </picture>
+          <span class="moment__tag">Between meetings</span>
+          <figcaption class="moment__story">
+            <div class="mviz" aria-hidden="true">
+                <p class="mviz__head"><span style="--c: #59C7FF">Listening &amp; inquiry</span><small>What slipped</small></p>
+                <p class="mviz__text">You suggested a fix before he finished, so he had to explain the problem twice.</p>
+                <p class="mviz__next"><b>Try next</b>Let him finish first, then sum up the problem.</p>
+            </div>
+            <p class="moment__line">Listen better, even on the go.</p>
+          </figcaption>
         </figure>
-
-        <p class="flow__label flow__label--dev">Only the sound goes in</p>
-        <div class="flow__device" aria-hidden="true">
-          <img src="/media/story-band-1100.webp" alt="" width="1100" height="520" loading="lazy" decoding="async">
-          <i class="flow__glow"></i>
+        <figure class="moment" data-side="right">
+          <picture>
+            <source media="(min-width: 900px)" type="image/webp" srcset="/media/moment-coffee-wide.webp">
+            <source media="(min-width: 900px)" srcset="/media/moment-coffee-wide.jpg">
+            <source type="image/webp" srcset="/media/moment-coffee.webp">
+            <img class="moment__img" src="/media/moment-coffee.jpg" alt="Two women talking on a green sofa over coffee" width="880" height="1100" decoding="async">
+          </picture>
+          <span class="moment__tag">Coffee catch-up</span>
+          <figcaption class="moment__story">
+            <div class="mviz" aria-hidden="true">
+                <p class="mviz__head"><span style="--c: #B399FF">Persuasion &amp; framing</span><small>This week</small></p>
+                <div class="mviz__count"><p><span>Story first</span><b>6</b></p><i class="is-lime" style="--w:64%"></i></div>
+                <div class="mviz__count is-dim"><p><span>Facts first</span><b>2</b></p><i style="--w:21%"></i></div>
+            </div>
+            <p class="moment__line">Over coffee, see what wins people over.</p>
+          </figcaption>
+        </figure>
+        <figure class="moment" data-side="left">
+          <picture>
+            <source media="(min-width: 900px)" type="image/webp" srcset="/media/moment-client-wide.webp">
+            <source media="(min-width: 900px)" srcset="/media/moment-client-wide.jpg">
+            <source type="image/webp" srcset="/media/moment-client.webp">
+            <img class="moment__img" src="/media/moment-client.jpg" alt="A woman laughing across a café table during a meeting, papers and pens between her and a colleague" width="880" height="1100" decoding="async">
+          </picture>
+          <span class="moment__tag">Client meeting</span>
+          <figcaption class="moment__story">
+            <div class="mviz" aria-hidden="true">
+                <p class="mviz__head"><span style="--c: #D2ED28">How you talk</span></p>
+                <div class="mviz__scale"><p>Assertiveness</p><i style="--x:64%"></i><p><span>Softened</span><span class="is-on">Plain</span></p></div>
+                <div class="mviz__scale"><p>Clarity</p><i style="--x:21%"></i><p><span class="is-on">Thinks out loud</span><span>Gets to the point</span></p></div>
+            </div>
+            <p class="moment__line">See how clients hear you.</p>
+          </figcaption>
+        </figure>
+        <figure class="moment" data-side="left">
+          <picture>
+            <source media="(min-width: 900px)" type="image/webp" srcset="/media/moment-work-wide.webp">
+            <source media="(min-width: 900px)" srcset="/media/moment-work-wide.jpg">
+            <source type="image/webp" srcset="/media/moment-work.webp">
+            <img class="moment__img" src="/media/moment-work.jpg" alt="Two designers in black T-shirts reviewing prints spread across a table" width="880" height="1100" loading="lazy" decoding="async">
+          </picture>
+          <span class="moment__tag">Working session</span>
+          <figcaption class="moment__story">
+            <div class="mviz" aria-hidden="true">
+                <p class="mviz__head"><span style="--c: #D2ED28">Your focus</span><small>This week</small></p>
+                <p class="mviz__claim">Say what you want without softening it</p>
+                <p class="mviz__steps"><i class="is-lime"></i><i class="is-lime"></i><i></i><i></i></p>
+                <p class="mviz__text">It came up 4 times this week. You did it twice.</p>
+            </div>
+            <p class="moment__line">Speak up clearly in working sessions.</p>
+          </figcaption>
+        </figure>
+        <figure class="moment" data-side="right">
+          <picture>
+            <source media="(min-width: 900px)" type="image/webp" srcset="/media/moment-lunch-wide.webp">
+            <source media="(min-width: 900px)" srcset="/media/moment-lunch-wide.jpg">
+            <source type="image/webp" srcset="/media/moment-lunch.webp">
+            <img class="moment__img" src="/media/moment-lunch.jpg" alt="Two friends laughing over lunch at a wooden table full of shared plates" width="880" height="1100" loading="lazy" decoding="async">
+          </picture>
+          <span class="moment__tag">Lunch with friends</span>
+          <figcaption class="moment__story">
+            <div class="mviz" aria-hidden="true">
+                <p class="mviz__head"><span style="--c: #FFB86B">How you came across</span><small>1 h 10 min</small></p>
+                <p class="mviz__claim">Warm and playful.</p>
+                <p class="mviz__text">You told the story, then turned it back to her.</p>
+            </div>
+            <p class="moment__line">At lunch, see what brings people closer.</p>
+          </figcaption>
+        </figure>
+    </div>
+    <div class="shell">
+      <div class="arail-nav mrail-nav">
+        <div class="arail-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="arail-btns">
+          <button class="arail-btn" type="button" data-moments-prev aria-label="Previous moment"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="arail-btn" type="button" data-moments-next aria-label="Next moment"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
-
-        <p class="flow__label flow__label--out">Insight about you comes out</p>
-        <ul class="flow__out" aria-label="Examples of insights">
-          <li class="flow__card is-s2"><p class="flow__area" style="--c: var(--clarity)"><span><span class="flow__where">At work · </span>Clarity</span></p><p>You explained your idea in one sentence. It landed.</p></li>
-          <li class="flow__card is-s1"><p class="flow__area" style="--c: var(--listening)"><span><span class="flow__where">At home · </span>Listening</span></p><p>You asked about their day before sharing yours.</p></li>
-          <li class="flow__card is-s0"><p class="flow__area" style="--c: var(--framing)"><span><span class="flow__where">With friends · </span>Framing</span></p><p>Your everyday example made the idea click.</p></li>
-          <li class="flow__card is-off"><p class="flow__area" style="--c: var(--assert)"><span><span class="flow__where">With your team · </span>Assertiveness</span></p><p>You said no to the extra project, kindly and clearly.</p></li>
-          <li class="flow__card is-off"><p class="flow__area" style="--c: var(--listening)"><span><span class="flow__where">Over lunch · </span>Listening</span></p><p>You let them finish before you answered.</p></li>
-          <li class="flow__card is-off"><p class="flow__area" style="--c: var(--ink-3)"><span>Try next time</span></p><p>Pause after your main point. Let it land.</p></li>
-        </ul>
       </div>
     </div>
-    </div></div>
   </section>
 
 
@@ -390,73 +440,6 @@
             <a class="btn btn--ink" href="#beta"><span>Get your invite</span></a>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- Use cases — four pictures, each carrying one piece of the app. The
-       photos drift a little slower than the page (parallax, v5.js) and
-       ease closer under the pointer. On phones they're a row to swipe. -->
-  <section class="section" id="use-cases">
-    <div class="shell">
-      <header class="sec-head rv">
-        <div class="sec-rule" aria-hidden="true"></div>
-        <h2 class="h2">How will you use yours?</h2>
-      </header>
-
-      <div class="uc-grid" data-ucrow>
-        <figure class="uc rv">
-          <div class="uc__media" data-parallax="40" style="--pos: 50% 40%; --pos-m: 72% 50%">
-            <picture>
-              <source type="image/webp" srcset="/media/uc2-leaders-800.webp 800w, /media/uc2-leaders-1400.webp 1400w, /media/uc2-leaders-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
-              <img src="/media/uc2-leaders-800.jpg" alt="Two colleagues talking over coffee at a table, the white Larkin band on one woman’s wrist" loading="lazy" decoding="async" width="800" height="452">
-            </picture>
-          </div>
-          <figcaption class="uc__copy">
-            <p class="uc__eyebrow">For leaders</p>
-            <p class="uc__title">See how your feedback really lands</p>
-          </figcaption>
-        </figure>
-
-        <figure class="uc rv">
-          <div class="uc__media" data-parallax="40" style="--pos: 50% 74%; --pos-m: 55% 70%">
-            <picture>
-              <source type="image/webp" srcset="/media/uc2-adhd-800.webp 800w, /media/uc2-adhd-1400.webp 1360w" sizes="(min-width: 900px) 46vw, 92vw">
-              <img src="/media/uc2-adhd-800.jpg" alt="A woman at a café window counter, head in her hand over an open notebook, the black Larkin band on her wrist" loading="lazy" decoding="async" width="800" height="1204">
-            </picture>
-          </div>
-          <figcaption class="uc__copy">
-            <p class="uc__eyebrow">For the ADHD brain</p>
-            <p class="uc__title">Spot your patterns without tracking a thing</p>
-          </figcaption>
-        </figure>
-
-        <figure class="uc rv">
-          <div class="uc__media" data-parallax="40" style="--pos: 50% 45%; --pos-m: 58% 50%">
-            <picture>
-              <source type="image/webp" srcset="/media/uc2-parents-800.webp 800w, /media/uc2-parents-1400.webp 1400w, /media/uc2-parents-2000.webp 2000w" sizes="(min-width: 900px) 46vw, 92vw">
-              <img src="/media/uc2-parents-800.jpg" alt="A father reading a picture book to his daughter on the bed, the black Larkin band on his wrist" loading="lazy" decoding="async" width="800" height="532">
-            </picture>
-          </div>
-          <figcaption class="uc__copy">
-            <p class="uc__eyebrow">For parents</p>
-            <p class="uc__title">See how you show up at home</p>
-          </figcaption>
-        </figure>
-
-        <figure class="uc rv">
-          <div class="uc__media" data-parallax="40" style="--pos: 50% 74%; --pos-m: 50% 80%">
-            <picture>
-              <source type="image/webp" srcset="/media/uc2-journal-800.webp 800w, /media/uc2-journal-1400.webp 1360w" sizes="(min-width: 900px) 46vw, 92vw">
-              <img src="/media/uc2-journal-800.jpg" alt="A woman at a sunlit window holding a flowered mug, the white Larkin band on her wrist" loading="lazy" decoding="async" width="800" height="1204">
-            </picture>
-          </div>
-          <figcaption class="uc__copy">
-            <p class="uc__eyebrow">For journaling</p>
-            <p class="uc__title">Your day, reflected back every evening</p>
-          </figcaption>
-        </figure>
       </div>
     </div>
   </section>
@@ -733,6 +716,6 @@
   </div>
 </footer>
 
-<script src="v7.js?v=20261021c" defer></script>
+<script src="v7.js?v=20261021m" defer></script>
 </body>
 </html>
