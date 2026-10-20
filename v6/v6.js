@@ -800,7 +800,7 @@
         var d = Math.abs(r.left + r.width / 2 - mid);
         if (d < best) { best = d; mCur = i; }
         var k = clamp(d / (r.width || 1), 0, 1);
-        s.style.opacity = (1 - 0.55 * k).toFixed(3);
+        s.style.opacity = (1 - 0.4 * k).toFixed(3);
       });
       mdots.forEach(function (d, i) { d.classList.toggle('is-on', i === mCur); });
       if (mprev) mprev.disabled = mCur === 0;
@@ -820,6 +820,8 @@
       if (e.key === 'ArrowRight') { e.preventDefault(); mGo(mCur + 1); }
       if (e.key === 'ArrowLeft') { e.preventDefault(); mGo(mCur - 1); }
     });
+    // Open on the second card, centred, so a card peeks in on each side.
+    if (mslides[1]) mrail.scrollLeft = mslides[1].offsetLeft - (mrail.clientWidth - mslides[1].offsetWidth) / 2;
     mMark();
   }
 
