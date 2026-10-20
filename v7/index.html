@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v7.css?v=20261021n">
+<link rel="stylesheet" href="v7.css?v=20261021p">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -154,12 +154,8 @@
        snaps slide by slide, centred, the neighbours peeking in dimmed;
        arrows and dots follow it (v6.js, [data-moments]). It replaces the
        animated flow and the use-case cards. -->
-  <section class="section moments" id="how" aria-labelledby="moments-title">
-    <div class="shell">
-      <header class="sec-head sec-head--center rv">
-        <h2 class="h2 moments__title" id="moments-title">Larkin is always with you. <span>It turns every conversation into insight about you.</span></h2>
-      </header>
-    </div>
+  <section class="section moments moments--joined" id="how" aria-labelledby="moments-title">
+    <h2 class="sr-only" id="moments-title">Larkin through your day</h2>
     <div class="mrail" data-moments tabindex="0" role="region" aria-label="Moments with Larkin">
         <figure class="moment" data-side="left" style="--pos: 50% 38%">
           <picture>
@@ -254,6 +250,32 @@
         <div class="arail-btns">
           <button class="arail-btn" type="button" data-moments-prev aria-label="Previous moment"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <button class="arail-btn" type="button" data-moments-next aria-label="Next moment"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The band, on its own, before the bridge: what it is and that it
+       listens, in three real specs, then the reserve button. -->
+  <section class="section listen" id="band" aria-labelledby="listen-title">
+    <div class="shell listen__grid">
+      <figure class="listen__media rv">
+        <picture>
+          <source type="image/webp" srcset="/media/band-listen-720.webp 720w, /media/band-listen-1200.webp 1040w" sizes="(min-width: 900px) 520px, 92vw">
+          <img src="/media/band-listen-1200.jpg" alt="The black Larkin band with its lime ring lying on a white desk beside sticky notes and a pencil" width="1040" height="1300" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <div class="listen__copy rv">
+        <p class="eyebrow">The band</p>
+        <h2 class="listen__title" id="listen-title">It listens, so you can stay in the conversation.</h2>
+        <ul class="listen__facts">
+          <li><b>2 microphones</b><span>With noise filtering, for both sides of a conversation.</span></li>
+          <li><b>No screen</b><span>One press to start. Nothing to look at.</span></li>
+          <li><b>7 days of battery</b><span>About 160 hours of listening on one charge.</span></li>
+        </ul>
+        <div class="listen__cta">
+          <a class="btn btn--lime" href="#reserve"><span>Reserve yours for $10</span></a>
+          <p class="listen__fine">Fully refundable · Ships Q1 2027</p>
         </div>
       </div>
     </div>
@@ -716,6 +738,6 @@
   </div>
 </footer>
 
-<script src="v7.js?v=20261021m" defer></script>
+<script src="v7.js?v=20261021p" defer></script>
 </body>
 </html>
