@@ -668,14 +668,16 @@
   /* ---- From the band to the app, in one move ---------------------------- */
   /* One pinned screen, measured in screens of scroll (s). 0 to 0.55: a
      window opens from a card under the title to the whole screen; the
-     film's background is the page's ink, so the opening window itself
-     turns the screen dark, with no grey in between. 0.35 to 2: the film plays frame by frame: the camera
-     pushes in as the hand turns the phone to face us. 2.02 to 2.12, once
-     the last frame is in: the app's real screen comes onto the phone's
-     screen. 2.18 to 2.75: the same
-     phone settles on the right (lower down on narrow screens) and the
-     features come in. Then one feature per B_STEP: its line lights and the
-     phone's screen changes to it. */
+     photo's background is the page's ink, so the opening window itself
+     turns the screen dark. From the start the site's phone lies exactly on
+     the phone in the photo: its screen's four corners are mapped onto the
+     photo screen's (B_Q, in the photo's pixels) by a perspective matrix,
+     recomputed every frame from four moving corners. 0.6 to 1.5: those
+     corners travel to an upright rectangle in the middle of the screen, so
+     the phone lifts off the hand and turns to face us, while the photo
+     sinks into the ink. 1.6 to 2.1: it settles on the right (lower down on
+     narrow screens) and the features come in. Then one feature per
+     B_STEP: its line lights and the phone's screen changes to it. */
   var bridge = document.querySelector('[data-bridge]');
   if (bridge && !reduceMotion) {
     bridge.classList.add('is-live');
@@ -683,41 +685,40 @@
     var bStage = bridge.querySelector('.bridge__stage');
     var bWin = bridge.querySelector('.bridge__win');
     var bFilm = bridge.querySelector('.bridge__film');
-    var bCanvas = bridge.querySelector('.bridge__canvas');
-    var bCtx = bCanvas.getContext('2d');
+    var bPhone = bridge.querySelector('.bridge__phone');
     var bTitle = bridge.querySelector('.bridge__title');
     var bUis = [].slice.call(bridge.querySelectorAll('.bridge__ui'));
     var bFeats = [].slice.call(bridge.querySelectorAll('.bridge__feat'));
-    var B_FW = 1600, B_FH = 900, B_N = +bridge.getAttribute('data-frames') || 62;
-    var B_PH = 835, B_PW = 428.1;             // the phone screen in the frame, once it faces us
-    var B_STEP = 0.7, B_FEAT0 = 3.0;
-    var bImgs = [], bLoaded = [], bDrawn = -1, bWant = 0, bP = 0, bTgt = 0, bLast = -1, bAt = -1;
+    var B_FW = 2000, B_FH = 1131;
+    var B_Q = [[983.85, 110.27], [1258.93, 205.95], [998.88, 786.46], [728.72, 678.42]]; // the photo's screen: TL, TR, BR, BL
+    var B_S = [[10, 10], [370, 10], [370, 790.5], [10, 790.5]];                        // the phone's screen, in the phone
+    var B_SW = 360, B_SH = 780.5, B_STEP = 0.7, B_FEAT0 = 2.4;
+    var bP = 0, bTgt = 0, bLast = -1, bAt = -1;
     var bSmooth = function (a, b, v) { var t = clamp((v - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
-    var bEase = function (t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; };
-    var bDraw = function (i) {
-      // the nearest frame that has loaded
-      var j = i, k = 0;
-      while (k < B_N && !bLoaded[j]) { k++; j = i - Math.ceil(k / 2) * (k % 2 ? 1 : -1); if (j < 0 || j >= B_N) j = i; }
-      if (!bLoaded[j] || j === bDrawn) return;
-      bCtx.drawImage(bImgs[j], 0, 0, B_FW, B_FH);
-      bDrawn = j;
-      bridge.classList.add('is-ready');
-    };
-    var bLoad = function () {
-      var src = bridge.getAttribute('data-src');
-      for (var i = 0; i < B_N; i++) {
-        (function (i) {
-          var im = new Image();
-          im.decoding = 'async';
-          im.onload = function () { bLoaded[i] = true; if (Math.abs(i - bWant) <= 2 || bDrawn < 0) { bDrawn = -1; bDraw(bWant); } };
-          im.src = src.replace('{n}', (i + 1 < 10 ? '0' : '') + (i + 1));
-          bImgs[i] = im;
-        })(i);
+    var bEase = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+    // The perspective matrix sending four points to four others (CSS matrix3d, origin 0 0).
+    var bMatrix = function (src, dst) {
+      var A = [], B = [];
+      for (var i = 0; i < 4; i++) {
+        var x = src[i][0], y = src[i][1], u = dst[i][0], v = dst[i][1];
+        A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); B.push(u);
+        A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); B.push(v);
       }
+      for (var c = 0; c < 8; c++) {
+        var pv = c;
+        for (var r = c + 1; r < 8; r++) if (Math.abs(A[r][c]) > Math.abs(A[pv][c])) pv = r;
+        var t = A[c]; A[c] = A[pv]; A[pv] = t; t = B[c]; B[c] = B[pv]; B[pv] = t;
+        for (r = 0; r < 8; r++) {
+          if (r === c) continue;
+          var f = A[r][c] / A[c][c];
+          for (var k = c; k < 8; k++) A[r][k] -= f * A[c][k];
+          B[r] -= f * B[c];
+        }
+      }
+      var h = B.map(function (v, i) { return v / A[i][i]; });
+      return 'matrix3d(' + [h[0], h[3], 0, h[6], h[1], h[4], 0, h[7], 0, 0, 1, 0, h[2], h[5], 0, 1].map(function (v) { return +v.toFixed(9); }).join(',') + ')';
     };
-    new IntersectionObserver(function (en, io) {
-      if (en.some(function (e) { return e.isIntersecting; })) { bLoad(); io.disconnect(); }
-    }, { rootMargin: '150% 0px' }).observe(bridge);
+    var bRect = function (cx, cy, h) { var w = h * B_SW / B_SH; return [[cx - w / 2, cy - h / 2], [cx + w / 2, cy - h / 2], [cx + w / 2, cy + h / 2], [cx - w / 2, cy + h / 2]]; };
     var bShow = function (k) {
       if (k === bAt) return;
       bAt = k;
@@ -726,30 +727,34 @@
     };
     var bPlace = function (sc) {
       var vw = bStage.clientWidth, vh = bStage.clientHeight, narrow = vw < 900;
-      // The card at the start, under the title.
+      // The photo: a card under the title, opening to cover the screen.
       var tb = bTitle.getBoundingClientRect().bottom - bStage.getBoundingClientRect().top;
       var cardH = vh - tb - Math.max(32, vh * 0.06) - 16, cardW = Math.min(cardH * 0.8, vw - 32);
       var cardT = tb + 16, cardL = (vw - cardW) / 2;
-      // The film, full: covering the screen, unless the phone would not fit.
-      var cover = Math.max(vw / B_FW, vh / B_FH);
-      var full = Math.min(cover, (vw * 0.86) / B_PW, (vh * 0.94) / B_PH);
-      var start = cardH / B_FH;
-      // Settled: on the right on wide screens, lower down on narrow ones.
-      var set = narrow ? Math.min((vh * 0.56) / B_PH, (vw * 0.7) / B_PW) : (vh * 0.78) / B_PH;
-      var sx = narrow ? vw / 2 : Math.min(vw * 0.7, vw - B_PW * set / 2 - vw * 0.08), sy = narrow ? vh - B_PH * set / 2 - Math.max(16, vh * 0.03) : vh / 2;
-      var o = bSmooth(0, 0.55, sc), mv = bSmooth(2.18, 2.75, sc);
-      var scale = start * Math.pow(full / start, o);
-      scale = scale * Math.pow(set / full, mv);
-      var cx = lerp(lerp(cardL + cardW / 2, vw / 2, o), sx, mv), cy = lerp(lerp(cardT + cardH / 2, vh / 2, o), sy, mv);
-      bFilm.style.transform = 'translate(' + (cx - B_FW / 2).toFixed(2) + 'px,' + (cy - B_FH / 2).toFixed(2) + 'px) scale(' + scale.toFixed(5) + ')';
+      var o = bSmooth(0, 0.55, sc);
+      var start = cardH / B_FH, full = Math.max(vw / B_FW, vh / B_FH, start);
+      var fs = start * Math.pow(full / start, o) * (1 + 0.06 * bSmooth(0.6, 1.5, sc));
+      var fx = lerp(cardL + cardW / 2, vw / 2, o), fy = lerp(cardT + cardH / 2, vh / 2, o);
+      bFilm.style.transform = 'translate(' + (fx - B_FW / 2).toFixed(2) + 'px,' + (fy - B_FH / 2).toFixed(2) + 'px) scale(' + fs.toFixed(5) + ')';
       var it = cardT * (1 - o), il = cardL * (1 - o), ib = (vh - cardT - cardH) * (1 - o);
       bWin.style.clipPath = o >= 1 ? 'none' : 'inset(' + it.toFixed(1) + 'px ' + il.toFixed(1) + 'px ' + ib.toFixed(1) + 'px ' + il.toFixed(1) + 'px round ' + (24 * (1 - o)).toFixed(1) + 'px)';
+      // The photo's screen, where it sits on the page right now.
+      var q = B_Q.map(function (p) { return [fx + (p[0] - B_FW / 2) * fs, fy + (p[1] - B_FH / 2) * fs]; });
+      // Facing us in the middle, then settled.
+      var mid = bRect(vw / 2, vh / 2, narrow ? Math.min(vh * 0.62, vw * 0.8 * B_SH / B_SW) : vh * 0.74);
+      var set = narrow
+        ? bRect(vw / 2, vh - Math.min(vh * 0.56, vw * 0.7 * B_SH / B_SW) / 2 - Math.max(16, vh * 0.03), Math.min(vh * 0.56, vw * 0.7 * B_SH / B_SW))
+        : bRect(Math.min(vw * 0.7, vw - vh * 0.74 * B_SW / B_SH / 2 - vw * 0.08), vh / 2, vh * 0.74);
+      var m = bEase(bSmooth(0.6, 1.5, sc)), st = bEase(bSmooth(1.6, 2.1, sc));
+      var corners = q.map(function (p, i) {
+        var a = [lerp(p[0], mid[i][0], m), lerp(p[1], mid[i][1], m)];
+        return [lerp(a[0], set[i][0], st), lerp(a[1], set[i][1], st)];
+      });
+      bPhone.style.transform = bMatrix(B_S, corners);
       bStage.style.setProperty('--tt', bSmooth(0.04, 0.3, sc).toFixed(3));
       bStage.style.setProperty('--ink', bSmooth(0.5, 0.56, sc).toFixed(3));
-      bStage.style.setProperty('--so', bSmooth(2.02, 2.12, sc).toFixed(3));
-      bStage.style.setProperty('--cp', bSmooth(2.45, 2.9, sc).toFixed(3));
-      bWant = Math.round(bEase(clamp((sc - 0.35) / 1.65, 0, 1)) * (B_N - 1));
-      bDraw(bWant);
+      bStage.style.setProperty('--po', (1 - bSmooth(0.6, 0.92, sc)).toFixed(3));
+      bStage.style.setProperty('--cp', bSmooth(1.8, 2.25, sc).toFixed(3));
       bShow(clamp(Math.floor((sc - B_FEAT0) / B_STEP) + 1, 0, bUis.length - 1));
     };
     bPlace(0);

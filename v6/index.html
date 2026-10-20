@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v6.css?v=20261020g">
+<link rel="stylesheet" href="v6.css?v=20261021b">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -210,34 +210,35 @@
   </section>
 
 
-  <!-- From the band to the app, in one move. A short film on the app's own
-       ink: a hand holding the phone, the band on the wrist; the camera
-       pushes in as the hand turns the phone to face us. Pinned, the scroll
-       plays it frame by frame (62 frames, media/front, on a canvas) inside a
-       window that opens from a card under the title to the whole screen
-       while the page turns to ink. Once the phone faces us, the app's real
-       screens lie on its screen; the same phone settles on the right, the
-       features listed on the left, and each step of scroll lights the next
-       feature while the phone's screen changes to it (v6.js, [data-bridge]).
-       Without the script or with reduced motion: the title, the first frame
-       and the list. -->
-  <section class="bridge" id="bridge" aria-labelledby="bridge-title" data-bridge data-frames="62" data-src="/media/front/{n}.webp">
+  <!-- From the band to the app, in one move. A photo on the app's own ink:
+       a hand holding the phone, the band on the wrist. The site's own phone,
+       with the app's real screen, lies exactly on the phone in the photo
+       (a perspective matrix maps its screen onto the photo screen's four
+       corners). Pinned, the scroll opens the photo from a card under the
+       title to the whole screen, then the phone lifts off the hand and turns
+       to face us while the photo sinks into the ink; the same phone settles
+       on the right, the features listed on the left, and each step of
+       scroll lights the next feature while its screen changes (v6.js,
+       [data-bridge]). Without the script or with reduced motion: the title,
+       the photo and the list. -->
+  <section class="bridge" id="bridge" aria-labelledby="bridge-title" data-bridge>
     <div class="bridge__pin">
       <div class="bridge__stage">
         <i class="bridge__ink" aria-hidden="true"></i>
         <h2 class="h2 bridge__title" id="bridge-title">It all lands in the app.</h2>
         <div class="bridge__win">
           <div class="bridge__film">
-            <img class="bridge__poster" src="/media/front/01.webp" alt="A hand holding a phone open on the Larkin app, the Larkin band on the wrist" width="1600" height="900" loading="lazy" decoding="async">
-            <canvas class="bridge__canvas" width="1600" height="900" aria-hidden="true"></canvas>
-            <div class="bridge__screen" aria-hidden="true">
-              <img class="bridge__ui is-on" src="/media/app3-day-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-              <img class="bridge__ui" src="/media/app3-conversation-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-              <img class="bridge__ui" src="/media/app3-notes-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-              <img class="bridge__ui" src="/media/app3-isthisyou-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-              <img class="bridge__ui" src="/media/app3-mirror-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-              <i class="bridge__island"></i>
-            </div>
+            <img class="bridge__photo" src="/media/bridge-hand-2000.webp" srcset="/media/bridge-hand-1200.webp 1200w, /media/bridge-hand-2000.webp 2000w" sizes="100vw" alt="A hand holding a phone open on the Larkin app, the Larkin band on the wrist" width="2000" height="1131" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="bridge__phone" aria-hidden="true">
+          <div class="bridge__glass">
+            <img class="bridge__ui is-on" src="/media/app3-day-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
+            <img class="bridge__ui" src="/media/app3-conversation-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
+            <img class="bridge__ui" src="/media/app3-notes-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
+            <img class="bridge__ui" src="/media/app3-isthisyou-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
+            <img class="bridge__ui" src="/media/app3-mirror-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
+            <i class="bridge__island"></i>
           </div>
         </div>
         <div class="bridge__copy" id="app-tour">
@@ -732,6 +733,6 @@
   </div>
 </footer>
 
-<script src="v6.js?v=20261020g" defer></script>
+<script src="v6.js?v=20261021b" defer></script>
 </body>
 </html>

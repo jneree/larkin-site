@@ -765,21 +765,22 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   background: var(--feature);
   color: var(--on-feature);
 }
-/* From the band to the app, in one move: a film on the app's ink, then
-   the same phone on the right while the features play. */
+/* From the band to the app, in one move: the photo on the app's ink, then
+   the site's own phone lifting off the hand, turning to face us, and
+   staying on the right while the features play. */
 .bridge { position: relative; background: var(--bg); }
 .bridge__stage { display: grid; justify-items: center; gap: clamp(28px, 4vw, 48px); padding: var(--section) var(--gutter) calc(var(--section) + var(--r-xl)); }
 .bridge__title { text-align: center; text-wrap: balance; }
 .bridge__win { width: min(100%, 960px); overflow: hidden; border-radius: var(--r-xl); background: var(--feature); }
-.bridge__poster { display: block; width: 100%; height: auto; }
-.bridge__canvas, .bridge__screen, .bridge__ink { display: none; }
+.bridge__photo { display: block; width: 100%; height: auto; }
+.bridge__phone, .bridge__ink { display: none; }
 .bridge__copy { display: grid; gap: 20px; width: min(100%, 560px); }
 .bridge__head { font-size: clamp(1.75rem, 3vw, 2.75rem); font-weight: 700; line-height: 1.04; letter-spacing: -0.02em; text-wrap: balance; }
 .bridge__feats { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
 .bridge__name { font-size: clamp(1.25rem, 1.9vw, 1.75rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.01em; }
 
 /* Live (v6.js adds .is-live): one pinned screen for the whole move. */
-.bridge.is-live .bridge__pin { height: 760vh; height: 760svh; }
+.bridge.is-live .bridge__pin { height: 690vh; height: 690svh; }
 .bridge.is-live .bridge__stage { position: sticky; top: 0; display: block; height: 100vh; height: 100svh; padding: 0; overflow: hidden; }
 .bridge.is-live .bridge__ink { display: block; position: absolute; inset: 0; background: var(--feature); opacity: var(--ink, 0); }
 .bridge.is-live .bridge__title {
@@ -792,43 +793,32 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   opacity: calc(1 - var(--tt, 0));
   translate: 0 calc(var(--tt, 0) * -28px);
 }
-/* The window opens from a card to the whole screen (clip-path from v6.js). */
+/* The window opens from a card to the whole screen (clip-path from v6.js);
+   the photo inside it is placed by v6.js and sinks into the ink. */
 .bridge.is-live .bridge__win { position: absolute; inset: 0; width: auto; border-radius: 0; background: var(--feature); }
-/* The film: the frame's own size, placed and scaled by v6.js; its edges
-   melt into the ink, so wherever it sits there is no seam. */
-.bridge.is-live .bridge__film { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: 800px 450px; will-change: transform; }
-.bridge.is-live .bridge__poster { position: absolute; inset: 0; width: 100%; height: 100%; }
-.bridge.is-live .bridge__canvas {
+.bridge.is-live .bridge__film { position: absolute; left: 0; top: 0; width: 2000px; height: 1131px; transform-origin: 1000px 565.5px; opacity: var(--po, 1); will-change: transform, opacity; }
+.bridge.is-live .bridge__photo { width: 2000px; height: 1131px; }
+/* The site's phone: a black body with the screen inside (360 x 780.5, the
+   app screens' own proportions). v6.js maps it, in perspective, from the
+   photo's phone to its place. */
+.bridge.is-live .bridge__phone {
   display: block;
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent), linear-gradient(180deg, transparent, #000 7%, #000 93%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent), linear-gradient(180deg, transparent, #000 7%, #000 93%, transparent);
-  mask-composite: intersect;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 380px;
+  height: 800.5px;
+  transform-origin: 0 0;
+  border-radius: 58px;
+  background: #0B0B0B;
+  box-shadow: inset 0 0 0 1.5px #2C2C2B, 0 50px 90px -40px rgba(0, 0, 0, 0.7);
+  will-change: transform;
 }
-.bridge.is-live.is-ready .bridge__poster { visibility: hidden; }
-/* The app's real screens, flat on the phone's screen once it faces us
-   (the screen's rectangle in the frame: x 581.9, y 35, 428.1 x 835). */
-.bridge.is-live .bridge__screen {
-  display: block;
-  position: absolute;
-  left: 581.9px;
-  top: 35px;
-  width: 428.1px;
-  height: 835px;
-  overflow: hidden;
-  border-radius: 46px;
-  background: #F0F0F0;
-  filter: brightness(0.95);
-  opacity: var(--so, 0);
-}
-/* Each screen fitted by height (the whole screen shows); the app's own grey fills the thin margins. */
-.bridge__ui { position: absolute; left: 50%; top: 0; width: auto; height: 100%; translate: -50% 0; opacity: 0; transition: opacity 0.5s var(--ease); }
+.bridge__glass { position: absolute; inset: 10px; overflow: hidden; border-radius: 48px; background: #F0F0F0; }
+.bridge__ui { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.5s var(--ease); }
 .bridge__ui.is-on { opacity: 1; }
-.bridge__island { position: absolute; left: 50%; top: 11px; width: 118px; height: 33px; translate: -50% 0; border-radius: 999px; background: #080808; }
+.bridge__island { position: absolute; left: 50%; top: 11px; width: 104px; height: 30px; translate: -50% 0; border-radius: 999px; background: #050505; }
 /* The features, on the left; the step's one bright with the lime bar. */
 .bridge.is-live .bridge__copy {
   position: absolute;
