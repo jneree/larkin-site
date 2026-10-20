@@ -2173,8 +2173,12 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    side keeps faces clear (data-side), the centre card full size and its
    neighbours a little smaller as they slide away (--k, v6.js). */
 @media (min-width: 900px) {
-  .moments { --mw: min(1040px, 74vw); }
-  .moment { aspect-ratio: 3 / 2; scale: calc(1 - var(--k, 0) * 0.1); }
+  .moments { --mw: min(1120px, 78vw); }
+  /* Wide and low, so the eye stays on one band of the screen; each photo
+     keeps its subject in frame with its own vertical position (--pos). */
+  .moment { aspect-ratio: 19 / 10; scale: calc(1 - var(--k, 0) * 0.1); }
+  .moment__img { object-position: var(--pos, 50% 50%); }
+  .moment__story { bottom: 28px; }
   .moment__story { inset: auto auto 32px 32px; width: min(440px, 46%); gap: 18px; }
   .moment[data-side="right"] .moment__story { inset: auto 32px 32px auto; }
   .moment__line { font-size: clamp(1.5rem, 2.1vw, 1.875rem); }
