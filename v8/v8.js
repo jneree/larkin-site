@@ -321,6 +321,23 @@
     });
   }
 
+  /* ---- The comparison: find the product -------------------------------- */
+  /* Once a table photo is well in view it dims around the product and a
+     ring lands on it (CSS, .is-lit). Once only: it stays lit. */
+  var vsScenes = document.querySelectorAll('.vs__scene');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    vsScenes.forEach(function (el) { el.classList.add('is-lit'); });
+  } else {
+    var vso = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-lit');
+        vso.unobserve(entry.target);
+      });
+    }, { threshold: 0.6 });
+    vsScenes.forEach(function (el) { vso.observe(el); });
+  }
+
   /* ---- Parallax ------------------------------------------------------------- */
   /* A photo inside its frame drifts a little slower than the page: its
      offset follows where the frame is on screen, eased, so it settles after
