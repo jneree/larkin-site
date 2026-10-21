@@ -2154,3 +2154,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
+
+/* Keeps a phrase on one line, so a title breaks between its sentences. */
+.nowrap { white-space: nowrap; }
+/* The comparison title keeps its first sentence whole, so on the
+   narrowest phones it shrinks a touch rather than overflow. */
+#vs-title { font-size: min(clamp(2.25rem, 4.9vw, 4.25rem), 9vw); }
