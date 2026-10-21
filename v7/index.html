@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v7.css?v=20261021r">
+<link rel="stylesheet" href="v7.css?v=20261021s">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -282,47 +282,33 @@
   </section>
 
 
-  <!-- From the band to the app, in one move. A photo on the app's own ink:
-       a hand holding the phone, the band on the wrist. The site's own phone,
-       with the app's real screen, lies exactly on the phone in the photo
-       (a perspective matrix maps its screen onto the photo screen's four
-       corners). Pinned, the scroll opens the photo from a card under the
-       title to the whole screen, then the phone lifts off the hand and turns
-       to face us while the photo sinks into the ink; the same phone settles
-       on the right, the features listed on the left, and each step of
-       scroll lights the next feature while its screen changes (v7.js,
-       [data-bridge]). Without the script or with reduced motion: the title,
-       the photo and the list. -->
-  <section class="bridge" id="bridge" aria-labelledby="bridge-title" data-bridge>
-    <div class="bridge__pin">
-      <div class="bridge__stage">
-        <i class="bridge__ink" aria-hidden="true"></i>
-        <h2 class="h2 bridge__title" id="bridge-title">It all lands in the app.</h2>
-        <div class="bridge__win">
-          <div class="bridge__film">
-            <img class="bridge__photo" src="/media/bridge-hand-2000.webp" srcset="/media/bridge-hand-1200.webp 1200w, /media/bridge-hand-2000.webp 2000w" sizes="100vw" alt="A hand holding a phone open on the Larkin app, the Larkin band on the wrist" width="2000" height="1131" loading="lazy" decoding="async">
-          </div>
-        </div>
-        <div class="bridge__phone" aria-hidden="true">
-          <div class="bridge__glass">
-            <img class="bridge__ui is-on" src="/media/app3-day-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-            <img class="bridge__ui" src="/media/app3-conversation-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-            <img class="bridge__ui" src="/media/app3-notes-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-            <img class="bridge__ui" src="/media/app3-isthisyou-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-            <img class="bridge__ui" src="/media/app3-mirror-1179.webp" alt="" width="1179" height="2556" loading="lazy" decoding="async">
-            <i class="bridge__island"></i>
-          </div>
-        </div>
-        <div class="bridge__copy" id="app-tour">
-          <h2 class="bridge__head">Your day. Your conversations. You.</h2>
-          <ol class="bridge__feats">
-          <li class="bridge__feat is-on" data-feat="0"><p class="feat__label"><span>01</span> Day</p><h3 class="bridge__name">Your day, written up.</h3></li>
-          <li class="bridge__feat" data-feat="1"><p class="feat__label"><span>02</span> Conversations</p><h3 class="bridge__name">See how you came across.</h3></li>
-          <li class="bridge__feat" data-feat="2"><p class="feat__label"><span>03</span> Notes</p><h3 class="bridge__name">Notes, without the laptop.</h3></li>
-          <li class="bridge__feat" data-feat="3"><p class="feat__label"><span>04</span> Is this you?</p><h3 class="bridge__name">It learns you by asking.</h3></li>
-          <li class="bridge__feat" data-feat="4"><p class="feat__label"><span>05</span> Mirror</p><h3 class="bridge__name">Know how you communicate.</h3></li>
-          </ol>
-        </div>
+  <!-- The app, as a grid (Figma: App grid A). A wide dark tile with the
+       hand holding the phone, the band on the wrist, and the Day screen;
+       then four tiles, each a feature with the phone rising from its foot. -->
+  <section class="section agrid" id="app-tour" aria-labelledby="agrid-title">
+    <div class="shell">
+      <h2 class="h2 agrid__head rv" id="agrid-title">Your day. Your conversations. You.</h2>
+      <div class="agrid__grid">
+        <article class="agrid__hero rv">
+          <div class="agrid__copy"><p class="feat__label"><span>01</span> Day</p><h3 class="agrid__title">Your day, written up.</h3><p class="agrid__text">What the day was about, every conversation in order, and the to-dos it left you with.</p></div>
+          <img class="agrid__photo" src="/media/bridge-hand-2000.webp" srcset="/media/bridge-hand-1200.webp 1200w, /media/bridge-hand-2000.webp 2000w" sizes="(min-width: 900px) 760px, 92vw" alt="A hand holding a phone open on the Larkin app, the Larkin band on the wrist" width="2000" height="1131" loading="lazy" decoding="async">
+        </article>
+        <article class="agrid__tile rv">
+          <div class="agrid__copy"><p class="feat__label"><span>02</span> Conversations</p><h3 class="agrid__title">See how you came across.</h3><p class="agrid__text">Every conversation comes back with what worked, what slipped and what to try next time.</p></div>
+          <div class="agrid__phone" aria-hidden="true"><img src="/media/app3-conversation-786.webp" srcset="/media/app3-conversation-786.webp 786w, /media/app3-conversation-1179.webp 1179w" sizes="300px" alt="" width="786" height="1704" loading="lazy" decoding="async"><i></i></div>
+        </article>
+        <article class="agrid__tile rv">
+          <div class="agrid__copy"><p class="feat__label"><span>03</span> Notes</p><h3 class="agrid__title">Notes, without the laptop.</h3><p class="agrid__text">What was decided, who does what and your to-dos, even when the meeting was a lunch.</p></div>
+          <div class="agrid__phone" aria-hidden="true"><img src="/media/app3-notes-786.webp" srcset="/media/app3-notes-786.webp 786w, /media/app3-notes-1179.webp 1179w" sizes="300px" alt="" width="786" height="1704" loading="lazy" decoding="async"><i></i></div>
+        </article>
+        <article class="agrid__tile rv">
+          <div class="agrid__copy"><p class="feat__label"><span>04</span> Is this you?</p><h3 class="agrid__title">It learns you by asking.</h3><p class="agrid__text">Larkin checks what it noticed with you. Only what you confirm is kept.</p></div>
+          <div class="agrid__phone" aria-hidden="true"><img src="/media/app3-isthisyou-786.webp" srcset="/media/app3-isthisyou-786.webp 786w, /media/app3-isthisyou-1179.webp 1179w" sizes="300px" alt="" width="786" height="1704" loading="lazy" decoding="async"><i></i></div>
+        </article>
+        <article class="agrid__tile rv">
+          <div class="agrid__copy"><p class="feat__label"><span>05</span> Mirror</p><h3 class="agrid__title">Know how you communicate.</h3><p class="agrid__text">Four habits, counted across your conversations: which way you lean, and how often.</p></div>
+          <div class="agrid__phone" aria-hidden="true"><img src="/media/app3-mirror-786.webp" srcset="/media/app3-mirror-786.webp 786w, /media/app3-mirror-1179.webp 1179w" sizes="300px" alt="" width="786" height="1704" loading="lazy" decoding="async"><i></i></div>
+        </article>
       </div>
     </div>
   </section>
