@@ -737,8 +737,8 @@
       if (e.key === 'ArrowRight') { e.preventDefault(); mGo(mCur + 1); }
       if (e.key === 'ArrowLeft') { e.preventDefault(); mGo(mCur - 1); }
     });
-    // Open on the second card, centred, so a card peeks in on each side.
-    if (mslides[1]) mrail.scrollLeft = mslides[1].offsetLeft - (mrail.clientWidth - mslides[1].offsetWidth) / 2;
+    // Open on the first card, centred, the story's start.
+    if (mslides[0]) mrail.scrollLeft = Math.max(0, mslides[0].offsetLeft - (mrail.clientWidth - mslides[0].offsetWidth) / 2);
     mMark();
   }
 
