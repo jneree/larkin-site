@@ -446,61 +446,38 @@
     </div>
   </section>
 
-  <!-- Reserve — one ink pre-order card: gallery left, founder offer right.
-       The gallery drifts slowly closer and advances on its own until the
-       visitor picks (v5.js). -->
-  <section class="section reserve" id="reserve">
+  <!-- Reserve (Figma: Reserve · 1+2): a centered head with a dark pill,
+       then two cards, the band on a desk and the Founder Edition offer. -->
+  <section class="section reserve" id="reserve" aria-labelledby="reserve-title">
     <div class="shell">
-      <div class="preorder rv grain">
-        <div class="preorder__media">
-          <div class="pgal" data-pgal>
-            <div class="pgal__main">
-              <picture class="pgal__frame is-active" style="--pos: 38% 50%">
-                <source type="image/webp" srcset="/media/band-wrist-black-v2-800.webp 800w, /media/band-wrist-black-v2-1400.webp 1400w" sizes="(min-width: 900px) 42vw, 92vw">
-                <img src="/media/band-wrist-black-v2-800.jpg" alt="The black band on a wrist" loading="lazy" decoding="async" width="800" height="446">
-              </picture>
-              <picture class="pgal__frame" style="--pos: 50% 58%">
-                <source type="image/webp" srcset="/media/band-desk-v2-700.webp 700w, /media/band-desk-v2-1200.webp 1200w" sizes="(min-width: 900px) 42vw, 92vw">
-                <img src="/media/band-desk-v2-700.jpg" alt="The black band on a white desk beside sticky notes" loading="lazy" decoding="async" width="700" height="938">
-              </picture>
-              <picture class="pgal__frame" style="--pos: 40% 50%">
-                <source type="image/webp" srcset="/media/band-wrist-white-v2-800.webp 800w, /media/band-wrist-white-v2-1400.webp 1400w" sizes="(min-width: 900px) 42vw, 92vw">
-                <img src="/media/band-wrist-white-v2-800.jpg" alt="The white band on a wrist" loading="lazy" decoding="async" width="800" height="446">
-              </picture>
-              <picture class="pgal__frame" style="--pos: 55% 62%">
-                <source type="image/webp" srcset="/media/band-sill-v2-700.webp 700w, /media/band-sill-v2-1200.webp 1200w" sizes="(min-width: 900px) 42vw, 92vw">
-                <img src="/media/band-sill-v2-700.jpg" alt="The white band on a stone windowsill beside a cup of tea" loading="lazy" decoding="async" width="700" height="938">
-              </picture>
-              <picture class="pgal__frame" style="--pos: 60% 50%">
-                <source type="image/webp" srcset="/media/band-ring-lime-v2-1200.webp">
-                <img src="/media/band-ring-lime-v2-1200.jpg" alt="The module's ring glowing lime, close up" loading="lazy" decoding="async" width="1200" height="675">
-              </picture>
-            </div>
-            <div class="pgal__thumbs" role="group" aria-label="Product photos">
-              <button type="button" class="is-active" aria-label="Show photo 1" aria-pressed="true" style="--pos: 38% 50%"><img src="/media/band-wrist-black-v2-800.webp" alt="" loading="lazy" decoding="async" width="800" height="446"><i class="pgal__time" aria-hidden="true"></i></button>
-              <button type="button" aria-label="Show photo 2" aria-pressed="false" style="--pos: 50% 58%"><img src="/media/band-desk-v2-700.webp" alt="" loading="lazy" decoding="async" width="700" height="938"><i class="pgal__time" aria-hidden="true"></i></button>
-              <button type="button" aria-label="Show photo 3" aria-pressed="false" style="--pos: 40% 50%"><img src="/media/band-wrist-white-v2-800.webp" alt="" loading="lazy" decoding="async" width="800" height="446"><i class="pgal__time" aria-hidden="true"></i></button>
-              <button type="button" aria-label="Show photo 4" aria-pressed="false" style="--pos: 55% 62%"><img src="/media/band-sill-v2-700.webp" alt="" loading="lazy" decoding="async" width="700" height="938"><i class="pgal__time" aria-hidden="true"></i></button>
-              <button type="button" aria-label="Show photo 5" aria-pressed="false" style="--pos: 60% 50%"><img src="/media/band-ring-lime-v2-1200.webp" alt="" loading="lazy" decoding="async" width="1200" height="675"><i class="pgal__time" aria-hidden="true"></i></button>
-            </div>
+      <div class="rs__head rv">
+        <p class="rs__pill">Founder Edition · 1,000 only</p>
+        <h2 class="rs__title" id="reserve-title">Rese<span class="kern">r</span>ve your Larkin</h2>
+        <p class="rs__lead">Hold one from the first run of 1,000. Pay the $10 today, refundable any time.</p>
+      </div>
+      <div class="rs__grid">
+        <figure class="rs__photo rv">
+          <picture>
+            <source type="image/webp" srcset="/media/reserve-desk-600.webp 600w, /media/reserve-desk-920.webp 920w" sizes="(min-width: 900px) 545px, 92vw">
+            <img src="/media/reserve-desk-600.jpg" alt="The black Larkin band with its lime ring on a white desk, sticky notes behind it" width="920" height="1192" loading="lazy" decoding="async">
+          </picture>
+        </figure>
+        <div class="rs__card rv">
+          <h3 class="rs__name">Founder Edition</h3>
+          <div class="rs__pricing">
+            <p class="rs__tag">Fully refundable</p>
+            <p class="rs__price"><b>$10</b><span>to reserve</span></p>
+            <p class="rs__then">then $129 when it ships</p>
           </div>
-        </div>
-
-        <div class="preorder__copy">
-          <p class="preorder__eyebrow">Founder Edition, limited to 1,000</p>
-          <h2 class="preorder__title">Rese<span class="kern">r</span>ve your Larkin for $10.</h2>
-          <p class="preorder__price"><b>$129</b> full price, ships Q1 2027</p>
-          <ul class="preorder__points">
-            <li>The app free for life</li>
-            <li>Numbered, ships first</li>
-            <li>Refundable any time</li>
+          <ul class="rs__list">
+            <li><span>Membership free for life <s><span class="sr-only">instead of </span>$19/month</s></span></li>
+            <li><span>Numbered, ships first</span></li>
+            <li><span>Refundable any time</span></li>
           </ul>
-          <div class="preorder__actions">
-            <a class="btn btn--lime btn--block" data-reserve data-magnet href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=v7">
-              <span>Rese<span class="kern">r</span>ve yours for $10</span>
-            </a>
-            <a class="btn btn--ghost btn--block" href="#beta"><span>Try it now on Apple Watch</span></a>
-          </div>
+          <a class="btn btn--lime rs__btn" data-reserve data-magnet href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=v7">
+            <span>Rese<span class="kern">r</span>ve yours for $10</span>
+          </a>
+          <p class="rs__fine"><b>Changed your mind? Full refund.</b> Cancel any time before it ships and get your $10 back.</p>
         </div>
       </div>
     </div>
