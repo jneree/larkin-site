@@ -1813,12 +1813,10 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   background: var(--card);
   color: var(--ink);
 }
-/* The message leads; who it is about sits under it, quiet. */
+/* The message leads, on one line where it fits; who it is about sits
+   under it, quiet. Each is its own row, so both stay level across the two
+   cards even when one message wraps. */
 .vs__name {
-  display: grid;
-  align-content: start;
-  gap: 8px;
-  max-width: 13em;
   margin: 0;
   font-size: clamp(1.375rem, 2.1vw, 1.75rem);
   font-weight: 700;
@@ -1826,7 +1824,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   letter-spacing: -0.015em;
   text-wrap: balance;
 }
-.vs__name span { font-size: 0.9375rem; max-width: none; font-weight: 500; letter-spacing: 0; color: var(--ink-3); }
+.vs__who { margin: 8px 0 0; font-size: 0.9375rem; font-weight: 500; color: var(--ink-3); }
 
 /* The scene: the same table from above, a recorder between them or
    nothing at all. When it comes into view the photo dims around the
@@ -1926,8 +1924,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 
 @media (min-width: 900px) {
-  .vs__panel { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(5, auto); row-gap: 0; }
-  .vs__side { grid-row: span 5; grid-template-rows: subgrid; }
+  .vs__panel { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(6, auto); row-gap: 0; }
+  .vs__side { grid-row: span 6; grid-template-rows: subgrid; }
 }
 
 /* --------------------------------------------------------------------------
