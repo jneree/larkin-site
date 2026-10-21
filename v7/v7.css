@@ -1856,8 +1856,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .vs__side--us .vs__row { border-top-color: rgba(255, 255, 255, 0.14); color: #fff; }
 
 @media (min-width: 900px) {
-  .vs__panel { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(7, auto); }
-  .vs__side { grid-row: span 7; grid-template-rows: subgrid; }
+  .vs__panel { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(6, auto); }
+  .vs__side { grid-row: span 6; grid-template-rows: subgrid; }
 }
 
 /* --------------------------------------------------------------------------
