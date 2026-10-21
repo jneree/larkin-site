@@ -1805,126 +1805,58 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 /* --------------------------------------------------------------------------
    15. How it compares: not a recorder
    -------------------------------------------------------------------------- */
-/* Two light cards side by side, the same parts in the same places: the
-   message, the moment as a photo, then the same three rows. On wide
-   screens the cards share their rows (subgrid), so each line sits level
-   with the one it is compared with. */
-.vs__panel { display: grid; gap: clamp(12px, 1.4vw, 20px); }
+/* One rounded panel in two equal halves, the recorders on grey and Larkin
+   on ink, with the same parts in the same places: the name, the devices
+   on a stage of the same height under a status, then the same two rows.
+   On wide screens the halves share their rows (subgrid), so each line
+   sits level with the one it is compared with. */
+.vs__panel { display: grid; border-radius: var(--r-xl); overflow: hidden; }
+/* No gap between the parts: the stage's own height gives the devices
+   their air, and each row's padding centres its title between its
+   hairlines, so the rhythm is even top to bottom. */
 .vs__side {
   display: grid;
   align-content: start;
-  padding: clamp(24px, 3vw, 44px) clamp(24px, 3vw, 44px) clamp(8px, 1vw, 12px);
-  border-radius: var(--r-xl);
-  background: var(--card);
+  padding: clamp(24px, 3vw, 44px) clamp(24px, 3vw, 44px) clamp(8px, 1.4vw, 20px);
+}
+.vs__side--them { background: var(--card); color: var(--ink); }
+.vs__side--us {
+  background:
+    radial-gradient(46% 30% at 50% 38%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 100%),
+    linear-gradient(165deg, #1D1D1C, #0E0E0D);
+  color: #fff;
+}
+/* The message leads; who it is sits under it, quiet. Each is its own row,
+   so both stay level across the halves even when one message wraps. */
+.vs__name { margin: 0; font-size: clamp(1.25rem, 1.8vw, 1.5rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; text-wrap: balance; }
+.vs__who { margin: 6px 0 0; font-size: 0.875rem; font-weight: 500; color: var(--ink-3); }
+.vs__side--us .vs__who { color: rgba(255, 255, 255, 0.56); }
+
+/* The stage: the devices, centred, at the same height on both sides. */
+.vs__stage { display: grid; place-items: center; min-height: clamp(190px, 21vw, 300px); }
+.vs__devices { display: flex; align-items: center; justify-content: center; gap: clamp(20px, 3vw, 40px); }
+.vs__device { margin: 0; }
+.vs__device img { display: block; height: auto; filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.22)); }
+.vs__device--plaud img { width: clamp(84px, 8.4vw, 116px); }
+.vs__device--pocket img { width: clamp(150px, 14.6vw, 200px); }
+.vs__device--larkin img { width: clamp(240px, 25vw, 350px); filter: none; }
+
+/* The rows, the same on both sides: a hairline, then one short line, a
+   step below the names so they lead, centred between its hairlines. */
+.vs__row {
+  margin: 0;
+  padding-block: clamp(15px, 1.5vw, 21px);
+  border-top: 1px solid var(--hair);
+  font-size: clamp(1.125rem, 1.4vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
   color: var(--ink);
 }
-/* The message leads, on one line where it fits; who it is about sits
-   under it, quiet. Each is its own row, so both stay level across the two
-   cards even when one message wraps. */
-.vs__name {
-  margin: 0;
-  font-size: clamp(1.375rem, 2.1vw, 1.75rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.015em;
-  text-wrap: balance;
-}
-.vs__who { margin: 8px 0 0; font-size: 0.9375rem; font-weight: 500; color: var(--ink-3); }
-
-/* The scene: the same table from above, a recorder between them or
-   nothing at all. When it comes into view the photo dims around the
-   product and a ring finds it: red and pulsing for the recorder, like its
-   light; lime and calm for the band. */
-.vs__scene {
-  --x: 50%; --y: 50%; --d: 14;
-  position: relative;
-  container-type: inline-size;
-  margin: clamp(20px, 2.4vw, 32px) 0 0;
-  overflow: hidden;
-  border-radius: var(--r-lg);
-  aspect-ratio: 4 / 3;
-  background: #1A1A19;
-}
-.vs__side--them .vs__scene { --x: 49.6%; --y: 47.6%; --d: 17; --spot: #FF3B30; --glow: rgba(255, 59, 48, 0.5); }
-.vs__side--us .vs__scene { --x: 27%; --y: 33%; --d: 10; --spot: var(--lime); --glow: rgba(210, 237, 40, 0.6); }
-.vs__scene > img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.vs__scene::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(circle at var(--x) var(--y), rgba(10, 10, 10, 0) calc(var(--d) * 0.6cqw), rgba(10, 10, 10, 0.3) calc(var(--d) * 0.6cqw + 18cqw));
-  opacity: 0;
-  transition: opacity 1.4s var(--ease) 0.15s;
-}
-.vs__spot {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  z-index: 1;
-  width: calc(var(--d) * 1cqw);
-  aspect-ratio: 1;
-  translate: -50% -50%;
-  border: 2px solid var(--spot);
-  border-radius: 50%;
-  box-shadow: 0 0 22px var(--glow), inset 0 0 14px var(--glow);
-  opacity: 0;
-  scale: 1.5;
-  transition: opacity 0.7s var(--ease) 0.5s, scale 1.2s var(--ease) 0.5s;
-}
-.vs__spot::after {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border: 2px solid var(--spot);
-  border-radius: 50%;
-  opacity: 0;
-}
-.vs__scene.is-lit::after { opacity: 1; }
-.vs__scene.is-lit .vs__spot { opacity: 1; scale: 1; }
-.vs__side--them .is-lit .vs__spot::after { animation: vs-ping 1.6s var(--ease-soft) 1.5s infinite; }
-.vs__side--us .is-lit .vs__spot { animation: vs-breathe 3.2s ease-in-out 1.7s infinite; }
-@keyframes vs-ping { from { transform: scale(1); opacity: 0.85; } to { transform: scale(1.7); opacity: 0; } }
-@keyframes vs-breathe { 50% { box-shadow: 0 0 34px var(--glow), inset 0 0 18px var(--glow); } }
-@media (prefers-reduced-motion: reduce) {
-  .vs__scene::after, .vs__spot { transition: none; }
-  .vs__side .is-lit .vs__spot, .vs__side .is-lit .vs__spot::after { animation: none; }
-}
-
-/* The products themselves, pinned in the corner on a frosted card, so a
-   skimming eye gets which device is which without searching the photo. */
-.vs__inset {
-  position: absolute;
-  right: clamp(10px, 1.2vw, 16px);
-  bottom: clamp(10px, 1.2vw, 16px);
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: clamp(8px, 1vw, 14px);
-  height: clamp(54px, 5.6vw, 78px);
-  padding: 0 clamp(12px, 1.3vw, 18px);
-  border-radius: clamp(14px, 1.4vw, 20px);
-  background: rgba(255, 255, 255, 0.82);
-  -webkit-backdrop-filter: blur(14px) saturate(1.2);
-  backdrop-filter: blur(14px) saturate(1.2);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
-}
-.vs__inset img { display: block; width: auto; filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.18)); }
-.vs__inset .vs__inset-plaud { height: 72%; }
-.vs__inset .vs__inset-pocket { height: 52%; }
-.vs__inset .vs__inset-larkin { height: 64%; filter: none; }
-
-/* The difference, inside each card: four rows under the photo, a small
-   label over a short answer, level with the same row in the other card. */
-.vs__row { padding-block: clamp(14px, 1.4vw, 18px); border-top: 1px solid var(--hair); }
-.vs__scene + .vs__row { margin-top: clamp(12px, 1.2vw, 16px); }
-.vs__key { margin: 0 0 4px; font-size: 0.8125rem; font-weight: 500; color: var(--ink-3); }
-.vs__val { margin: 0; font-size: clamp(1.0625rem, 1.3vw, 1.1875rem); font-weight: 500; line-height: 1.3; color: var(--ink-2); }
-.vs__side--us .vs__val { font-weight: 600; color: var(--ink); }
+.vs__side--us .vs__row { border-top-color: rgba(255, 255, 255, 0.14); color: #fff; }
 
 @media (min-width: 900px) {
-  .vs__panel { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(7, auto); row-gap: 0; }
+  .vs__panel { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(7, auto); }
   .vs__side { grid-row: span 7; grid-template-rows: subgrid; }
 }
 
