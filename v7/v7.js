@@ -665,6 +665,20 @@
     });
   }
 
+  /* ---- The app's card wall drifts a little with the scroll ------------- */
+  var wallEl = document.querySelector('[data-wall]');
+  if (wallEl && !reduceMotion) {
+    var wRaf = 0;
+    var wMove = function () {
+      wRaf = 0;
+      var r = wallEl.parentNode.getBoundingClientRect(), vh = window.innerHeight;
+      var t = clamp((vh - r.top) / (vh + r.height), 0, 1);
+      wallEl.style.setProperty('--drift', ((0.5 - t) * 160).toFixed(1) + 'px');
+    };
+    window.addEventListener('scroll', function () { if (!wRaf) wRaf = requestAnimationFrame(wMove); }, { passive: true });
+    wMove();
+  }
+
   /* ---- Moments: a full-bleed row of photographs, centred, snapping -----
      The arrows step a slide; the dot follows the slide nearest the middle;
      a slide's brightness follows how close it sits to the middle, so the
