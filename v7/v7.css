@@ -2296,16 +2296,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    right, then the grid on the app's ink with lime eyebrows.
    -------------------------------------------------------------------------- */
 .agrid--dark { background: var(--feature); color: #fff; padding-top: 0; }
-.aopen { position: relative; display: grid; align-items: center; min-height: 900px; margin-inline: calc(50% - 50vw); padding-inline: max(var(--gutter), calc(50vw - 50%)); overflow: hidden; }
-.aopen__copy { position: relative; z-index: 2; display: grid; gap: 18px; max-width: 580px; }
 .aopen__eb { color: var(--lime); font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
 .aopen__title { color: #fff; font-size: clamp(2.75rem, 4.6vw, 4rem); line-height: 1.02; letter-spacing: -0.03em; }
 .aopen__text { color: rgba(255, 255, 255, 0.65); font-size: 1.25rem; line-height: 1.45; }
-.aopen::before { content: ""; position: absolute; z-index: 1; inset: 0 auto 0 0; width: 62%; background: linear-gradient(90deg, var(--feature) 60%, transparent); pointer-events: none; }
-.aopen::after { content: ""; position: absolute; z-index: 1; inset: auto 0 0; height: 220px; background: linear-gradient(transparent, var(--feature)); pointer-events: none; }
-.wall { position: absolute; inset: 0; pointer-events: none; }
-.wall__tilt { position: absolute; left: var(--wx, 74%); top: var(--wy, 50%); display: flex; gap: 28px; align-items: flex-start; transform: translate(-50%, calc(-50% + var(--drift, 0px))) rotate(-28deg) scale(var(--ws, 1)); }
-.wall__col { display: grid; gap: 28px; padding-top: var(--o); }
 .wcard { display: grid; gap: 14px; padding: 30px; border-radius: 34px; background: rgba(255, 255, 255, 0.92); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.9), 0 18px 40px -10px rgba(0, 0, 0, 0.35); color: var(--ink); }
 .w460 { width: 460px; } .w500 { width: 500px; } .w520 { width: 520px; }
 .wcard__head { display: flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 600; letter-spacing: -0.015em; }
@@ -2346,7 +2339,32 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .agrid--dark .agrid__phone { box-shadow: inset 0 0 0 1.5px #3A3A3A, 0 24px 48px -16px rgba(0, 0, 0, 0.5); }
 .agrid--dark + .app { margin-top: 0; border-radius: 0; box-shadow: none; }
 @media (max-width: 899px) {
-  .aopen { align-items: start; min-height: 820px; padding-top: var(--section); }
-  .aopen::before { width: 100%; height: 50%; inset: 0 0 auto; background: linear-gradient(var(--feature) 72%, transparent); }
-  .wall__tilt { --ws: 0.42; --wx: 56%; --wy: 74%; }
+      }
+
+/* The app's card wall, in a tile (after HiDock's top tile): the wall is
+   tilted and each column scrolls itself in a slow endless loop (every list
+   is doubled, so moving it up by half its height starts it over seamlessly).
+   v7.js runs it only while the tile is on screen; reduced motion keeps it still. */
+.agrid--dark { padding-top: var(--section); }
+.agrid__intro { display: grid; gap: 16px; max-width: 640px; margin-bottom: clamp(36px, 5vw, 56px); }
+.agrid__wall { min-height: 640px; align-content: end; background: #1C1C1C; }
+.agrid__wall::after { content: ""; position: absolute; z-index: 0; inset: 0; background: linear-gradient(90deg, rgba(28, 28, 28, 0.96) 0%, rgba(28, 28, 28, 0.7) 30%, transparent 55%), linear-gradient(transparent 60%, rgba(28, 28, 28, 0.9)); pointer-events: none; }
+.wall { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.wall__tilt { position: absolute; left: 52%; top: 50%; display: flex; gap: 28px; align-items: flex-start; transform: translate(-50%, -50%) rotate(-28deg) scale(var(--ws, 0.62)); }
+.wall__col { padding-top: var(--o); }
+.wall__run { display: grid; gap: 28px; animation: wallrun var(--d, 50s) linear infinite; animation-play-state: paused; }
+.agrid__wall.is-run .wall__run { animation-play-state: running; }
+@keyframes wallrun { to { transform: translateY(calc(-50% - 14px)); } }
+@media (prefers-reduced-motion: reduce) { .wall__run { animation: none; } }
+.agrid__copy { position: relative; z-index: 1; }
+.agrid__wall .agrid__copy { max-width: 420px; }
+.agrid__list { position: absolute; z-index: 1; top: 24px; right: 24px; display: grid; gap: 10px; width: 280px; margin: 0; padding: 0; list-style: none; }
+.agrid__list li { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-radius: 16px; background: rgba(34, 34, 34, 0.86); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); color: #fff; font-size: 1rem; font-weight: 600; }
+.agrid__list li::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--lime); }
+@media (min-width: 900px) { .agrid__wall { grid-column: 1 / -1; } }
+@media (max-width: 899px) {
+  .agrid__wall { min-height: 560px; }
+  .agrid__list { display: none; }
+  .wall__tilt { --ws: 0.42; left: 50%; top: 40%; }
+  .agrid__wall::after { background: linear-gradient(transparent 35%, rgba(28, 28, 28, 0.95) 72%); }
 }

@@ -665,18 +665,10 @@
     });
   }
 
-  /* ---- The app's card wall drifts a little with the scroll ------------- */
-  var wallEl = document.querySelector('[data-wall]');
-  if (wallEl && !reduceMotion) {
-    var wRaf = 0;
-    var wMove = function () {
-      wRaf = 0;
-      var r = wallEl.parentNode.getBoundingClientRect(), vh = window.innerHeight;
-      var t = clamp((vh - r.top) / (vh + r.height), 0, 1);
-      wallEl.style.setProperty('--drift', ((0.5 - t) * 160).toFixed(1) + 'px');
-    };
-    window.addEventListener('scroll', function () { if (!wRaf) wRaf = requestAnimationFrame(wMove); }, { passive: true });
-    wMove();
+  /* ---- The app's card wall: its columns scroll only while it is seen ---- */
+  var wallTile = document.querySelector('.agrid__wall');
+  if (wallTile && !reduceMotion && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) { wallTile.classList.toggle('is-run', e[0].isIntersecting); }, { threshold: 0.1 }).observe(wallTile);
   }
 
   /* ---- Moments: a full-bleed row of photographs, centred, snapping -----
