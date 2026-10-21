@@ -2404,3 +2404,22 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .moment__story .moment__tag { grid-column: 1; grid-row: 2; margin: 0; }
   .moment__story .moment__line { grid-column: 1; grid-row: 3; }
 }
+
+/* --------------------------------------------------------------------------
+   Connect: Larkin as the hub, ChatGPT and Claude linked to it by dotted
+   curves, then one line on what it means. The hub is drawn on a 520 x 240
+   grid and scales down with the screen.
+   -------------------------------------------------------------------------- */
+.mcp { margin-top: clamp(72px, 9vw, 120px); }
+.mcp__inner { display: grid; justify-items: center; gap: clamp(14px, 1.6vw, 20px); text-align: center; }
+.mcp__hub { position: relative; width: min(520px, 100%); aspect-ratio: 520 / 240; margin-bottom: clamp(20px, 3vw, 36px); }
+.mcp__links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.mcp__links path { stroke: rgba(21, 21, 21, 0.25); stroke-width: 2; stroke-dasharray: 2 6; stroke-linecap: round; }
+.mcp__app { position: absolute; display: grid; place-items: center; aspect-ratio: 1; border-radius: 24%; background: #fff; box-shadow: 0 0 0 1px rgba(21, 21, 21, 0.08), 0 14px 28px -10px rgba(0, 0, 0, 0.2); }
+.mcp__app svg { width: 48%; height: 48%; }
+.mcp__app--gpt { left: 10.4%; top: 14.2%; width: 13.85%; }
+.mcp__app--claude { left: 75.8%; top: 14.2%; width: 13.85%; }
+.mcp__app--larkin { left: 40%; top: 40.8%; width: 20%; background: var(--ink); }
+.mcp__app--larkin svg { width: 100%; height: 100%; }
+.mcp__title { max-width: 15em; font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; text-wrap: balance; }
+.mcp__sub { font-size: clamp(1rem, 1.25vw, 1.125rem); color: var(--ink-2); }
