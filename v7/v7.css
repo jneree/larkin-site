@@ -2438,3 +2438,19 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 /* The comparison title keeps its first sentence whole, so on the
    narrowest phones it shrinks a touch rather than overflow. */
 #vs-title { font-size: min(clamp(2.25rem, 4.9vw, 4.25rem), 9vw); }
+
+/* The situation joins the line as its eyebrow, bottom left, and the
+   insight card moves to the bottom right, so words and card sit side by
+   side instead of stacking (Figma: Moments tile labels, option C). On
+   phones the card stays above the words. */
+.moment::after { background: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.3) 32%, transparent 60%); }
+.moment__tag { position: static; padding: 0; border-radius: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.78); }
+.moment__story { grid-template-columns: 1fr; }
+.moment__story .mviz { order: -1; }
+.moment__story .moment__tag { margin-bottom: -8px; }
+@media (min-width: 900px) {
+  .moment__story { inset: auto 24px 24px 28px; width: auto; grid-template-columns: minmax(0, 1fr) min(320px, 46%); grid-template-rows: 1fr auto auto; column-gap: 32px; row-gap: 10px; align-items: end; }
+  .moment__story .mviz { order: 0; grid-column: 2; grid-row: 1 / 4; align-self: end; width: 100%; }
+  .moment__story .moment__tag { grid-column: 1; grid-row: 2; margin: 0; }
+  .moment__story .moment__line { grid-column: 1; grid-row: 3; }
+}
