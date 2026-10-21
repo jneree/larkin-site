@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v7.css?v=20261022e">
+<link rel="stylesheet" href="v7.css?v=20261022f">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -330,11 +330,10 @@
   </section>
 
 
-  <!-- How it compares: the same table from above, twice. Two grey cards,
-       each with its message, a photo of the moment (he presses record and
-       she waits, or the two laugh with Larkin on his wrist) where a ring
-       finds the product once in view (v7.js, .vs__scene.is-lit), a corner
-       card with the products, then four rows that line up across. -->
+  <!-- How it compares: one rounded panel in two halves, the recorders on
+       grey and Larkin on ink. Each half: its message, who it is, the
+       devices, then four short lines that read on their own and sit level
+       with the line they are compared with. -->
   <section class="section vs" id="compare" aria-labelledby="vs-title">
     <div class="shell">
       <header class="sec-head sec-head--center rv">
@@ -344,20 +343,29 @@
         <article class="vs__side vs__side--them" aria-labelledby="vs-them">
           <p class="vs__name" id="vs-them">Recorders turn chats into meetings.</p>
           <p class="vs__who">Plaud, Pocket and the like</p>
-          <figure class="vs__scene"><img src="/media/vs-top-recorder-1400.webp?v=4" srcset="/media/vs-top-recorder-800.webp?v=4 800w, /media/vs-top-recorder-1400.webp?v=4 1400w" sizes="(min-width: 900px) 46vw, 92vw" alt="Seen from above, one friend presses record on a recorder between them while the other waits, hands folded" width="1400" height="1050" loading="lazy" decoding="async"><span class="vs__spot" aria-hidden="true"></span><span class="vs__inset" aria-hidden="true"><img class="vs__inset-plaud" src="/media/vs-plaud.webp" alt="" width="386" height="600" loading="lazy" decoding="async"><img class="vs__inset-pocket" src="/media/vs-pocket.webp" alt="" width="760" height="497" loading="lazy" decoding="async"></span></figure>
-          <div class="vs__row"><p class="vs__key">Recording</p><p class="vs__val">Press record, every time</p></div>
-          <div class="vs__row"><p class="vs__key">Where it sits</p><p class="vs__val">On the table, between you</p></div>
-          <div class="vs__row"><p class="vs__key">What you get</p><p class="vs__val">Transcripts, notes and to&#8209;dos</p></div>
-          <div class="vs__row"><p class="vs__key">Made for</p><p class="vs__val">Business meetings</p></div>
+          <div class="vs__stage">
+            <div class="vs__devices">
+              <figure class="vs__device vs__device--plaud"><img src="/media/vs-plaud.webp" alt="The Plaud recorder" width="386" height="600" loading="lazy" decoding="async"></figure>
+              <figure class="vs__device vs__device--pocket"><img src="/media/vs-pocket.webp" alt="The Pocket recorder" width="760" height="497" loading="lazy" decoding="async"></figure>
+            </div>
+          </div>
+          <p class="vs__row">Press record, every time</p>
+          <p class="vs__row">Sits on the table, between you</p>
+          <p class="vs__row">Transcripts, notes and to&#8209;dos</p>
+          <p class="vs__row">Made for business meetings</p>
         </article>
         <article class="vs__side vs__side--us" aria-labelledby="vs-us">
           <p class="vs__name" id="vs-us">Larkin keeps you in the moment.</p>
           <p class="vs__who">Worn on your wrist</p>
-          <figure class="vs__scene"><img src="/media/vs-top-larkin-1400.webp?v=5" srcset="/media/vs-top-larkin-800.webp?v=5 800w, /media/vs-top-larkin-1400.webp?v=5 1400w" sizes="(min-width: 900px) 46vw, 92vw" alt="The same two friends laughing over coffee, nothing on the table, Larkin on his wrist" width="1400" height="1050" loading="lazy" decoding="async"><span class="vs__spot" aria-hidden="true"></span><span class="vs__inset" aria-hidden="true"><img class="vs__inset-larkin" src="/media/vs-larkin.webp" alt="" width="1100" height="448" loading="lazy" decoding="async"></span></figure>
-          <div class="vs__row"><p class="vs__key">Recording</p><p class="vs__val">Always on, nothing to press</p></div>
-          <div class="vs__row"><p class="vs__key">Where it sits</p><p class="vs__val">On your wrist</p></div>
-          <div class="vs__row"><p class="vs__key">What you get</p><p class="vs__val">Insight into how you communicate</p></div>
-          <div class="vs__row"><p class="vs__key">Made for</p><p class="vs__val">Everyday conversations</p></div>
+          <div class="vs__stage">
+            <div class="vs__devices">
+              <figure class="vs__device vs__device--larkin"><img src="/media/vs-larkin.webp" alt="The Larkin band" width="1100" height="448" loading="lazy" decoding="async"></figure>
+            </div>
+          </div>
+          <p class="vs__row">Always on, nothing to press</p>
+          <p class="vs__row">Worn on your wrist</p>
+          <p class="vs__row">Insight into how you communicate</p>
+          <p class="vs__row">Made for everyday conversations</p>
         </article>
       </div>
     </div>
