@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v7.css?v=20261021s">
+<link rel="stylesheet" href="v7.css?v=20261021v">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -282,32 +282,42 @@
   </section>
 
 
-  <!-- The app, as a grid (Figma: App grid A). A wide dark tile with the
-       hand holding the phone, the band on the wrist, and the Day screen;
-       then four tiles, each a feature with the phone rising from its foot. -->
+  <!-- The app, as a grid (Figma: App grid v2 · 3). A tall tile with the
+       conversation screen and floating callouts; the hand photo and an
+       "Is this you?" card beside it; then to-dos, habit bars and the week's
+       listening. White page, grey tiles, eyebrows with a lime dot. -->
   <section class="section agrid" id="app-tour" aria-labelledby="agrid-title">
     <div class="shell">
       <h2 class="h2 agrid__head rv" id="agrid-title">Your day. Your conversations. You.</h2>
       <div class="agrid__grid">
-        <article class="agrid__hero rv">
-          <div class="agrid__copy"><p class="feat__label"><span>01</span> Day</p><h3 class="agrid__title">Your day, written up.</h3><p class="agrid__text">What the day was about, every conversation in order, and the to-dos it left you with.</p></div>
-          <img class="agrid__photo" src="/media/bridge-hand-2000.webp" srcset="/media/bridge-hand-1200.webp 1200w, /media/bridge-hand-2000.webp 2000w" sizes="(min-width: 900px) 760px, 92vw" alt="A hand holding a phone open on the Larkin app, the Larkin band on the wrist" width="2000" height="1131" loading="lazy" decoding="async">
+        <article class="agrid__tile agrid__tall rv">
+          <div class="agrid__copy"><p class="agrid__eb">Conversations</p><h3 class="agrid__title">See how you came across.</h3><p class="agrid__text">Every conversation comes back with what worked, what slipped and what to try next time.</p></div>
+          <div class="agrid__stage" aria-hidden="true">
+            <div class="agrid__phone"><img src="/media/app3-conversation-786.webp" srcset="/media/app3-conversation-786.webp 786w, /media/app3-conversation-1179.webp 1179w" sizes="320px" alt="" width="786" height="1704" loading="lazy" decoding="async"><i></i></div>
+            <span class="agrid__call is-lime" style="--x:2%;--y:30%">How you came across</span>
+            <span class="agrid__call" style="--x:68%;--y:42%">What worked</span>
+            <span class="agrid__call is-lime" style="--x:6%;--y:66%">Try next</span>
+          </div>
         </article>
-        <article class="agrid__tile rv">
-          <div class="agrid__copy"><p class="feat__label"><span>02</span> Conversations</p><h3 class="agrid__title">See how you came across.</h3><p class="agrid__text">Every conversation comes back with what worked, what slipped and what to try next time.</p></div>
-          <div class="agrid__phone" aria-hidden="true"><img src="/media/app3-conversation-786.webp" srcset="/media/app3-conversation-786.webp 786w, /media/app3-conversation-1179.webp 1179w" sizes="300px" alt="" width="786" height="1704" loading="lazy" decoding="async"><i></i></div>
+        <article class="agrid__tile agrid__day rv">
+          <img class="agrid__photo" src="/media/bridge-hand-1200.webp" srcset="/media/bridge-hand-1200.webp 1200w, /media/bridge-hand-2000.webp 2000w" sizes="(min-width: 900px) 590px, 92vw" alt="A hand holding a phone open on the Larkin app, the Larkin band on the wrist" width="1200" height="679" loading="lazy" decoding="async">
+          <div class="agrid__copy"><p class="agrid__eb">Day</p><h3 class="agrid__title">Your day, written up.</h3></div>
         </article>
-        <article class="agrid__tile rv">
-          <div class="agrid__copy"><p class="feat__label"><span>03</span> Notes</p><h3 class="agrid__title">Notes, without the laptop.</h3><p class="agrid__text">What was decided, who does what and your to-dos, even when the meeting was a lunch.</p></div>
-          <div class="agrid__phone" aria-hidden="true"><img src="/media/app3-notes-786.webp" srcset="/media/app3-notes-786.webp 786w, /media/app3-notes-1179.webp 1179w" sizes="300px" alt="" width="786" height="1704" loading="lazy" decoding="async"><i></i></div>
+        <article class="agrid__tile agrid__ask rv">
+          <div class="agrid__copy"><p class="agrid__eb">Is this you?</p><h3 class="agrid__title">It learns you by asking.</h3><p class="agrid__text">Only what you confirm is kept.</p></div>
+          <div class="agrid__card agrid__asked" aria-hidden="true"><p class="agrid__chead">Is this you?</p><p class="agrid__claim">You decide fast and adjust as you go.</p><p class="agrid__quote">“Let’s pick one and fix it as we go.”</p><p class="agrid__note">Heard at lunch with Jane</p><p class="agrid__btns"><em class="agrid__pill is-grey">Not me</em><em class="agrid__pill">That’s me</em></p></div>
         </article>
-        <article class="agrid__tile rv">
-          <div class="agrid__copy"><p class="feat__label"><span>04</span> Is this you?</p><h3 class="agrid__title">It learns you by asking.</h3><p class="agrid__text">Larkin checks what it noticed with you. Only what you confirm is kept.</p></div>
-          <div class="agrid__phone" aria-hidden="true"><img src="/media/app3-isthisyou-786.webp" srcset="/media/app3-isthisyou-786.webp 786w, /media/app3-isthisyou-1179.webp 1179w" sizes="300px" alt="" width="786" height="1704" loading="lazy" decoding="async"><i></i></div>
+        <article class="agrid__tile agrid__small rv">
+          <ul class="agrid__todo" aria-hidden="true"><li><i></i><span>Brief the photographer on Thursday.<small>Said at 12:58 PM</small></span><em class="agrid__pill">Remind me</em></li><li class="is-dim"><i></i><span>Send Jane the dates for the launch.<small>Said at 1:15 PM</small></span></li><li class="is-dim"><i></i><span>Ask who signs off on the copy.<small>Larkin’s take</small></span></li></ul>
+          <div class="agrid__copy"><p class="agrid__eb">Notes</p><h3 class="agrid__title">Notes, without the laptop.</h3></div>
         </article>
-        <article class="agrid__tile rv">
-          <div class="agrid__copy"><p class="feat__label"><span>05</span> Mirror</p><h3 class="agrid__title">Know how you communicate.</h3><p class="agrid__text">Four habits, counted across your conversations: which way you lean, and how often.</p></div>
-          <div class="agrid__phone" aria-hidden="true"><img src="/media/app3-mirror-786.webp" srcset="/media/app3-mirror-786.webp 786w, /media/app3-mirror-1179.webp 1179w" sizes="300px" alt="" width="786" height="1704" loading="lazy" decoding="async"><i></i></div>
+        <article class="agrid__tile agrid__small rv">
+          <div class="agrid__card" aria-hidden="true"><p class="agrid__chead is-lime">How you communicate<small>This month</small></p><div class="agrid__habit"><p>Assertiveness</p><p><span>Direct</span><i style="--v:90%"></i><b>9</b></p><p class="is-dim"><span>Softened</span><i style="--v:40%"></i><b>4</b></p></div><div class="agrid__habit"><p>Listening</p><p><span>About plans</span><i style="--v:100%"></i><b>10</b></p><p class="is-dim"><span>About people</span><i style="--v:40%"></i><b>4</b></p></div><div class="agrid__habit"><p>Clarity</p><p><span>To the point</span><i style="--v:80%"></i><b>8</b></p><p class="is-dim"><span>Thinking out loud</span><i style="--v:40%"></i><b>4</b></p></div></div>
+          <div class="agrid__copy"><p class="agrid__eb">Mirror</p><h3 class="agrid__title">Know how you communicate.</h3></div>
+        </article>
+        <article class="agrid__tile agrid__small rv">
+          <div class="agrid__stat" aria-hidden="true"><p><b>4h 12m</b> heard this week</p><ul><li><i style="--h:34"></i><span>Tue</span></li><li><i style="--h:52"></i><span>Wed</span></li><li><i style="--h:28"></i><span>Thu</span></li><li><i style="--h:60"></i><span>Fri</span></li><li><i style="--h:44"></i><span>Sat</span></li><li><i style="--h:18"></i><span>Sun</span></li><li class="is-on"><i style="--h:46"></i><span>Today</span></li></ul></div>
+          <div class="agrid__copy"><p class="agrid__eb">Always on</p><h3 class="agrid__title">It listens all day, so you don’t have to.</h3></div>
         </article>
       </div>
     </div>
