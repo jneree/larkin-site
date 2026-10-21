@@ -665,6 +665,66 @@
     });
   }
 
+  /* ---- The band tile: its photos turn in a slow loop while it is seen ---- */
+  var turn = document.querySelector('[data-turn]');
+  if (turn) {
+    var tImgs = [].slice.call(turn.children), tPos = ['is-c', 'is-r', 'is-b', 'is-l'], tStep = 0, tTimer = 0;
+    var tSet = function () { tImgs.forEach(function (im, i) { im.className = tPos[(i + tStep) % tPos.length]; }); };
+    tSet();
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (e) {
+        clearInterval(tTimer);
+        if (e[0].isIntersecting) tTimer = setInterval(function () { tStep = (tStep + 1) % tPos.length; tSet(); }, 2600);
+      }, { threshold: 0.2 }).observe(turn);
+    }
+  }
+
+  /* ---- Moments: a full-bleed row of photographs, centred, snapping -----
+     The arrows step a slide; the dot follows the slide nearest the middle;
+     a slide's brightness follows how close it sits to the middle, so the
+     neighbours peeking in at the edges sit back. */
+  var mrail = document.querySelector('[data-moments]');
+  if (mrail) {
+    var mslides = [].slice.call(mrail.children);
+    var msec = mrail.closest('section');
+    var mdots = [].slice.call(msec.querySelectorAll('.arail-dots i'));
+    var mprev = msec.querySelector('[data-moments-prev]');
+    var mnext = msec.querySelector('[data-moments-next]');
+    var mRaf = 0, mCur = 0;
+    var mMark = function () {
+      mRaf = 0;
+      var box = mrail.getBoundingClientRect(), mid = box.left + box.width / 2, best = 1e9;
+      mslides.forEach(function (s, i) {
+        var r = s.getBoundingClientRect();
+        var d = Math.abs(r.left + r.width / 2 - mid);
+        if (d < best) { best = d; mCur = i; }
+        var k = clamp(d / (r.width || 1), 0, 1);
+        s.style.opacity = (1 - 0.4 * k).toFixed(3);
+        s.style.setProperty('--k', k.toFixed(3));
+      });
+      mdots.forEach(function (d, i) { d.classList.toggle('is-on', i === mCur); });
+      if (mprev) mprev.disabled = mCur === 0;
+      if (mnext) mnext.disabled = mCur === mslides.length - 1;
+    };
+    var mGo = function (i) {
+      i = clamp(i, 0, mslides.length - 1);
+      var s = mslides[i];
+      mrail.scrollTo({ left: s.offsetLeft - (mrail.clientWidth - s.offsetWidth) / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+    };
+    mrail.addEventListener('scroll', function () { if (!mRaf) mRaf = requestAnimationFrame(mMark); }, { passive: true });
+    window.addEventListener('resize', function () { if (!mRaf) mRaf = requestAnimationFrame(mMark); }, { passive: true });
+    if (mprev) mprev.addEventListener('click', function () { mGo(mCur - 1); });
+    if (mnext) mnext.addEventListener('click', function () { mGo(mCur + 1); });
+    mdots.forEach(function (d, i) { d.addEventListener('click', function () { mGo(i); }); });
+    mrail.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); mGo(mCur + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); mGo(mCur - 1); }
+    });
+    // Open on the second card, centred, so a card peeks in on each side.
+    if (mslides[1]) mrail.scrollLeft = mslides[1].offsetLeft - (mrail.clientWidth - mslides[1].offsetWidth) / 2;
+    mMark();
+  }
+
   /* ---- From the band to the app, in one move ---------------------------- */
   /* One pinned screen, measured in screens of scroll (s). 0 to 0.55: a
      window opens from a card under the title to the whole screen; the
