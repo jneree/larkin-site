@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v7.css?v=20261021z">
+<link rel="stylesheet" href="v7.css?v=20261022d">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -82,7 +82,7 @@
 
     <nav class="nav" aria-label="Primary">
       <a href="/how-it-works/">How it works</a>
-      <a href="#app">The app</a>
+      <a href="#app-tour">The app</a>
       <a href="#how">Use cases</a>
       <a href="#privacy">Privacy</a>
     </nav>
@@ -282,125 +282,53 @@
   </section>
 
 
-  <!-- The app, as a grid (Figma: App grid v2 · 3). A tall tile with the
-       conversation screen and floating callouts; the hand photo and an
-       "Is this you?" card beside it; then to-dos, habit bars and the week's
-       listening. White page, grey tiles, eyebrows with a lime dot. -->
-  <section class="section agrid agrid--dark" id="app-tour" aria-labelledby="agrid-title">
+  <!-- The app, as a grid (Figma: App section v3 · Grey). A grey page with
+       white tiles: a wide tile with the hand holding the phone (the light
+       Home screen composited onto it) and the features with icons; the
+       Conversation screen in a phone; Focus, Ask Larkin; then Notes, Mirror
+       and the band, whose photos turn in a slow loop (v7.js, [data-turn]).
+       App screens are the Oct 21 light key screens, exported from Figma. -->
+  <section class="section ag" id="app-tour" aria-labelledby="ag-title">
     <div class="shell">
-        <div class="agrid__intro rv">
-          <p class="aopen__eb">The app</p>
-          <h2 class="h2 aopen__title" id="agrid-title">Your day.<br>Your conversations.</h2>
-          <p class="aopen__text">Every conversation lands in the app: what you said, how it came across, and what to try next.</p>
-        </div>
-      <div class="agrid__grid">
-        <article class="agrid__tile agrid__wall rv" aria-label="What lands in the app">
-          <div class="wall" aria-hidden="true"><div class="wall__tilt" data-wall><div class="wall__col" style="--o:260px;--d:46s"><div class="wall__run"><div class="wcard w460"><p class="wcard__head" style="--c:#B399FF">Chronicles · This week</p><p class="wcard__item"><b>Sunday</b><span>A slow Sunday: lunch with family, then a plan for the half marathon.</span></p><p class="wcard__item"><b>Saturday</b><span>You turned down a side project without closing the door.</span></p><p class="wcard__item"><b>Friday</b><span>Two ways to pitch the studio. The one with a story got more questions.</span></p></div><div class="wcard w460"><p class="wcard__head" style="--c:#F2738C">Your focus · Since Oct 11</p><p class="wcard__mid">Say what you want without softening it</p><p class="wcard__steps"><i class="is-on"></i><i class="is-on"></i><i></i><i></i></p><p class="wcard__sub">It came up 4 times this week. You did it twice.</p></div><div class="wcard w460"><p class="wcard__head" style="--c:#B399FF">Chronicles · This week</p><p class="wcard__item"><b>Sunday</b><span>A slow Sunday: lunch with family, then a plan for the half marathon.</span></p><p class="wcard__item"><b>Saturday</b><span>You turned down a side project without closing the door.</span></p><p class="wcard__item"><b>Friday</b><span>Two ways to pitch the studio. The one with a story got more questions.</span></p></div><div class="wcard w460"><p class="wcard__head" style="--c:#F2738C">Your focus · Since Oct 11</p><p class="wcard__mid">Say what you want without softening it</p><p class="wcard__steps"><i class="is-on"></i><i class="is-on"></i><i></i><i></i></p><p class="wcard__sub">It came up 4 times this week. You did it twice.</p></div></div></div><div class="wall__col" style="--o:0px;--d:58s"><div class="wall__run"><div class="wcard w460"><p class="wcard__head" style="--c:#D2ED28">Monday · Your day</p><p class="wcard__big">The launch takes shape</p><p class="wcard__sub">From a quick coffee to the spring launch. Over lunch, Jane took the landing page.</p><div class="wcard__row"><p class="wcard__box"><b>5</b><span>conversations</span></p><p class="wcard__box"><b>2h 30m</b><span>heard</span></p></div></div><div class="wcard w460"><p class="wcard__head" style="--c:#151515">Is this you?</p><p class="wcard__mid">You decide fast and adjust as you go.</p><p class="wcard__quote">“Let’s pick one and fix it as we go.”</p><p class="wcard__btns"><em>Not me</em><em class="is-lime">That’s me</em></p></div><div class="wcard w500"><p class="wcard__head" style="--c:#B399FF">Try next · Planning chats</p><p class="wcard__item"><b>Say the deadline first, then the details.</b></p><p class="wcard__item"><b>Before you leave, repeat who does what.</b></p><p class="wcard__item"><b>Ask what could slip, and agree on a plan B.</b></p></div><div class="wcard w460"><p class="wcard__head" style="--c:#D2ED28">Monday · Your day</p><p class="wcard__big">The launch takes shape</p><p class="wcard__sub">From a quick coffee to the spring launch. Over lunch, Jane took the landing page.</p><div class="wcard__row"><p class="wcard__box"><b>5</b><span>conversations</span></p><p class="wcard__box"><b>2h 30m</b><span>heard</span></p></div></div><div class="wcard w460"><p class="wcard__head" style="--c:#151515">Is this you?</p><p class="wcard__mid">You decide fast and adjust as you go.</p><p class="wcard__quote">“Let’s pick one and fix it as we go.”</p><p class="wcard__btns"><em>Not me</em><em class="is-lime">That’s me</em></p></div><div class="wcard w500"><p class="wcard__head" style="--c:#B399FF">Try next · Planning chats</p><p class="wcard__item"><b>Say the deadline first, then the details.</b></p><p class="wcard__item"><b>Before you leave, repeat who does what.</b></p><p class="wcard__item"><b>Ask what could slip, and agree on a plan B.</b></p></div></div></div><div class="wall__col" style="--o:140px;--d:50s"><div class="wall__run"><div class="wcard w520"><p class="wcard__head" style="--c:#59C7FF">Lunch with Jane · 52 min</p><p class="wcard__big">Warm and decisive.</p><p class="wcard__sub">You made the calls fast and asked Jane what she needed before handing her the page.</p><div class="wcard__meter"><p><b>What worked</b><span>You asked what was blocking her.</span></p><i style="--v:82%;--c:#59C7FF"></i></div><div class="wcard__meter"><p><b>What slipped</b><span>The dates came in pieces.</span></p><i style="--v:38%;--c:#F2738C"></i></div></div><div class="wcard w460"><p class="wcard__head" style="--c:#D2ED28">Speech captured</p><p class="wcard__num"><b>4h 12m</b> this week</p><div class="wcard__row"><p class="wcard__box"><b>52m</b><span>today</span></p><p class="wcard__box"><b>18</b><span>conversations</span></p></div></div><div class="wcard w520"><p class="wcard__head" style="--c:#59C7FF">Lunch with Jane · 52 min</p><p class="wcard__big">Warm and decisive.</p><p class="wcard__sub">You made the calls fast and asked Jane what she needed before handing her the page.</p><div class="wcard__meter"><p><b>What worked</b><span>You asked what was blocking her.</span></p><i style="--v:82%;--c:#59C7FF"></i></div><div class="wcard__meter"><p><b>What slipped</b><span>The dates came in pieces.</span></p><i style="--v:38%;--c:#F2738C"></i></div></div><div class="wcard w460"><p class="wcard__head" style="--c:#D2ED28">Speech captured</p><p class="wcard__num"><b>4h 12m</b> this week</p><div class="wcard__row"><p class="wcard__box"><b>52m</b><span>today</span></p><p class="wcard__box"><b>18</b><span>conversations</span></p></div></div></div></div><div class="wall__col" style="--o:60px;--d:62s"><div class="wall__run"><div class="wcard w500"><p class="wcard__head" style="--c:#FFB86B">To-do · From lunch with Jane</p><p class="wcard__item"><b>Brief the photographer on Thursday</b><span>Said at 12:58 PM<em class="is-lime">Remind me</em></span></p><p class="wcard__item"><b>Send Jane the dates for the launch</b><span>Said at 1:15 PM</span></p></div><div class="wcard w500"><p class="wcard__head" style="--c:#74D9B8">Mirror · How you communicate</p><div class="wcard__meter"><p><b>Assertiveness</b><span>Direct 9 · Softened 4</span></p><i style="--v:64%;--c:#151515"></i></div><div class="wcard__meter"><p><b>Listening</b><span>About plans 10 · About people 4</span></p><i style="--v:71%;--c:#151515"></i></div><div class="wcard__meter"><p><b>Clarity</b><span>To the point 8 · Thinking out loud 4</span></p><i style="--v:57%;--c:#151515"></i></div></div><div class="wcard w460"><p class="wcard__head" style="--c:#B399FF">Chronicles · This week</p><p class="wcard__item"><b>Sunday</b><span>A slow Sunday: lunch with family, then a plan for the half marathon.</span></p><p class="wcard__item"><b>Saturday</b><span>You turned down a side project without closing the door.</span></p><p class="wcard__item"><b>Friday</b><span>Two ways to pitch the studio. The one with a story got more questions.</span></p></div><div class="wcard w500"><p class="wcard__head" style="--c:#FFB86B">To-do · From lunch with Jane</p><p class="wcard__item"><b>Brief the photographer on Thursday</b><span>Said at 12:58 PM<em class="is-lime">Remind me</em></span></p><p class="wcard__item"><b>Send Jane the dates for the launch</b><span>Said at 1:15 PM</span></p></div><div class="wcard w500"><p class="wcard__head" style="--c:#74D9B8">Mirror · How you communicate</p><div class="wcard__meter"><p><b>Assertiveness</b><span>Direct 9 · Softened 4</span></p><i style="--v:64%;--c:#151515"></i></div><div class="wcard__meter"><p><b>Listening</b><span>About plans 10 · About people 4</span></p><i style="--v:71%;--c:#151515"></i></div><div class="wcard__meter"><p><b>Clarity</b><span>To the point 8 · Thinking out loud 4</span></p><i style="--v:57%;--c:#151515"></i></div></div><div class="wcard w460"><p class="wcard__head" style="--c:#B399FF">Chronicles · This week</p><p class="wcard__item"><b>Sunday</b><span>A slow Sunday: lunch with family, then a plan for the half marathon.</span></p><p class="wcard__item"><b>Saturday</b><span>You turned down a side project without closing the door.</span></p><p class="wcard__item"><b>Friday</b><span>Two ways to pitch the studio. The one with a story got more questions.</span></p></div></div></div></div></div>
-          <ul class="agrid__list" aria-hidden="true"><li>Your day</li><li>Conversations</li><li>Notes and to-dos</li><li>Is this you?</li><li>Mirror</li></ul>
-          <div class="agrid__copy"><p class="agrid__eb">All in one place</p><h3 class="agrid__title">Every conversation, written up and explained.</h3><p class="agrid__text">Summaries, insights, to-dos and the habits behind them, in one app.</p></div>
+      <div class="ag__intro rv">
+        <p class="ag__eb">The app</p>
+        <h2 class="ag__h" id="ag-title">Your day.<br>Your conversations.</h2>
+        <p class="ag__lead">Every conversation lands in the app: what you said, how it came across, and what to try next.</p>
+      </div>
+      <div class="ag__grid">
+        <article class="ag__tile ag__hero rv">
+          <img class="ag__photo" src="/media/app4-hand-2240.webp" srcset="/media/app4-hand-1200.webp 1200w, /media/app4-hand-2240.webp 2240w" sizes="(min-width: 900px) 1120px, 100vw" alt="A hand holding a phone open on the Larkin app's Home screen, the Larkin band on the wrist" width="2240" height="1267" loading="lazy" decoding="async">
+          <ul class="ag__list" aria-label="In the app"><li><span class="ag__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>Daily summaries</li><li><span class="ag__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>Conversation insights</li><li><span class="ag__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6l2 2 3-3M3 13l2 2 3-3M12 7h9M12 14h9M12 20h9"/></svg></span>Notes</li><li><span class="ag__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>Mirror</li></ul>
+          <div class="ag__copy"><p class="ag__eb">Daily summaries</p><h3 class="ag__title">Your day, written up.</h3><p class="ag__text">Every conversation in order, what it taught you and the to-dos it left you with.</p></div>
         </article>
-        <article class="agrid__tile agrid__tall rv">
-          <div class="agrid__copy"><p class="agrid__eb">Conversations</p><h3 class="agrid__title">See how you came across.</h3><p class="agrid__text">Every conversation comes back with what worked, what slipped and what to try next time.</p></div>
-          <div class="agrid__stage" aria-hidden="true">
-            <div class="agrid__phone"><img src="/media/app3-conversation-786.webp" srcset="/media/app3-conversation-786.webp 786w, /media/app3-conversation-1179.webp 1179w" sizes="320px" alt="" width="786" height="1704" loading="lazy" decoding="async"><i></i></div>
-          </div>
+        <article class="ag__tile ag__tall rv">
+          <div class="ag__copy"><p class="ag__eb">Insights</p><h3 class="ag__title">See how you came across.</h3><p class="ag__text">Every conversation comes back with what worked, what slipped and what to try next time.</p></div>
+          <div class="ag__vis"><div class="ag__phone"><img src="/media/app4-conversation.webp" alt="A conversation in the app: Lunch with Alex on how the team works, with how you came across, what worked and what slipped" width="1206" height="2622" loading="lazy" decoding="async"></div></div>
         </article>
-        <article class="agrid__tile agrid__day rv">
-          <img class="agrid__photo" src="/media/bridge-hand-1200.webp" srcset="/media/bridge-hand-1200.webp 1200w, /media/bridge-hand-2000.webp 2000w" sizes="(min-width: 900px) 590px, 92vw" alt="A hand holding a phone open on the Larkin app, the Larkin band on the wrist" width="1200" height="679" loading="lazy" decoding="async">
-          <div class="agrid__copy"><p class="agrid__eb">Day</p><h3 class="agrid__title">Your day, written up.</h3></div>
+        <article class="ag__tile ag__mid rv">
+          <div class="ag__vis"><img class="ag__card ag__goal" src="/media/app4-goal.webp" alt="Choose your goal: I want to say no without over-explaining, selected as your goal now" width="1078" height="760" loading="lazy" decoding="async"></div>
+          <div class="ag__copy"><p class="ag__eb">Focus</p><h3 class="ag__title">Pick one habit to work on.</h3><p class="ag__text">Larkin follows it in every conversation, and your next report shows how it moved.</p></div>
         </article>
-        <article class="agrid__tile agrid__ask rv">
-          <div class="agrid__copy"><p class="agrid__eb">Is this you?</p><h3 class="agrid__title">It learns you by asking.</h3><p class="agrid__text">Only what you confirm is kept.</p></div>
-          <div class="agrid__card agrid__asked" aria-hidden="true"><p class="agrid__chead">Is this you?</p><p class="agrid__claim">You decide fast and adjust as you go.</p><p class="agrid__quote">“Let’s pick one and fix it as we go.”</p><p class="agrid__note">Heard at lunch with Jane</p><p class="agrid__btns"><em class="agrid__pill is-grey">Not me</em><em class="agrid__pill">That’s me</em></p></div>
+        <article class="ag__tile ag__mid rv">
+          <div class="ag__vis"><div class="ag__chat" aria-hidden="true"><p class="ag__q">What did I promise Jane?</p><div class="ag__a"><p class="ag__who">Larkin</p><p>Two things: brief the photographer on Thursday, and send her the launch dates.</p><p class="ag__src">From lunch with Jane · 12:58 PM</p></div><p class="ag__ask">Ask Larkin about this day</p></div></div>
+          <div class="ag__copy"><p class="ag__eb">Ask Larkin</p><h3 class="ag__title">Ask anything about your day.</h3><p class="ag__text">Larkin answers from your own conversations.</p></div>
         </article>
-        <article class="agrid__tile agrid__small rv">
-          <ul class="agrid__todo" aria-hidden="true"><li><i></i><span>Brief the photographer on Thursday.<small>Said at 12:58 PM</small></span><em class="agrid__pill">Remind me</em></li><li class="is-dim"><i></i><span>Send Jane the dates for the launch.<small>Said at 1:15 PM</small></span></li><li class="is-dim"><i></i><span>Ask who signs off on the copy.<small>Larkin’s take</small></span></li></ul>
-          <div class="agrid__copy"><p class="agrid__eb">Notes</p><h3 class="agrid__title">Notes, without the laptop.</h3></div>
+        <article class="ag__tile ag__small rv">
+          <div class="ag__vis ag__stack"><img class="ag__card" src="/media/app4-todo-1.webp" alt="To-do: Send Sam the offer by Wednesday, said at 11:56 AM, with Remind me" width="1110" height="412" loading="lazy" decoding="async"><img class="ag__card" src="/media/app4-todo-2.webp" alt="To-do: Bring Anna's book back when you see her on Friday, said at 8:17 PM, with Remind me" width="1110" height="454" loading="lazy" decoding="async"></div>
+          <div class="ag__copy"><p class="ag__eb">Notes</p><h3 class="ag__title">Notes write themselves.</h3></div>
         </article>
-        <article class="agrid__tile agrid__small rv">
-          <div class="agrid__card" aria-hidden="true"><p class="agrid__chead is-lime">How you communicate<small>This month</small></p><div class="agrid__habit"><p>Assertiveness</p><p><span>Direct</span><i style="--v:90%"></i><b>9</b></p><p class="is-dim"><span>Softened</span><i style="--v:40%"></i><b>4</b></p></div><div class="agrid__habit"><p>Listening</p><p><span>About plans</span><i style="--v:100%"></i><b>10</b></p><p class="is-dim"><span>About people</span><i style="--v:40%"></i><b>4</b></p></div><div class="agrid__habit"><p>Clarity</p><p><span>To the point</span><i style="--v:80%"></i><b>8</b></p><p class="is-dim"><span>Thinking out loud</span><i style="--v:40%"></i><b>4</b></p></div></div>
-          <div class="agrid__copy"><p class="agrid__eb">Mirror</p><h3 class="agrid__title">Know how you communicate.</h3></div>
+        <article class="ag__tile ag__small rv">
+          <div class="ag__vis"><img class="ag__card" src="/media/app4-mirror.webp" alt="How you communicate: Assertiveness, direct 8 and softened 5; Listening, about people 9 and about plans 4" width="1062" height="830" loading="lazy" decoding="async"></div>
+          <div class="ag__copy"><p class="ag__eb">Mirror</p><h3 class="ag__title">Know how you communicate.</h3></div>
         </article>
-        <article class="agrid__tile agrid__small rv">
-          <div class="agrid__stat" aria-hidden="true"><p><b>4h 12m</b> heard this week</p><ul><li><i style="--h:34"></i><span>Tue</span></li><li><i style="--h:52"></i><span>Wed</span></li><li><i style="--h:28"></i><span>Thu</span></li><li><i style="--h:60"></i><span>Fri</span></li><li><i style="--h:44"></i><span>Sat</span></li><li><i style="--h:18"></i><span>Sun</span></li><li class="is-on"><i style="--h:46"></i><span>Today</span></li></ul></div>
-          <div class="agrid__copy"><p class="agrid__eb">Always on</p><h3 class="agrid__title">It listens all day, so you don’t have to.</h3></div>
+        <article class="ag__tile ag__small rv">
+          <div class="ag__vis"><div class="ag__turn" data-turn aria-hidden="true"><img src="/media/app4-band-desk.webp" alt="" width="480" height="480" loading="lazy"><img src="/media/app4-band-sill.webp" alt="" width="480" height="480" loading="lazy"><img src="/media/app4-band-wrist.webp" alt="" width="480" height="480" loading="lazy"><img src="/media/app4-band-macro.webp" alt="" width="480" height="480" loading="lazy"></div></div>
+          <div class="ag__copy"><p class="ag__eb">The band</p><h3 class="ag__title">Designed for everyday conversations.</h3><p class="ag__text">Light enough to forget. One press to start, a week of battery.</p></div>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- The app, continued on ink: the features were the tour above (the
-       bridge); here Mirror, told over time: one phone that
-       sharpens from week 1 to month 3 as you scroll (v5.js). The screens are
-       the Oct 13 app design, exported from Figma; sample person Alex, on a
-       day built around a lunch with Jane. -->
-  <section class="section app grain" id="app">
-
-    <div class="shell">
-      <!-- Mirror, over time. One habit, softening your asks, followed for
-           three months as a deck of three cards in the phone: the next
-           waits behind the front one and comes forward as its month
-           arrives, the done one slips away below. Week 1, a first insight
-           from one coffee; month 1, Larkin checks with you, you confirm,
-           and the habit becomes your focus; month 3, the same habit
-           counted, its bars filling. The tall .grow__pin holds the stage in
-           view while scroll plays it; the steps can be clicked to jump.
-           v7.js sets --gp (0 to 1), --g (the bars filling) and data-stage
-           on [data-grow]. Without it, or with reduced motion, nothing pins:
-           the steps are a list and the deck shows month 3. -->
-      <div class="grow" id="mirror" data-grow data-stage="3" style="--gp: 1; --g: 1">
-        <header class="grow__head rv">
-          <h3 class="grow__title">One habit, followed for three months.</h3>
-        </header>
-        <div class="grow__pin">
-          <div class="grow__stick">
-            <div class="grow__bar" aria-hidden="true"><i class="grow__fill"></i><b data-grow-go="1">Week 1</b><b data-grow-go="2">Month 1</b><b data-grow-go="3">Month 3</b></div>
-            <ol class="grow__steps">
-              <li class="grow__step" data-step="1" data-grow-go="1"><p class="grow__when">Week 1</p><p class="grow__name">It notices.</p><p class="grow__text">A first insight, from one coffee.</p></li>
-              <li class="grow__step" data-step="2" data-grow-go="2"><p class="grow__when">Month 1</p><p class="grow__name">It checks with you.</p><p class="grow__text">You confirm it, and it becomes your focus.</p></li>
-              <li class="grow__step" data-step="3" data-grow-go="3"><p class="grow__when">Month 3</p><p class="grow__name">It follows up.</p><p class="grow__text">The same habit, counted and measured.</p></li>
-            </ol>
-            <div class="stage grow__stage">
-              <p class="grow__count" aria-hidden="true"><span data-grow-day>Day 84</span><i></i><span><b data-grow-convos>250</b> conversations</span></p>
-              <div class="ui-phone grow__phone">
-                <div class="ui-screen">
-                  <div class="gscreen" role="img" aria-label="Mirror, over three months, following one habit. Week 1: a first insight after coffee with Sam, under assertiveness. You softened your ask: you asked Sam for Friday, then added “if that’s okay”. Month 1: Larkin asks “Is this you? You soften what you want.”, heard 4 times this month; you answer That’s me, and it becomes your focus, saying what you want without softening it. Month 3: your November report. Direct 9, softened 4. Said plainly in 9 of 16 conversations, up from 4 of 15 in October.">
-                    <div class="gdeck__top" aria-hidden="true"><span>Mirror</span><i>A</i></div>
-                    <div class="gdeck">
-                      <article class="gdk" data-k="1">
-                        <p class="gdk__when">Oct 3 · Coffee with Sam</p>
-                        <p class="gdk__head"><i class="gdk__ico gdk__ico--insight"></i>Assertiveness<span class="gdk__why">Why?</span></p>
-                        <p class="gdk__label">What slipped</p>
-                        <p class="gdk__text">You softened your ask. You asked Sam for Friday, then added <mark class="gdk__mark">“if that’s okay”</mark>.</p>
-                      </article>
-                      <article class="gdk" data-k="2">
-                        <p class="gdk__when">Oct 11 · Larkin asks</p>
-                        <p class="gdk__head"><i class="gdk__ico gdk__ico--you"></i>Is this you?</p>
-                        <p class="gdk__text">You soften what you want. <span class="gdk__quote">“Maybe we could”, “if that’s okay”.</span></p>
-                        <p class="gdk__note">Heard 4 times this month.</p>
-                        <p class="gdk__answers"><span class="gdk__answer">Not me</span><span class="gdk__answer gdk__answer--yes">That’s me</span></p>
-                        <div class="gdk__focus"><p class="gdk__head"><i class="gdk__ico gdk__ico--focus"></i>Your focus<span class="gdk__since">Since Oct 11</span></p><p class="gdk__text">Say what you want without softening it.</p></div>
-                      </article>
-                      <article class="gdk" data-k="3">
-                        <p class="gdk__when">Dec 1 · Your November report</p>
-                        <p class="gdk__head"><i class="gdk__ico gdk__ico--report"></i>Assertiveness</p>
-                        <div class="gdk__rows">
-                          <p class="gdk__row"><span>Direct</span><i class="gdk__bar" style="--from: 0.31; --to: 0.69"></i><b data-grow-n data-from="4" data-to="9">9</b></p>
-                          <p class="gdk__row gdk__row--dim"><span>Softened</span><i class="gdk__bar" style="--from: 0.69; --to: 0.31"></i><b data-grow-n data-from="9" data-to="4">4</b></p>
-                        </div>
-                        <p class="gdk__weeks" aria-hidden="true"><i style="--h: 0.3"></i><i style="--h: 0.45"></i><i style="--h: 0.5"></i><i style="--h: 0.7"></i><i style="--h: 0.8"></i><i style="--h: 1"></i></p>
-                        <p class="gdk__text">Said plainly in <b data-grow-n data-from="4" data-to="9">9</b> of 16 conversations, up from 4 of 15 in October.</p>
-                      </article>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- How it compares: not a recorder. One rounded panel in two equal
        halves with the same parts in the same places, so it reads across:
@@ -740,6 +668,6 @@
   </div>
 </footer>
 
-<script src="v7.js?v=20261021z" defer></script>
+<script src="v7.js?v=20261022a" defer></script>
 </body>
 </html>

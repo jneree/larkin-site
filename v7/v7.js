@@ -665,10 +665,18 @@
     });
   }
 
-  /* ---- The app's card wall: its columns scroll only while it is seen ---- */
-  var wallTile = document.querySelector('.agrid__wall');
-  if (wallTile && !reduceMotion && 'IntersectionObserver' in window) {
-    new IntersectionObserver(function (e) { wallTile.classList.toggle('is-run', e[0].isIntersecting); }, { threshold: 0.1 }).observe(wallTile);
+  /* ---- The band tile: its photos turn in a slow loop while it is seen ---- */
+  var turn = document.querySelector('[data-turn]');
+  if (turn) {
+    var tImgs = [].slice.call(turn.children), tPos = ['is-c', 'is-r', 'is-b', 'is-l'], tStep = 0, tTimer = 0;
+    var tSet = function () { tImgs.forEach(function (im, i) { im.className = tPos[(i + tStep) % tPos.length]; }); };
+    tSet();
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (e) {
+        clearInterval(tTimer);
+        if (e[0].isIntersecting) tTimer = setInterval(function () { tStep = (tStep + 1) % tPos.length; tSet(); }, 2600);
+      }, { threshold: 0.2 }).observe(turn);
+    }
   }
 
   /* ---- Moments: a full-bleed row of photographs, centred, snapping -----
