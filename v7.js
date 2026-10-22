@@ -1300,6 +1300,32 @@
     });
   });
 
+  /* ---- The app's features: an accordion ---------------------------------- */
+  /* One feature open at a time; opening one closes the rest. On phones the
+     items are pills and the open one's line shows above them. */
+  var acc = document.querySelector('[data-acc]');
+  if (acc) {
+    var accLine = document.querySelector('[data-acc-line]');
+    var accItems = [].slice.call(acc.querySelectorAll('.ag__it'));
+    accItems.forEach(function (item) {
+      var btn = item.querySelector('.ag__btn');
+      btn.addEventListener('click', function () {
+        accItems.forEach(function (other) {
+          var on = other === item;
+          other.classList.toggle('is-open', on);
+          other.querySelector('.ag__btn').setAttribute('aria-expanded', on ? 'true' : 'false');
+        });
+        if (accLine) accLine.textContent = item.querySelector('.ag__d p').textContent;
+        // On phones, bring the chosen pill fully into view.
+        if (acc.scrollWidth > acc.clientWidth) {
+          var left = item.offsetLeft - 32, right = item.offsetLeft + item.offsetWidth - acc.clientWidth + 32;
+          if (acc.scrollLeft > left) acc.scrollTo({ left: left, behavior: reduceMotion ? 'auto' : 'smooth' });
+          else if (acc.scrollLeft < right) acc.scrollTo({ left: right, behavior: reduceMotion ? 'auto' : 'smooth' });
+        }
+      });
+    });
+  }
+
   /* ---- Magnetic buttons ------------------------------------------------- */
   /* Under a fine pointer the main buttons lean a few pixels towards it and
      settle back when it leaves; the CSS transition gives them their weight. */
