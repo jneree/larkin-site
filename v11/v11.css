@@ -2441,13 +2441,13 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .moments--film .moment picture { inset: 0 0 auto; height: 74%; overflow: hidden; }
 .moments--film .moment__img { object-position: var(--pos, 50% 40%); transform: scale(1.08); transition: transform 2.4s var(--ease); }
 .moments--film .moment.is-on .moment__img { transform: none; }
-.moments--film .moment::after { background: linear-gradient(to bottom, rgba(11, 11, 11, 0.55), rgba(11, 11, 11, 0) 18%, rgba(11, 11, 11, 0) 30%, rgba(11, 11, 11, 0.82) 54%, #0B0B0B 68%); }
+.moments--film .moment::after { background: linear-gradient(to bottom, rgba(11, 11, 11, 0.55), rgba(11, 11, 11, 0) 18%, rgba(11, 11, 11, 0) 34%, rgba(11, 11, 11, 0.7) 56%, #0B0B0B 74%); }
 .moments--film .moment__story {
   position: absolute; inset: auto 0 clamp(72px, 11svh, 112px); width: auto; margin: 0 auto; max-width: min(980px, calc(100% - 40px));
   display: grid; grid-template-columns: 1fr; grid-template-rows: none; justify-items: center; row-gap: 0; column-gap: 0; text-align: center;
 }
 .moments--film .moment__story .mviz { order: 0; grid-column: auto; grid-row: auto; width: min(380px, 100%); margin-bottom: clamp(24px, 4svh, 44px); text-align: left; background: rgba(24, 24, 22, 0.66); transform: translateY(18px); opacity: 0; transition: transform 0.9s var(--ease) 0.15s, opacity 0.9s var(--ease) 0.15s; }
-.moments--film .moment__story .moment__tag { grid-column: auto; grid-row: auto; margin: 0 0 12px; font-size: clamp(0.8125rem, 1vw, 0.9375rem); font-weight: 500; letter-spacing: 0; text-transform: none; color: rgba(255, 255, 255, 0.5); }
+.moments--film .moment__story .moment__tag { grid-column: auto; grid-row: auto; margin: 0 0 12px; font-size: clamp(0.8125rem, 1vw, 0.9375rem); font-weight: 500; letter-spacing: 0; text-transform: none; color: rgba(255, 255, 255, 0.8); text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5); }
 .moments--film .moment__story .moment__line { grid-column: auto; grid-row: auto; max-width: 15em; font-size: clamp(2.125rem, 4vw, 3.75rem); font-weight: 700; line-height: 1.04; letter-spacing: -0.03em; text-wrap: balance; text-shadow: none; transform: translateY(24px); opacity: 0; transition: transform 1s var(--ease) 0.25s, opacity 1s var(--ease) 0.25s; }
 .moments--film .moment.is-on .mviz, .moments--film .moment.is-on .moment__line { transform: none; opacity: 1; }
 .film__dashes { position: absolute; left: 50%; bottom: clamp(20px, 3.5svh, 36px); display: flex; gap: 2px; translate: -50% 0; }
@@ -2460,7 +2460,6 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .moments--film .moment picture { height: 66%; }
   .moments--film .moment::after { background: linear-gradient(to bottom, rgba(11, 11, 11, 0.5), rgba(11, 11, 11, 0) 16%, rgba(11, 11, 11, 0) 30%, rgba(11, 11, 11, 0.75) 50%, #0B0B0B 66%); }
   .moments--film .moment__story .moment__line { font-size: clamp(1.75rem, 7.6vw, 2.125rem); }
-  .moments--film .moment::after { background: linear-gradient(to bottom, rgba(11, 11, 11, 0.5), rgba(11, 11, 11, 0) 16%, rgba(11, 11, 11, 0) 28%, rgba(11, 11, 11, 0.85) 50%, #0B0B0B 62%); }
 }
 @media (min-width: 900px) {
   /* The card reads at a glance next to the line: a size up on wide screens. */
