@@ -684,7 +684,7 @@
 
   /* ---- The band tile: its photos turn in a slow loop while it is seen ---- */
   var tpl = document.querySelector('[data-tpl]');
-  if (tpl) { var tRows=[].slice.call(tpl.children), tOn=1, tTick=0;
+  if (tpl) { var tRows=[].slice.call(tpl.children), tOn=0, tTick=0;
     if (!reduceMotion && 'IntersectionObserver' in window) { new IntersectionObserver(function(e){ clearInterval(tTick);
       if (e[0].isIntersecting) tTick=setInterval(function(){ tOn=(tOn+1)%tRows.length; tRows.forEach(function(r,i){ r.classList.toggle('is-on', i===tOn); }); },2200); },{threshold:0.3}).observe(tpl); } }
   var turn = document.querySelector('[data-turn]');
