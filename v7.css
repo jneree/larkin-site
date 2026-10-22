@@ -2509,3 +2509,15 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 @media (prefers-reduced-motion: reduce) {
   .moments--film .moment, .moments--film .moment__img, .moments--film .mviz, .moments--film .moment__line { transition: none; }
 }
+
+/* --------------------------------------------------------------------------
+   Grey reading text (Julien, 22 October 2026): DM Sans's lowercase is about
+   10% shorter than Inter's, so the grey paragraphs read small and thin. One
+   step bigger, a little sturdier (450), 1% tighter, line height 1.5. Small
+   labels and eyebrows are not part of this.
+   -------------------------------------------------------------------------- */
+.listen__facts span, .ag__text, .pcard p, .faq__body p { font-size: 1.0625rem; }
+.num p, .ag__d p, .rs__fine, .beta__note { font-size: 1rem; }
+.listen__facts span, .ag__text, .pcard p, .faq__body p,
+.num p, .ag__d p, .rs__fine, .beta__note,
+.early__lead, .beta__lead, .rs__lead, .rs__then, .mcp__sub { font-weight: 450; letter-spacing: -0.01em; line-height: 1.5; }
