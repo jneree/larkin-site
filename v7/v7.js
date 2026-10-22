@@ -153,7 +153,7 @@
        each nav link is averaged, and a word turns white (.on-dark) where
        white out-contrasts ink. If the film can't be read, the timings above
        stand in for every word at once. */
-    var tones = header && !hero.classList.contains('hero--card') ? [].slice.call(header.querySelectorAll('.brand, .nav a')) : [];
+    var tones = header ? [].slice.call(header.querySelectorAll('.brand, .nav a')) : [];
     var thumb = document.createElement('canvas');
     var tctx = thumb.getContext && thumb.getContext('2d');
     var canRead = !!tctx, lastRead = 0;
@@ -283,7 +283,7 @@
     /* Scrolling lifts the film away: the frame shrinks a little, rounds its
        corners and fades towards the white of the page. */
     var heroFrame = hero.querySelector('.hero__frame');
-    if (heroFrame && !reduceMotion && !hero.classList.contains('hero--card')) {
+    if (heroFrame && !reduceMotion) {
       var lastP = -1;
       link(function (vh) {
         var h = hero.offsetHeight || vh;

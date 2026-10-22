@@ -28,7 +28,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high" media="(min-aspect-ratio: 4/5)"
       imagesrcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" imagesizes="100vw">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="v7.css?v=20261022hc">
+<link rel="stylesheet" href="v7.css?v=20261022h2">
 <script>document.documentElement.classList.add('js')</script>
 
 <script type="application/ld+json">
@@ -101,12 +101,20 @@
        curtain has lifted; the copy flips between ink and white with the
        film (timings in v5.js). Scrolling lifts the film away as a card, over
        the white of the page. -->
-  <!-- Hero (Figma: Hero title · 3): the two-line title centred on the white
-       of the page, then the film in a wide rounded card below it, cropped on
-       the wrist and the band. The film still plays once and rests on its last
-       frame, which is also the poster. -->
-  <section class="hero hero--card" data-hero aria-label="Introduction">
-    <div class="shell hero__inner">
+  <section class="hero" data-hero aria-label="Introduction">
+    <div class="hero__frame">
+      <div class="hero__media">
+        <picture>
+          <source type="image/webp" media="(max-aspect-ratio: 4/5)" srcset="/media/hero-s-poster-phone.webp">
+          <source type="image/webp" srcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" sizes="100vw">
+          <img class="hero__poster" src="/media/hero-s-poster-1920.jpg" alt="The Larkin band on a woman's wrist, its lime light on, as she rests her chin on her hand" width="1920" height="1080" fetchpriority="high" decoding="async">
+        </picture>
+        <video class="hero__video" data-src-phone="/media/hero-s-phone.mp4" data-src-sm="/media/hero-s-720.mp4" data-src-lg="/media/hero-s-1080.mp4" data-src-xl="/media/hero-s-1440.mp4" data-src-xxl="/media/hero-s-2160.mp4"
+               muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+        <div class="hero__scrim" aria-hidden="true"></div>
+      </div>
+
+      <div class="shell hero__inner">
         <div class="hero__copy">
           <h1 class="hero__title">
             <span class="line"><span class="line__in">Eve<span class="kern">r</span>yone’s met you.</span></span>
@@ -119,19 +127,6 @@
             </a>
           </div>
           <p class="hero__fine">Fully refundable · Ships Q1 2027</p>
-        </div>
-    </div>
-    <div class="shell">
-      <div class="hero__frame">
-        <div class="hero__media">
-          <picture>
-            <source type="image/webp" media="(max-aspect-ratio: 4/5)" srcset="/media/hero-s-poster-phone.webp">
-            <source type="image/webp" srcset="/media/hero-s-poster-1000.webp 1000w, /media/hero-s-poster-1920.webp 1920w, /media/hero-s-poster-2560.webp 2560w, /media/hero-s-poster-3840.webp 3840w" sizes="100vw">
-            <img class="hero__poster" src="/media/hero-s-poster-1920.jpg" alt="The Larkin band on a woman's wrist, its lime light on, as she rests her chin on her hand" width="1920" height="1080" fetchpriority="high" decoding="async">
-          </picture>
-          <video class="hero__video" data-src-phone="/media/hero-s-phone.mp4" data-src-sm="/media/hero-s-720.mp4" data-src-lg="/media/hero-s-1080.mp4" data-src-xl="/media/hero-s-1440.mp4" data-src-xxl="/media/hero-s-2160.mp4"
-                 muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-          <div class="hero__scrim" aria-hidden="true"></div>
         </div>
       </div>
     </div>
@@ -640,6 +635,6 @@
   </div>
 </footer>
 
-<script src="v7.js?v=20261022hc" defer></script>
+<script src="v7.js?v=20261022h2" defer></script>
 </body>
 </html>

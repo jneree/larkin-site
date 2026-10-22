@@ -426,7 +426,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 }
 .hero__copy { display: grid; gap: 18px; max-width: 36rem; }
 .hero__title {
-  font-size: clamp(3rem, 13vw, 4.25rem);
+  font-size: clamp(2.25rem, 10.4vw, 4.25rem);
   font-weight: 700;
   line-height: 0.98;
   letter-spacing: -0.025em;
@@ -458,31 +458,13 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .hero.is-dark .hero__frame { color: #fff; }
   .hero__scrim { display: none; }
   .hero__media img, .hero__video { object-position: 50% 50%; }
-  .hero__inner { align-items: center; padding-top: var(--header-h); padding-bottom: 0; }
-  .hero__copy { gap: 22px; max-width: 40rem; transform: translateY(10vh); } /* headline starts just below 35% of the screen */
-  .hero__title { font-size: clamp(4rem, 7.4vw, 6.5rem); }
+  /* The copy sits low on the left, where the arm leans away to the right,
+     so the two-line title has room beside the wrist (Figma: Hero title · 2). */
+  .hero__inner { align-items: flex-end; padding-top: var(--header-h); padding-bottom: clamp(40px, 6.2vh, 64px); }
+  .hero__copy { gap: 20px; max-width: 40rem; transform: none; }
+  .hero__title { font-size: clamp(3.25rem, 4.45vw, 4rem); }
+  .hero__lead { max-width: none; }
   .hero.is-dark .hero__copy { text-shadow: 0 1px 30px rgba(0, 0, 0, 0.35); }
-}
-
-/* The card hero: the title centred on the white of the page, the film in a
-   wide rounded card below, cropped on the wrist and the band. */
-.hero--card { display: block; min-height: 0; padding-top: calc(var(--header-h) + clamp(24px, 4vh, 48px)); color: var(--ink); }
-.hero--card .hero__inner { display: block; padding: 0; }
-.hero--card .hero__copy { justify-items: center; gap: 18px; max-width: none; margin: 0 auto; text-align: center; transform: none; }
-.hero--card .hero__title { font-size: clamp(2.5rem, 6.1vw, 5.5rem); }
-.hero--card .hero__lead { max-width: none; opacity: 1; }
-.hero--card .hero__actions { justify-content: center; }
-.hero--card .hero__frame { display: block; min-height: 0; margin-top: clamp(28px, 4.5vh, 44px); aspect-ratio: 4 / 5; border-radius: var(--r-xl); transform: none; opacity: 1; color: var(--ink); }
-.hero--card .hero__scrim { display: none; }
-.hero--card .hero__media img, .hero--card .hero__video { object-position: 50% 50%; }
-.hero.hero--card.is-dark .hero__copy { text-shadow: none; }
-@media (min-width: 700px) {
-  .hero--card .hero__frame { aspect-ratio: 16 / 9; }
-}
-@media (min-width: 900px) and (min-aspect-ratio: 5/4) {
-  .hero--card .hero__copy { gap: 22px; transform: none; }
-  .hero--card .hero__frame { aspect-ratio: auto; height: clamp(320px, calc(100svh - 545px), 620px); }
-  .hero--card .hero__media img, .hero--card .hero__video { object-position: 50% 72%; }
 }
 
 /* --------------------------------------------------------------------------
