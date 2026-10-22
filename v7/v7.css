@@ -464,6 +464,27 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .hero.is-dark .hero__copy { text-shadow: 0 1px 30px rgba(0, 0, 0, 0.35); }
 }
 
+/* The card hero: the title centred on the white of the page, the film in a
+   wide rounded card below, cropped on the wrist and the band. */
+.hero--card { display: block; min-height: 0; padding-top: calc(var(--header-h) + clamp(24px, 4vh, 48px)); color: var(--ink); }
+.hero--card .hero__inner { display: block; padding: 0; }
+.hero--card .hero__copy { justify-items: center; gap: 18px; max-width: none; margin: 0 auto; text-align: center; transform: none; }
+.hero--card .hero__title { font-size: clamp(2.5rem, 6.1vw, 5.5rem); }
+.hero--card .hero__lead { max-width: none; opacity: 1; }
+.hero--card .hero__actions { justify-content: center; }
+.hero--card .hero__frame { display: block; min-height: 0; margin-top: clamp(28px, 4.5vh, 44px); aspect-ratio: 4 / 5; border-radius: var(--r-xl); transform: none; opacity: 1; color: var(--ink); }
+.hero--card .hero__scrim { display: none; }
+.hero--card .hero__media img, .hero--card .hero__video { object-position: 50% 50%; }
+.hero.hero--card.is-dark .hero__copy { text-shadow: none; }
+@media (min-width: 700px) {
+  .hero--card .hero__frame { aspect-ratio: 16 / 9; }
+}
+@media (min-width: 900px) and (min-aspect-ratio: 5/4) {
+  .hero--card .hero__copy { gap: 22px; transform: none; }
+  .hero--card .hero__frame { aspect-ratio: auto; height: clamp(320px, calc(100svh - 545px), 620px); }
+  .hero--card .hero__media img, .hero--card .hero__video { object-position: 50% 72%; }
+}
+
 /* --------------------------------------------------------------------------
    8. Statement — read-along
    -------------------------------------------------------------------------- */
