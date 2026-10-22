@@ -2347,10 +2347,27 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 /* Wide tile: the photo fills it; features top right; copy bottom left. */
 .ag__hero { min-height: 600px; grid-template-rows: 1fr; align-content: end; padding: 36px; }
 .ag__photo { position: absolute; left: 3.57%; top: -3.33%; width: 100%; height: auto; }
-.ag__list { position: absolute; z-index: 1; top: 24px; right: 24px; display: grid; gap: 10px; width: 280px; margin: 0; padding: 0; list-style: none; }
-.ag__list li { display: flex; align-items: center; gap: 14px; padding: 12px 16px 12px 12px; border-radius: 16px; background: #F5F5F3; font-size: 1rem; font-weight: 600; }
-.ag__ic { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; }
+/* The features, an accordion after HiDock: one open at a time, its line
+   under it and its icon lime; the photo and the copy never change (v7.js,
+   [data-acc]). On phones they become pills and the open one's line shows
+   above them ([data-acc-line]). */
+.ag__feat { display: contents; }
+.ag__line { display: none; }
+.ag__acc { position: absolute; z-index: 1; top: 24px; right: 24px; display: grid; gap: 10px; width: 280px; }
+.ag__it { border-radius: 16px; background: #F5F5F3; transition: background-color 0.3s var(--ease-io), box-shadow 0.3s var(--ease-io); }
+.ag__it.is-open { background: #fff; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(21, 21, 21, 0.06); }
+.ag__btn { display: flex; align-items: center; gap: 14px; width: 100%; padding: 12px 16px 12px 12px; border: 0; border-radius: 16px; background: none; color: var(--ink); font: inherit; font-size: 1rem; font-weight: 600; text-align: left; cursor: pointer; }
+.ag__btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.ag__it:not(.is-open):hover { background: #EDEDEA; }
+.ag__ic { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; transition: background-color 0.3s var(--ease-io); }
 .ag__ic svg { width: 20px; height: 20px; }
+.ag__it.is-open .ag__ic { background: var(--lime); }
+.ag__d { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s var(--ease-io); }
+.ag__d p { overflow: hidden; padding: 0 16px 0 66px; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }
+.ag__it.is-open .ag__d { grid-template-rows: 1fr; }
+@media (min-width: 900px) { .ag__it.is-open .ag__btn { padding-bottom: 6px; } .ag__btn { transition: padding 0.35s var(--ease-io); } }
+.ag__it.is-open .ag__d p { padding-bottom: 18px; }
+@media (prefers-reduced-motion: reduce) { .ag__d, .ag__it, .ag__ic { transition: none; } }
 .ag__hero .ag__copy { max-width: 290px; align-self: end; }
 /* The conversation screen in a phone. */
 .ag__tall { grid-template-rows: auto 1fr; }
@@ -2392,7 +2409,18 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 @media (max-width: 899px) {
   .ag__hero { min-height: 0; grid-template-rows: auto auto; padding: 0 0 32px; }
   .ag__photo { position: static; width: 200%; max-width: none; height: 380px; margin-left: -50%; object-fit: cover; object-position: 50% 28%; }
-  .ag__list { display: none; }
+  .ag__feat { display: grid; gap: 14px; }
+  .ag__line { display: block; padding: 0 32px; color: var(--ink); font-size: 1rem; line-height: 1.45; }
+  .ag__acc { position: relative; display: flex; gap: 8px; width: auto; padding: 0 32px; overflow-x: auto; scroll-padding-inline: 32px; scrollbar-width: none; }
+  .ag__acc::-webkit-scrollbar { display: none; }
+  .ag__it { flex: none; border-radius: 999px; }
+  .ag__it.is-open { background: var(--ink); box-shadow: none; }
+  .ag__btn { gap: 8px; height: 44px; padding: 0 18px 0 14px; border-radius: 999px; font-size: 0.9375rem; white-space: nowrap; }
+  .ag__it.is-open .ag__btn { color: #fff; }
+  .ag__ic { width: auto; height: auto; background: none; }
+  .ag__ic svg { width: 18px; height: 18px; }
+  .ag__it.is-open .ag__ic { background: none; color: var(--lime); }
+  .ag__d { display: none; }
   .ag__hero .ag__copy { max-width: none; padding: 0 32px; }
   .ag__tile { min-height: 0; }
   .ag__phone { width: min(260px, 74%); }
