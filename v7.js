@@ -742,6 +742,39 @@
     mMark();
   }
 
+  /* ---- The moments, full screen ------------------------------------ */
+  /* The section is five screens tall and its stage pinned; how far it has
+     scrolled picks the moment on screen (is-on) and fills the dashes, the
+     current one growing as you go. */
+  var film = document.querySelector('[data-film]');
+  if (film) {
+    var fSlides = [].slice.call(film.querySelectorAll('.moment'));
+    var fDashes = [].slice.call(film.querySelectorAll('.film__dashes i'));
+    var fRaf = 0, fCur = -1;
+    var fTick = function () {
+      fRaf = 0;
+      var r = film.getBoundingClientRect(), vh = window.innerHeight;
+      var span = Math.max(1, r.height - vh);
+      var p = clamp(-r.top / span, 0, 0.9999) * fSlides.length;
+      var i = Math.floor(p);
+      if (i !== fCur) { fSlides.forEach(function (s, k) { s.classList.toggle('is-on', k === i); }); fCur = i; }
+      fDashes.forEach(function (d, k) { d.style.setProperty('--f', k < i ? 1 : k === i ? (p - i).toFixed(3) : 0); });
+    };
+    var fKick = function () { if (!fRaf) fRaf = requestAnimationFrame(fTick); };
+    window.addEventListener('scroll', fKick, { passive: true });
+    window.addEventListener('resize', fKick, { passive: true });
+    // A dash takes you to its moment: the scroll position a little into
+    // that moment's share of the section.
+    [].slice.call(film.querySelectorAll('.film__dashes button')).forEach(function (b, k) {
+      b.addEventListener('click', function () {
+        var span = film.offsetHeight - window.innerHeight;
+        var top = film.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: top + span * (k + 0.15) / fSlides.length, behavior: reduceMotion ? 'auto' : 'smooth' });
+      });
+    });
+    fTick();
+  }
+
   /* ---- From the band to the app, in one move ---------------------------- */
   /* One pinned screen, measured in screens of scroll (s). 0 to 0.55: a
      window opens from a card under the title to the whole screen; the

@@ -2426,3 +2426,48 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .mcp__app--larkin svg { width: 100%; height: 100%; }
 .mcp__title { max-width: 15em; font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; text-wrap: balance; }
 .mcp__sub { font-size: clamp(1rem, 1.25vw, 1.125rem); color: var(--ink-2); }
+
+/* The moments as the app's onboarding, full screen. The
+   section pins for five screens of scroll; each moment fills the screen:
+   the photo across the top melting into black, the insight card on the
+   fade, the situation small and grey, and the line big, white, centred.
+   Scrolling hands over from one moment to the next, and the onboarding's
+   dashes count them (v7.js, [data-film]). */
+.moments--film { --n: 5; position: relative; height: calc(var(--n) * 56svh + 100svh); padding: 0; background: #0B0B0B; color: #fff; overflow: visible; }
+.film__pin { position: sticky; top: 0; height: 100svh; overflow: hidden; background: #0B0B0B; }
+.moments--film .film__stage { display: block; position: absolute; inset: 0; padding: 0; overflow: visible; scroll-snap-type: none; }
+.moments--film .moment { position: absolute; inset: 0; aspect-ratio: auto; border-radius: 0; background: transparent; scale: none; opacity: 0; visibility: hidden; transition: opacity 0.8s var(--ease), visibility 0s linear 0.8s; }
+.moments--film .moment.is-on { opacity: 1; visibility: visible; transition: opacity 0.8s var(--ease), visibility 0s; }
+.moments--film .moment picture { inset: 0 0 auto; height: 74%; overflow: hidden; }
+.moments--film .moment__img { object-position: var(--pos, 50% 40%); transform: scale(1.08); transition: transform 2.4s var(--ease); }
+.moments--film .moment.is-on .moment__img { transform: none; }
+.moments--film .moment::after { background: linear-gradient(to bottom, rgba(11, 11, 11, 0.55), rgba(11, 11, 11, 0) 18%, rgba(11, 11, 11, 0) 34%, rgba(11, 11, 11, 0.7) 56%, #0B0B0B 74%); }
+.moments--film .moment__story {
+  position: absolute; inset: auto 0 clamp(72px, 11svh, 112px); width: auto; margin: 0 auto; max-width: min(980px, calc(100% - 40px));
+  display: grid; grid-template-columns: 1fr; grid-template-rows: none; justify-items: center; row-gap: 0; column-gap: 0; text-align: center;
+}
+.moments--film .moment__story .mviz { order: 0; grid-column: auto; grid-row: auto; width: min(380px, 100%); margin-bottom: clamp(24px, 4svh, 44px); text-align: left; background: rgba(24, 24, 22, 0.66); transform: translateY(18px); opacity: 0; transition: transform 0.9s var(--ease) 0.15s, opacity 0.9s var(--ease) 0.15s; }
+.moments--film .moment__story .moment__tag { grid-column: auto; grid-row: auto; margin: 0 0 12px; font-size: clamp(0.8125rem, 1vw, 0.9375rem); font-weight: 500; letter-spacing: 0; text-transform: none; color: rgba(255, 255, 255, 0.8); text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5); }
+.moments--film .moment__story .moment__line { grid-column: auto; grid-row: auto; max-width: 15em; font-size: clamp(2.125rem, 4vw, 3.75rem); font-weight: 700; line-height: 1.04; letter-spacing: -0.03em; text-wrap: balance; text-shadow: none; transform: translateY(24px); opacity: 0; transition: transform 1s var(--ease) 0.25s, opacity 1s var(--ease) 0.25s; }
+.moments--film .moment.is-on .mviz, .moments--film .moment.is-on .moment__line { transform: none; opacity: 1; }
+.film__dashes { position: absolute; left: 50%; bottom: clamp(20px, 3.5svh, 36px); display: flex; gap: 2px; translate: -50% 0; }
+.film__dashes button { padding: 12px 3px; background: none; border: 0; cursor: pointer; }
+.film__dashes button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 4px; }
+.film__dashes i { display: block; width: 28px; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, 0.2); overflow: hidden; transition: background 0.2s; }
+.film__dashes button:hover i { background: rgba(255, 255, 255, 0.4); }
+.film__dashes i::after { content: ""; display: block; height: 100%; background: #fff; transform: scaleX(var(--f, 0)); transform-origin: left; }
+@media (max-width: 699px) {
+  .moments--film .moment picture { height: 66%; }
+  .moments--film .moment::after { background: linear-gradient(to bottom, rgba(11, 11, 11, 0.5), rgba(11, 11, 11, 0) 16%, rgba(11, 11, 11, 0) 30%, rgba(11, 11, 11, 0.75) 50%, #0B0B0B 66%); }
+  .moments--film .moment__story .moment__line { font-size: clamp(1.75rem, 7.6vw, 2.125rem); }
+}
+@media (min-width: 900px) {
+  /* The wide photos crop hard top and bottom on a full-width banner, so
+     each moment sets where its faces sit (--fpos), high in the frame. */
+  .moments--film .moment__img { object-position: var(--fpos, var(--pos, 50% 30%)); }
+  /* The card reads at a glance next to the line: a size up on wide screens. */
+  .moments--film .moment__story .mviz { width: 420px; zoom: 1.15; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .moments--film .moment, .moments--film .moment__img, .moments--film .mviz, .moments--film .moment__line { transition: none; }
+}
