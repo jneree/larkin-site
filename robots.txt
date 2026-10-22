@@ -8,5 +8,6 @@ Disallow: /v7/
 Disallow: /v8/
 Disallow: /v9/
 Disallow: /v10/
+Disallow: /v11/
 
 Sitemap: https://getlarkin.com/sitemap.xml
