@@ -2361,12 +2361,14 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .ag__ic { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; transition: background-color 0.3s var(--ease-io); }
 .ag__ic svg { width: 20px; height: 20px; }
 .ag__it.is-open .ag__ic { background: var(--lime); }
-.ag__d { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s var(--ease-io); }
-.ag__d p { overflow: hidden; padding: 0 16px 0 66px; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }
+/* The panel opens by its row alone; every gap sits inside the clipped
+   wrapper, so nothing snaps while it grows or closes. */
+.ag__d { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.42s var(--ease-io); }
+.ag__dc { overflow: hidden; min-height: 0; }
+.ag__d p { padding: 0 16px 18px 66px; margin-top: -2px; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; opacity: 0; transform: translateY(-4px); transition: opacity 0.25s var(--ease-io), transform 0.42s var(--ease-io); }
 .ag__it.is-open .ag__d { grid-template-rows: 1fr; }
-@media (min-width: 900px) { .ag__it.is-open .ag__btn { padding-bottom: 6px; } .ag__btn { transition: padding 0.35s var(--ease-io); } }
-.ag__it.is-open .ag__d p { padding-bottom: 18px; }
-@media (prefers-reduced-motion: reduce) { .ag__d, .ag__it, .ag__ic { transition: none; } }
+.ag__it.is-open .ag__d p { opacity: 1; transform: none; transition: opacity 0.35s var(--ease-io) 0.08s, transform 0.42s var(--ease-io); }
+@media (prefers-reduced-motion: reduce) { .ag__d, .ag__d p, .ag__it, .ag__ic { transition: none; } }
 .ag__hero .ag__copy { max-width: 290px; align-self: end; }
 /* The conversation screen in a phone. */
 .ag__tall { grid-template-rows: auto 1fr; }
