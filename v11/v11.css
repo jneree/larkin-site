@@ -2462,6 +2462,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
   .moments--film .moment__story .moment__line { font-size: clamp(1.75rem, 7.6vw, 2.125rem); }
 }
 @media (min-width: 900px) {
+  /* The wide photos crop hard top and bottom on a full-width banner, so
+     each moment sets where its faces sit (--fpos), high in the frame. */
+  .moments--film .moment__img { object-position: var(--fpos, var(--pos, 50% 30%)); }
   /* The card reads at a glance next to the line: a size up on wide screens. */
   .moments--film .moment__story .mviz { width: 420px; zoom: 1.15; }
 }
