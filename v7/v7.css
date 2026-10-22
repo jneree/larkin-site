@@ -2122,9 +2122,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .mviz__steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
 .mviz__steps i { height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.2); }
 .mviz__steps i.is-lime { background: var(--lime); }
-.mviz__notes { display: grid; gap: 9px; margin: 0; padding: 0; list-style: none; }
-.mviz__notes li { display: flex; align-items: center; gap: 10px; font-size: 0.875rem; font-weight: 500; line-height: 1.35; }
-.mviz__notes li::before { content: ""; flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.5 12.5l3.5 3.5 7.5-8' fill='none' stroke='%23151515' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat; }
+.mviz__group { display: grid; gap: 3px; }
+.mviz__group--rule { padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.14); }
+.mviz__label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
 .mrail-nav { margin-top: clamp(20px, 3vw, 32px); }
 .mrail-nav .arail-dots i { cursor: pointer; background: var(--card-2); }
 .mrail-nav .arail-dots i.is-on { background: var(--ink); }

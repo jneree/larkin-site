@@ -2122,6 +2122,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .mviz__steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
 .mviz__steps i { height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.2); }
 .mviz__steps i.is-lime { background: var(--lime); }
+.mviz__group { display: grid; gap: 3px; }
+.mviz__group--rule { padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.14); }
+.mviz__label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
 .mrail-nav { margin-top: clamp(20px, 3vw, 32px); }
 .mrail-nav .arail-dots i { cursor: pointer; background: var(--card-2); }
 .mrail-nav .arail-dots i.is-on { background: var(--ink); }
