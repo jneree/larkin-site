@@ -2353,19 +2353,19 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    above them ([data-acc-line]). */
 .ag__feat { display: contents; }
 .ag__line { display: none; }
-.ag__acc { position: absolute; z-index: 1; top: 24px; right: 24px; display: grid; gap: 10px; width: 280px; }
+.ag__acc { position: absolute; z-index: 1; top: 24px; right: 24px; display: grid; gap: 12px; width: 280px; }
 .ag__it { border-radius: 16px; background: #F5F5F3; transition: background-color 0.3s var(--ease-io), box-shadow 0.3s var(--ease-io); }
-.ag__btn { display: flex; align-items: center; gap: 14px; width: 100%; padding: 12px 16px 12px 12px; border: 0; border-radius: 16px; background: none; color: var(--ink); font: inherit; font-size: 1rem; font-weight: 600; text-align: left; cursor: pointer; }
+.ag__btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 16px; border: 0; border-radius: 16px; background: none; color: var(--ink); font: inherit; font-size: 1rem; font-weight: 600; text-align: left; cursor: pointer; }
 .ag__btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .ag__it:not(.is-open):hover { background: #EDEDEA; }
-.ag__ic { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; transition: background-color 0.3s var(--ease-io); }
-.ag__ic svg { width: 20px; height: 20px; }
+.ag__ic { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #fff; transition: background-color 0.3s var(--ease-io); }
+.ag__ic svg { width: 16px; height: 16px; }
 .ag__it.is-open .ag__ic { background: var(--lime); }
 /* The panel opens by its row alone; every gap sits inside the clipped
    wrapper, so nothing snaps while it grows or closes. */
 .ag__d { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.42s var(--ease-io); }
 .ag__dc { overflow: hidden; min-height: 0; }
-.ag__d p { padding: 0 16px 18px 66px; margin-top: -2px; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; opacity: 0; transform: translateY(-4px); transition: opacity 0.25s var(--ease-io), transform 0.42s var(--ease-io); }
+.ag__d p { padding: 0 16px 16px; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; opacity: 0; transform: translateY(-4px); transition: opacity 0.25s var(--ease-io), transform 0.42s var(--ease-io); }
 .ag__it.is-open .ag__d { grid-template-rows: 1fr; }
 .ag__it.is-open .ag__d p { opacity: 1; transform: none; transition: opacity 0.35s var(--ease-io) 0.08s, transform 0.42s var(--ease-io); }
 @media (prefers-reduced-motion: reduce) { .ag__d, .ag__d p, .ag__it, .ag__ic { transition: none; } }
