@@ -2533,3 +2533,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 @media (max-width: 899px) {
   .ag__copy .ag__text { max-width: none; text-wrap: pretty; }
 }
+
+/* The tile buttons' lines wrap normally: balancing split short lines in two and left a gap on the right. */
+.ag__acc .ag__d p { text-wrap: pretty; }
+@media (min-width: 900px) { .ag__acc { width: 300px; } }
