@@ -2528,3 +2528,8 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .listen__facts span, .ag__text, .num p, .ag__d p, .ag__line, .rs__fine, .beta__note,
 .early__lead, .beta__lead, .rs__lead, .rs__then, .mcp__sub, .pcard p, .faq__body p { text-wrap: balance; }
 .ag__hero .ag__copy { max-width: 360px; }
+
+/* Phones: tile text uses the tile's full width, no short balanced lines. */
+@media (max-width: 899px) {
+  .ag__copy .ag__text { max-width: none; text-wrap: pretty; }
+}
