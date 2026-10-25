@@ -1310,8 +1310,9 @@
     accItems.forEach(function (item) {
       var btn = item.querySelector('.ag__btn');
       btn.addEventListener('click', function () {
+        var wasOpen = item.classList.contains('is-open');
         accItems.forEach(function (other) {
-          var on = other === item;
+          var on = other === item && !wasOpen; // a second click closes it again
           other.classList.toggle('is-open', on);
           other.querySelector('.ag__btn').setAttribute('aria-expanded', on ? 'true' : 'false');
         });
