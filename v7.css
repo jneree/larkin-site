@@ -2335,6 +2335,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .ag__intro { display: grid; gap: 16px; max-width: 560px; margin-bottom: clamp(36px, 5vw, 56px); }
 .ag__eb { display: flex; align-items: center; gap: 8px; color: var(--ink-2); font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
 .ag__eb::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--lime); }
+.ag__intro .ag__eb::before { display: none; } /* the section eyebrow goes without the dot (Julien, 25 Oct) */
 .ag__h { font-size: clamp(2.5rem, 4.4vw, 3.5rem); font-weight: 700; line-height: 1.02; letter-spacing: -0.03em; }
 .ag__lead { color: var(--ink-2); font-size: clamp(1.0625rem, 1.4vw, 1.1875rem); line-height: 1.45; }
 .ag__grid { display: grid; gap: 20px; }
@@ -2355,17 +2356,18 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .ag__line { display: none; }
 .ag__acc { position: absolute; z-index: 1; top: 24px; right: 24px; display: grid; gap: 12px; width: 280px; }
 .ag__it { border-radius: 16px; background: #F5F5F3; transition: background-color 0.3s var(--ease-io), box-shadow 0.3s var(--ease-io); }
-.ag__btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 16px; border: 0; border-radius: 16px; background: none; color: var(--ink); font: inherit; font-size: 1rem; font-weight: 600; text-align: left; cursor: pointer; }
+.ag__btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px 18px; border: 0; border-radius: 16px; background: none; color: var(--ink); font: inherit; font-size: 1rem; font-weight: 550; transition: color 0.3s var(--ease-io); text-align: left; cursor: pointer; }
 .ag__btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-.ag__it:not(.is-open):hover { background: #EDEDEA; }
-.ag__ic { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #fff; transition: background-color 0.3s var(--ease-io); }
+.ag__it:not(.is-open):hover { background: #F0F0EE; }
+.ag__ic { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(255, 255, 255, 0.75); transition: background-color 0.3s var(--ease-io); }
 .ag__ic svg { width: 16px; height: 16px; }
 .ag__it.is-open .ag__ic { background: var(--lime); }
+.ag__it.is-open .ag__btn { color: #4A5A00; }
 /* The panel opens by its row alone; every gap sits inside the clipped
    wrapper, so nothing snaps while it grows or closes. */
 .ag__d { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.42s var(--ease-io); }
 .ag__dc { overflow: hidden; min-height: 0; }
-.ag__d p { padding: 0 16px 16px; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; opacity: 0; transform: translateY(-4px); transition: opacity 0.25s var(--ease-io), transform 0.42s var(--ease-io); }
+.ag__d p { padding: 2px 18px 18px; color: #3F3F3B; font-size: 0.9375rem; line-height: 1.45; opacity: 0; transform: translateY(-4px); transition: opacity 0.25s var(--ease-io), transform 0.42s var(--ease-io); }
 .ag__it.is-open .ag__d { grid-template-rows: 1fr; }
 .ag__it.is-open .ag__d p { opacity: 1; transform: none; transition: opacity 0.35s var(--ease-io) 0.08s, transform 0.42s var(--ease-io); }
 @media (prefers-reduced-motion: reduce) { .ag__d, .ag__d p, .ag__it, .ag__ic { transition: none; } }
