@@ -2377,7 +2377,9 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .ag__phone { width: min(275px, 72%); padding: 9px; border-radius: 46px; background: #0B0B0B; box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.25); }
 .ag__phone img { display: block; width: 100%; height: auto; border-radius: 38px; }
 .ag__goal { width: min(320px, 100%); border-radius: 20px; }
-.ag__stack { display: grid; gap: 12px; align-content: center; }
+.ag__stack { display: grid; gap: 12px; align-content: center; justify-self: center; width: min(330px, 100%); }
+/* The Mirror card keeps the width of its neighbours on wide phones and tablets. */
+.ag__vis > img.ag__card:only-child { width: min(330px, 100%); }
 /* Ask Larkin. */
 .ag__chat { display: grid; gap: 10px; width: min(330px, 100%); }
 .ag__q { justify-self: end; padding: 10px 14px; border-radius: 16px 16px 4px 16px; background: var(--ink); color: #fff; font-size: 0.875rem; font-weight: 500; }
