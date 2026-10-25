@@ -9,5 +9,6 @@ Disallow: /v8/
 Disallow: /v9/
 Disallow: /v10/
 Disallow: /v11/
+Disallow: /everyday/
 
 Sitemap: https://getlarkin.com/sitemap.xml
