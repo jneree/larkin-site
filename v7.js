@@ -258,6 +258,9 @@
       cancelAnimationFrame(raf);
       setDark(false);
       readTones(true);
+      // The poster under the film is the same frame in full resolution:
+      // fade back to it, so the hero rests sharp instead of on a video frame.
+      hero.classList.remove('is-playing');
     });
     video.addEventListener('seeked', function () { readTones(true); });
     window.addEventListener('resize', function () { readTones(true); }, { passive: true });
