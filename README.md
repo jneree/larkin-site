@@ -19,7 +19,7 @@ The homepage is rebuilt for the new band and the new app, in the app's own desig
 - `media/` — the new photos, app screenshots and hero film (1080p and 720p H.264, no audio), each image as `.webp` with a `.jpg` fallback.
 - Hero loading: the film is requested as soon as `larkin.js` runs, not after the load event. Portrait screens get `media/hero-0928-phone.mp4` (a 720×1080 crop around the wrist, 1.5 MB) and `hero-0928-poster-phone.webp`; wide screens get 1080p (720p below 1100 px or on save-data). DM Sans is self-hosted in `fonts/` because the Google Fonts stylesheet blocked first paint. On a simulated 4G connection the film starts about 0.5 s after opening, down from about 9 s.
 
-The audience pages (`leaders/`, `adhd/`, `parents/`, `journal/`), `thanks/` and `404.html` still use the older `styles.css` and `site.js` below until they move over.
+The audience pages (`leaders/`, `parents/`, `journal/`), `thanks/` and `404.html` still use the older `styles.css` and `site.js` below until they move over.
 
 ## Structure
 
@@ -28,7 +28,6 @@ Three audience-targeted pages sharing one poster-style design system:
 | Path | File | Audience | Palette |
 |---|---|---|---|
 | `/` | `index.html` | general | cobalt `#1B44E5` |
-| `/adhd/` | `adhd/index.html` | ADHD | coral `#F0402F` |
 | `/parents/` | `parents/index.html` | parents | leaf `#9CC17B` |
 
 - `styles.css` — the whole design system, shared by all three pages
