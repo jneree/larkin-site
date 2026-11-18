@@ -1046,6 +1046,9 @@
       say('You’re on the list. Your invite will come to ' + input.value.trim() + '.');
       if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: 'App beta', content_category: segment });
       if (window.posthog && window.posthog.capture) window.posthog.capture('beta_signup', { segment: segment });
+      /* Lets the private ads dashboard count beta signups; the function only
+         records emails Loops already has. text/plain avoids a preflight. */
+      try { fetch('https://jvdtgnwexspohnsbxpbl.supabase.co/functions/v1/site-beta-signup', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ email: input.value.trim(), source: 'site-' + segment }) }).catch(function () {}); } catch (e) {}
     };
     input.addEventListener('input', function () {
       if (input.getAttribute('aria-invalid')) { input.removeAttribute('aria-invalid'); say(''); }

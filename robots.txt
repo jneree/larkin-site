@@ -11,4 +11,7 @@ Disallow: /v10/
 Disallow: /v11/
 Disallow: /everyday/
 
+# Private ads dashboard.
+Disallow: /dash/
+
 Sitemap: https://getlarkin.com/sitemap.xml

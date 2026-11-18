@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Larkin Ads</title>
+<meta name="theme-color" content="#FFFFFF">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Larkin Ads">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("/fonts/dm-sans-latin.woff2") format("woff2"); }
+:root {
+  --ink: #151515;
+  --ink-2: #61615C;
+  --card: #F0F0F0;
+  --line: #DCDCD8;
+  --page: #FFFFFF;
+  --lime: #D2ED28;
+  --bar: #B8B8B2;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--page); color: var(--ink);
+  font-family: "DM Sans", system-ui, sans-serif; font-size: 16px; line-height: 1.45; font-weight: 450;
+  font-variant-numeric: tabular-nums;
+}
+.wrap { max-width: 980px; margin: 0 auto; padding: calc(20px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom)); }
+h1 { font-size: 30px; line-height: 1.15; letter-spacing: -0.015em; font-weight: 600; margin: 0; }
+h2 { font-size: 16px; font-weight: 600; margin: 0 0 12px; }
+.grey { color: var(--ink-2); }
+.top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.top > div { min-width: 0; }
+.updated { margin: 6px 0 0; }
+button { font: inherit; color: inherit; cursor: pointer; border: 0; }
+.pill { min-height: 44px; padding: 0 22px; border-radius: 999px; background: var(--lime); color: var(--ink); font-weight: 600; }
+.pill[disabled] { opacity: .55; cursor: default; }
+.panel { background: var(--card); border-radius: 28px; padding: 20px; margin-top: 16px; }
+.alerts p { margin: 0; }
+.alerts p + p { margin-top: 6px; }
+.switch { display: inline-flex; background: var(--card); border-radius: 999px; padding: 4px; margin-top: 24px; }
+.switch button { min-height: 40px; padding: 0 20px; border-radius: 999px; background: transparent; font-weight: 600; }
+.switch button[aria-pressed="true"] { background: var(--lime); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 16px; }
+.stat .n { font-size: 26px; line-height: 1.15; letter-spacing: -0.015em; font-weight: 600; display: block; }
+.stat .l { display: block; margin-top: 2px; }
+.funnel { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.funnel .n { font-size: 22px; font-weight: 600; display: block; }
+.group { margin: 0 0 4px; }
+.group + .group { margin-top: 2px; }
+.ad { padding: 12px 0; border-top: 1px solid var(--line); }
+.ad:first-of-type { border-top: 0; }
+.ad .name { font-weight: 600; }
+.ad .meta { margin-top: 2px; }
+.people { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.chart svg { display: block; width: 100%; height: auto; }
+.chart text { font-family: inherit; font-size: 13px; fill: var(--ink-2); }
+.chart .r { fill: var(--ink); font-weight: 600; }
+.lock { max-width: 360px; margin: 18vh auto 0; }
+.lock form { display: flex; gap: 8px; margin-top: 20px; }
+.lock input { flex: 1; min-width: 0; min-height: 48px; border-radius: 999px; border: 1px solid var(--line); background: var(--page); padding: 0 18px; font: inherit; color: var(--ink); }
+.lock input:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+.msg { min-height: 22px; margin: 10px 0 0; }
+.hide { display: none !important; }
+@media (max-width: 640px) {
+  h1 { font-size: 26px; }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .funnel { grid-template-columns: 1fr 1fr; }
+  .panel { border-radius: 24px; padding: 18px 16px; }
+  .wide-only { display: none; }
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <section class="lock hide" id="lock">
+    <h1>Larkin Ads</h1>
+    <p class="grey">Enter the passcode to see the numbers.</p>
+    <form id="lock-form">
+      <input id="code" type="password" autocomplete="current-password" aria-label="Passcode" placeholder="Passcode">
+      <button class="pill" type="submit">Open</button>
+    </form>
+    <p class="msg grey" id="lock-msg" role="status"></p>
+  </section>
+
+  <section id="app" class="hide">
+    <div class="top">
+      <div>
+        <h1>Larkin Ads</h1>
+        <p class="updated grey" id="updated">Loading…</p>
+      </div>
+      <button class="pill" id="refresh" type="button">Refresh</button>
+    </div>
+
+    <div class="panel alerts hide" id="alerts"></div>
+
+    <div class="switch" role="group" aria-label="Day">
+      <button type="button" data-day="today" aria-pressed="true">Today</button>
+      <button type="button" data-day="yesterday" aria-pressed="false">Yesterday</button>
+    </div>
+
+    <div class="panel">
+      <h2 id="day-title">Today</h2>
+      <div class="stats" id="stats"></div>
+    </div>
+
+    <div class="panel">
+      <h2>From click to reservation</h2>
+      <div class="funnel" id="funnel"></div>
+    </div>
+
+    <div class="panel">
+      <h2>By ad</h2>
+      <div id="structure" class="grey"></div>
+      <div id="ads"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Revenue</h2>
+      <div id="periods"></div>
+    </div>
+
+    <div class="panel">
+      <h2>People</h2>
+      <div class="people" id="people"></div>
+    </div>
+
+    <div class="panel chart">
+      <h2>Last 30 days</h2>
+      <p class="grey" style="margin:-6px 0 12px">Bars are ad spend; numbers above are reservations.</p>
+      <div id="chart"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var API = 'https://jvdtgnwexspohnsbxpbl.supabase.co/functions/v1/ads-dashboard';
+  var KEY = 'larkin-dash-code';
+  var day = 'today';
+  var data = null;
+  var loading = false;
+
+  function $(id) { return document.getElementById(id); }
+  function store(get, value) {
+    try {
+      if (get) return localStorage.getItem(KEY);
+      if (value == null) localStorage.removeItem(KEY); else localStorage.setItem(KEY, value);
+    } catch (e) { return null; }
+  }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function money(n) {
+    if (n == null) return '–';
+    return '$' + (Math.round(n) === n && n >= 100 ? n.toLocaleString('en-US') : n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  }
+  function times(n) { return n == null ? '–' : n.toFixed(2) + '×'; }
+  function count(n) { return n == null ? '–' : String(n); }
+  function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+  function niceDate(iso) {
+    var p = iso.split('-');
+    return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2])).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+  }
+
+  function showLock(message) {
+    $('app').classList.add('hide');
+    $('lock').classList.remove('hide');
+    $('lock-msg').textContent = message || '';
+    $('code').focus();
+  }
+
+  function load() {
+    var code = store(true);
+    if (!code) { showLock(); return; }
+    if (loading) return;
+    loading = true;
+    $('refresh').disabled = true;
+    $('refresh').textContent = 'Refreshing…';
+    fetch(API, { headers: { 'x-dashboard-key': code }, cache: 'no-store' })
+      .then(function (r) {
+        if (r.status === 401) { store(false, null); showLock('That passcode didn’t work.'); throw null; }
+        if (!r.ok) throw new Error('status ' + r.status);
+        return r.json();
+      })
+      .then(function (json) {
+        data = json;
+        $('lock').classList.add('hide');
+        $('app').classList.remove('hide');
+        render();
+      })
+      .catch(function (err) {
+        if (err === null) return;
+        $('updated').textContent = 'Couldn’t load the numbers. Try Refresh in a moment.';
+      })
+      .then(function () {
+        loading = false;
+        $('refresh').disabled = false;
+        $('refresh').textContent = 'Refresh';
+      });
+  }
+
+  function render() {
+    var d = data;
+    var at = new Date(d.updatedAt);
+    $('updated').textContent = 'Updated ' + at.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) +
+      ' · ' + d.timeZone.replace(/^.*\//, '').replace(/_/g, ' ') + ' time';
+
+    var notes = (d.warnings || []).slice();
+    if (d.sources.meta !== 'ok') notes.push(d.sources.meta === 'not_connected' ? 'Meta isn’t connected yet, so ad numbers are missing.' : 'Meta didn’t answer: ' + d.sources.meta);
+    if (d.sources.stripe !== 'ok') notes.push(d.sources.stripe === 'not_connected' ? 'Stripe isn’t connected yet, so reservations are missing.' : 'Stripe didn’t answer: ' + d.sources.stripe);
+    $('alerts').innerHTML = notes.map(function (n) { return '<p>' + esc(n) + '</p>'; }).join('');
+    $('alerts').classList.toggle('hide', notes.length === 0);
+
+    var v = d[day];
+    $('day-title').textContent = (day === 'today' ? 'Today, ' : 'Yesterday, ') + niceDate(v.date);
+    var res = v.stripe ? v.stripe.reservations : null;
+    var stats = [
+      [money(v.spend), v.budget ? 'spent of ' + money(v.budget) : 'spent'],
+      [count(res), 'reservations'],
+      [money(v.stripe ? v.stripe.revenue : null), 'revenue'],
+      [money(v.costPerReservation), 'per reservation'],
+      [times(v.realReturn), 'return'],
+      [times(v.metaReturn), 'return Meta counts' + (v.meta ? ' (' + plural(v.meta.purchases, 'sale', 'sales') + ')' : '')]
+    ];
+    $('stats').innerHTML = stats.map(function (s) {
+      return '<div class="stat"><span class="n">' + esc(s[0]) + '</span><span class="l grey">' + esc(s[1]) + '</span></div>';
+    }).join('');
+
+    var m = v.meta;
+    var steps = m ? [
+      [m.linkClicks, 'clicks'],
+      [m.landingViews, 'reached the site'],
+      [m.checkouts, 'clicked Reserve'],
+      [res != null ? res : m.purchases, 'paid']
+    ] : [];
+    $('funnel').innerHTML = m ? steps.map(function (s, i) {
+      var prev = i ? steps[i - 1][0] : null;
+      var rate = prev ? ' (' + Math.round(100 * s[0] / prev) + '%)' : '';
+      return '<div><span class="n">' + esc(count(s[0])) + '</span><span class="grey">' + esc(s[1] + rate) + '</span></div>';
+    }).join('') : '<p class="grey" style="margin:0">Needs Meta.</p>';
+
+    $('structure').innerHTML = (d.campaigns || []).map(function (c) {
+      return '<p class="group">Campaign: ' + esc(c.name) + ' · ' + esc(c.status) + (c.dailyBudget ? ' · ' + money(c.dailyBudget) + ' a day' : '') + '</p>';
+    }).join('') + (d.adsets || []).map(function (a) {
+      return '<p class="group">Ad set: ' + esc(a.name) + ' · ' + esc(a.status) + '</p>';
+    }).join('');
+    $('ads').innerHTML = (v.ads || []).map(function (a) {
+      var bits = [money(a.spend) + ' spent', plural(a.purchases, 'reservation', 'reservations')];
+      if (a.costPerPurchase != null) bits.push(money(a.costPerPurchase) + ' each');
+      bits.push(plural(a.linkClicks, 'click', 'clicks'));
+      return '<div class="ad"><div class="name">' + esc(a.name) + '</div><div class="meta grey">' + esc(a.status + ' · ' + bits.join(' · ')) + '</div></div>';
+    }).join('') || '<p class="grey" style="margin:12px 0 0">No ads yet.</p>';
+
+    if (d.periods) {
+      $('periods').innerHTML = d.periods.map(function (p) {
+        var bits = [plural(p.reservations, 'reservation', 'reservations'), money(p.net) + ' revenue'];
+        if (p.refunded) bits.push(money(p.refunded) + ' refunded');
+        bits.push(money(p.spend) + ' ad spend');
+        if (p.realReturn != null) bits.push(times(p.realReturn) + ' return');
+        return '<div class="ad"><div class="name">' + esc(p.label) + '</div><div class="meta grey">' + esc(bits.join(' · ')) + '</div></div>';
+      }).join('');
+    } else {
+      $('periods').innerHTML = '<p class="grey" style="margin:0">Needs Stripe.</p>';
+    }
+
+    $('people').innerHTML =
+      '<div class="stat"><span class="n">' + esc(count(d.people.betaSignups)) + '</span><span class="l grey">joined the app beta</span></div>' +
+      '<div class="stat"><span class="n">' + esc(count(d.people.reservers)) + '</span><span class="l grey">reserved a bracelet</span></div>';
+
+    chart(d.daily || []);
+  }
+
+  function chart(rows) {
+    var W = Math.max(280, Math.round($('chart').clientWidth || 600)), H = 170, top = 22, bottom = 24, gap = W < 500 ? 2 : 3;
+    var max = Math.max.apply(null, rows.map(function (r) { return r.spend; }).concat([1]));
+    var bw = (W - gap * (rows.length - 1)) / rows.length;
+    var out = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Ad spend and reservations per day, last 30 days">';
+    rows.forEach(function (r, i) {
+      var x = i * (bw + gap);
+      var h = Math.max(r.spend > 0 ? 2 : 0, (H - top - bottom) * r.spend / max);
+      var y = H - bottom - h;
+      out += '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="2" fill="var(--bar)"><title>' +
+        esc(niceDate(r.date) + ': ' + money(r.spend) + ', ' + plural(r.reservations, 'reservation', 'reservations')) + '</title></rect>';
+      if (r.reservations) out += '<text class="r" x="' + (x + bw / 2).toFixed(1) + '" y="' + (y - 5).toFixed(1) + '" text-anchor="middle">' + r.reservations + '</text>';
+    });
+    if (rows.length) {
+      out += '<text x="0" y="' + (H - 4) + '">' + esc(niceDate(rows[0].date)) + '</text>';
+      out += '<text x="' + W + '" y="' + (H - 4) + '" text-anchor="end">' + esc(niceDate(rows[rows.length - 1].date)) + '</text>';
+    }
+    $('chart').innerHTML = out + '</svg>';
+  }
+
+  document.querySelectorAll('[data-day]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      day = b.getAttribute('data-day');
+      document.querySelectorAll('[data-day]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      if (data) render();
+    });
+  });
+  $('refresh').addEventListener('click', load);
+  var lastW = 0;
+  window.addEventListener('resize', function () { var w = $('chart').clientWidth; if (data && w !== lastW) { lastW = w; chart(data.daily || []); } });
+  $('lock-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var code = $('code').value.trim();
+    if (!code) return;
+    store(false, code);
+    $('lock-msg').textContent = 'Checking…';
+    load();
+  });
+  // Coming back to the page (or the home-screen app) fetches fresh numbers.
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible' && data && Date.now() - new Date(data.updatedAt).getTime() > 60000) load();
+  });
+  load();
+})();
+</script>
+</body>
+</html>
