@@ -593,7 +593,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
       metric('Revenue', money(w.net), revenueLine) +
       metric('Profit', money(w.profit), back ? back + ' back on ad spend' : 'No ad spend') +
       '</div>' +
-      '<div class="sechead" style="margin-top:8px"><h3>Last 30 days</h3>' + legend(series) + '</div><div class="chart" id="chart"></div></div>';
+      '<div class="sechead" style="margin-top:8px"><h3>Per ' + slotWord() + '</h3>' + legend(series) + '</div><div class="chart" id="chart"></div></div>';
 
     var m = w.meta;
     if (m) {
@@ -628,7 +628,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
       }).join('') + '</div></div>';
 
     view.innerHTML = html;
-    var draw = function (a) { graph($('chart'), d.daily || [], series, function (v) { return (v < 0 ? '−$' : '$') + Math.abs(v); }, false, a); };
+    var draw = function (a) { graph($('chart'), slots(d, w), series, function (v) { return (v < 0 ? '−$' : '$') + Math.abs(v); }, false, a); };
     redraw = function () { draw(false); };
     draw(animate);
   }
@@ -658,14 +658,14 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
       card('Reservations paid', num(w.reservationsPaid), share(w.reservationsPaid))
     ];
     var series = app ? [
-      { label: 'Active app users', color: MAIN, area: true, get: function (r) { return r.activeUsers; }, text: num }
+      { label: 'Active app users', color: 'var(--lime)', get: function (r) { return r.activeUsers; }, text: num }
     ] : [
-      { label: 'Website visitors', color: MAIN, area: true, get: function (r) { return r.visitors; }, text: num }
+      { label: 'Website visitors', color: 'var(--lime)', get: function (r) { return r.visitors; }, text: num }
     ];
     view.innerHTML = '<div class="cards c' + tiles.length + '">' + tiles.join('') + '</div>' +
-      '<div class="sec"><div class="sechead"><h3>' + esc(series[0].label) + ' per day</h3><span class="sub small">Last 30 days</span></div><div class="chart" id="chart"></div></div>' +
+      '<div class="sec"><div class="sechead"><h3>' + esc(series[0].label) + ' per ' + slotWord() + '</h3><span class="sub small">' + esc(rangeText(w)) + '</span></div><div class="chart" id="chart"></div></div>' +
       '<p class="sub small">The same counts as the Morning dashboard in PostHog, on whole days in Singapore time.</p>';
-    var draw = function (a) { graph($('chart'), d.daily || [], series, num, true, a); };
+    var draw = function (a) { graph($('chart'), slots(d, w), series, num, true, a); };
     redraw = function () { draw(false); };
     draw(animate);
   }
@@ -678,77 +678,119 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     return whole ? Math.max(1, step) : step;
   }
 
+  function hourText(h) { return (h % 12 === 0 ? 12 : h % 12) + (h < 12 ? ' AM' : ' PM'); }
+
+  /// The graph's columns for the chosen period: one per hour for Today and
+  /// Yesterday, one per day for the longer periods.
+  function slots(d, w) {
+    if ((period === 'today' || period === 'yesterday') && d.hourly && d.hourly[period]) {
+      var name = period === 'today' ? 'Today' : 'Yesterday';
+      return d.hourly[period].map(function (h) {
+        var row = Object.assign({}, h);
+        row.label = hourText(h.hour);
+        row.tip = name + ', ' + hourText(h.hour);
+        return row;
+      });
+    }
+    return (d.daily || []).filter(function (r) { return r.date >= w.from && r.date <= w.to; }).map(function (r) {
+      var row = Object.assign({}, r);
+      row.label = niceDate(r.date);
+      row.tip = longDate(r.date);
+      return row;
+    });
+  }
+  function slotWord() { return period === 'today' || period === 'yesterday' ? 'hour' : 'day'; }
+
   function graph(host, rows, series, axisText, whole, animate) {
     if (!host || !rows.length) return;
     var W = Math.max(280, Math.round(host.clientWidth || 600)), H = W < 500 ? 220 : 280;
-    var L = 46, R = 12, T = 10, B = 28, n = rows.length;
+    var L = 46, R = 8, T = 10, B = 28, n = rows.length;
     var values = [];
     rows.forEach(function (r) { series.forEach(function (s) { values.push(s.get(r)); }); });
     var lo = Math.min.apply(null, values.concat([0])), hi = Math.max.apply(null, values.concat([1]));
     var step = niceStep((hi - lo) / 4, whole);
     lo = Math.floor(lo / step) * step;
     hi = Math.ceil(hi / step) * step;
-    var dx = (W - L - R - 16) / Math.max(1, n - 1), x0 = L + 8;
+    var dx = (W - L - R) / n, x0 = L + dx / 2;
     var x = function (i) { return x0 + i * dx; };
     var y = function (v) { return T + (H - T - B) * (hi - v) / (hi - lo); };
+    // Columns side by side when there is room; with many narrow slots the
+    // lines carry revenue and spend and only profit stays a column.
+    var columns = series.length === 1 || dx >= 30;
+    var cls = animate ? ' class="grow"' : '';
 
-    var out = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Per day, last 30 days">';
+    var out = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Per ' + slotWord() + '">';
+    out += '<rect id="chart-band" visibility="hidden" y="' + T + '" width="' + dx.toFixed(1) + '" height="' + (H - T - B) + '" rx="4" style="fill:var(--hover)"/>';
     for (var v = lo; v <= hi + step / 2; v += step) {
       var gy = y(v).toFixed(1), zero = Math.abs(v) < step / 1000;
       out += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + gy + '" y2="' + gy + '" style="stroke:var(' + (zero ? '--zero' : '--grid') + ')"' + (zero ? '' : ' stroke-dasharray="2 3"') + '/>' +
         '<text x="' + (L - 8) + '" y="' + (+gy + 4) + '" text-anchor="end">' + esc(axisText(Math.round(v * 100) / 100)) + '</text>';
     }
-    series.filter(function (s) { return s.bar; }).forEach(function (s) {
-      var bw = Math.max(3, Math.min(14, dx * 0.56));
+    var bar = function (cx, bw, val, color) {
+      if (!val) return '';
+      var top = Math.min(y(val), y(0)), h = Math.max(1.5, Math.abs(y(val) - y(0)));
+      return '<rect' + cls + ' x="' + (cx - bw / 2).toFixed(1) + '" y="' + top.toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="' + Math.min(3, bw / 2).toFixed(1) + '" style="fill:' + color + ';stroke:var(--c-bar-edge)"/>';
+    };
+    if (columns) {
+      var k = series.length, gap = k > 1 ? 2 : 0;
+      var bw = Math.max(2, Math.min(k > 1 ? 18 : 72, (dx * (k > 1 ? 0.74 : 0.62) - gap * (k - 1)) / k));
+      var group = bw * k + gap * (k - 1);
       rows.forEach(function (r, i) {
-        var val = s.get(r);
-        if (!val) return;
-        var top = Math.min(y(val), y(0)), h = Math.max(1.5, Math.abs(y(val) - y(0)));
-        out += '<rect' + (animate ? ' class="grow"' : '') + ' x="' + (x(i) - bw / 2).toFixed(1) + '" y="' + top.toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="2" style="fill:' + s.color + ';stroke:var(--c-bar-edge)"/>';
+        series.forEach(function (s, j) { out += bar(x(i) - group / 2 + bw / 2 + j * (bw + gap), bw, s.get(r), s.color); });
       });
+    } else {
+      series.filter(function (s) { return s.bar; }).forEach(function (s) {
+        var w1 = Math.max(3, Math.min(14, dx * 0.56));
+        rows.forEach(function (r, i) { out += bar(x(i), w1, s.get(r), s.color); });
+      });
+      series.filter(function (s) { return !s.bar; }).forEach(function (s) {
+        var path = rows.map(function (r, i) { return (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(s.get(r)).toFixed(1); }).join(' ');
+        // A lime wash under the main line, fading to nothing at zero.
+        if (s.area) {
+          out += '<defs><linearGradient id="wash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--lime);stop-opacity:var(--area-top)"/><stop offset="1" style="stop-color:var(--lime);stop-opacity:0"/></linearGradient></defs>' +
+            '<path' + cls + ' d="' + path + ' L' + x(n - 1).toFixed(1) + ' ' + y(0).toFixed(1) + ' L' + x(0).toFixed(1) + ' ' + y(0).toFixed(1) + ' Z" fill="url(#wash)"/>';
+        }
+        out += '<path' + (animate ? ' class="draw" pathLength="1"' : '') + ' d="' + path + '" fill="none" style="stroke:' + s.color + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
+      });
+    }
+    // As many labels under the columns as fit without touching.
+    var every = Math.max(1, Math.ceil(n / Math.max(2, Math.floor((W - L - R) / 64))));
+    rows.forEach(function (r, i) {
+      if (i % every) return;
+      out += '<text x="' + x(i).toFixed(1) + '" y="' + (H - 6) + '" text-anchor="middle">' + esc(r.label) + '</text>';
     });
-    series.filter(function (s) { return !s.bar; }).forEach(function (s) {
-      var path = rows.map(function (r, i) { return (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(s.get(r)).toFixed(1); }).join(' ');
-      // A lime wash under the main line, fading to nothing at zero.
-      if (s.area) {
-        out += '<defs><linearGradient id="wash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--lime);stop-opacity:var(--area-top)"/><stop offset="1" style="stop-color:var(--lime);stop-opacity:0"/></linearGradient></defs>' +
-          '<path' + (animate ? ' class="grow"' : '') + ' d="' + path + ' L' + x(n - 1).toFixed(1) + ' ' + y(0).toFixed(1) + ' L' + x(0).toFixed(1) + ' ' + y(0).toFixed(1) + ' Z" fill="url(#wash)"/>';
-      }
-      out += '<path' + (animate ? ' class="draw" pathLength="1"' : '') + ' d="' + path + '" fill="none" style="stroke:' + s.color + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
-    });
-    var marks = W < 500 ? [0, n - 1] : [0, 7, 14, 21, n - 1].filter(function (i, k, a) { return i < n && a.indexOf(i) === k; });
-    marks.forEach(function (i) {
-      var anchor = i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle';
-      var tx = i === 0 ? L : i === n - 1 ? W - R : x(i);
-      out += '<text x="' + tx.toFixed(1) + '" y="' + (H - 6) + '" text-anchor="' + anchor + '">' + esc(niceDate(rows[i].date)) + '</text>';
-    });
-    out += '<g id="chart-mark" visibility="hidden"><line y1="' + T + '" y2="' + (H - B) + '" style="stroke:var(--zero)"/>' +
-      series.filter(function (s) { return !s.bar; }).map(function (s) { return '<circle r="4" style="fill:' + s.color + ';stroke:var(--bg)" stroke-width="2"/>'; }).join('') + '</g></svg>';
+    var lines = columns ? [] : series.filter(function (s) { return !s.bar; });
+    out += '<g id="chart-mark" visibility="hidden">' + (columns ? '' : '<line y1="' + T + '" y2="' + (H - B) + '" style="stroke:var(--zero)"/>') +
+      lines.map(function (s) { return '<circle r="4" style="fill:' + s.color + ';stroke:var(--bg)" stroke-width="2"/>'; }).join('') + '</g></svg>';
     host.innerHTML = out + '<div class="tip" id="chart-tip"></div>';
 
-    var svg = host.querySelector('svg'), mark = host.querySelector('#chart-mark'), tip = host.querySelector('#chart-tip');
-    var lines = series.filter(function (s) { return !s.bar; });
+    var svg = host.querySelector('svg'), mark = host.querySelector('#chart-mark'), band = host.querySelector('#chart-band'), tip = host.querySelector('#chart-tip');
     function show(e) {
       var box = svg.getBoundingClientRect();
       var scale = W / box.width;
-      var i = Math.max(0, Math.min(n - 1, Math.round(((e.clientX - box.left) * scale - x0) / dx)));
+      var i = Math.max(0, Math.min(n - 1, Math.floor(((e.clientX - box.left) * scale - L) / dx)));
       var r = rows[i];
-      mark.setAttribute('visibility', 'visible');
-      mark.querySelector('line').setAttribute('x1', x(i));
-      mark.querySelector('line').setAttribute('x2', x(i));
-      Array.prototype.forEach.call(mark.querySelectorAll('circle'), function (c, k) {
-        c.setAttribute('cx', x(i));
-        c.setAttribute('cy', y(lines[k].get(r)));
-      });
-      tip.innerHTML = '<b>' + esc(longDate(r.date)) + '</b>' + series.map(function (s) {
+      if (columns) {
+        band.setAttribute('visibility', 'visible');
+        band.setAttribute('x', (x(i) - dx / 2).toFixed(1));
+      } else {
+        mark.setAttribute('visibility', 'visible');
+        mark.querySelector('line').setAttribute('x1', x(i));
+        mark.querySelector('line').setAttribute('x2', x(i));
+        Array.prototype.forEach.call(mark.querySelectorAll('circle'), function (c, k) {
+          c.setAttribute('cx', x(i));
+          c.setAttribute('cy', y(lines[k].get(r)));
+        });
+      }
+      tip.innerHTML = '<b>' + esc(r.tip) + '</b>' + series.map(function (s) {
         return '<div><span><i class="dot" style="background:' + s.color + '"></i>' + esc(s.label) + '</span><span>' + esc(s.text(s.get(r))) + '</span></div>';
       }).join('');
-      var px = x(i) / scale, tw = tip.offsetWidth;
-      var left = px + 14 + tw > box.width ? px - 14 - tw : px + 14;
+      var px = x(i) / scale, tw = tip.offsetWidth, half = dx / scale / 2;
+      var left = px + half + 8 + tw > box.width ? px - half - 8 - tw : px + half + 8;
       tip.style.transform = 'translate(' + Math.max(0, left).toFixed(0) + 'px, 8px)';
       tip.classList.add('on');
     }
-    function hide() { mark.setAttribute('visibility', 'hidden'); tip.classList.remove('on'); }
+    function hide() { mark.setAttribute('visibility', 'hidden'); band.setAttribute('visibility', 'hidden'); tip.classList.remove('on'); }
     host.onpointermove = show;
     host.onpointerdown = show;
     host.onpointerleave = hide;
