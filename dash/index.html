@@ -45,6 +45,10 @@
   --lime: #D2ED28;
   --on-lime: #151515;
   --lime-edge: rgba(21, 21, 21, .14);
+  /* Lime as text: pure lime can't be read on white, so the light theme uses a deeper shade of it. */
+  --accent-text: #5F7A00;
+  --up: #1F9D55;
+  --down: #DF1B41;
   --shadow-btn: 0 1px 1px rgba(0, 0, 0, .08);
   --shadow-btn-hover: 0 2px 5px rgba(64, 68, 82, .12);
   --shadow-pop: 0 0 0 1px rgba(136, 152, 170, .1), 0 15px 35px rgba(49, 49, 93, .1), 0 5px 15px rgba(0, 0, 0, .08);
@@ -55,11 +59,10 @@
   --b-bg: #EBEEF1; --b-fg: #545969;
   --b-info-bg: #CFF5F6; --b-info-fg: #0055BC;
   --b-warn-bg: #FCEDB9; --b-warn-fg: #A82C00;
-  /* Graph: on white the main line is dark over a lime wash; profit bars are lime. */
-  --c-main: #1A1B25;
+  /* Graph: revenue is lime, ad spend grey, profit green and loss red. */
+  --c-main: #D2ED28;
   --c-alt: #A3ACBA;
-  --c-bar: #D2ED28;
-  --c-bar-edge: rgba(21, 21, 21, .2);
+  --c-bar-edge: rgba(21, 21, 21, .16);
   --area-top: .6;
   --grid: #EBEEF1;
   --zero: #C0C8D2;
@@ -81,6 +84,9 @@
   --subtle: #17171A;
   --hover: #1B1B1F;
   --lime-edge: transparent;
+  --accent-text: #D2ED28;
+  --up: #3CCB7F;
+  --down: #F2555A;
   --shadow-btn: 0 1px 1px rgba(0, 0, 0, .4);
   --shadow-btn-hover: 0 2px 6px rgba(0, 0, 0, .5);
   --shadow-pop: 0 0 0 1px #2C2C33, 0 15px 35px rgba(0, 0, 0, .55);
@@ -91,10 +97,8 @@
   --b-bg: #27272C; --b-fg: #C4C4CE;
   --b-info-bg: #0D3440; --b-info-fg: #8EDDF0;
   --b-warn-bg: #43330A; --b-warn-fg: #F3D27C;
-  /* Graph: on black the main line is lime; profit bars are a lime tint. */
   --c-main: #D2ED28;
   --c-alt: #7A7A86;
-  --c-bar: rgba(210, 237, 40, .34);
   --c-bar-edge: transparent;
   --area-top: .26;
   --grid: #232327;
@@ -133,8 +137,8 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 .nav svg, .tabbar svg { width: 16px; height: 16px; flex: none; color: var(--icon); transition: color .15s; }
 .nav button:hover { background: var(--hover); }
 .nav button:active { background: var(--line); }
-.nav button[aria-current="page"] { background: var(--lime); color: var(--on-lime); font-weight: 600; }
-.nav button[aria-current="page"] svg { color: var(--on-lime); }
+.nav button[aria-current="page"] { color: var(--accent-text); font-weight: 600; }
+.nav button[aria-current="page"] svg { color: var(--accent-text); }
 .side .nav.end { margin-top: auto; }
 
 .main { margin-left: var(--side); padding: 28px 40px 96px; }
@@ -163,15 +167,15 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 .btn[disabled] { color: var(--sub); cursor: default; box-shadow: 0 0 0 1px var(--line); }
 .btn.spin svg { animation: turn .8s linear infinite; }
 @keyframes turn { to { transform: rotate(360deg); } }
-.link { color: var(--title); font-weight: 600; text-decoration: underline; text-decoration-color: var(--lime); text-decoration-thickness: 2px; text-underline-offset: 4px; transition: text-decoration-color .15s; }
-.link:hover { text-decoration-color: var(--title); }
+.link { color: var(--accent-text); font-weight: 600; text-decoration: none; transition: color .15s; }
+.link:hover { color: var(--title); }
 
 /* Date-range tabs with a lime underline, sitting on the page's hairline */
 .tabs { display: flex; gap: 24px; border-bottom: 1px solid var(--line); margin-top: -8px; overflow-x: auto; scrollbar-width: none; }
 .tabs::-webkit-scrollbar { display: none; }
 .tabs button { height: 38px; font-weight: 600; color: var(--sub); border-bottom: 3px solid transparent; margin-bottom: -1px; white-space: nowrap; flex: none; transition: color .15s, border-color .15s; border-radius: 0; }
 .tabs button:hover { color: var(--title); border-bottom-color: var(--ctl); }
-.tabs button[aria-pressed="true"] { color: var(--title); border-bottom-color: var(--lime); }
+.tabs button[aria-pressed="true"] { color: var(--accent-text); border-bottom-color: var(--lime); }
 
 .note { background: var(--subtle); border-radius: 8px; padding: 12px 16px; color: var(--text); }
 .note p + p { margin-top: 4px; }
@@ -336,8 +340,8 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
   .tabbar button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 48px; border-radius: 8px; color: var(--sub); font-weight: 500; font-size: 11px; line-height: 14px; transition: color .15s, background-color .15s; }
   .tabbar svg { width: 20px; height: 20px; }
   .tabbar button:active { background: var(--hover); }
-  .tabbar button[aria-current="page"] { background: var(--lime); color: var(--on-lime); font-weight: 600; }
-  .tabbar button[aria-current="page"] svg { color: var(--on-lime); }
+  .tabbar button[aria-current="page"] { color: var(--accent-text); font-weight: 600; }
+  .tabbar button[aria-current="page"] svg { color: var(--accent-text); }
   h1 { font-size: 24px; line-height: 32px; }
   .btn { height: 32px; }
   .btn.icon { width: 32px; }
@@ -417,7 +421,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     { id: 'emails', name: 'Emails', part: 'emails', icon: '<path ' + F + ' d="M3.600 2.500A1.600 1.600 0 0 0 2 4.100v.4l6 3.700 6-3.700v-.4a1.600 1.600 0 0 0-1.600-1.600H3.600z"/><path ' + F + ' d="M14 6 8.400 9.500a.75.75 0 0 1-.8 0L2 6v5.900a1.600 1.600 0 0 0 1.600 1.600h8.800a1.600 1.600 0 0 0 1.600-1.600V6z"/>' }
   ];
   var PERIODS = [['today', 'Today'], ['yesterday', 'Yesterday'], ['7d', 'Last 7 days'], ['14d', 'Last 14 days'], ['30d', 'Last 30 days']];
-  var MAIN = 'var(--c-main)', ALT = 'var(--c-alt)', BAR = 'var(--c-bar)';
+  var MAIN = 'var(--c-main)', ALT = 'var(--c-alt)', UP = 'var(--up)', DOWN = 'var(--down)';
   var cache = {};      // part → latest answer
   var loading = {};    // part → true while a request is out
   var failed = {};     // part → true when the last request failed
@@ -563,8 +567,10 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
       '<span class="sub small">' + (detail ? esc(detail) : '&nbsp;') + '</span></div>';
   }
   function legend(series) {
-    return '<div class="legend">' + series.map(function (s) {
-      return '<span><i class="dot" style="background:' + s.color + '"></i>' + esc(s.label) + '</span>';
+    var items = [];
+    series.forEach(function (s) { (s.legend || [[s.label, s.color]]).forEach(function (l) { items.push(l); }); });
+    return '<div class="legend">' + items.map(function (l) {
+      return '<span><i class="dot" style="background:' + l[1] + '"></i>' + esc(l[0]) + '</span>';
     }).join('') + '</div>';
   }
   function rangeText(w) { return w.from === w.to ? niceDate(w.from) : niceDate(w.from) + ' – ' + niceDate(w.to); }
@@ -585,7 +591,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     var series = [
       { label: 'Revenue', color: MAIN, area: true, get: function (r) { return r.revenue; }, text: money },
       { label: 'Ad spend', color: ALT, get: function (r) { return r.spend; }, text: money },
-      { label: 'Profit', color: BAR, bar: true, get: function (r) { return r.profit; }, text: money }
+      { label: 'Profit', color: UP, bar: true, colorOf: function (v) { return v < 0 ? DOWN : UP; }, legend: [['Profit', UP], ['Loss', DOWN]], get: function (r) { return r.profit; }, text: money }
     ];
 
     var html = '<div class="sec"><div class="metrics">' +
@@ -736,12 +742,12 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
       var bw = Math.max(2, Math.min(k > 1 ? 18 : 72, (dx * (k > 1 ? 0.74 : 0.62) - gap * (k - 1)) / k));
       var group = bw * k + gap * (k - 1);
       rows.forEach(function (r, i) {
-        series.forEach(function (s, j) { out += bar(x(i) - group / 2 + bw / 2 + j * (bw + gap), bw, s.get(r), s.color); });
+        series.forEach(function (s, j) { var v = s.get(r); out += bar(x(i) - group / 2 + bw / 2 + j * (bw + gap), bw, v, s.colorOf ? s.colorOf(v) : s.color); });
       });
     } else {
       series.filter(function (s) { return s.bar; }).forEach(function (s) {
         var w1 = Math.max(3, Math.min(14, dx * 0.56));
-        rows.forEach(function (r, i) { out += bar(x(i), w1, s.get(r), s.color); });
+        rows.forEach(function (r, i) { var v = s.get(r); out += bar(x(i), w1, v, s.colorOf ? s.colorOf(v) : s.color); });
       });
       series.filter(function (s) { return !s.bar; }).forEach(function (s) {
         var path = rows.map(function (r, i) { return (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(s.get(r)).toFixed(1); }).join(' ');
@@ -750,7 +756,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
           out += '<defs><linearGradient id="wash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--lime);stop-opacity:var(--area-top)"/><stop offset="1" style="stop-color:var(--lime);stop-opacity:0"/></linearGradient></defs>' +
             '<path' + cls + ' d="' + path + ' L' + x(n - 1).toFixed(1) + ' ' + y(0).toFixed(1) + ' L' + x(0).toFixed(1) + ' ' + y(0).toFixed(1) + ' Z" fill="url(#wash)"/>';
         }
-        out += '<path' + (animate ? ' class="draw" pathLength="1"' : '') + ' d="' + path + '" fill="none" style="stroke:' + s.color + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
+        out += '<path' + (animate ? ' class="draw" pathLength="1"' : '') + ' d="' + path + '" fill="none" style="stroke:' + s.color + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
       });
     }
     // As many labels under the columns as fit without touching.
@@ -783,7 +789,8 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
         });
       }
       tip.innerHTML = '<b>' + esc(r.tip) + '</b>' + series.map(function (s) {
-        return '<div><span><i class="dot" style="background:' + s.color + '"></i>' + esc(s.label) + '</span><span>' + esc(s.text(s.get(r))) + '</span></div>';
+        var v = s.get(r);
+        return '<div><span><i class="dot" style="background:' + (s.colorOf ? s.colorOf(v) : s.color) + '"></i>' + esc(s.colorOf && v < 0 ? 'Loss' : s.label) + '</span><span>' + esc(s.text(v)) + '</span></div>';
       }).join('');
       var px = x(i) / scale, tw = tip.offsetWidth, half = dx / scale / 2;
       var left = px + half + 8 + tw > box.width ? px - half - 8 - tw : px + half + 8;
