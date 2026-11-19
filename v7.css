@@ -2262,7 +2262,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .wcard__head { display: flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 600; letter-spacing: -0.015em; }
 .wcard__head::before { content: ""; width: 22px; height: 22px; border-radius: 50%; background: var(--c); }
 .wcard__big { font-size: 31px; font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; }
-.wcard__mid { font-size: 26px; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+.wcard__mid { font-size: 26px; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; text-wrap: balance; }
 .wcard__sub { color: var(--ink-2); font-size: 18px; line-height: 1.35; }
 .wcard__quote { color: var(--ink-2); font-size: 17px; font-style: italic; }
 .wcard__row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -2543,7 +2543,7 @@ html.js .site-header:not(.is-floating) .site-header__inner {
    The 70% is static: update the text, aria-valuenow and width by hand. */
 .hero__fine b, .closing__fine b { color: var(--lime); font-weight: 700; white-space: nowrap; }
 .rs__life { display: grid; gap: 6px; padding: 20px 22px; border-radius: 20px; background: var(--lime); color: var(--ink); }
-.rs__life-t { font-size: clamp(1.375rem, 2vw, 1.625rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+.rs__life-t { font-size: clamp(1.375rem, 2vw, 1.625rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; text-wrap: balance; }
 .rs__life-s { font-size: 1rem; font-weight: 500; opacity: 0.75; }
 .rs__life-s s { white-space: nowrap; }
 .rs__meter { display: grid; gap: 10px; }
