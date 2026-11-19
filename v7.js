@@ -1173,7 +1173,7 @@
       var step = function (now) {
         if (t0 === null) t0 = now;
         var p = clamp((now - t0) / dur, 0, 1);
-        var e = 1 - Math.pow(1 - p, 4);
+        var e = 1 - Math.pow(1 - p, 5);
         el.textContent = String(Math.round(to * e));
         if (p < 1) requestAnimationFrame(step);
         else el.textContent = String(to);
@@ -1362,4 +1362,32 @@
       }
     });
   });
+})();
+
+/* Batch meter: count the reserved number up from 0 as the bar fills
+   (the bar fill is CSS, keyed on .rs__meter.is-armed / .is-on). Static text stays as the
+   fallback and for reduced motion. */
+(function () {
+  var el = document.querySelector('[data-count]');
+  if (!el || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var meter = el.closest('.rs__meter') || el;
+  var target = +el.getAttribute('data-count');
+  meter.classList.add('is-armed');
+  el.textContent = '0';
+  var io = new IntersectionObserver(function (entries) {
+    if (!entries[0].isIntersecting) return;
+    io.disconnect();
+    meter.classList.add('is-on');
+    var start = null, dur = 1800, delay = 350;
+    function tick(t) {
+      if (start === null) start = t + delay;
+      var p = Math.min(1, Math.max(0, (t - start) / dur));
+      var e = 1 - Math.pow(1 - p, 5);
+      el.textContent = String(Math.round(target * e));
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }, { threshold: 0.4 });
+  io.observe(meter);
 })();

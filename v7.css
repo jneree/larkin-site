@@ -2551,3 +2551,16 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 .rs__meter-row span { color: var(--ink-2); }
 .rs__bar { display: block; height: 8px; overflow: hidden; border-radius: 999px; background: var(--card-2); }
 .rs__bar i { display: block; height: 100%; border-radius: inherit; background: var(--ink); }
+
+/* Batch meter animation: when the card comes into view the bar fills from
+   empty (v7.js arms .rs__meter, then adds .is-on in view and counts the number up), then a soft sheen passes
+   over the filled part every few seconds. */
+.rs__bar i { position: relative; overflow: hidden; transform-origin: left center; }
+.rs__meter.is-armed:not(.is-on) .rs__bar i { transform: scaleX(0); }
+.rs__meter.is-armed .rs__bar i { transition: transform 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s; }
+@media (prefers-reduced-motion: no-preference) {
+  .rs__meter.is-on .rs__bar i::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 30%; background: linear-gradient(90deg, transparent, rgba(210, 237, 40, 0.9), transparent); translate: -100% 0; animation: rs-sheen 3.4s ease-in-out 2.4s infinite; }
+}
+@keyframes rs-sheen { 0% { translate: -100% 0; } 50%, 100% { translate: 340% 0; } }
+.rs__meter-row b span { color: inherit; }
+.rs__meter-row b { font-variant-numeric: tabular-nums; }
