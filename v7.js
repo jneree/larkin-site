@@ -1384,7 +1384,7 @@
       if (start === null) start = t + delay;
       var p = Math.min(1, Math.max(0, (t - start) / dur));
       var e = 1 - Math.pow(1 - p, 5);
-      el.textContent = String(Math.round(target * e));
+      el.textContent = String(Math.round((+el.getAttribute('data-count') || target) * e));
       if (p < 1) requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
