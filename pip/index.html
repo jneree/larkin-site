@@ -1,0 +1,349 @@
+<!doctype html>
+<!-- larkin · pip landing page, getlarkin.com/pip/ (the playful-brand test for Meta ads)
+     data-pip   = the colour the page opens in (cherry | bone | blue | black)
+     data-batch-count / data-batch-size = founder batch reserved, out of how many. 703 is only the
+                  fallback: /batch.js puts in the live number from /batch.json (see the README). -->
+<html lang="en" data-pip="cherry" data-batch-count="703" data-batch-size="1000">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>larkin · he takes the notes. you get better.</title>
+<meta name="description" content="pip takes the notes of your conversations, and tells you how you came across. small, thin, sits on the table. founder edition, $79.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#EFECEF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/pip-cherry.jpg">
+<link rel="stylesheet" href="pip.css">
+<script>
+  document.documentElement.classList.add('js');
+  /* ?pip=blue opens the page in that colour, so an ad and the page can match */
+  try { var p = new URLSearchParams(location.search).get('pip') || localStorage.getItem('larkin-pip'); if (p) document.documentElement.dataset.pip = p; } catch (e) {}
+</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<!-- ==================== FACEBOOK PIXEL ==================== -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1033614279315561');
+  fbq('track', 'PageView');
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1033614279315561&ev=PageView&noscript=1" alt="" />
+</noscript>
+<!-- ================== END FACEBOOK PIXEL ================== -->
+<script src="/analytics.js" defer></script>
+<script src="/batch.js" defer></script>
+</head>
+<body>
+
+<header class="top">
+  <a class="logo" href="#top" aria-label="larkin, back to the top">larkin<span class="dot"></span></a>
+  <p class="top__batch"><span class="pulse" aria-hidden="true"></span>founder batch <b><span data-batch-final>703</span> of <span data-batch-total>1,000</span> reserved</b></p>
+  <a class="btn btn--sm" href="#founder">reserve · $10</a>
+</header>
+
+<main id="top">
+
+  <!-- ─────────────── hero: the two things, in one line ─────────────── -->
+  <section class="hero wrap" data-says="hi. i'm pip. i take notes. on everyone. mostly you.">
+    <h1 class="hero__title hero__title--4" aria-label="he takes the notes. you get better.">
+      <span class="line" aria-hidden="true">he takes</span>
+      <span class="line" aria-hidden="true">the notes.</span>
+      <span class="line line--soft" aria-hidden="true">you get</span>
+      <span class="line line--soft" aria-hidden="true">better.</span>
+    </h1>
+
+    <div class="stage">
+      <figure class="stage__photo">
+        <img data-swap="pip" src="img/pip-cherry.jpg" width="1400" height="1750" alt="pip, a small glossy cushion with two glowing eyes, on the back of a phone" fetchpriority="high">
+        <figcaption class="bubble">
+          <small data-opinion-when>after the one-to-one</small>
+          <span data-opinion>you talked for most of it. it was her one-to-one.</span>
+        </figcaption>
+      </figure>
+      <div class="swatches" role="group" aria-label="pick pip's colour">
+        <span class="swatches__name" data-pip-name>cherry</span>
+        <button class="sw sw--cherry" data-set-pip="cherry" aria-pressed="true" aria-label="cherry"></button>
+        <button class="sw sw--bone" data-set-pip="bone" aria-pressed="false" aria-label="bone"></button>
+        <button class="sw sw--blue" data-set-pip="blue" aria-pressed="false" aria-label="pearl blue"></button>
+        <button class="sw sw--black" data-set-pip="black" aria-pressed="false" aria-label="patent black"></button>
+      </div>
+      <div class="sticker" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <defs><path id="ring" d="M100 100 m-74 0 a74 74 0 1 1 148 0 a74 74 0 1 1 -148 0"/></defs>
+          <circle cx="100" cy="100" r="100" class="sticker__disc"/>
+          <text class="sticker__text"><textPath href="#ring" startOffset="0">founder edition · unlimited transcription · founder edition · unlimited transcription ·</textPath></text>
+        </svg>
+        <span class="sticker__pip" data-pipsvg></span>
+      </div>
+    </div>
+
+    <div class="hero__copy">
+      <p class="lede">pip sits on the table while you talk. afterwards you get the notes, and how you came across.</p>
+      <div class="cta-row">
+        <a class="btn" href="#founder">reserve pip · $10</a>
+        <a class="textlink" href="#how">how it works <span aria-hidden="true">↓</span></a>
+      </div>
+      <p class="facts">$79 <i></i> unlimited transcription <i></i> ships q1 2027</p>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track">
+      <span>he takes the notes</span><i></i><span>he has opinions</span><i></i><span>he is very small</span><i></i><span>everyone has a tell</span><i></i><span>he means well</span><i></i>
+      <span>he takes the notes</span><i></i><span>he has opinions</span><i></i><span>he is very small</span><i></i><span>everyone has a tell</span><i></i><span>he means well</span><i></i>
+    </div>
+  </div>
+
+  <!-- ─────────────── press. talk. check. ─────────────── -->
+  <section class="how wrap" id="how" data-says="go on. press it.">
+    <p class="eyebrow">how it works</p>
+    <h2 class="h2">press. talk. check.</h2>
+    <div class="trio">
+      <article class="step step--press" data-toy>
+        <div class="step__art">
+          <span class="press__pip" data-pipsvg></span>
+          <button class="pressbtn" data-toy-btn aria-pressed="false"><span>press</span></button>
+        </div>
+        <span class="step__n">01</span>
+        <h3>press. his eyes light up.</h3>
+        <p data-toy-status aria-live="polite">try it.</p>
+      </article>
+      <article class="step">
+        <div class="step__art step__art--photo">
+          <img src="img/angle-front.jpg" width="1200" height="1500" loading="lazy" alt="cherry pip on a table in warm afternoon light, eyes glowing">
+        </div>
+        <span class="step__n">02</span>
+        <h3>talk. he stays on the table.</h3>
+        <p>meetings, dinners, one-to-ones.</p>
+      </article>
+      <article class="step">
+        <div class="step__art step__art--app">
+          <div class="mini">
+            <span class="mini__when">today · 32 min</span>
+            <b>q1 launch sync</b>
+            <span class="mini__row"><i>notes</i><i>ready</i></span>
+            <span class="mini__row"><i>notes on you</i><i>ready</i></span>
+          </div>
+        </div>
+        <span class="step__n">03</span>
+        <h3>check the app.</h3>
+        <p>the notes, and notes on you.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ─────────────── the app: real notes + notes on you ─────────────── -->
+  <section class="app wrap" id="app" data-says="i write it all down. you're welcome.">
+    <div class="app__card">
+      <div class="app__copy">
+        <p class="eyebrow">the app</p>
+        <h2 class="h2">the notes.<br>and notes on you.</h2>
+        <ul class="feat">
+          <li><b>the notes</b><span>summary, key points, who does what.</span></li>
+          <li><b>notes on you</b><span>how much you talked, where you cut in, one thing to try next time.</span></li>
+        </ul>
+      </div>
+
+      <div class="app__phones">
+        <!-- notes -->
+        <div class="ph">
+          <div class="ph__screen">
+            <div class="ph__status"><b>9:41</b><span class="ph__island"></span><i></i></div>
+            <p class="ph__back">‹ conversations</p>
+            <h4 class="ph__title">q1 launch sync</h4>
+            <p class="ph__meta"><span class="av av--a">m</span><span class="av av--b">y</span>today · 10:00 · 32 min</p>
+            <p class="ph__seg"><b>notes</b><span>you</span></p>
+            <div class="ph__block">
+              <p class="ph__h">summary</p>
+              <p class="ph__p">maya wants to move the launch to 3 march so support gets two weeks of training. you agreed to drop referrals from v1.</p>
+            </div>
+            <div class="ph__block">
+              <p class="ph__h">key points</p>
+              <ul class="ph__dots">
+                <li>launch moves from 17 feb to 3 march</li>
+                <li>referrals cut from v1, back in april</li>
+                <li>pricing page still needs legal review</li>
+              </ul>
+            </div>
+            <div class="ph__block">
+              <p class="ph__h">next steps</p>
+              <ul class="ph__todo">
+                <li><span>send the new timeline to the team</span><em>you · thu</em></li>
+                <li><span>book support training</span><em>maya · fri</em></li>
+                <li class="is-done"><span>share the v1 scope doc</span><em>you · done</em></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- notes on you -->
+        <div class="ph ph--b">
+          <div class="ph__screen">
+            <div class="ph__status"><b>9:41</b><span class="ph__island"></span><i></i></div>
+            <p class="ph__back">‹ conversations</p>
+            <h4 class="ph__title">q1 launch sync</h4>
+            <p class="ph__meta"><span class="av av--a">m</span><span class="av av--b">y</span>today · 10:00 · 32 min</p>
+            <p class="ph__seg"><span>notes</span><b>you</b></p>
+            <div class="ph__pip">
+              <span class="ph__face" data-pipsvg></span>
+              <p><small>pip says</small>you were right about the dates. you just said it four times.</p>
+            </div>
+            <div class="ph__block">
+              <p class="ph__h">who talked</p>
+              <div class="ph__split"><span style="width:64%">you 64%</span><span>maya</span></div>
+            </div>
+            <dl class="ph__rows">
+              <div><dt>questions you asked</dt><dd>3</dd></div>
+              <div><dt>times you cut in</dt><dd>4</dd></div>
+              <div><dt>longest you held the floor</dt><dd>2:50</dd></div>
+            </dl>
+            <p class="ph__next"><small>try next time</small>ask maya what she'd cut before you suggest it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── versus a note-taker ─────────────── -->
+  <section class="vs wrap" id="compare" data-says="i do everything they do. and i'm cuter.">
+    <p class="eyebrow">pip vs. a note-taker</p>
+    <h2 class="h2">everything a note-taker does.<br>plus you.</h2>
+    <div class="vs__table" role="table" aria-label="pip compared with a typical note-taker">
+      <div class="vs__row vs__row--head" role="row"><span role="columnheader"></span><span role="columnheader">a note-taker</span><span role="columnheader">pip</span></div>
+      <div class="vs__row" role="row"><span role="rowheader">notes of every conversation</span><span class="y" role="cell" aria-label="yes"></span><span class="y" role="cell" aria-label="yes"></span></div>
+      <div class="vs__row" role="row"><span role="rowheader">summary and next steps</span><span class="y" role="cell" aria-label="yes"></span><span class="y" role="cell" aria-label="yes"></span></div>
+      <div class="vs__row" role="row"><span role="rowheader">how you came across</span><span class="n" role="cell" aria-label="no"></span><span class="y" role="cell" aria-label="yes"></span></div>
+      <div class="vs__row" role="row"><span role="rowheader">one thing to try next time</span><span class="n" role="cell" aria-label="no"></span><span class="y" role="cell" aria-label="yes"></span></div>
+      <div class="vs__row" role="row"><span role="rowheader">size</span><span role="cell">a credit card</span><span role="cell"><b>a macaron</b></span></div>
+      <div class="vs__row" role="row"><span role="rowheader">personality</span><span role="cell">none</span><span role="cell"><b>plenty</b></span></div>
+    </div>
+  </section>
+
+  <!-- ─────────────── the object ─────────────── -->
+  <section class="specs wrap" id="pip" data-says="yes, i'm this small.">
+    <p class="eyebrow">the object</p>
+    <h2 class="h2">small. thin. cute.</h2>
+    <div class="duo duo--3">
+      <figure><img src="img/angle-hand.jpg" width="1200" height="1500" loading="lazy" alt="a hand holding a pearl blue pip between thumb and finger"><figcaption><b>small.</b> smaller than your palm.</figcaption></figure>
+      <figure><img src="img/angle-side.jpg" width="1200" height="1500" loading="lazy" alt="a patent black pip seen from the side, very thin"><figcaption><b>thin.</b> barely there.</figcaption></figure>
+      <figure><img data-swap="pip" src="img/pip-cherry.jpg" width="1400" height="1750" loading="lazy" alt="pip on the back of a phone"><figcaption><b>carry him</b> on your phone.</figcaption></figure>
+    </div>
+    <ul class="tags">
+      <li>macaron-sized</li><li>very thin</li><li>magnets for your phone</li><li>one button</li><li>no screen</li>
+    </ul>
+  </section>
+
+  <!-- ─────────────── in real life ─────────────── -->
+  <section class="ask wrap" id="ask" data-says="i'm not shy. are you?">
+    <p class="eyebrow">ask first</p>
+    <h2 class="h2">okay if pip listens?</h2>
+    <div class="ask__grid ask__grid--simple">
+      <figure class="askpic"><img src="img/table-work.jpg" width="1200" height="1500" loading="lazy" alt="two colleagues talking at a table"><figcaption class="tag">at work</figcaption></figure>
+      <figure class="askpic"><img src="img/table-home.jpg" width="1200" height="1500" loading="lazy" alt="a couple talking while they cook"><figcaption class="tag">at home</figcaption></figure>
+      <figure class="askpic"><img src="img/table-friends.jpg" width="1200" height="1500" loading="lazy" alt="three friends talking at a bar"><figcaption class="tag">with friends</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- ─────────────── the lab ─────────────── -->
+  <section class="lab wrap" id="lab" data-says="i have references.">
+    <div class="lab__card">
+      <div class="lab__head">
+        <p class="eyebrow">the larkin lab</p>
+        <h2 class="h2">cute outside.<br>lab inside.</h2>
+        <p class="mission"><span>the mission</span>make humans better at each other.</p>
+      </div>
+      <ol class="studies studies--3">
+        <li><h3>people who ask more questions are better liked.</h3><cite>huang et al. · 2017</cite></li>
+        <li><h3>deeper conversations, happier people.</h3><cite>mehl et al. · 2010</cite></li>
+        <li><h3>people like you more than you think.</h3><cite>boothby et al. · 2018</cite></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ─────────────── colours ─────────────── -->
+  <section class="colours wrap" id="colours" data-says="cherry is my good side.">
+    <p class="eyebrow">the colours</p>
+    <h2 class="h2">four colours.</h2>
+    <div class="colours__grid">
+      <button class="tile" data-set-pip="cherry" aria-pressed="true"><span class="cushion"><img src="img/face-cherry.jpg" width="900" height="900" loading="lazy" alt=""></span><b>cherry</b></button>
+      <button class="tile" data-set-pip="bone" aria-pressed="false"><span class="cushion"><img src="img/face-bone.jpg" width="900" height="900" loading="lazy" alt=""></span><b>bone</b></button>
+      <button class="tile" data-set-pip="blue" aria-pressed="false"><span class="cushion"><img src="img/face-blue.jpg" width="900" height="900" loading="lazy" alt=""></span><b>pearl blue</b></button>
+      <button class="tile" data-set-pip="black" aria-pressed="false"><span class="cushion"><img src="img/face-black.jpg" width="900" height="900" loading="lazy" alt=""></span><b>patent black</b></button>
+    </div>
+  </section>
+
+  <!-- ─────────────── founder edition ─────────────── -->
+  <section class="founder wrap" id="founder" data-says="most of them are gone. i'm not rushing you. (i am.)">
+    <div class="founder__card night">
+      <div class="founder__pitch">
+        <p class="eyebrow">founder edition</p>
+        <h2 class="h2">unlimited transcription.</h2>
+        <ul class="perks">
+          <li><b>$19 a month</b><span>for everyone after the founder batch.</span></li>
+          <li><b>ships q1 2027</b><span>founders first.</span></li>
+        </ul>
+      </div>
+      <div class="founder__box">
+        <p class="price"><span class="price__n">$79</span><span class="price__d">one pip.<br>no monthly fee, ever.</span></p>
+        <div class="meter" role="img" aria-label="founder batch: 703 of 1,000 reserved">
+          <div class="meter__bar"><span data-batch-bar></span></div>
+          <p><span>founder batch</span><b><span class="meter__n" data-batch-num>703</span> / <span data-batch-total>1,000</span> reserved</b></p>
+        </div>
+        <a class="btn btn--lg" href="https://buy.stripe.com/fZu8wP69373l4bx0uCfYY00?client_reference_id=pip" data-reserve>reserve yours for $10</a>
+        <p class="fine">refundable any time before he ships.</p>
+      </div>
+      <p class="founder__small">design renders. the final pip may differ a little.</p>
+    </div>
+  </section>
+
+  <!-- ─────────────── questions ─────────────── -->
+  <section class="faq wrap" id="questions" data-says="questions. good. ask more of those.">
+    <div class="faq__head">
+      <p class="eyebrow">questions</p>
+      <h2 class="h2">go on, ask.</h2>
+    </div>
+    <div class="faq__list">
+      <details><summary>is he always listening?</summary><p>no. only while his eyes are on. press to start, press to stop.</p></details>
+      <details><summary>what does he keep?</summary><p>the notes, in your account. the sound is deleted once it's turned into words.</p></details>
+      <details><summary>do the people i'm with need to agree?</summary><p>yes. always ask first, and follow the rules where you live.</p></details>
+      <details><summary>what does the $10 do?</summary><p>it holds a founder pip with unlimited transcription. refundable any time before he ships.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer class="foot night">
+  <div class="wrap">
+    <p class="foot__mark" aria-hidden="true">larkin<span class="dot"></span></p>
+    <p class="foot__line">everyone has a tell. learn yours.</p>
+    <a class="btn" href="#founder">reserve pip · $10</a>
+    <nav class="foot__nav" aria-label="footer">
+      <a href="#how">how it works</a>
+      <a href="#app">the app</a>
+      <a href="#lab">the lab</a>
+      <a href="#questions">questions</a>
+      <a href="https://getlarkin.com/privacy/">privacy</a>
+      <a href="https://getlarkin.com/terms/">terms</a>
+    </nav>
+    <p class="foot__small">larkin · © 2026</p>
+  </div>
+</footer>
+
+<!-- pip, in the corner, with opinions about your scrolling -->
+<div class="buddy is-away" data-buddy>
+  <p class="buddy__says" data-buddy-says aria-hidden="true"></p>
+  <button class="buddy__pip" data-buddy-pip aria-label="pip. press to send him to sleep."><span data-pipsvg></span></button>
+</div>
+
+<script src="pip.js" defer></script>
+</body>
+</html>
