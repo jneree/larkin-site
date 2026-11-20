@@ -254,7 +254,7 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 .prow .state { display: inline-flex; align-items: center; gap: 8px; }
 label.f { display: block; font-weight: 500; color: var(--title); }
 label.f > textarea, label.f > input { margin-top: 4px; font-weight: 400; }
-textarea, input[type="datetime-local"], input[type="password"] {
+textarea, input[type="text"], input[type="datetime-local"], input[type="password"] {
   width: 100%; background: var(--btn); border: 0; border-radius: 6px; padding: 6px 10px; color: var(--title); font-size: 14px; line-height: 20px;
   box-shadow: 0 0 0 1px var(--ctl), var(--shadow-btn); transition: box-shadow .15s, background-color .2s;
 }
@@ -265,6 +265,14 @@ textarea:disabled, input:disabled { background: var(--subtle); color: var(--sub)
 .actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 
 /* Emails: each flow as a timeline */
+.draft { border: 1px solid var(--line); border-radius: 8px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; scroll-margin-top: 16px; background: var(--panel); transition: background-color .2s, border-color .2s; }
+.draft .meta { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 2px 12px; }
+.draft .meta dt { color: var(--sub); }
+.draft .meta dd { margin: 0; color: var(--text); }
+.draft input[type=text] { width: 100%; }
+.draft textarea.mailtext { min-height: 260px; field-sizing: content; max-height: 70vh; }
+.draft .check { border-left: 2px solid var(--ctl-hover); padding-left: 10px; }
+.draft .check b { color: var(--title); font-weight: 600; }
 .flows { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
 .flow { padding: 20px; }
 .flow .count { font-size: 24px; line-height: 32px; color: var(--title); margin: 8px 0 2px; }
@@ -937,6 +945,9 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     var time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     var body = el('div', { class: 'body' });
     // The text is plain; web addresses are underlined as the mail app shows them.
+    // Loops fills {firstName}; the preview shows an example name.
+    var named = function (t) { return String(t || '').replace(/\{firstName\}/g, 'Alex'); };
+    m = { fromName: m.fromName, fromAddress: m.fromAddress, subject: named(m.subject), preview: named(m.preview), body: named(m.body), footer: m.footer };
     String(m.body || '').split(/(https?:\/\/\S+)/).forEach(function (part, i) {
       body.appendChild(i % 2 ? el('u', { text: part }) : document.createTextNode(part));
     });
@@ -963,8 +974,104 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     if (!dlg.open) dlg.showModal();
   }
 
+  var DRAFT_STATE = { review: ['To review', 'warn'], changes: ['Changes requested', ''], confirmed: ['Confirmed', 'ok'], in_loops: ['In Loops', 'info'] };
+  var FLOW_NAMES = { reserved: 'Reservation', beta: 'App beta' };
+
+  function saveDraft(id, patch, msg) {
+    var code = read(KEY);
+    if (!code) { showLock(); return; }
+    msg.textContent = 'Saving…';
+    patch.id = id;
+    fetch(API + '?part=emails', { method: 'POST', headers: { 'x-dashboard-key': code, 'Content-Type': 'application/json' }, body: JSON.stringify(patch) })
+      .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then(function (json) {
+        var d = cache.emails, moved = false;
+        d.drafts = d.drafts.map(function (x) {
+          if (x.id !== id) return x;
+          moved = x.status !== json.draft.status;
+          return json.draft;
+        });
+        // Only redraw when the status changes, so typing isn't interrupted.
+        if (moved && page === 'emails') { render(); var t = $('draft-' + id); if (t) t.scrollIntoView({ block: 'start' }); }
+        else { msg.textContent = 'Saved'; setTimeout(function () { msg.textContent = ''; }, 1800); }
+      })
+      .catch(function () { msg.textContent = 'Not saved. Try again in a moment.'; });
+  }
+
+  function draftCard(x, sender) {
+    var locked = x.status === 'in_loops';
+    var msg = el('span', { class: 'sub small', role: 'status' });
+    var field = function (tag, key, attrs) {
+      var n = el(tag, Object.assign({ disabled: locked }, attrs || {}));
+      n.value = x[key] || '';
+      n.addEventListener('change', function () { if (n.value !== (x[key] || '')) { x[key] = n.value; saveDraft(x.id, (function () { var o = {}; o[key] = n.value; return o; })(), msg); } });
+      return n;
+    };
+    var subject = field('input', 'subject', { type: 'text' });
+    var preview = field('input', 'preview', { type: 'text' });
+    var text = field('textarea', 'body', { class: 'mailtext', spellcheck: 'true' });
+    var words = function () { return { subject: subject.value, preview: preview.value, body: text.value }; };
+    var show = function () {
+      var w = words();
+      openMail({ fromName: sender.fromName, fromAddress: sender.fromAddress, subject: w.subject, preview: w.preview, body: w.body, footer: sender.footer }, null);
+    };
+
+    var actions = el('div', { class: 'actions' });
+    var noteBox = null;
+    if (x.status === 'review' || x.status === 'changes') {
+      var note = el('textarea', { placeholder: 'What should change?' });
+      note.value = x.note || '';
+      noteBox = el('div', { class: x.status === 'changes' ? '' : 'hide' },
+        el('label', { class: 'f' }, document.createTextNode('Changes for Claude'), note),
+        el('div', { class: 'actions', style: 'margin-top:8px' },
+          el('button', { type: 'button', class: 'btn', text: 'Send changes', onclick: function () { saveDraft(x.id, { status: 'changes', note: note.value }, msg); } })));
+      actions.append(
+        el('button', { type: 'button', class: 'btn primary', text: 'Confirm', onclick: function () { var p = words(); p.status = 'confirmed'; saveDraft(x.id, p, msg); } }),
+        el('button', { type: 'button', class: 'btn', text: 'Request changes', onclick: function () { noteBox.classList.remove('hide'); note.focus(); } }),
+        el('button', { type: 'button', class: 'btn', text: 'Preview', onclick: show }),
+        msg);
+    } else if (x.status === 'confirmed') {
+      actions.append(
+        el('button', { type: 'button', class: 'btn', text: 'Preview', onclick: show }),
+        el('button', { type: 'button', class: 'btn', text: 'Move back to review', onclick: function () { saveDraft(x.id, { status: 'review' }, msg); } }), msg);
+    } else {
+      actions.append(el('button', { type: 'button', class: 'btn', text: 'Preview', onclick: show }));
+    }
+
+    var state = DRAFT_STATE[x.status] || DRAFT_STATE.review;
+    return el('article', { class: 'draft', id: 'draft-' + x.id },
+      el('div', { class: 'prow' },
+        el('span', { class: 'name', text: x.position + '. ' + x.name }),
+        el('span', { class: 'state' }, el('span', { class: 'badge ' + state[1], text: state[0] }))),
+      el('dl', { class: 'meta' },
+        el('dt', { text: 'When' }), el('dd', { text: x.when }),
+        el('dt', { text: 'Who' }), el('dd', { text: x.who })),
+      el('label', { class: 'f' }, document.createTextNode('Subject'), subject),
+      el('label', { class: 'f' }, document.createTextNode('Preview line'), preview),
+      el('label', { class: 'f' }, document.createTextNode('Email'), text),
+      x.check ? el('p', { class: 'sub check' }, el('b', { text: 'To check: ' }), document.createTextNode(x.check)) : null,
+      x.note && x.status !== 'changes' ? el('p', { class: 'sub', text: 'Your last note: ' + x.note }) : null,
+      noteBox,
+      actions);
+  }
+
   function renderEmails(d, view) {
     alerts([]);
+    var sender = d.sender || {};
+    var list = d.drafts || [];
+    var count = function (st) { return list.filter(function (x) { return x.status === st; }).length; };
+    var counts = el('div', { class: 'cards' },
+      [['To review', count('review')], ['Changes requested', count('changes')], ['Confirmed', count('confirmed')], ['In Loops', count('in_loops')]].map(function (c) {
+        return el('div', { class: 'card' }, el('span', { class: 'l', text: c[0] }), el('span', { class: 'n', text: String(c[1]) }));
+      }));
+    var draftNodes = [];
+    if (d.drafts == null) draftNodes.push(el('p', { class: 'sub', text: 'The drafts could not be loaded. Try Refresh.' }));
+    ['reserved', 'beta'].forEach(function (flow) {
+      var mine = list.filter(function (x) { return x.flow === flow; });
+      if (!mine.length) return;
+      draftNodes.push(el('div', { class: 'sec' }, el('h2', { text: FLOW_NAMES[flow] + ' emails' }), mine.map(function (x) { return draftCard(x, sender); })));
+    });
+
     var flows = (d.flows || []).map(function (f) {
       var edit = f.edit && /^https:\/\/app\.loops\.so\//.test(f.edit.url) ? f.edit : null;
       return el('div', { class: 'card flow' },
@@ -978,8 +1085,13 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
         el('div', { class: 'foot' }, el('span', { class: 'sub', text: f.stats || '' }),
           edit ? el('a', { class: 'link', href: edit.url, target: '_blank', rel: 'noopener', text: edit.label + ' →' }) : null));
     });
-    view.replaceChildren(el('div', { class: 'flows' }, flows),
-      el('p', { class: 'sub small', text: 'People counts are live. Steps and email numbers were checked in Loops on ' + niceDate(d.checked) + '. Emails are edited in Loops.' }));
+    view.replaceChildren.apply(view, [
+      counts,
+      el('p', { class: 'sub', text: 'Change the words here, then confirm each email or ask Claude for changes. {firstName} becomes the person’s first name. Claude builds confirmed emails in Loops.' })
+    ].concat(draftNodes, [
+      el('div', { class: 'sec' }, el('h2', { text: 'Live in Loops now' }), el('div', { class: 'flows' }, flows)),
+      el('p', { class: 'sub small', text: 'People counts are live. Steps and email numbers were checked in Loops on ' + niceDate(d.checked) + '.' })
+    ]));
   }
 
   /* ---------- wiring ---------- */
