@@ -728,3 +728,12 @@ html[data-pip="bone"] .meter__bar span, html[data-pip="blue"] .meter__bar span {
 .dot { display: inline-block; width: .19em; height: .19em; margin-left: .045em; border-radius: 50%; background: var(--c-text); transform-origin: 50% 50%; animation: blink 5.6s infinite; }
 .foot__mark .dot { background: var(--eye); box-shadow: 0 0 .12em var(--eye-glow); }
 @media (prefers-reduced-motion: reduce) { .dot { animation: none; } }
+
+/* titles: a little more air between letters, so they read easier (20 Nov) */
+.hero__title { letter-spacing: -.025em; }
+.h2, .power__line { letter-spacing: -.02em; }
+.step h3, .steps h3, .feat b, .spec b, .studies h3, .zones h3, .rules h3, .vs__row--head > :nth-child(3) { letter-spacing: -.022em; }
+.ph__title { letter-spacing: -.025em; }
+.price__n { letter-spacing: -.04em; }
+.logo { letter-spacing: -.045em; }
+.foot__mark { letter-spacing: -.045em; }
