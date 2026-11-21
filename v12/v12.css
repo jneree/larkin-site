@@ -1,0 +1,144 @@
+/* ==========================================================================
+   Larkin /v12/ : "Ink" draft. Same content as the homepage, restyled.
+   Loaded after /v7.css. Three ideas, repeated everywhere:
+   1. Ink and white sections alternate, each one a sheet with rounded top
+      corners laid over the one before.
+   2. On ink, every headline ends with the logo's lime full stop.
+   3. Cards are quiet: one surface, a hairline, no drop shadows.
+   ========================================================================== */
+
+/* 1. Themes ---------------------------------------------------------------- */
+html.v12, html.v12 body { background: #0B0B0B; }
+.t-dark {
+  --bg: #0B0B0B;
+  --ink: #FFFFFF;
+  --ink-2: #A3A39D;
+  --ink-3: #8A8A84;
+  --card: #171717;
+  --card-2: rgba(255, 255, 255, 0.12);
+  --hair: rgba(255, 255, 255, 0.12);
+  background: var(--bg);
+  color: var(--ink);
+}
+.t-light {
+  --bg: #FFFFFF;
+  --ink: #151515;
+  --ink-2: #61615C;
+  --ink-3: #6B6B65;
+  --card: #F0F0F0;
+  --card-2: #E8E8E6;
+  --hair: rgba(21, 21, 21, 0.10);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* 2. Sheets ---------------------------------------------------------------- */
+.sheet {
+  position: relative;
+  z-index: 1;
+  margin-top: calc(var(--r-xl) * -1);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+}
+.section.sheet { padding-top: var(--section); padding-bottom: calc(var(--section) + var(--r-xl)); }
+.section.closing.sheet { padding-block: clamp(120px, 16vw, 220px); }
+/* The grain sits under the content, never over it. */
+.sheet.grain::after { z-index: 0; border-radius: inherit; }
+.sheet.grain > .shell { position: relative; z-index: 1; }
+
+/* The hero film sits on ink; the statement slides over it as a white sheet. */
+.v12 .hero { background: #0B0B0B; }
+.v12 .statement-pin { position: relative; z-index: 1; margin-top: calc(var(--r-xl) * -1); border-radius: var(--r-xl) var(--r-xl) 0 0; }
+.v12 .moments--film { z-index: 1; margin-top: calc(var(--r-xl) * -1); border-radius: var(--r-xl) var(--r-xl) 0 0; overflow: clip; }
+.v12 .statement-pin .statement { padding-bottom: var(--r-xl); }
+
+/* Reserve and the beta card share one white sheet. */
+.v12 .reserve.sheet { padding-bottom: clamp(32px, 4vw, 56px); }
+.v12 .beta { position: relative; z-index: 1; padding-top: 0; padding-bottom: calc(var(--section) + var(--r-xl)); }
+
+/* 3. The lime full stop ---------------------------------------------------- */
+.stop { color: inherit; }
+.t-dark .stop, .moments .stop, .closing .stop, .vs__side--us .stop { color: var(--lime); }
+
+/* 4. One head pattern: small label, big centred headline -------------------- */
+.v12 .sec-rule { display: none; }
+.v12 .sec-head { justify-items: center; gap: 18px; text-align: center; }
+.v12 .eyebrow, .v12 .ag__eb { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); }
+.v12 .ag__intro { max-width: none; justify-items: center; gap: 18px; text-align: center; }
+.v12 .h2, .v12 .ag__h, .v12 .listen__title, .v12 .rs__title {
+  font-size: clamp(2.375rem, 5.2vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.v12 .listen__title { max-width: 14ch; }
+.v12 .sec-head, .v12 .ag__intro { margin-bottom: clamp(44px, 6vw, 80px); }
+
+/* 5. The band, on white ----------------------------------------------------- */
+.v12 .listen__media { width: min(680px, 90%); }
+.v12 .listen__facts li { border-top-color: var(--hair); padding-block: 26px; }
+.v12 .listen__facts b { font-size: 1.25rem; }
+
+/* 6. The app, on ink --------------------------------------------------------- */
+.v12 .ag { background: var(--bg); }
+.v12 .ag__tile { background: var(--card); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07); }
+.v12 .ag__title { color: #fff; }
+.v12 .ag__card { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06); }
+.v12 .ag__phone { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.16); }
+/* The list beside the day photo */
+.v12 .ag__it { background: rgba(34, 34, 34, 0.82); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08); }
+.v12 .ag__it:not(.is-open):hover { background: rgba(44, 44, 44, 0.9); }
+.v12 .ag__btn { color: #fff; }
+.v12 .ag__btn:focus-visible { outline-color: var(--lime); }
+.v12 .ag__ic { background: rgba(255, 255, 255, 0.10); color: #fff; }
+.v12 .ag__it.is-open .ag__ic { background: var(--lime); color: var(--on-lime); }
+.v12 .ag__it.is-open .ag__btn { color: var(--lime); }
+.v12 .ag__d p { color: rgba(255, 255, 255, 0.72); }
+/* Ask Larkin, as the app shows it: dark */
+.v12 .ag__q { background: #fff; color: #151515; }
+.v12 .ag__a { background: #242424; color: #fff; }
+.v12 .ag__src { color: var(--ink-3); }
+.v12 .ag__ask { color: var(--on-lime); }
+/* Templates */
+.v12 .ag__tpl li { background: #202020; }
+.v12 .ag__tpl li.is-on { background: #2B2B2B; }
+.v12 .ag__tpl i { box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.28); }
+.v12 .ag__tpl li.is-on i { background: var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.5 12.5l3.5 3.5 7.5-8' fill='none' stroke='%23151515' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 14px no-repeat; box-shadow: none; }
+/* ChatGPT and Claude */
+.v12 .mcp__links path { stroke: rgba(255, 255, 255, 0.32); }
+.v12 .mcp__app { box-shadow: none; }
+.v12 .mcp__app--larkin { background: #151515; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.16); }
+
+/* 7. Compare, on white ------------------------------------------------------- */
+.v12 .vs__panel { box-shadow: none; }
+
+/* 8. Privacy, on ink ---------------------------------------------------------- */
+.v12 .pcard { border-radius: var(--r-xl); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07); }
+.v12 .pcard__icon { background: rgba(210, 237, 40, 0.18); color: var(--lime); }
+
+/* 9. Reserve: an ink card on the white sheet ---------------------------------- */
+.v12 .rs__card { border-color: transparent; background: #151515; }
+.v12 .rs__life { color: var(--on-lime); }
+.v12 .rs__bar { background: rgba(255, 255, 255, 0.14); }
+.v12 .rs__bar i { background: var(--lime); }
+.v12 .rs__meter.is-on .rs__bar i::after, .v12 .rs__bar i::after { display: none; }
+.v12 .rs__note { background: #222222; }
+.v12 .rs__list s { color: var(--ink-3); }
+
+/* 10. Specs, on ink: the numbers carry the lime -------------------------------- */
+.v12 .specs__sheet, .v12 .specs__media { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07); }
+.v12 .num__v { color: var(--lime); font-size: clamp(2.75rem, 5vw, 4.5rem); }
+.v12 .num__v small { color: var(--ink-2); }
+
+/* 11. FAQ, on white -------------------------------------------------------------- */
+.v12 .faq-sec .sec-head { margin-bottom: clamp(36px, 5vw, 64px); }
+
+/* Fixes after the first look */
+.v12 .sec-head--split { grid-template-columns: 1fr; }
+.v12 .beta { border-top: 0; box-shadow: none; }
+/* The day tile keeps its white photo: the one light tile in the ink grid. */
+.v12 .ag__hero { background: #FFFFFF; box-shadow: none; }
+.v12 .ag__hero .ag__title { color: #151515; }
+.v12 .ag__hero .ag__text { color: #61615C; }
+/* No seam between the two white sections that share a sheet. */
+.v12 .beta { margin-top: -1px; padding-top: 1px; }
