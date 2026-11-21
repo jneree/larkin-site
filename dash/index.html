@@ -275,13 +275,18 @@ textarea:disabled, input:disabled { background: var(--subtle); color: var(--sub)
 .draft .meta dd { margin: 0; color: var(--text); }
 .draft input[type=text] { width: 100%; }
 .draft textarea.mailtext { min-height: 260px; field-sizing: content; max-height: 70vh; }
-/* The email text: bold shows as bold while editing. */
-.editor { margin-top: 4px; width: 100%; min-height: 260px; max-height: 70vh; overflow-y: auto; white-space: pre-wrap; overflow-wrap: anywhere;
-  background: var(--btn); border-radius: 6px; padding: 6px 10px; color: var(--title); font-size: 14px; line-height: 20px; font-weight: 400;
-  box-shadow: 0 0 0 1px var(--ctl), var(--shadow-btn); transition: box-shadow .15s, background-color .2s; cursor: text; }
-.editor:hover { box-shadow: 0 0 0 1px var(--ctl-hover), var(--shadow-btn); }
-.editor b, .editor strong { font-weight: 700; }
-.editor[contenteditable="false"] { background: var(--subtle); color: var(--sub); box-shadow: 0 0 0 1px var(--line); cursor: default; }
+/* Drafts are edited inside the email itself, as people will see it. */
+.draft .mail { border-radius: 8px; box-shadow: 0 0 0 1px var(--line); margin-top: 4px; }
+.mail .inl { display: block; width: 100%; min-width: 0; background: transparent; border: 0; box-shadow: none; padding: 2px 6px; margin: -2px -6px; border-radius: 4px; font: inherit; color: inherit; line-height: inherit; transition: box-shadow .15s; }
+.mail .inl:hover, .mail .editable:hover { box-shadow: 0 0 0 1px #D0D5DB; }
+.mail .inl:disabled { background: transparent; color: inherit; box-shadow: none; }
+.inbox .line.edit { display: flex; align-items: baseline; gap: 4px; }
+.inbox .line.edit .inl { flex: 1; color: #5F6368; }
+.letter .subject.inl { width: calc(100% + 12px); }
+.letter .body.editable { padding: 4px 6px; margin-left: 46px; min-height: 200px; border-radius: 4px; cursor: text; transition: box-shadow .15s; }
+.letter .body.editable b, .letter .body.editable strong { font-weight: 700; }
+.letter .body.editable[contenteditable="false"] { cursor: default; }
+@media (max-width: 640px) { .letter .body.editable { margin-left: -6px; } }
 .draft .check { border-left: 2px solid var(--ctl-hover); padding-left: 10px; }
 .draft .check b { color: var(--title); font-weight: 600; }
 .flows { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
@@ -1048,9 +1053,9 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
       n.addEventListener('change', function () { if (n.value !== (x[key] || '')) { x[key] = n.value; saveDraft(x.id, (function () { var o = {}; o[key] = n.value; return o; })(), msg); } });
       return n;
     };
-    var subject = field('input', 'subject', { type: 'text' });
-    var preview = field('input', 'preview', { type: 'text' });
-    var text = el('div', { class: 'editor', id: 'body-' + x.id, role: 'textbox', 'aria-multiline': 'true', 'aria-labelledby': 'label-' + x.id, spellcheck: 'true', contenteditable: locked ? 'false' : 'true' });
+    var subject = field('input', 'subject', { type: 'text', class: 'inl subject', 'aria-label': 'Subject', placeholder: 'Subject' });
+    var preview = field('input', 'preview', { type: 'text', class: 'inl', 'aria-label': 'Preview line', placeholder: 'Preview line' });
+    var text = el('div', { class: 'body editable', id: 'body-' + x.id, role: 'textbox', 'aria-multiline': 'true', 'aria-label': 'Email text', spellcheck: 'true', contenteditable: locked ? 'false' : 'true' });
     text.innerHTML = boldHTML(x.body || '');
     var bodyText = function () { return boldText(text); };
     text.addEventListener('keydown', function (e) {
@@ -1076,10 +1081,10 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     // Keep the selection in the text when the button is pressed.
     boldBtn.addEventListener('mousedown', function (e) { e.preventDefault(); });
     var words = function () { return { subject: subject.value, preview: preview.value, body: bodyText() }; };
-    var show = function () {
-      var w = words();
-      openMail({ fromName: sender.fromName, fromAddress: sender.fromAddress, subject: w.subject, preview: w.preview, body: w.body, footer: sender.footer }, null);
-    };
+    var time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    // The inbox row repeats the subject as you type it.
+    var inboxSubject = el('b', { text: subject.value });
+    subject.addEventListener('input', function () { inboxSubject.textContent = subject.value; });
 
     var actions = el('div', { class: 'actions' });
     var noteBox = null;
@@ -1093,14 +1098,10 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
       actions.append(
         el('button', { type: 'button', class: 'btn primary', text: 'Confirm', onclick: function () { var p = words(); p.status = 'confirmed'; saveDraft(x.id, p, msg); } }),
         el('button', { type: 'button', class: 'btn', text: 'Request changes', onclick: function () { noteBox.classList.remove('hide'); note.focus(); } }),
-        el('button', { type: 'button', class: 'btn', text: 'Preview', onclick: show }),
         msg);
     } else if (x.status === 'confirmed') {
       actions.append(
-        el('button', { type: 'button', class: 'btn', text: 'Preview', onclick: show }),
         el('button', { type: 'button', class: 'btn', text: 'Move back to review', onclick: function () { saveDraft(x.id, { status: 'review' }, msg); } }), msg);
-    } else {
-      actions.append(el('button', { type: 'button', class: 'btn', text: 'Preview', onclick: show }));
     }
 
     var state = DRAFT_STATE[x.status] || DRAFT_STATE.review;
@@ -1111,9 +1112,21 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
       el('dl', { class: 'meta' },
         el('dt', { text: 'When' }), el('dd', { text: x.when }),
         el('dt', { text: 'Who' }), el('dd', { text: x.who })),
-      el('label', { class: 'f' }, document.createTextNode('Subject'), subject),
-      el('label', { class: 'f' }, document.createTextNode('Preview line'), preview),
-      el('div', { class: 'f' }, el('span', { class: 'flabel' }, el('span', { id: 'label-' + x.id, text: 'Email' }), boldBtn), text),
+      el('div', { class: 'f' },
+        el('span', { class: 'flabel' }, el('span', { text: 'Email' }), boldBtn),
+        el('div', { class: 'mail' },
+          el('div', { class: 'inbox' },
+            el('b', { text: sender.fromName }),
+            el('span', { class: 'line edit' }, inboxSubject, el('span', { text: '-' }), preview),
+            el('span', { class: 'time', text: time })),
+          el('div', { class: 'letter' },
+            subject,
+            el('div', { class: 'from' },
+              el('div', { class: 'av', text: (sender.fromName || '?').slice(0, 1) }),
+              el('div', { class: 'who' }, el('b', { text: sender.fromName }), el('span', { text: ' <' + sender.fromAddress + '>' }), el('br'), el('span', { text: 'to me' })),
+              el('span', { class: 'time', text: time })),
+            text,
+            el('p', { class: 'footer', text: sender.footer })))),
       x.check ? el('p', { class: 'sub check' }, el('b', { text: 'To check: ' }), document.createTextNode(x.check)) : null,
       x.note && x.status !== 'changes' ? el('p', { class: 'sub', text: 'Your last note: ' + x.note }) : null,
       noteBox,
@@ -1152,7 +1165,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     });
     view.replaceChildren.apply(view, [
       counts,
-      el('p', { class: 'sub', text: 'Change the words here, then confirm each email or ask Claude for changes. {firstName} becomes the person’s first name, and Bold makes selected words bold. Claude builds confirmed emails in Loops.' })
+      el('p', { class: 'sub', text: 'Change the words here, then confirm each email or ask Claude for changes. {firstName} becomes the person’s first name, and Bold makes selected words bold. Each email shows as people will see it, and you can type straight into it. Claude builds confirmed emails in Loops.' })
     ].concat(draftNodes, [
       el('div', { class: 'sec' }, el('h2', { text: 'Live in Loops now' }), el('div', { class: 'flows' }, flows)),
       el('p', { class: 'sub small', text: 'People counts are live. Steps and email numbers were checked in Loops on ' + niceDate(d.checked) + '.' })
