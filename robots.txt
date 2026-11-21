@@ -9,6 +9,7 @@ Disallow: /v8/
 Disallow: /v9/
 Disallow: /v10/
 Disallow: /v11/
+Disallow: /v12/
 Disallow: /everyday/
 
 # Private ads dashboard.
