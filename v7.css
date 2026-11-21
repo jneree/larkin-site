@@ -2564,3 +2564,25 @@ html.js .site-header:not(.is-floating) .site-header__inner {
 @keyframes rs-sheen { 0% { translate: -100% 0; } 50%, 100% { translate: 340% 0; } }
 .rs__meter-row b span { color: inherit; }
 .rs__meter-row b { font-variant-numeric: tabular-nums; }
+
+/* --------------------------------------------------------------------------
+   Why: the belief and a note from the founder, before the reservation.
+   -------------------------------------------------------------------------- */
+.why { padding-bottom: clamp(40px, 6vw, 88px); }
+.why__grid { display: grid; gap: clamp(28px, 5vw, 80px); align-items: start; }
+.why__title { max-width: 16ch; font-size: clamp(2rem, 4.2vw, 3.5rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; text-wrap: balance; }
+.why__note { display: grid; gap: 16px; max-width: 34rem; padding-top: clamp(0px, 0.6vw, 10px); }
+.why__note p { color: var(--ink-2); font-size: 1.0625rem; line-height: 1.5; letter-spacing: -0.01em; text-wrap: balance; }
+.why__sig { display: flex; align-items: center; gap: 14px; margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--card-2); }
+.why__sig img { display: block; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+.why__sig p { display: grid; gap: 2px; }
+.why__note .why__sig b { color: var(--ink); font-weight: 700; }
+.why__note .why__sig span { font-size: 0.9375rem; }
+.why__photo { margin: 0; overflow: hidden; border-radius: var(--r-xl); background: var(--card); }
+.why__photo img { display: block; width: 100%; height: auto; aspect-ratio: 5 / 4; object-fit: cover; }
+@media (min-width: 900px) {
+  .why__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "title photo" "note photo"; row-gap: 28px; align-items: start; }
+  .why__title { grid-area: title; }
+  .why__note { grid-area: note; }
+  .why__photo { grid-area: photo; align-self: center; }
+}
