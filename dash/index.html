@@ -278,7 +278,7 @@ textarea:disabled, input:disabled { background: var(--subtle); color: var(--sub)
 /* Drafts are edited inside the email itself, as people will see it. */
 .draft .mail { border-radius: 8px; box-shadow: 0 0 0 1px var(--line); margin-top: 4px; }
 .mail .inl { display: block; width: 100%; min-width: 0; background: transparent; border: 0; box-shadow: none; padding: 2px 6px; margin: -2px -6px; border-radius: 4px; font: inherit; color: inherit; line-height: inherit; transition: box-shadow .15s; }
-.mail .inl:hover, .mail .editable:hover { box-shadow: 0 0 0 1px #D0D5DB; }
+.mail .inl:not(:disabled):hover, .mail .editable[contenteditable="true"]:hover { box-shadow: 0 0 0 1px #D0D5DB; }
 .mail .inl:disabled { background: transparent; color: inherit; box-shadow: none; }
 .inbox .line.edit { display: flex; align-items: baseline; gap: 4px; }
 .inbox .line.edit .inl { flex: 1; color: #5F6368; }
@@ -1065,7 +1065,8 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
   }
 
   function draftCard(x, sender) {
-    var locked = x.status === 'in_loops';
+    // A confirmed email can't be changed until you press Edit, which sends it back to review.
+    var locked = x.status === 'confirmed' || x.status === 'in_loops';
     var msg = el('span', { class: 'sub small', role: 'status' });
     var field = function (tag, key, attrs) {
       var n = el(tag, Object.assign({ disabled: locked }, attrs || {}));
@@ -1124,7 +1125,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
         msg);
     } else if (x.status === 'confirmed') {
       actions.append(
-        el('button', { type: 'button', class: 'btn', text: 'Move back to review', onclick: function () { saveDraft(x.id, { status: 'review' }, msg); } }), msg);
+        el('button', { type: 'button', class: 'btn', text: 'Edit', onclick: function () { saveDraft(x.id, { status: 'review' }, msg); } }), msg);
     }
 
     var state = DRAFT_STATE[x.status] || DRAFT_STATE.review;
