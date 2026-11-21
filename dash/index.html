@@ -299,6 +299,29 @@ textarea:disabled, input:disabled { background: var(--subtle); color: var(--sub)
 .mail.phone .letter .body, .mail.phone .letter .footer { padding-left: 0; }
 .mail.phone .letter .body.editable { margin-left: -6px; }
 .draft .check { border-left: 2px solid var(--ctl-hover); padding-left: 10px; }
+
+/* Email board: one column per status; In Loops follows the workflow order. */
+.board { display: grid; grid-template-columns: repeat(4, minmax(250px, 1fr)); gap: 12px; overflow-x: auto; padding-bottom: 4px; scroll-snap-type: x proximity; }
+.col { background: var(--subtle); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 8px; min-width: 0; scroll-snap-align: start; transition: background-color .2s; }
+.col > header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 2px 4px 4px; }
+.col > header b { font-weight: 600; color: var(--title); }
+.col > header span { color: var(--sub); }
+.col .empty { color: var(--sub); padding: 4px; }
+.col .lane { color: var(--title); font-weight: 600; padding: 8px 4px 0; }
+.col .wait { color: var(--sub); padding: 2px 4px 0 14px; position: relative; }
+.col .wait::before { content: ""; position: absolute; left: 5px; top: 2px; bottom: -6px; width: 1px; background: var(--ctl-hover); }
+.ecard { display: flex; flex-direction: column; gap: 4px; width: 100%; text-align: left; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; transition: border-color .15s, box-shadow .15s, background-color .2s; }
+.ecard:hover { border-color: var(--ctl-hover); box-shadow: var(--shadow-btn); }
+.ecard .top { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--sub); }
+.ecard .t { font-weight: 600; color: var(--title); }
+.ecard .s { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ecard .w { color: var(--sub); }
+.ecard .send { color: var(--text); }
+dialog.wide { width: min(860px, calc(100vw - 24px)); }
+.drawer .body { overflow: auto; padding: 16px 20px 20px; }
+.drawer .draft { border: 0; padding: 0; }
+.drawer header .nav { display: flex; align-items: center; gap: 8px; }
+.drawer header .nav span { color: var(--sub); min-width: 56px; text-align: center; }
 .draft .check b { color: var(--title); font-weight: 600; }
 .flows { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
 .flow { padding: 20px; }
@@ -362,6 +385,9 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
   .main { padding: 28px 28px 96px; }
 }
 @media (max-width: 760px) {
+  .board { grid-template-columns: repeat(4, 82%); }
+  dialog.wide { width: 100vw; max-height: 100vh; }
+  dialog.wide .modal { border-radius: 0; max-height: 100vh; height: 100vh; }
   .side { display: none; }
   .main { margin-left: 0; padding: calc(16px + env(safe-area-inset-top)) 16px calc(92px + env(safe-area-inset-bottom)); }
   .inner { gap: 20px; }
@@ -436,6 +462,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
 </div>
 
 <dialog id="mail" aria-label="Email preview"></dialog>
+<dialog id="draft-dlg" class="wide" aria-label="Email"></dialog>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <!-- Larkin's "l." monogram -->
@@ -1023,7 +1050,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
           return json.draft;
         });
         // Only redraw when the status changes, so typing isn't interrupted.
-        if (moved && page === 'emails') { render(); var t = $('draft-' + id); if (t) t.scrollIntoView({ block: 'start' }); }
+        if (moved && page === 'emails') { render(); if ($('draft-dlg').open) openDraft(id); }
         else { msg.textContent = 'Saved'; setTimeout(function () { msg.textContent = ''; }, 1800); }
       })
       .catch(function () { msg.textContent = 'Not saved. Try again in a moment.'; });
@@ -1062,6 +1089,49 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     write('dash-mail-view', phone ? 'phone' : null);
     document.querySelectorAll('.draft .mail').forEach(function (m) { m.classList.toggle('phone', phone); });
     document.querySelectorAll('.seg [data-view]').forEach(function (b) { b.setAttribute('aria-pressed', String((b.getAttribute('data-view') === 'phone') === phone)); });
+  }
+
+  // A send time in the viewer's own time zone, like "Mon 23 Nov, 11:00 PM".
+  function sendTime(iso) {
+    var t = new Date(iso);
+    return isNaN(t) ? '' : t.toLocaleString('en-US', { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+  }
+  function loopsLines(l) {
+    var out = [];
+    if (l.workflow) out.push(l.workflow + ' workflow, step ' + l.step + ': ' + String(l.wait || '').replace(/^./, function (c) { return c.toLowerCase(); }) + '.');
+    (l.sends || []).forEach(function (s) {
+      out.push((s.status === 'sent' ? 'Sent ' : 'Scheduled for ') + sendTime(s.at) + ' to ' + plural(s.people, 'person', 'people') + ' (' + s.name + ').');
+    });
+    return out;
+  }
+
+  // The email opened from the board, with previous and next in board order.
+  var BOARD_ORDER = [], DRAFT_SENDER = {};
+  function openDraft(id) {
+    var list = (cache.emails && cache.emails.drafts) || [];
+    var x = list.filter(function (d) { return d.id === id; })[0];
+    if (!x) return;
+    var dlg = $('draft-dlg');
+    var i = BOARD_ORDER.indexOf(id), n = BOARD_ORDER.length;
+    var go = function (step) { var j = i + step; if (j >= 0 && j < n) openDraft(BOARD_ORDER[j]); };
+    var close = el('button', { type: 'button', class: 'x', 'aria-label': 'Close', onclick: function () { dlg.close(); } });
+    close.innerHTML = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.500 1.500l9 9m0-9l-9 9" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round"/></svg>';
+    dlg.replaceChildren(el('div', { class: 'modal drawer' },
+      el('header', {},
+        el('b', { text: (FLOW_NAMES[x.flow] || '') + ' · ' + x.name }),
+        el('span', { class: 'nav' },
+          el('button', { type: 'button', class: 'btn', text: '‹ Previous', disabled: i <= 0, onclick: function () { go(-1); } }),
+          el('span', { text: (i + 1) + ' of ' + n }),
+          el('button', { type: 'button', class: 'btn', text: 'Next ›', disabled: i < 0 || i >= n - 1, onclick: function () { go(1); } }),
+          close)),
+      el('div', { class: 'body' }, draftCard(x, DRAFT_SENDER))));
+    dlg.onkeydown = function (e) {
+      var t = e.target;
+      if (t && (t.isContentEditable || /INPUT|TEXTAREA|SELECT/.test(t.tagName))) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    };
+    if (!dlg.open) dlg.showModal();
   }
 
   function draftCard(x, sender) {
@@ -1123,9 +1193,11 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
         el('button', { type: 'button', class: 'btn primary', text: 'Confirm', onclick: function () { var p = words(); p.status = 'confirmed'; saveDraft(x.id, p, msg); } }),
         el('button', { type: 'button', class: 'btn', text: 'Request changes', onclick: function () { noteBox.classList.remove('hide'); note.focus(); } }),
         msg);
-    } else if (x.status === 'confirmed') {
+    } else {
+      // Confirmed or already in Loops: locked until Edit, which sends it back to review.
       actions.append(
-        el('button', { type: 'button', class: 'btn', text: 'Edit', onclick: function () { saveDraft(x.id, { status: 'review' }, msg); } }), msg);
+        el('button', { type: 'button', class: 'btn', text: 'Edit', onclick: function () { saveDraft(x.id, { status: 'review' }, msg); } }),
+        x.status === 'in_loops' ? el('span', { class: 'sub small', text: 'After you confirm again, Claude updates it in Loops.' }) : null, msg);
     }
 
     var state = DRAFT_STATE[x.status] || DRAFT_STATE.review;
@@ -1135,7 +1207,9 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
         el('span', { class: 'state' }, el('span', { class: 'badge ' + state[1], text: state[0] }))),
       el('dl', { class: 'meta' },
         el('dt', { text: 'When' }), el('dd', { text: x.when }),
-        el('dt', { text: 'Who' }), el('dd', { text: x.who })),
+        el('dt', { text: 'Who' }), el('dd', { text: x.who }),
+        x.loops ? el('dt', { text: 'Loops' }) : null,
+        x.loops ? el('dd', {}, loopsLines(x.loops).map(function (l) { return el('div', { text: l }); })) : null),
       el('div', { class: 'f' },
         el('span', { class: 'flabel' }, el('span', { text: 'Email' }), el('span', { class: 'tools' }, viewSwitch, boldBtn)),
         el('div', { class: 'mail' + (MAIL_VIEW.phone ? ' phone' : '') },
@@ -1161,18 +1235,49 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     alerts([]);
     var sender = d.sender || {};
     var list = d.drafts || [];
-    var count = function (st) { return list.filter(function (x) { return x.status === st; }).length; };
-    var counts = el('div', { class: 'cards' },
-      [['To review', count('review')], ['Changes requested', count('changes')], ['Confirmed', count('confirmed')], ['In Loops', count('in_loops')]].map(function (c) {
-        return el('div', { class: 'card' }, el('span', { class: 'l', text: c[0] }), el('span', { class: 'n', text: String(c[1]) }));
-      }));
+    DRAFT_SENDER = sender;
+    // Board: one column per status. In Loops lists each workflow in step order,
+    // with the wait before each email.
+    var byFlow = function (a, b) { return (a.flow === b.flow ? 0 : a.flow === 'reserved' ? -1 : 1) || a.position - b.position; };
+    var byStep = function (a, b) { return ((a.loops || {}).workflow || '').localeCompare((b.loops || {}).workflow || '') || ((a.loops || {}).step || 0) - ((b.loops || {}).step || 0); };
+    var COLS = [['review', 'To review'], ['changes', 'Changes requested'], ['confirmed', 'Confirmed'], ['in_loops', 'In Loops']];
+    BOARD_ORDER = [];
+    var ecard = function (x) {
+      BOARD_ORDER.push(x.id);
+      var l = x.loops || {};
+      var sends = (l.sends || []).map(function (snd) {
+        return el('span', { class: 'send', text: (snd.status === 'sent' ? 'Sent ' : 'Scheduled ') + sendTime(snd.at) + ' · ' + plural(snd.people, 'person', 'people') });
+      });
+      return el('button', { type: 'button', class: 'ecard', onclick: function () { openDraft(x.id); } },
+        el('span', { class: 'top' }, el('span', { text: FLOW_NAMES[x.flow] + (l.step ? ' · step ' + l.step : '') }),
+          x.status === 'in_loops' && l.workflow ? el('span', { class: 'badge ok', text: 'Live' }) : null),
+        el('span', { class: 't', text: x.name }),
+        el('span', { class: 's', text: x.subject }),
+        x.status === 'in_loops' ? null : el('span', { class: 'w', text: x.when }),
+        sends);
+    };
+    var columns = COLS.map(function (c) {
+      var mine = list.filter(function (x) { return x.status === c[0]; });
+      var kids = [];
+      if (c[0] === 'in_loops') {
+        mine.sort(byStep);
+        var lane = null;
+        mine.forEach(function (x) {
+          var l = x.loops || {};
+          if (l.workflow && l.workflow !== lane) { lane = l.workflow; kids.push(el('div', { class: 'lane', text: lane + ' workflow' })); }
+          if (l.wait) kids.push(el('div', { class: 'wait', text: l.wait }));
+          kids.push(ecard(x));
+        });
+      } else {
+        mine.sort(byFlow).forEach(function (x) { kids.push(ecard(x)); });
+      }
+      if (!mine.length) kids.push(el('p', { class: 'empty', text: 'Nothing here' }));
+      return el('section', { class: 'col', 'aria-label': c[1] },
+        el('header', {}, el('b', { text: c[1] }), el('span', { text: String(mine.length) })), kids);
+    });
     var draftNodes = [];
     if (d.drafts == null) draftNodes.push(el('p', { class: 'sub', text: 'The drafts could not be loaded. Try Refresh.' }));
-    ['reserved', 'beta'].forEach(function (flow) {
-      var mine = list.filter(function (x) { return x.flow === flow; });
-      if (!mine.length) return;
-      draftNodes.push(el('div', { class: 'sec' }, el('h2', { text: FLOW_NAMES[flow] + ' emails' }), mine.map(function (x) { return draftCard(x, sender); })));
-    });
+    else draftNodes.push(el('div', { class: 'board' }, columns));
 
     var flows = (d.flows || []).map(function (f) {
       var edit = f.edit && /^https:\/\/app\.loops\.so\//.test(f.edit.url) ? f.edit : null;
@@ -1188,8 +1293,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
           edit ? el('a', { class: 'link', href: edit.url, target: '_blank', rel: 'noopener', text: edit.label + ' →' }) : null));
     });
     view.replaceChildren.apply(view, [
-      counts,
-      el('p', { class: 'sub', text: 'Change the words here, then confirm each email or ask Claude for changes. {firstName} becomes the person’s first name, and Bold makes selected words bold. Each email shows as people will see it, and you can type straight into it. Claude builds confirmed emails in Loops.' })
+      el('p', { class: 'sub', text: 'Open an email to read or edit it as people will see it, then confirm it or ask Claude for changes. Claude builds confirmed emails in Loops, and In Loops shows them in the order they go out.' })
     ].concat(draftNodes, [
       el('div', { class: 'sec' }, el('h2', { text: 'Live in Loops now' }), el('div', { class: 'flows' }, flows)),
       el('p', { class: 'sub small', text: 'People counts are live. Steps and email numbers were checked in Loops on ' + niceDate(d.checked) + '.' })
