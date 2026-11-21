@@ -275,6 +275,13 @@ textarea:disabled, input:disabled { background: var(--subtle); color: var(--sub)
 .draft .meta dd { margin: 0; color: var(--text); }
 .draft input[type=text] { width: 100%; }
 .draft textarea.mailtext { min-height: 260px; field-sizing: content; max-height: 70vh; }
+/* The email text: bold shows as bold while editing. */
+.editor { margin-top: 4px; width: 100%; min-height: 260px; max-height: 70vh; overflow-y: auto; white-space: pre-wrap; overflow-wrap: anywhere;
+  background: var(--btn); border-radius: 6px; padding: 6px 10px; color: var(--title); font-size: 14px; line-height: 20px; font-weight: 400;
+  box-shadow: 0 0 0 1px var(--ctl), var(--shadow-btn); transition: box-shadow .15s, background-color .2s; cursor: text; }
+.editor:hover { box-shadow: 0 0 0 1px var(--ctl-hover), var(--shadow-btn); }
+.editor b, .editor strong { font-weight: 700; }
+.editor[contenteditable="false"] { background: var(--subtle); color: var(--sub); box-shadow: 0 0 0 1px var(--line); cursor: default; }
 .draft .check { border-left: 2px solid var(--ctl-hover); padding-left: 10px; }
 .draft .check b { color: var(--title); font-weight: 600; }
 .flows { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
@@ -1006,6 +1013,32 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
       .catch(function () { msg.textContent = 'Not saved. Try again in a moment.'; });
   }
 
+  // The email text is kept as plain text where **words** are bold.
+  // In the editor those words show in bold, and the markers stay hidden.
+  function boldHTML(t) {
+    return esc(t).replace(/\*\*([^*\n]+)\*\*/g, '<b>$1</b>');
+  }
+  function boldText(root) {
+    var out = '';
+    var isBold = function (n) { return n.nodeName === 'B' || n.nodeName === 'STRONG' || (n.style && parseInt(n.style.fontWeight, 10) >= 600) || (n.style && n.style.fontWeight === 'bold'); };
+    var walk = function (node, bold) {
+      node.childNodes.forEach(function (n) {
+        if (n.nodeType === 3) { out += bold ? n.nodeValue.split('\n').map(function (l) { return l.trim() ? '\u0000' + l + '\u0001' : l; }).join('\n') : n.nodeValue; return; }
+        if (n.nodeType !== 1) return;
+        if (n.nodeName === 'BR') { out += '\n'; return; }
+        var block = n.nodeName === 'DIV' || n.nodeName === 'P';
+        if (block && out && out.slice(-1) !== '\n') out += '\n';
+        walk(n, bold || isBold(n));
+      });
+    };
+    walk(root, false);
+    // Join neighbouring bold pieces, keep spaces outside the markers, drop the editor's last empty line.
+    out = out.replace(/\u0001\u0000/g, '').replace(/\u0000(\s*)([\s\S]*?)(\s*)\u0001/g, function (m, a, w, b) { return w ? a + '**' + w + '**' + b : a + b; });
+    out = out.replace(/\u0000|\u0001/g, '');
+    // A last <br> is only there so the browser can show an empty last line.
+    return root.lastChild && root.lastChild.nodeName === 'BR' ? out.replace(/\n$/, '') : out;
+  }
+
   function draftCard(x, sender) {
     var locked = x.status === 'in_loops';
     var msg = el('span', { class: 'sub small', role: 'status' });
@@ -1017,24 +1050,32 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     };
     var subject = field('input', 'subject', { type: 'text' });
     var preview = field('input', 'preview', { type: 'text' });
-    var text = field('textarea', 'body', { class: 'mailtext', spellcheck: 'true', id: 'body-' + x.id });
-    // Bold wraps the selected words in ** **; pressing it again on bold words removes it.
-    var bold = function () {
-      if (locked) return;
-      var a = text.selectionStart, b = text.selectionEnd, v = text.value;
-      if (a === b) { text.focus(); return; }
-      var sel = v.slice(a, b), out, start, end;
-      if (v.slice(a - 2, a) === '**' && v.slice(b, b + 2) === '**') { out = v.slice(0, a - 2) + sel + v.slice(b + 2); start = a - 2; end = b - 2; }
-      else if (/^\*\*[\s\S]*\*\*$/.test(sel)) { out = v.slice(0, a) + sel.slice(2, -2) + v.slice(b); start = a; end = b - 4; }
-      else { out = v.slice(0, a) + '**' + sel + '**' + v.slice(b); start = a + 2; end = b + 2; }
-      text.value = out;
-      text.focus();
-      text.setSelectionRange(start, end);
-      text.dispatchEvent(new Event('change'));
+    var text = el('div', { class: 'editor', id: 'body-' + x.id, role: 'textbox', 'aria-multiline': 'true', 'aria-labelledby': 'label-' + x.id, spellcheck: 'true', contenteditable: locked ? 'false' : 'true' });
+    text.innerHTML = boldHTML(x.body || '');
+    var bodyText = function () { return boldText(text); };
+    text.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); document.execCommand('insertLineBreak'); }
+    });
+    // Pasted text arrives without its formatting.
+    text.addEventListener('paste', function (e) {
+      e.preventDefault();
+      document.execCommand('insertText', false, (e.clipboardData || window.clipboardData).getData('text/plain'));
+    });
+    var timer = null;
+    var saveBody = function () {
+      clearTimeout(timer);
+      var v = bodyText();
+      if (v !== (x.body || '')) { x.body = v; saveDraft(x.id, { body: v }, msg); }
     };
-    text.addEventListener('keydown', function (e) { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') { e.preventDefault(); bold(); } });
+    // Saves when you leave the text, and two seconds after you stop typing.
+    text.addEventListener('blur', saveBody);
+    text.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(saveBody, 2000); });
+    // Bold, or ⌘B, makes the selected words bold; again on bold words removes it.
+    var bold = function () { if (!locked) { text.focus(); document.execCommand('bold'); } };
     var boldBtn = el('button', { type: 'button', class: 'btn', disabled: locked, text: 'Bold', title: 'Select words, then press Bold or ⌘B', onclick: bold });
-    var words = function () { return { subject: subject.value, preview: preview.value, body: text.value }; };
+    // Keep the selection in the text when the button is pressed.
+    boldBtn.addEventListener('mousedown', function (e) { e.preventDefault(); });
+    var words = function () { return { subject: subject.value, preview: preview.value, body: bodyText() }; };
     var show = function () {
       var w = words();
       openMail({ fromName: sender.fromName, fromAddress: sender.fromAddress, subject: w.subject, preview: w.preview, body: w.body, footer: sender.footer }, null);
@@ -1072,7 +1113,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
         el('dt', { text: 'Who' }), el('dd', { text: x.who })),
       el('label', { class: 'f' }, document.createTextNode('Subject'), subject),
       el('label', { class: 'f' }, document.createTextNode('Preview line'), preview),
-      el('div', { class: 'f' }, el('span', { class: 'flabel' }, el('label', { for: 'body-' + x.id, text: 'Email' }), boldBtn), text),
+      el('div', { class: 'f' }, el('span', { class: 'flabel' }, el('span', { id: 'label-' + x.id, text: 'Email' }), boldBtn), text),
       x.check ? el('p', { class: 'sub check' }, el('b', { text: 'To check: ' }), document.createTextNode(x.check)) : null,
       x.note && x.status !== 'changes' ? el('p', { class: 'sub', text: 'Your last note: ' + x.note }) : null,
       noteBox,
@@ -1111,7 +1152,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     });
     view.replaceChildren.apply(view, [
       counts,
-      el('p', { class: 'sub', text: 'Change the words here, then confirm each email or ask Claude for changes. {firstName} becomes the person’s first name, and words between ** ** show in bold. Claude builds confirmed emails in Loops.' })
+      el('p', { class: 'sub', text: 'Change the words here, then confirm each email or ask Claude for changes. {firstName} becomes the person’s first name, and Bold makes selected words bold. Claude builds confirmed emails in Loops.' })
     ].concat(draftNodes, [
       el('div', { class: 'sec' }, el('h2', { text: 'Live in Loops now' }), el('div', { class: 'flows' }, flows)),
       el('p', { class: 'sub small', text: 'People counts are live. Steps and email numbers were checked in Loops on ' + niceDate(d.checked) + '.' })
