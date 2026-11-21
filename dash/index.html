@@ -254,6 +254,10 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 .prow .state { display: inline-flex; align-items: center; gap: 8px; }
 label.f { display: block; font-weight: 500; color: var(--title); }
 label.f > textarea, label.f > input { margin-top: 4px; font-weight: 400; }
+div.f { display: block; }
+div.f > textarea { margin-top: 4px; }
+.flabel { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-weight: 500; color: var(--title); }
+.flabel .btn { font-weight: 700; }
 textarea, input[type="text"], input[type="datetime-local"], input[type="password"] {
   width: 100%; background: var(--btn); border: 0; border-radius: 6px; padding: 6px 10px; color: var(--title); font-size: 14px; line-height: 20px;
   box-shadow: 0 0 0 1px var(--ctl), var(--shadow-btn); transition: box-shadow .15s, background-color .2s;
@@ -948,8 +952,12 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     // Loops fills {firstName}; the preview shows an example name.
     var named = function (t) { return String(t || '').replace(/\{firstName\}/g, 'Alex'); };
     m = { fromName: m.fromName, fromAddress: m.fromAddress, subject: named(m.subject), preview: named(m.preview), body: named(m.body), footer: m.footer };
+    // **words** show in bold, as they will in Loops.
     String(m.body || '').split(/(https?:\/\/\S+)/).forEach(function (part, i) {
-      body.appendChild(i % 2 ? el('u', { text: part }) : document.createTextNode(part));
+      if (i % 2) { body.appendChild(el('u', { text: part })); return; }
+      part.split(/\*\*([^*\n]+)\*\*/).forEach(function (bit, j) {
+        body.appendChild(j % 2 ? el('b', { text: bit }) : document.createTextNode(bit));
+      });
     });
     var close = el('button', { type: 'button', class: 'x', 'aria-label': 'Close', onclick: function () { dlg.close(); } });
     close.innerHTML = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.500 1.500l9 9m0-9l-9 9" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round"/></svg>';
@@ -1009,7 +1017,23 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     };
     var subject = field('input', 'subject', { type: 'text' });
     var preview = field('input', 'preview', { type: 'text' });
-    var text = field('textarea', 'body', { class: 'mailtext', spellcheck: 'true' });
+    var text = field('textarea', 'body', { class: 'mailtext', spellcheck: 'true', id: 'body-' + x.id });
+    // Bold wraps the selected words in ** **; pressing it again on bold words removes it.
+    var bold = function () {
+      if (locked) return;
+      var a = text.selectionStart, b = text.selectionEnd, v = text.value;
+      if (a === b) { text.focus(); return; }
+      var sel = v.slice(a, b), out, start, end;
+      if (v.slice(a - 2, a) === '**' && v.slice(b, b + 2) === '**') { out = v.slice(0, a - 2) + sel + v.slice(b + 2); start = a - 2; end = b - 2; }
+      else if (/^\*\*[\s\S]*\*\*$/.test(sel)) { out = v.slice(0, a) + sel.slice(2, -2) + v.slice(b); start = a; end = b - 4; }
+      else { out = v.slice(0, a) + '**' + sel + '**' + v.slice(b); start = a + 2; end = b + 2; }
+      text.value = out;
+      text.focus();
+      text.setSelectionRange(start, end);
+      text.dispatchEvent(new Event('change'));
+    };
+    text.addEventListener('keydown', function (e) { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') { e.preventDefault(); bold(); } });
+    var boldBtn = el('button', { type: 'button', class: 'btn', disabled: locked, text: 'Bold', title: 'Select words, then press Bold or ⌘B', onclick: bold });
     var words = function () { return { subject: subject.value, preview: preview.value, body: text.value }; };
     var show = function () {
       var w = words();
@@ -1048,7 +1072,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
         el('dt', { text: 'Who' }), el('dd', { text: x.who })),
       el('label', { class: 'f' }, document.createTextNode('Subject'), subject),
       el('label', { class: 'f' }, document.createTextNode('Preview line'), preview),
-      el('label', { class: 'f' }, document.createTextNode('Email'), text),
+      el('div', { class: 'f' }, el('span', { class: 'flabel' }, el('label', { for: 'body-' + x.id, text: 'Email' }), boldBtn), text),
       x.check ? el('p', { class: 'sub check' }, el('b', { text: 'To check: ' }), document.createTextNode(x.check)) : null,
       x.note && x.status !== 'changes' ? el('p', { class: 'sub', text: 'Your last note: ' + x.note }) : null,
       noteBox,
@@ -1087,7 +1111,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     });
     view.replaceChildren.apply(view, [
       counts,
-      el('p', { class: 'sub', text: 'Change the words here, then confirm each email or ask Claude for changes. {firstName} becomes the person’s first name. Claude builds confirmed emails in Loops.' })
+      el('p', { class: 'sub', text: 'Change the words here, then confirm each email or ask Claude for changes. {firstName} becomes the person’s first name, and words between ** ** show in bold. Claude builds confirmed emails in Loops.' })
     ].concat(draftNodes, [
       el('div', { class: 'sec' }, el('h2', { text: 'Live in Loops now' }), el('div', { class: 'flows' }, flows)),
       el('p', { class: 'sub small', text: 'People counts are live. Steps and email numbers were checked in Loops on ' + niceDate(d.checked) + '.' })
