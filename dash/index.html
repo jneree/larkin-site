@@ -287,6 +287,17 @@ textarea:disabled, input:disabled { background: var(--subtle); color: var(--sub)
 .letter .body.editable b, .letter .body.editable strong { font-weight: 700; }
 .letter .body.editable[contenteditable="false"] { cursor: default; }
 @media (max-width: 640px) { .letter .body.editable { margin-left: -6px; } }
+/* Phone view: the email at an iPhone's width, laid out as phone mail apps show it. */
+.flabel .tools { display: flex; align-items: center; gap: 8px; }
+.seg { display: inline-flex; gap: 2px; padding: 2px; border-radius: 8px; background: var(--subtle); }
+.seg .btn { box-shadow: none; background: transparent; font-weight: 500; color: var(--sub); }
+.seg .btn[aria-pressed="true"] { background: var(--btn); color: var(--title); box-shadow: var(--shadow-btn); }
+.draft .mail.phone { max-width: 390px; margin-left: auto; margin-right: auto; }
+.mail.phone .inbox { grid-template-columns: minmax(0, 1fr) auto; padding: 11px 16px; }
+.mail.phone .inbox .line { grid-column: 1 / -1; grid-row: 2; }
+.mail.phone .letter { padding: 18px 16px 24px; }
+.mail.phone .letter .body, .mail.phone .letter .footer { padding-left: 0; }
+.mail.phone .letter .body.editable { margin-left: -6px; }
 .draft .check { border-left: 2px solid var(--ctl-hover); padding-left: 10px; }
 .draft .check b { color: var(--title); font-weight: 600; }
 .flows { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
@@ -1044,6 +1055,15 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     return root.lastChild && root.lastChild.nodeName === 'BR' ? out.replace(/\n$/, '') : out;
   }
 
+  // Desktop or Phone, the same for every draft, remembered on this browser.
+  var MAIL_VIEW = { phone: read('dash-mail-view') === 'phone' };
+  function setMailView(phone) {
+    MAIL_VIEW.phone = phone;
+    write('dash-mail-view', phone ? 'phone' : null);
+    document.querySelectorAll('.draft .mail').forEach(function (m) { m.classList.toggle('phone', phone); });
+    document.querySelectorAll('.seg [data-view]').forEach(function (b) { b.setAttribute('aria-pressed', String((b.getAttribute('data-view') === 'phone') === phone)); });
+  }
+
   function draftCard(x, sender) {
     var locked = x.status === 'in_loops';
     var msg = el('span', { class: 'sub small', role: 'status' });
@@ -1081,6 +1101,9 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     // Keep the selection in the text when the button is pressed.
     boldBtn.addEventListener('mousedown', function (e) { e.preventDefault(); });
     var words = function () { return { subject: subject.value, preview: preview.value, body: bodyText() }; };
+    var viewSwitch = el('span', { class: 'seg', role: 'group', 'aria-label': 'Show the email on' },
+      el('button', { type: 'button', class: 'btn', 'data-view': 'desktop', 'aria-pressed': String(!MAIL_VIEW.phone), text: 'Desktop', onclick: function () { setMailView(false); } }),
+      el('button', { type: 'button', class: 'btn', 'data-view': 'phone', 'aria-pressed': String(MAIL_VIEW.phone), text: 'Phone', onclick: function () { setMailView(true); } }));
     var time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     // The inbox row repeats the subject as you type it.
     var inboxSubject = el('b', { text: subject.value });
@@ -1113,8 +1136,8 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
         el('dt', { text: 'When' }), el('dd', { text: x.when }),
         el('dt', { text: 'Who' }), el('dd', { text: x.who })),
       el('div', { class: 'f' },
-        el('span', { class: 'flabel' }, el('span', { text: 'Email' }), boldBtn),
-        el('div', { class: 'mail' },
+        el('span', { class: 'flabel' }, el('span', { text: 'Email' }), el('span', { class: 'tools' }, viewSwitch, boldBtn)),
+        el('div', { class: 'mail' + (MAIL_VIEW.phone ? ' phone' : '') },
           el('div', { class: 'inbox' },
             el('b', { text: sender.fromName }),
             el('span', { class: 'line edit' }, inboxSubject, el('span', { text: '-' }), preview),
