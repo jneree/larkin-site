@@ -867,14 +867,27 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
 
   /* ---------- Posts ---------- */
 
-  var STATE = { suggested: ['To review', 'warn'], review: ['To review', 'warn'], changes: ['Changes requested', ''], approved: ['Approved', 'ok'], scheduled: ['Scheduled', 'info'], posted: ['Posted', ''] };
+  // Approved means Julien said yes; only Scheduled means the post is in Meta
+  // Business Suite and will go out. Nothing here publishes to Instagram.
+  var STATE = { suggested: ['To review', 'warn'], review: ['To review', 'warn'], changes: ['Changes requested', ''], approved: ['Approved, not in Meta yet', 'warn'], scheduled: ['Scheduled in Meta', 'info'], posted: ['Posted', ''] };
   var GROUPS = [
     ['review', 'To review', 'Nothing to review. New post ideas will appear here.'],
-    ['approved', 'Approved', 'No approved posts waiting to be scheduled.'],
-    ['scheduled', 'Scheduled', 'Nothing scheduled on Instagram yet.'],
+    ['approved', 'Approved, not in Meta yet', 'Every approved post is scheduled in Meta.'],
+    ['scheduled', 'Scheduled in Meta', 'Nothing scheduled on Instagram yet.'],
     ['posted', 'Posted', 'Nothing posted yet.']
   ];
-  function groupOf(p) { return p.status === 'approved' || p.status === 'scheduled' || p.status === 'posted' ? p.status : 'review'; }
+  // The current time as "YYYY-MM-DDTHH:MM" in the page's time zone, to compare with post dates.
+  function nowLocal(zone) {
+    var f = new Intl.DateTimeFormat('en-CA', { timeZone: zone || 'Asia/Singapore', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+    var v = {};
+    f.formatToParts(new Date()).forEach(function (x) { v[x.type] = x.value; });
+    return v.year + '-' + v.month + '-' + v.day + 'T' + v.hour + ':' + v.minute;
+  }
+  var NOW = nowLocal();
+  function isPast(p) { return !!p.when && p.when <= NOW; }
+  // A scheduled post whose time has passed has gone out from Meta.
+  function shownStatus(p) { return p.status === 'scheduled' && isPast(p) ? 'posted' : p.status; }
+  function groupOf(p) { var s = shownStatus(p); return s === 'approved' || s === 'scheduled' || s === 'posted' ? s : 'review'; }
   function whenText(v) {
     if (!v) return 'No date yet';
     var parts = v.split('T');
@@ -934,7 +947,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
       actions.append(el('button', { type: 'button', class: 'btn', text: 'Move back to review', onclick: function () { savePost(p.id, { status: 'review' }, msg); } }), msg);
     }
 
-    var state = STATE[p.status] || STATE.review;
+    var state = g === 'approved' && isPast(p) ? ['Missed: never scheduled in Meta', 'warn'] : STATE[shownStatus(p)] || STATE.review;
     return el('article', { class: 'post', id: 'post-' + p.id },
       el('img', { src: p.image || '', alt: p.alt || p.name || 'Post image', loading: 'lazy' }),
       el('div', { class: 'pbody' },
@@ -949,10 +962,12 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
   }
 
   function renderPosts(d, view) {
-    alerts([]);
+    NOW = nowLocal(d.timeZone);
     var posts = d.posts || [];
     var by = { review: [], approved: [], scheduled: [], posted: [] };
     posts.forEach(function (p) { by[groupOf(p)].push(p); });
+    var missed = by.approved.filter(isPast).map(function (p) { return p.name || 'Post'; });
+    alerts(missed.length ? [(missed.length === 1 ? '1 approved post' : missed.length + ' approved posts') + ' passed its time without going out, because it was never scheduled in Meta: ' + missed.join(', ') + '.'] : []);
     // Soonest first; posts with no date go last.
     var order = function (a, b) { var x = a.when || '~', y = b.when || '~'; return x < y ? -1 : x > y ? 1 : 0; };
     Object.keys(by).forEach(function (k) { by[k].sort(order); });
@@ -967,14 +982,14 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     var grid = el('div', { class: 'ig' }, shown.map(function (p) {
       var pending = groupOf(p) === 'review';
       var kids = [el('img', { src: p.image, alt: p.alt || p.name || '', loading: 'lazy' }),
-        el('span', { class: 'd', text: p.status === 'posted' ? 'Posted' : niceDate(p.when.split('T')[0]) })];
-      if (p.status === 'posted') return el('div', { title: p.name }, kids);
+        el('span', { class: 'd', text: shownStatus(p) === 'posted' ? 'Posted' : niceDate(p.when.split('T')[0]) })];
+      if (shownStatus(p) === 'posted') return el('div', { title: p.name }, kids);
       return el('button', { type: 'button', class: pending ? 'pending' : '', 'aria-label': 'Go to ' + p.name, title: p.name,
         onclick: function () { var t = $('post-' + p.id); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }, kids);
     }));
 
     var counts = el('div', { class: 'cards' },
-      [['To review', by.review.length], ['Approved', by.approved.length], ['Scheduled', by.scheduled.length], ['Posted', by.posted.length]].map(function (c) {
+      [['To review', by.review.length], ['Approved, not in Meta', by.approved.length], ['Scheduled in Meta', by.scheduled.length], ['Posted', by.posted.length]].map(function (c) {
         return el('div', { class: 'card' }, el('span', { class: 'l', text: c[0] }), el('span', { class: 'n', text: String(c[1]) }));
       }));
     var nodes = [
@@ -988,7 +1003,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
       nodes.push(el('div', { class: 'sec' }, el('h2', { text: g[1] }),
         by[g[0]].length ? by[g[0]].map(postCard) : [el('p', { class: 'sub', text: g[2] })]));
     });
-    nodes.push(el('p', { class: 'sub small', text: 'Claude schedules approved posts in Meta Business Suite.' }));
+    nodes.push(el('p', { class: 'sub small', text: 'Approving doesn’t post anything. A post goes out only once it shows Scheduled in Meta, which means Claude has put it in Meta Business Suite.' }));
     view.replaceChildren.apply(view, nodes);
   }
 
