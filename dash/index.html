@@ -253,9 +253,10 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 .post > .pic.reel { cursor: pointer; }
 .post > .pic .play { position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: #FFFFFF; display: grid; place-items: center; box-shadow: var(--shadow-lift); }
 .post > .pic .play svg { width: 16px; height: 16px; margin-left: 2px; fill: #1A1B25; }
-dialog.view { width: auto; max-width: calc(100vw - 24px); }
+dialog.view { width: fit-content; max-width: calc(100vw - 24px); }
 .view .stage { background: #000000; display: flex; justify-content: center; }
-.view .stage video, .view .stage img { display: block; max-width: 100%; max-height: calc(100vh - 88px); width: auto; height: auto; }
+.view .stage video, .view .stage img { display: block; height: min(calc(100vh - 88px), 860px); width: auto; max-width: calc(100vw - 24px); object-fit: contain; }
+.view .stage video { aspect-ratio: 9 / 16; }
 .pbody { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 .prow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; }
 .prow .name { font-weight: 600; color: var(--title); }
