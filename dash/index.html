@@ -247,7 +247,15 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 .toggle { display: inline-flex; align-items: center; gap: 8px; color: var(--text); cursor: pointer; }
 .toggle input { width: 14px; height: 14px; accent-color: var(--lime); margin: 0; }
 .post { border: 1px solid var(--line); border-radius: 8px; padding: 16px; display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 20px; align-items: start; scroll-margin-top: 16px; background: var(--panel); transition: background-color .2s, border-color .2s; }
-.post > img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 6px; display: block; background: var(--subtle); }
+.post > .pic { position: relative; display: block; width: 100%; padding: 0; border: 0; border-radius: 6px; overflow: hidden; background: var(--subtle); cursor: zoom-in; }
+.post > .pic img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; transition: transform .3s var(--ease); }
+.post > .pic:hover img { transform: scale(1.03); }
+.post > .pic.reel { cursor: pointer; }
+.post > .pic .play { position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: #FFFFFF; display: grid; place-items: center; box-shadow: var(--shadow-lift); }
+.post > .pic .play svg { width: 16px; height: 16px; margin-left: 2px; fill: #1A1B25; }
+dialog.view { width: auto; max-width: calc(100vw - 24px); }
+.view .stage { background: #000000; display: flex; justify-content: center; }
+.view .stage video, .view .stage img { display: block; max-width: 100%; max-height: calc(100vh - 88px); width: auto; height: auto; }
 .pbody { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 .prow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; }
 .prow .name { font-weight: 600; color: var(--title); }
@@ -412,7 +420,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
   .ads { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .ad:hover { transform: none; box-shadow: none; }
   .post { grid-template-columns: minmax(0, 1fr); }
-  .post > img { max-width: 200px; }
+  .post > .pic { max-width: 200px; }
   .flows { grid-template-columns: minmax(0, 1fr); }
   .inbox { grid-template-columns: minmax(0, 1fr) auto; }
   .inbox .line { grid-column: 1 / -1; grid-row: 2; }
@@ -463,6 +471,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
 
 <dialog id="mail" aria-label="Email preview"></dialog>
 <dialog id="draft-dlg" class="wide" aria-label="Email"></dialog>
+<dialog id="viewer" class="view" aria-label="Post"></dialog>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <!-- Larkin's "l." monogram -->
@@ -675,12 +684,14 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     var info = {};
     (d.ads || []).forEach(function (a) { info[a.id] = a; });
     var safe = function (u) { return u && /^https:\/\//.test(u) ? u : null; };
-    var structure = (d.campaigns || []).map(function (c) {
+    // Only the ads running now; the totals above still count every ad.
+    var live = (w.ads || []).filter(function (n) { return info[n.id] && info[n.id].status === 'Active'; });
+    var structure = (d.campaigns || []).filter(function (c) { return c.status === 'Active'; }).map(function (c) {
       return c.name + ' · ' + c.status + (c.dailyBudget ? ' · ' + money(c.dailyBudget) + ' a day' : '');
-    }).concat((d.adsets || []).map(function (a) { return a.name + ' · ' + a.status; }));
+    }).concat((d.adsets || []).filter(function (a) { return a.status === 'Active'; }).map(function (a) { return a.name + ' · ' + a.status; }));
     html += '<div class="sec"><div><h2>Ads</h2><p class="sub" style="margin-top:2px">' + esc(structure.join('  /  ')) + '</p></div>' +
-      '<div class="ads">' + (w.ads || []).map(function (n) {
-        var a = info[n.id] || { name: 'Ad', status: '' };
+      '<div class="ads">' + (live.length ? live.map(function (n) {
+        var a = info[n.id];
         var pic = safe(a.picture), link = safe(a.link);
         var img = (pic ? '<img src="' + esc(pic) + '" alt="' + esc(a.name) + '" loading="lazy" referrerpolicy="no-referrer">' : '') +
           (a.video ? '<span class="badge tag">Video</span>' : '');
@@ -693,7 +704,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
           '<div class="txt"><p class="name">' + esc(a.name) + '</p>' + rows.map(function (r) {
             return '<p class="row"><span>' + esc(r[0]) + '</span><span>' + esc(r[1]) + '</span></p>';
           }).join('') + state + '</div></article>';
-      }).join('') + '</div></div>';
+      }).join('') : '<p class="sub">No ads are live right now.</p>') + '</div></div>';
 
     view.innerHTML = html;
     var draw = function (a) { graph($('chart'), slots(d, w), series, function (v) { return (v < 0 ? '−$' : '$') + Math.abs(v); }, false, a); };
@@ -915,6 +926,37 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
       .catch(function () { msg.textContent = 'Not saved. Try again in a moment.'; });
   }
 
+  // The post's picture: opens the reel to play, or the photo at full size.
+  function postPicture(p) {
+    var pic = el('button', { type: 'button', class: 'pic' + (p.video ? ' reel' : ''), 'aria-label': (p.video ? 'Play ' : 'Open ') + (p.name || 'post'), onclick: function () { openPost(p); } },
+      el('img', { src: p.image || '', alt: p.alt || p.name || 'Post image', loading: 'lazy' }));
+    if (p.video) {
+      var play = el('span', { class: 'play' });
+      play.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9.5-5.5z"/></svg>';
+      pic.appendChild(play);
+    }
+    return pic;
+  }
+
+  function openPost(p) {
+    var dlg = $('viewer');
+    var close = el('button', { type: 'button', class: 'x', 'aria-label': 'Close', onclick: function () { dlg.close(); } });
+    close.innerHTML = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.500 1.500l9 9m0-9l-9 9" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round"/></svg>';
+    var media = p.video
+      ? el('video', { src: p.video, poster: p.image || false, controls: true, autoplay: true, playsinline: true, preload: 'auto' })
+      : el('img', { src: p.image || '', alt: p.alt || p.name || 'Post image' });
+    dlg.replaceChildren(el('div', { class: 'modal' },
+      el('header', {}, el('b', { text: p.name || 'Post' }), close),
+      el('div', { class: 'stage' }, media)));
+    if (!dlg.dataset.ready) {
+      dlg.dataset.ready = '1';
+      // Closing stops the video.
+      dlg.addEventListener('close', function () { dlg.replaceChildren(); });
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+    }
+    dlg.showModal();
+  }
+
   function postCard(p) {
     var g = groupOf(p);
     var locked = g === 'scheduled' || g === 'posted';
@@ -949,7 +991,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
 
     var state = g === 'approved' && isPast(p) ? ['Missed: never scheduled in Meta', 'warn'] : STATE[shownStatus(p)] || STATE.review;
     return el('article', { class: 'post', id: 'post-' + p.id },
-      el('img', { src: p.image || '', alt: p.alt || p.name || 'Post image', loading: 'lazy' }),
+      postPicture(p),
       el('div', { class: 'pbody' },
         el('div', { class: 'prow' },
           el('span', { class: 'name', text: p.name || 'Post' }),
