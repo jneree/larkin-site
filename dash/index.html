@@ -232,6 +232,13 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 .ad .txt .row { display: flex; justify-content: space-between; gap: 8px; padding: 2px 0; }
 .ad .txt .row span:last-child { color: var(--title); font-weight: 500; }
 
+/* Costs: one list per section, rows split by hairlines */
+.ledger { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.ledger li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 24px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.ledger .name { font-weight: 600; color: var(--title); }
+.ledger .price { text-align: right; color: var(--title); font-weight: 500; white-space: nowrap; }
+.ledger .price .sub { display: block; font-weight: 400; }
+.ledger .unknown { color: var(--sub); font-weight: 400; }
 .badge { display: inline-flex; align-items: center; height: 20px; padding: 0 6px; border-radius: 4px; font-size: 12px; line-height: 16px; font-weight: 500; background: var(--b-bg); color: var(--b-fg); white-space: nowrap; }
 .badge.ok { background: var(--lime); color: var(--on-lime); font-weight: 600; }
 .badge.info { background: var(--b-info-bg); color: var(--b-info-fg); }
@@ -490,7 +497,8 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     { id: 'posts', name: 'Posts', part: 'posts', icon: '<path ' + F + ' fill-rule="evenodd" d="M3.6 2A1.6 1.6 0 0 0 2 3.6v8.8A1.6 1.6 0 0 0 3.6 14h8.8a1.6 1.6 0 0 0 1.6-1.6V3.6A1.6 1.6 0 0 0 12.4 2H3.6zm2 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-2.1 5.4 2.6-3 1.8 1.6 2.5-3.2 2.1 3v1.6h-9z"/>' },
     { id: 'website', name: 'Website', part: 'site', periods: true, icon: '<path ' + F + ' fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM3 7.4a5 5 0 0 1 2.900-3.800A9.300 9.300 0 0 0 5.200 7.400H3zm0 1.200h2.200a9.300 9.300 0 0 0 .700 3.800A5 5 0 0 1 3 8.600zm3.400 0h3.200c-.1 1.800-.7 3.300-1.600 4.300-.9-1-1.500-2.500-1.600-4.300zm3.200-1.200H6.400C6.500 5.600 7.100 4.100 8 3.100c.9 1 1.500 2.500 1.600 4.300zm1.200 1.200H13a5 5 0 0 1-2.900 3.800 9.300 9.300 0 0 0 .7-3.800zm2.200-1.200h-2.200a9.300 9.300 0 0 0-.7-3.800A5 5 0 0 1 13 7.400z"/>' },
     { id: 'app', name: 'App', part: 'site', periods: true, icon: '<path ' + F + ' fill-rule="evenodd" d="M5.600 1A1.600 1.600 0 0 0 4 2.600v10.800A1.600 1.600 0 0 0 5.600 15h4.800a1.600 1.600 0 0 0 1.600-1.600V2.600A1.600 1.600 0 0 0 10.400 1H5.600zM7 11.900a.65.65 0 1 0 0 1.300h2a.65.65 0 1 0 0-1.300H7z"/>' },
-    { id: 'emails', name: 'Emails', part: 'emails', icon: '<path ' + F + ' d="M3.600 2.500A1.600 1.600 0 0 0 2 4.100v.4l6 3.700 6-3.700v-.4a1.600 1.600 0 0 0-1.600-1.600H3.600z"/><path ' + F + ' d="M14 6 8.400 9.500a.75.75 0 0 1-.8 0L2 6v5.900a1.600 1.600 0 0 0 1.600 1.600h8.800a1.600 1.600 0 0 0 1.600-1.600V6z"/>' }
+    { id: 'emails', name: 'Emails', part: 'emails', icon: '<path ' + F + ' d="M3.600 2.500A1.600 1.600 0 0 0 2 4.100v.4l6 3.700 6-3.700v-.4a1.600 1.600 0 0 0-1.600-1.600H3.600z"/><path ' + F + ' d="M14 6 8.400 9.500a.75.75 0 0 1-.8 0L2 6v5.900a1.600 1.600 0 0 0 1.600 1.600h8.800a1.600 1.600 0 0 0 1.600-1.600V6z"/>' },
+    { id: 'costs', name: 'Costs', part: 'costs', icon: '<path ' + F + ' fill-rule="evenodd" d="M3.600 1.500A1.600 1.600 0 0 0 2 3.100v10.600a.8.8 0 0 0 1.200.7l1.300-.8 1.300.8a.8.8 0 0 0 .8 0L8 13.600l1.400.8a.8.8 0 0 0 .8 0l1.300-.8 1.300.8a.8.8 0 0 0 1.200-.7V3.100a1.600 1.600 0 0 0-1.600-1.600H3.600zM5 5.100a.65.65 0 0 0 0 1.300h6a.65.65 0 1 0 0-1.300H5zm0 2.800a.65.65 0 0 0 0 1.300h6a.65.65 0 1 0 0-1.300H5z"/>' }
   ];
   var PERIODS = [['today', 'Today'], ['yesterday', 'Yesterday'], ['7d', 'Last 7 days'], ['14d', 'Last 14 days'], ['30d', 'Last 30 days']];
   var MAIN = 'var(--c-main)', ALT = 'var(--c-alt)', UP = 'var(--up)', DOWN = 'var(--down)';
@@ -618,6 +626,7 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     else if (page === 'website') renderSite(d, view, false, animate);
     else if (page === 'app') renderSite(d, view, true, animate);
     else if (page === 'posts') renderPosts(d, view);
+    else if (page === 'costs') renderCosts(d, view);
     else renderEmails(d, view);
     if (animate) {
       view.classList.remove('enter');
@@ -748,6 +757,54 @@ dialog[open] .modal { animation: pop .25s var(--ease) both; }
     var draw = function (a) { graph($('chart'), slots(d, w), series, num, true, a); };
     redraw = function () { draw(false); };
     draw(animate);
+  }
+
+  /* ---------- Costs ---------- */
+
+  var SECTIONS = [['product', 'Product'], ['marketing', 'Marketing'], ['tools', 'Tools'], ['hardware', 'Hardware']];
+  function priceText(c) {
+    if (c.amount == null) return '<span class="unknown">Price unknown</span>';
+    if (c.amount === 0) return 'Free';
+    var t = (c.currency === 'SGD' ? 'S' : '') + money(c.amount);
+    if (!c.every) return t + ' once';
+    return t + (c.every === 1 ? ' a month' : c.every === 12 ? ' a year' : ' every ' + c.every + ' months');
+  }
+  function costRow(c) {
+    var detail = [c.what, c.note].filter(Boolean).join('. ');
+    var under = [];
+    if (c.perMonth != null && (c.currency !== 'USD' || c.every !== 1)) under.push('About ' + money(c.perMonth) + ' a month');
+    if (c.next) under.push('Next ' + niceDate(c.next));
+    return '<li><div><div class="name">' + esc(c.name) + '</div><div class="sub">' + esc(detail) + '</div></div>' +
+      '<div class="price">' + priceText(c) + (under.length ? '<span class="sub small">' + esc(under.join(' · ')) + '</span>' : '') + '</div></li>';
+  }
+  function renderCosts(d, view) {
+    var t = d.totals, a = d.ads;
+    var notes = (d.alerts || []).slice();
+    if (a.source !== 'ok') notes.push(a.source === 'not_connected' ? 'Meta isn’t connected, so ad spend is missing.' : 'Meta didn’t answer: ' + a.source);
+    alerts(notes);
+    var span = a.from ? rangeText({ from: a.from, to: a.to }) : '';
+    var tiles = [
+      card('Per month', money(t.month), 'Services and the last 30 days of ads'),
+      card('Services', money(t.monthly), 'About ' + money(t.yearly) + ' a year'),
+      card('Ads, last 30 days', money(a.spend30), span),
+      card('Hardware', money(t.hardware), 'NOA Labs prototype contract')
+    ];
+    var html = '<div class="cards">' + tiles.join('') + '</div>';
+    SECTIONS.forEach(function (sec) {
+      var rows = d.costs.filter(function (c) { return c.section === sec[0]; });
+      var items = rows.map(costRow);
+      if (sec[0] === 'marketing') {
+        items.unshift('<li><div><div class="name">Meta ads</div><div class="sub">Facebook and Instagram ads. Read from Meta every 10 minutes.</div></div>' +
+          '<div class="price">' + money(a.spend30) + '<span class="sub small">Last 30 days</span></div></li>');
+      }
+      if (!items.length) return;
+      var monthly = rows.reduce(function (s, c) { return s + (c.perMonth || 0); }, 0) + (sec[0] === 'marketing' ? (a.spend30 || 0) : 0);
+      var side = sec[0] === 'hardware' ? '' : money(Math.round(monthly * 100) / 100) + ' a month';
+      html += '<div class="sec"><div class="sechead"><h3>' + sec[1] + '</h3><span class="sub small">' + esc(side) + '</span></div><ul class="ledger">' + items.join('') + '</ul></div>';
+    });
+    var unknown = t.unknown.length ? ' Not counted because the price isn’t known: ' + t.unknown.join(', ') + '.' : '';
+    html += '<p class="sub small">Prices come from the receipts in Gmail. Singapore dollars count at US$' + d.rates.SGD + '.' + esc(unknown) + '</p>';
+    view.innerHTML = html;
   }
 
   /* ---------- graph: lines and bars over 30 days, with a reading for the day under the pointer ---------- */
